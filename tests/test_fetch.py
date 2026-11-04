@@ -1,10 +1,21 @@
 """The fetcher must refuse what the source policy or robots.txt forbids, without being able to be talked around."""
 
+import http.client
+import urllib.request
 from datetime import UTC, datetime
 
 import pytest
 
-from brdo.fetch import Cache, Fetcher, HttpResponse, RetrievalFailed, RetrievalRefused, file_sha256, source_for_url
+from brdo.fetch import (
+    Cache,
+    Fetcher,
+    HttpResponse,
+    RetrievalFailed,
+    RetrievalRefused,
+    file_sha256,
+    source_for_url,
+    urllib_get,
+)
 from brdo.vocab import RedistributionPolicy, RetrievalPolicy
 from tests.conftest import make_source
 
@@ -168,3 +179,25 @@ def test_the_nse_policy_cannot_be_retrieved_or_linked():
         redistribution=RedistributionPolicy.NO_LINKS,
     )
     assert source_for_url("https://nsearchives.nseindia.com/x.pdf", [source]) is source
+
+
+def test_a_download_cut_off_midway_is_reported_as_a_failure(monkeypatch):
+    class Truncated:
+        status = 200
+        headers: dict[str, str] = {}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+        def read(self):
+            raise http.client.IncompleteRead(b"%PDF-1.7", 100)
+
+        def geturl(self):
+            return "https://example.org/a.pdf"
+
+    monkeypatch.setattr(urllib.request, "urlopen", lambda request, timeout: Truncated())
+    with pytest.raises(RetrievalFailed, match="IncompleteRead"):
+        urllib_get("https://example.org/a.pdf", {})

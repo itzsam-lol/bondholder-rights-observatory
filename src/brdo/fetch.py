@@ -8,6 +8,7 @@ repository.
 """
 
 import hashlib
+import http.client
 import json
 import os
 import time
@@ -69,7 +70,7 @@ def urllib_get(url: str, headers: dict[str, str]) -> HttpResponse:
             body=b"",
             final_url=url,
         )
-    except (urllib.error.URLError, OSError) as error:
+    except (urllib.error.URLError, http.client.HTTPException, OSError) as error:
         raise RetrievalFailed(f"{url}: {error}") from error
 
 
