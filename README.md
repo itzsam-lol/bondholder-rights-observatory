@@ -44,7 +44,7 @@ The sample starts from the quarterly covenant-breach reports that SEBI requires 
 | Amendment trail | 1 issuer intimation under regulation 59 with the exchange's in-principle approval |
 | Trustee census | 1 table of the issues a trustee monitors: 1,832 ISINs, measured rather than republished, with a reproducible sample of 20 |
 | Contract clauses | 25, with parsed limits where the wording is unambiguous and plain-English notes |
-| Search log | 64 attempts, successful or not |
+| Search log | 69 attempts, successful or not |
 | Open discrepancies | 18 |
 | Evidence anchors | 1,254: 1,147 verified by machine against the file's text, 107 read from the rendered page |
 
@@ -60,7 +60,10 @@ These describe this sample, which is selected on a breach having been reported. 
 - **Agreement within one trustee proves even less.** Wherever a trustee's notice prints a level (24 comparisons), it matches that trustee's report.
 - **Contract versions leave public traces even when contracts do not, but traces are not the contract.** Changing the terms of listed debentures needs the exchange's prior approval, after the board, the trustee and three-fourths of holders agree. One issuer's intimation of that approval explains most of five differing statements of one covenant, yet cannot settle which limit applied on the test date. Every clause record says whether it is a description, a proposal, an approval in principle or executed text; none yet is executed text.
 - **A trustee's own census gives a denominator.** Catalyst's table of compliance reports received for the quarter prints 1,832 ISINs; its breach report lists 44 of them (2.4%). A listing is not a breach rate.
-- **The published follow-up mostly stops before an outcome.** For every ISIN Catalyst listed, the furthest published step is a meeting scheduled or adjourned for lack of quorum, or instructions awaited. Other trustees' reports more often state an outcome, usually a late filing since made.
+- **The published follow-up mostly stops before an outcome.** No trustee publishes a cure of a financial covenant; the 24 cures published are late filings and similar obligations made good. For every ISIN Catalyst listed, no outcome is published at all.
+- **Each party adds what it alone holds.** Where issuer and trustee agree on a breach, the trustee adds the deed's wording, references and dates; the issuer adds the measured level, which the trustee repeats in one of nine cases.
+- **Trustees differ in what they publish as a breach.** Catalyst's census marks the compliance report as not received for 59 ISINs, of which its breach report lists 2; IDBI's report lists non-submission of results as breaches.
+- **What was public when can be reconstructed.** Every document has an availability date, and `--as-of` shows the record as it stood on any date. The issuers' statements were public before the trustees' reports in every comparison.
 - **Trustees' disclosures carry very different amounts of the contract.** One trustee prints the clause text for nearly every ISIN. Others mostly print a description such as "Non submission of financial results".
 - **The same column means different things.** "Date of actual breach" is defined differently by different trustees, and used in two ways within a single report. An issuer's statement date confirms one trustee's printed definition.
 - **Disclosures change without notice.** Only a reader who kept both versions of one report can see that a "seeking instructions" became a reported waiver.
@@ -112,6 +115,7 @@ $ uv run brdo fetch                 # download the cited files into a local cach
 $ uv run brdo verify                # re-test every evidence anchor against those files
 $ uv run brdo build --sqlite dist/brdo.sqlite
 $ uv run brdo report --out docs/observability-report.md
+$ uv run brdo show INE179P08082 --as-of 2026-08-15   # the record as it stood on a date
 ```
 
 `brdo verify` reports how each passage was matched and lists any page whose text layer cannot be trusted. Exports are deterministic, and the tests fail if the committed exports or report drift from the records. A file that has changed at its source shows up as a hash mismatch and is never silently accepted.

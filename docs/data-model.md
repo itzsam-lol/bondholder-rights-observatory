@@ -83,9 +83,17 @@ The comparison also lists required levels that the statement prints and the trus
 
 Only executed text establishes an operative term.
 
+## Point-in-time views
+
+`pit.available_from` estimates when the exact file held became public: from a listing page date, the server's Last-Modified header, or failing both the document's own date, which is only a lower bound. `pit.as_of` restricts the dataset to records whose documents were available by a date, so every derived status, comparison and report can be computed as of that date. `documents.csv` carries `available_from` and its basis.
+
+## What each party adds, and follow-up states
+
+`consistency.field_flows` records, for each agreement between an issuer's statement and a trustee's report, whether each party prints a clause reference, the obligation's wording, a required level, the issuer's measured level and deed dates. The report counts follow-up states per trustee without ranking or merging them, and types a cure by the covenant category of its row. A late filing made good is therefore never counted as a financial covenant restored.
+
 ## Trustee censuses
 
-A `MonitoringCensus` is not a copy of the trustee's table. It holds the file's identity, `isins_printed`, `listed_not_printed`, a `sample` and the `entries` the analysis cites. `brdo verify` recomputes the count, the omissions and the sample from the hashed file and fails if they differ. The sample is the 20 ISINs, outside the trustee's breach report for the period, whose SHA-256 of the file's hash, a colon and the ISIN sorts first, so it can be reproduced without this code.
+A `MonitoringCensus` is not a copy of the trustee's table. It holds the file's identity, `isins_printed`, `listed_not_printed`, a `sample` and the `entries` the analysis cites. `report_not_received` lists ISINs whose rows mark the issuer's quarterly compliance report as not received. `brdo verify` recomputes the count, the omissions, that list and the sample from the hashed file and fails if they differ. The sample is the 20 ISINs, outside the trustee's breach report for the period, whose SHA-256 of the file's hash, a colon and the ISIN sorts first, so it can be reproduced without this code.
 
 ## Dates
 

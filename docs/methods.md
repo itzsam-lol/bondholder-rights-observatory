@@ -49,6 +49,23 @@ Row-by-row parsing of the table was tried and set aside. Serial numbers restart,
 
 For each comparison between an issuer's statement and a trustee's report, the dataset records the statement's printed date, the trustee's recorded receipt of the issuer's compliance report where a census has been measured, the trustee's printed date of detection, and whether the trustee's row cites a certificate or auditor. These are facts read from the documents. The inference drawn from them, that an agreement may be transmission rather than confirmation, is the project's, and the report states it as such.
 
+## What each party adds
+
+The field-level comparison uses mechanical rules, so that it can be re-run and challenged:
+
+- **Clause reference:** a clause, a schedule or a numbered paragraph.
+- **Obligation wording:** a verb such as "shall", "maintain", "ensure", "not exceed" or "at least". On the trustee's side it also needs an item marked as clause text.
+- **The issuer's measured level:** credited to the trustee only if the trustee prints the same number and unit.
+- **Deed dates:** on the trustee's side, from its letters for the quarter.
+
+## Availability dates
+
+A document's availability is taken from a listing page or the server's Last-Modified header, and failing those from its own printed date as a lower bound. Last-Modified describes the version held, which may be later than the first publication. Timing figures are therefore measurements of the files held, not findings about anyone's timeliness.
+
+## The comparison sample
+
+The first pilot searched for the June 2026 covenant statement of four sampled issuers, and checked one issuer's own debenture pages. Under the NSE policy, no URL on NSE is recorded, even when a search surfaced one.
+
 ## What is checked by machine, and what is not
 
 | Check | Catches | Does not catch |
