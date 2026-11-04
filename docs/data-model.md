@@ -15,7 +15,7 @@ JSON Schemas for every record type are in [`schema/`](../schema), generated from
 | `BreachReport` | `data/breach-reports/<document>.yaml` | A transcribed trustee report, with rows and items |
 | `BreachNotice` | `data/breach-notices.yaml` | A trustee's letter about one instrument: deed dates, dates of intimation, meetings, adjournments |
 | `Provision` | `data/provisions/<document>.yaml` | One contractual undertaking, quoted, with parsed limits where unambiguous |
-| `ComplianceStatement` | `data/compliance-statements.yaml` | An explicit statement about compliance for stated instruments and a period |
+| `ComplianceStatement` | `data/compliance-statements.yaml` | An explicit statement about compliance for stated instruments and a period, with who made it, what it covers and its exception lines |
 | `RegulatoryReference` | `data/regulatory-references.yaml` | A checked passage of a regulatory text that the design relies on |
 | `SearchRecord` | `data/searches.yaml` | One documented attempt to find something, including failures |
 | `Discrepancy` | `data/discrepancies.yaml` | A disagreement or oddity, kept open until resolved |
@@ -46,12 +46,28 @@ An `Evidence` anchor names a document, a 1-based page of the file (not the print
 | `verified:normalized` | The quotation occurs on the page after folding case, spacing, typographic punctuation and mis-mapped ligatures |
 | `verified:spaceless` | It occurs once all spaces are removed, which handles words broken by extraction |
 | `verified:token_sequence` | Its words occur in order with at most 12 other words between neighbours, which handles interleaved table columns |
-| `visual_only` | It is not in the text layer and the record says it was read from the rendered page. Reported separately and never counted as machine-verified |
+| `visual_only` | It is not in the text layer and the record says it was read from the rendered page. Reported separately and never counted as machine-verified. If the cited page has no text layer at all, finding the same words on another page does not count against it |
 | `wrong_page`, `not_found`, `page_out_of_range` | Failures |
 | `hash_mismatch` | The file differs from the recorded hash, whether in the cache or at the source |
 | `document_unavailable` | The file could not be obtained, and nothing has been checked |
 
 It also audits each page's text layer, flagging text drawn as vector outlines, scanned pages and OCR layers, and fails if a transcribed report's text prints an ISIN that the transcription lacks.
+
+## Statements by issuers and auditors
+
+A `ComplianceStatement` separates the publisher (`stated_by`, a source) from the maker (`made_by`: `issuer` or `statutory_auditor`). It also records what the statement says it covers (`scope`: `all_covenants` or `financial_covenants`). Its `exceptions` are the lines the statement lists as not met, each with the ISINs, the covenant as printed, and the required and actual levels or deed dates where printed. Every one of those fields is an evidence anchor.
+
+`isins_printed` is false when the statement reaches an ISIN only by a general sentence about all listed debentures, or by leaving it off its list of exceptions. A statement that lists exceptions must state a breach, and its exceptions may only name its own instruments.
+
+`brdo report` sets each statement beside the trustee's current report for the same quarter (`statement_report_comparisons.csv`):
+
+| Agreement | When |
+|---|---|
+| `consistent` | Both report a breach; or the statement reports compliance and a fully transcribed trustee report does not list the ISIN |
+| `differs` | The statement reports compliance and the trustee lists a breach it covers; or the statement reports a breach that a fully transcribed trustee report does not list |
+| `not_comparable` | No fully transcribed report of the ISIN's trustee exists for the period; or the statement covers financial covenants only and the trustee lists another kind |
+
+The comparison also lists required levels that the statement prints and the trustee's report does not print for that ISIN.
 
 ## Dates
 
@@ -100,7 +116,7 @@ Status answers one question: what does the reviewed record say about breaches fo
 | `ambiguous` | `listing_depends_on_layout` | Listing depends on reading merged table cells |
 | | `trustee_not_established` | Sources disagree on the trustee, and at least one candidate's report was reviewed |
 | `conflicting` | `listed_only_in_earlier_version` | An earlier version lists it and the current one does not |
-| | `statements_disagree` | A statement and a listing, or two statements, disagree |
+| | `statements_disagree` | A statement of compliance whose scope covers a listed covenant, or two statements, disagree |
 | `not_assessed` | `trustee_unknown` | No source names its trustee |
 | | `trustee_report_incompletely_transcribed` | The report exists but was only partly transcribed |
 | | `trustee_report_not_searched` | Nobody has looked |

@@ -31,6 +31,8 @@ Several trustees' sites restrict reuse of their content for public purposes with
 | MITCON's report | About 33% | Names, dates, the opening words of cells |
 | Vistra's report | Not meaningful, as much of the page has no text layer | As above |
 | Trustee notices | 3% to 20% | The deed sentence, the opening words of a clause, whole clauses for pilot instruments |
+| Issuers' covenant statements and auditors' certificates | Under 10% | Covenant names, required and actual levels and deed dates, which are facts, and one sentence of each conclusion |
+| Dvara's regulation 59 intimation | Not meaningful, as the exchange's letter has no text layer | The existing and proposed wording of one covenant, quoted as contract clauses |
 | Aye Finance's filing | About 31% | The existing and revised text of one covenant, which is the point of citing it |
 | SEBI and ICRA documents | Under 5% | Single passages |
 
@@ -42,7 +44,8 @@ These are high shares for the shortest reports, because a table of names and dat
 |---|---|---|
 | SEBI | Allowed | robots.txt restricts only script and style paths. Republication requires permission, so circulars are linked and quoted briefly |
 | Debenture trustees | Allowed | Nothing found addresses automated access. The fetcher honours robots.txt and crawl delays |
-| Issuer websites cited | Allowed | Regulatory filings published for investors |
+| Issuer websites cited | Allowed | Regulatory filings published for investors under regulation 62 of the LODR Regulations. Several issuers' terms restrict reproduction, so their quotations are capped at 160 characters like the trustees' |
+| **Pahal Financial Services** | **Manual only** | Its home page answered the project's identified client on 4 November 2026, but its filings answered HTTP 403. Treated as an access restriction, like BSE |
 | ICRA | Allowed | The rationale says contents may be used freely with acknowledgement |
 | **BSE** | **Manual only** | Both hosts refused the project's identified client on 4 November 2026 while serving browsers. The project treats that as an access restriction and does not disguise its client |
 | **CDSL and NSDL** | **Manual only** | CDSL's policy forbids downloading or storing its content without permission and allows links. A single value may be cited with its URL |
@@ -72,7 +75,7 @@ Beacon Trusteeship and Orbis publish `Content-Signal: search=yes,ai-train=no,use
 
 ## Personal data
 
-The dataset does not record natural persons. Notices can name signatories, compliance officers and even particular holders, and none of that is transcribed. A trustee's published list of companies is transcribed because the entities are companies. Dial-in details and meeting links printed in notices are not recorded.
+The dataset does not record natural persons. Notices can name signatories, compliance officers and even particular holders, and none of that is transcribed. Some issuers' quarterly compliance reports, published on their own sites, print lists of individual debenture holders with their addresses. Those pages are never transcribed or quoted, and the dataset cites only the pages that carry the covenant statement. A trustee's published list of companies is transcribed because the entities are companies. Dial-in details and meeting links printed in notices are not recorded.
 
 ## Statements about companies
 

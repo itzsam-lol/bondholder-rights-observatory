@@ -2,10 +2,10 @@
 
 An independent, evidence-backed record of what Indian listed corporate bonds promise, and of what later becomes publicly known about those promises.
 
-A bond's protections sit in a trust deed. What happens to them afterwards is scattered across trustee websites, exchange filings and rating rationales. This project connects the two at the level of the individual ISIN:
+A bond's protections sit in a trust deed. What happens to them afterwards is scattered across trustee websites, issuers' own filings, exchange approvals and rating rationales. This project connects them at the level of the individual ISIN:
 
 ```
-Issuer → ISIN → Trust deeds → Clause → Trustee report and notice → Reported action → Original page
+Issuer → ISIN → Trust deeds and amendments → Clause → Trustee's report, issuer's statement → Reported action → Original page
 ```
 
 Every statement in the dataset says who made it and points to a hashed file, a page and the words relied on. A checker re-tests all of those pointers against the source files, so the record can be audited rather than trusted.
@@ -15,20 +15,20 @@ Every statement in the dataset says who made it and points to a hashed file, a p
 ## An example
 
 ```console
-$ brdo show INE179P08082
-INE179P08082  Dvara Kshetriya Gramin Financial Services Private Limited
+$ brdo show INE00VD07016          # output shortened
+INE00VD07016  Infinity Fincorp Solutions Private Limited
   claim  debenture_trustee: catalyst-trusteeship  (asserted by catalyst-trusteeship)
-  clause dvara-reg54-2026-02-11 Not given in the filing p8 [financial]
-  clause ctl-notice-dvara-2026-08 Clause no. 17.4 (a) (iii) p11 [financial]
-  report ctl-t5-2026-06 row 12: (iii) commencing from the Effective Date (DTD) until the Final Settlement Date, ...
-  notice ctl-notice-dvara-2026-08 p11 2026-08-27 [breach]; deeds: 2025-05-06, 2026-07-29
-  notice ctl-notice-dvara-2026-08 p14 2026-09-24 [meeting_continuation]; deeds: none cited
-  open   dvara-cost-to-income-limit: Three public statements of one covenant differ. ...
-  status 2025-12-31: reported_breach (explicit_statement)
-  status 2026-06-30: reported_breach (listed_in_current_version)
+  report ctl-t5-2026-06 row 5: (i) comply with any corporate governance requirements applicable to the Company ...
+  notice ctl-notice-infinity-2026-08 p6 2026-08-14 [breach]; deeds: 2024-09-30
+  stated infinity-sc-2026-08-07 2026-06-30 by statutory_auditor (all_covenants): compliance
+  stated infinity-sc-2026-08-07 2026-06-30 by issuer (financial_covenants): compliance
+  open   infinity-governance-covenant: The trustee's June 2026 quarter report lists both ISINs for a breach ...
+  status 2026-06-30: conflicting (statements_disagree)
 ```
 
-For this one instrument, public documents print a cost-to-income limit of `<=70%` (the issuer, December 2025), "less than 80%" until final settlement (the trustee's quarterly report) and "less than or equal to 80%" until 30 September 2026 (the same trustee's notice, citing an amendment deed of 29 July 2026). The dataset keeps all three and the disagreement between them. It does not pick a winner.
+Here the trustee reports a breach of a governance undertaking as at 30 June 2026. The issuer's auditor, six days before the trustee says it detected the breach, gave limited assurance that nothing suggested non-compliance with all covenants at that date. The issuer's own confirmation covers financial covenants only, so it is recorded as not addressing the governance undertaking. The dataset keeps both statements and the disagreement between them. It does not pick a winner.
+
+`brdo show INE179P08082` shows the other kind of case: five public statements of one cost-to-income covenant, most of which are explained by an amendment approved in principle by the exchange. It also shows two statements that the amendment does not explain.
 
 ## What this release contains
 
@@ -38,29 +38,32 @@ The sample starts from the quarterly covenant-breach reports that SEBI requires 
 |---|---|
 | Trustees with a logged search | 8; a report was found for 6 |
 | Breach reports transcribed | 8 files, including two versions of one quarter and one later as-of report |
-| Instruments | 95 ISINs of 29 issuers; 93 are listed in a report |
+| Instruments | 96 ISINs of 29 issuers; 93 are listed in a trustee report |
 | Trustee notices and letters | 66 records from 23 files, giving trust deed dates and clause references |
-| Contract clauses | 23, with parsed limits where the wording is unambiguous and plain-English notes |
-| Search log | 48 attempts, successful or not |
-| Open discrepancies | 14 |
-| Evidence anchors | 1,033: 978 verified by machine against the file's text, 55 read from the rendered page |
+| Issuers' and auditors' statements | 6 statements of covenant compliance in 4 filings, with 40 exception lines |
+| Amendment trail | 1 issuer intimation under regulation 59 with the exchange's in-principle approval |
+| Contract clauses | 25, with parsed limits where the wording is unambiguous and plain-English notes |
+| Search log | 63 attempts, successful or not |
+| Open discrepancies | 18 |
+| Evidence anchors | 1,235: 1,130 verified by machine against the file's text, 105 read from the rendered page |
 
 The full, generated measurements are in the [observability report](docs/observability-report.md).
 
-## What the first pass found
+## What the record shows so far
 
 These describe this sample, which is selected on a breach having been reported. They do not describe the market.
 
-- **Clause-level information is often public, in an unexpected place.** Trustees' letters to holders tie an ISIN to its trust deed dates and clause. A trustee states the deed date for 52 of the 93 listed ISINs, without the deed itself being needed.
-- **Contracts are public to a browser but not to a program.** BSE refuses identified automated clients, NSE's terms forbid automated collection and even unapproved links, and a bond platform's terms forbid extraction tools. Of 38 logged searches for a contract document, 29 found none, and no contract could be retrieved through the pipeline.
+- **The trace to the contract breaks at the last step, and for access reasons.** Trustees' letters cite a dated trust deed or trustee agreement for 52 of the 93 listed ISINs. No contract could be retrieved through the pipeline. BSE refuses identified automated clients, NSE's terms forbid automated collection and even unapproved links, and a bond platform's terms forbid extraction tools.
+- **A second, independent channel exists.** Issuers must give their trustee an auditor-certified statement of covenant compliance every quarter, and must keep the compliance reports they file on their own website. Logged searches for the June 2026 quarter found such a statement for 3 of 11 issuers, and one more was located but refused to the project's client.
+- **Where both channels can be read, they mostly agree, and the exceptions matter.** Of 22 comparisons, 17 agree, 3 differ and 2 cannot be compared. In one difference the auditor's statement of compliance with all covenants contradicts the trustee's listing. In another the issuer reports a breach that the trustee's report does not list.
+- **Agreement within one trustee proves little.** Wherever a trustee's notice prints a level (24 comparisons), it matches that trustee's report. Comparing different parties is what surfaces disagreements over required levels and over which deeds and amendments govern an instrument.
+- **Contract versions leave public traces even when contracts do not.** Changing the terms of listed debentures needs the exchange's prior approval, after the board, the trustee and three-fourths of holders agree. One issuer's intimation of that approval explains most of five differing statements of one covenant.
 - **Trustees' disclosures carry very different amounts of the contract.** One trustee prints the clause text for nearly every ISIN. Others mostly print a description such as "Non submission of financial results".
-- **The same column means different things.** "Date of actual breach" is defined differently by different trustees, and is used in two ways within a single report, so an interval from one report cannot be compared with another.
-- **Numbers agree where they can be checked.** Wherever a trustee's notice prints a level (24 comparisons), it matches that trustee's report. Detection dates match the stated date of intimation in 37 of 41. Differences of wording and duration around the same number do exist, and a numeric check cannot see them.
+- **The same column means different things.** "Date of actual breach" is defined differently by different trustees, and used in two ways within a single report. An issuer's statement date confirms one trustee's printed definition.
 - **Disclosures change without notice.** Only a reader who kept both versions of one report can see that a "seeking instructions" became a reported waiver.
-- **Holders' meetings fail.** Follow-up letters say a meeting was adjourned for lack of quorum for 15 ISINs.
-- **Text extraction alone misreads these documents.** One report draws most of its text as vector outlines, so extraction silently loses whole rows. Others are scans. The pipeline now detects both, and a report cannot be marked complete unless its rendered pages were reviewed.
+- **Text extraction alone misreads these documents.** One report draws most of its text as vector outlines, and several issuer annexures are scans. The pipeline detects both, and a report cannot be marked complete unless its rendered pages were reviewed.
 
-The research question, method and threats to validity are in [docs/research-design.md](docs/research-design.md).
+The research question, method and threats to validity are in [docs/research-design.md](docs/research-design.md). Where the project should go next, and why, is in [docs/research-agenda.md](docs/research-agenda.md).
 
 ## Using the data
 
@@ -70,6 +73,8 @@ Flat files are in [`exports/`](exports), and the records they are built from are
 |---|---|
 | `breach_report_items.csv` | One row per report, ISIN and covenant cell: dates as printed and as parsed, levels, actions |
 | `breach_notices.csv` | Trustee notices: trust deed dates, dates of intimation, meetings, quorum |
+| `compliance_statements.csv`, `compliance_statement_exceptions.csv` | Issuers' and auditors' statements, who made them, what they cover, and each exception line |
+| `statement_report_comparisons.csv` | Each statement set beside the trustee's report for the same quarter |
 | `provisions.csv` | Contract clauses with parsed limits, including earlier and amended versions |
 | `instrument_status.csv` | What the reviewed record says, per ISIN and period, and on what basis |
 | `notice_report_comparisons.csv` | A trustee's report compared mechanically with its own notice |
@@ -81,8 +86,8 @@ Statuses come from a closed list, and they must never be merged. [docs/data-mode
 
 | Status | Meaning |
 |---|---|
-| `reported_breach` | A trustee report, notice or statement says so |
-| `reported_no_breach` | An explicit statement covers this instrument and period |
+| `reported_breach` | A trustee report, notice or explicit statement says so |
+| `reported_no_breach` | An explicit statement covers this instrument and period, and nothing disagrees |
 | `no_information_reported` | The reporting party says it received no information |
 | `no_report_found` | The reviewed sources do not list the instrument. **Not** a sign of compliance |
 | `inaccessible` | A relevant disclosure could not be reached |
@@ -116,26 +121,30 @@ Source documents are not in this repository. See [docs/source-policy.md](docs/so
 data/       The records: the source of truth, validated by schema and checked against the sources
 exports/    Flat CSV files generated from data/
 schema/     JSON Schemas for each record type
-src/brdo/   Loading, retrieval policy, evidence checking, status derivation, exports, report
+src/brdo/   Loading, retrieval policy, evidence checking, status derivation, comparisons, exports, report
 tests/      Offline tests, including checks on the published dataset itself
-docs/       Research design, landscape, source policy, data model, methods, generated report
+docs/       Research design and agenda, landscape, source policy, data model, methods, generated report
 ```
 
 ## Limits of this release
 
-- **The contract itself is not in the evidence yet.** Clauses are quoted by trustees, issuers and a rating agency, and the provisions file says which. No trust deed or offer document has been retrieved; the candidates are [listed](docs/observability-report.md#candidates-awaiting-manual-retrieval) for manual ingest.
+- **The contract itself is not in the evidence yet.** Clauses are quoted by trustees, issuers, an exchange's approval letter and a rating agency, and the provisions file says which. No trust deed or offer document has been retrieved. The candidates are [listed](docs/observability-report.md#candidates-awaiting-manual-retrieval) for manual ingest.
 - **The sample is selected on reported breaches.** It says nothing about how common breaches are.
-- **One quarter, six trustees.** NSE-only material is excluded, and two trustees' reports were not located. Bond Central could not be reached for review.
-- **Single-pass curation.** Transcriptions and annotations have not had an independent second review (`annotation_reviewed` is false throughout). The machine checks catch transcription errors in quotations; they cannot catch a wrong classification.
-- **Quotations are deliberately short.** Trustee text is capped at 160 characters, so the source page must be opened to read a long clause in full.
+- **One quarter, six trustees, three issuers' own statements.** NSE-only material is excluded, two trustees' reports were not located, and Bond Central could not be reached for review. Issuer statements were mostly sought through a search engine, which misses filings that are on issuers' sites.
+- **Issuers' statements are self-reports.** Auditors give them limited assurance, not an audit opinion, and a statement limited to financial covenants says nothing about other undertakings.
+- **Single-pass curation.** Transcriptions and annotations have not had an independent second review (`annotation_reviewed` is false throughout). The machine checks catch transcription errors in quotations. They cannot catch a wrong classification.
+- **Quotations are deliberately short.** Text from sources with restrictive terms is capped at 160 characters, so the source page must be opened to read a long clause in full.
 
 ## Roadmap
 
-1. Ingest the located contract documents, then compare each clause as reported with the clause as written.
-2. Add earlier quarters to measure persistence and revisions, and capture each new version of a report as it appears.
-3. Add a sample of instruments with no reported breach, to make observability comparable across instruments.
-4. Seek permission from exchanges and trustees for automated access and fuller quotation.
-5. Build a source-grounded benchmark for clause retrieval and breach classification, excluding sources that reserve AI-training rights.
+[docs/research-agenda.md](docs/research-agenda.md) sets out the reasoning. In order:
+
+1. Check every sample issuer's own disclosure page for its covenant statements over several quarters, and compare them with the trustees' reports.
+2. Reconstruct covenant versions from amendment approvals, holders' resolutions and trustees' letters.
+3. Draw a comparison sample of instruments with no reported breach from trustees' own monitoring tables.
+4. Capture disclosures every quarter to measure revision and removal.
+5. Document how trustees use the columns of the prescribed breach report.
+6. Later, and only after independent double annotation, build an evaluation set for document understanding that excludes sources reserving AI-training rights.
 
 ## Licence
 

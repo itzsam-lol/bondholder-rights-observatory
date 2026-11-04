@@ -22,6 +22,17 @@ Not everything was searched exhaustively. A `not_found` means not found through 
 
 Trustee notices in letter format were drafted with a one-off script that found the deed sentence, dates and clause heading, and each candidate was then reviewed. IDBI's notices and all scanned files were transcribed directly. The drafting script is not part of the repository, because the records are what is verified.
 
+## Issuers' own statements
+
+For the quarter ended 30 June 2026, the issuer's statement of covenant compliance was sought for 11 issuers in the sample, mostly lenders whose trustees print covenant levels. Every query and outcome is in `data/searches.yaml` under `compliance_statement`.
+
+1. A web search by issuer name, "security cover certificate" and the quarter, then, for two issuers, the regulation 62 disclosure page on the issuer's own site. The second is the better protocol, and the one future quarters should use.
+2. Candidates were previewed through the same policy-checked fetcher before being registered. Each issuer website was registered as a source only after reading its robots.txt and its terms. Where a site refused the project's identified client, the files were logged as located but not retrieved and the site was marked manual only.
+3. Statements were transcribed from rendered pages where the annexure is a scan or carries an OCR layer, and the record says so (`visual_fallback`). One scan prints an ISIN with an "F" where the other lines of the same table print "E"; it is read as the ISIN the table prints elsewhere, and the note says so.
+4. Who made the statement (the issuer or its statutory auditor) and what it says it covers (all covenants, or financial covenants only) are recorded as printed. An auditor's limited-assurance conclusion is quoted together with its negative form, because the operative clause alone reverses its meaning.
+5. Identifiers in a statement that are outside this dataset, such as bonds listed in IFSC, are left out and mentioned in the note.
+6. Several compliance reports also print lists of individual debenture holders. Nothing from those pages is recorded.
+
 ## What is checked by machine, and what is not
 
 | Check | Catches | Does not catch |
@@ -37,7 +48,7 @@ A deliberately altered threshold and a deliberately altered deed date both fail 
 
 **Not checked by machine:** the assignment of an ISIN to a row where cells are merged, categories, specificity, action kinds, parsed limits, and plain-English notes. These come from a single pass of curation, with no independent second review. Treat them as a careful first reading, and report errors.
 
-Fifty-five anchors rest on reading a rendered page, because the file has no usable text layer for that passage. They are reported as `visual_only`, and checking one means opening the page.
+In this release 105 anchors rest on reading a rendered page, because the file has no usable text layer for that passage. They are reported as `visual_only`, and checking one means opening the page.
 
 ## Classifying covenants
 

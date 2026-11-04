@@ -1,6 +1,6 @@
 # What already exists
 
-Reviewed on 3 and 4 November 2026. Where a statement rests on a regulatory text, the checked passage is in [`data/regulatory-references.yaml`](../data/regulatory-references.yaml).
+Reviewed on 3 and 4 November 2026. Where a statement rests on a regulatory text, the checked passage is in [`data/regulatory-references.yaml`](../data/regulatory-references.yaml), named here by its identifier.
 
 ## The regulatory framework
 
@@ -14,7 +14,22 @@ The governing text is SEBI's **Master Circular for Debenture Trustees** of 28 Se
 | IX | An investor charter: copies of the trust deed to investors, inspection rights | A route to deeds, framed for investors |
 | X | Default is reckoned at ISIN level. One ISIN may span several offer documents. Notice within three days and a meeting within 30 days of a breach or default | The reason for the ISIN key and many-to-many links; and the source of the notices used here |
 
-The **circular of 27 October 2026** ([PDF](https://www.sebi.gov.in/sebi_data/attachdocs/oct-2026/1793167964839.pdf)) extends to 27 April 2027 the deadline for trustees to move non-SEBI activities into separate business units. It does not change covenant monitoring. It does record that in June 2026 SEBI set up an expert working group to review the trustee framework, so the rules may change, which is one reason every report keeps its own regulatory reference.
+Chapter VII also prescribes seven other website tables. Table 1 lists rating revisions per ISIN with a link to the agency's press release (`trustee-table-1-rating-links`). Table 2 records payment status, and Table 8 defaults and action taken. Table 3 lists, per listed entity and ISIN, whether the issuer's quarterly compliance reports and security cover certificates were received (`trustee-table-3`). Table 3 is a census of the issues a trustee monitors, which makes it the natural sampling frame for a comparison with unreported instruments. Table 4 gives only counts.
+
+### Rules on the issuer's side
+
+| Rule | What it requires | Consequence here |
+|---|---|---|
+| Master circular, chapter VI, para 2.1 | A quarterly statement to the trustee of compliance with financial covenants, certified by the statutory auditor (`issuer-covenant-compliance-status`) | A second statement per ISIN and quarter, made by a different party |
+| LODR regulation 54(3) and 56(1)(d) | Security cover disclosed with the financial results, and an auditor's certificate that includes "compliance with all the covenants" (`lodr-security-cover-with-results`, `lodr-auditor-certificate-covenants`) | The certificates that carry these statements |
+| LODR regulation 62(1)(g) | The issuer's website must carry "all information and reports including compliance reports filed by the listed entity" (`lodr-website-compliance-reports`) | The statements should be on issuers' own sites, which are often open to declared programs |
+| LODR regulation 59 | No material modification of listed debentures without the exchange's prior approval, after the board, the trustee and three-fourths of holders by value (`lodr-material-modification`, `lodr-modification-consent`) | Amendments leave public traces even when the deed is not public |
+
+### Rating agencies
+
+SEBI's master circular for rating agencies (11 July 2025) requires "a detailed explanation of all the covenants" in press releases for credit-enhanced ratings (`cra-covenants-credit-enhanced`). It also requires the covenants assumed for structured finance products (`cra-covenants-structured-finance`). It sets no such general rule for other ratings, although some agencies publish covenant annexures as a matter of practice.
+
+The **circular of 27 October 2026** ([PDF](https://www.sebi.gov.in/sebi_data/attachdocs/oct-2026/1793167964839.pdf)) extends to 27 April 2027 the deadline for trustees to move non-SEBI activities into separate business units. It does not change covenant monitoring. It does record that in June 2026 SEBI set up an expert working group to review the trustee framework. The group's press release invited public suggestions until 15 July 2026 (`expert-working-group-suggestions`). The rules may change, which is one reason every report keeps its own regulatory reference.
 
 ## Existing systems
 
@@ -27,7 +42,8 @@ The **circular of 27 October 2026** ([PDF](https://www.sebi.gov.in/sebi_data/att
 | **NSE** | Hosts filings. Terms prohibit automated collection and hyperlinks without permission | Excluded from this release |
 | **Online bond platforms** such as IndiaBonds | Per-ISIN pages, some linking issue documents. Terms prohibit extraction tools | A place to look by hand |
 | **Debenture trustees' websites** | Table 5 reports, notices, press releases | The main source for this release |
-| **Rating agencies** | Rationales, some stating "salient covenants" and reporting breaches | A useful independent cross-check |
+| **Rating agencies** | Rationales, some stating "salient covenants" and reporting breaches | A useful independent cross-check, mandated for covenants only in credit-enhanced and structured ratings |
+| **Issuers' own websites** | Covenant compliance statements, auditors' certificates, compliance reports to trustees, intimations of amendment approvals | The second channel used in this release. Of seven issuer sites tried, six served the project's client and one refused its filings; one builds its disclosure list in the browser |
 
 ## Adjacent work
 
@@ -50,4 +66,9 @@ The **circular of 27 October 2026** ([PDF](https://www.sebi.gov.in/sebi_data/att
 - the link between ISIN, trust deed dates, clause and reported event;
 - version history of disclosures that otherwise disappear when replaced;
 - an explicit, status-based account of what is not known;
-- a measured account of where public availability stops short of research access.
+- a measured account of where public availability stops short of research access;
+- a comparison, per ISIN and quarter, of what the trustee reports with what the issuer and its auditor state.
+
+## Disclosure infrastructure elsewhere
+
+In the US, indentures are filed with the SEC and EDGAR publishes the terms for declared programmatic access, which is why most covenant datasets and contract corpora are built on it. The EU's European single access point (Regulation (EU) 2023/2859) is designed to give centralised, machine-readable access to disclosures. India's mandated disclosures are as public as either in principle. The difference this project measures is how many of them a declared program may retrieve, and on what terms.
