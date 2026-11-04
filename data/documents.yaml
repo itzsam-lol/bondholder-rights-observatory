@@ -201,6 +201,10 @@
   size_bytes: 532017
   media_type: application/pdf
   pages: 7
+  dates:
+  - kind: dated
+    value: 2025-11-25
+    basis: stated_in_document
 - id: aye-walco-outcome-2025-09-02
   source: aye-finance-web
   type: issuer_filing

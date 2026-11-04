@@ -16,6 +16,7 @@ from typing import Any
 from brdo.census import listed_in_breach_reports
 from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports
 from brdo.models import Evidence
+from brdo.pit import available_from
 from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import CONTRACT_DOCUMENT_TYPES, AiTrainingSignal, InstrumentProperty
@@ -94,6 +95,8 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "dated_basis": dated_basis,
                 "published": published_on,
                 "published_basis": published_basis,
+                "available_from": available_from(d)[0],
+                "available_basis": available_from(d)[1],
                 "period_start": d.period.start if d.period else None,
                 "period_end": d.period.end if d.period else None,
                 "as_of": d.as_of,

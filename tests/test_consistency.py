@@ -3,6 +3,7 @@ from datetime import date
 from brdo.consistency import (
     compare_notices_with_reports,
     compare_statements_with_reports,
+    field_flows,
     revisions,
     stated_thresholds,
 )
@@ -170,3 +171,18 @@ def test_a_trustee_row_naming_the_certificate_is_recognised(dataset):
     dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
     [result] = _compare(dataset, make_statement(breach=True))
     assert result.trustee_cites_certificate
+
+
+def test_each_party_is_credited_only_with_the_information_it_prints(dataset):
+    line = StatedException(
+        isins=[ISIN_LISTED],
+        page=1,
+        covenant_as_reported="ratio",
+        required_as_reported="<=5%",
+        actual_as_reported="7.00%",
+    )
+    dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=[line])
+    flows = {flow.field: (flow.issuer, flow.trustee) for flow in field_flows(dataset)}
+    assert flows["required level"] == (True, True)
+    assert flows["issuer's measured level"] == (True, False)
+    assert flows["obligation wording"] == (False, True)

@@ -12,7 +12,14 @@ from brdo.models import BreachItem, BreachNotice, BreachReport, BreachRow, Compl
 from brdo.pdftext import normalize
 from brdo.status import addresses, current_versions, trustees_claimed
 from brdo.store import Dataset
-from brdo.vocab import Agreement, DocumentDateKind, NoticeKind, StatementMaker, StatementScope
+from brdo.vocab import (
+    Agreement,
+    CovenantSpecificity,
+    DocumentDateKind,
+    NoticeKind,
+    StatementMaker,
+    StatementScope,
+)
 
 _THRESHOLD = re.compile(r"\d+(?:[.,]\d+)*\s*(?:%|x\b|times\b|crores?\b|cr\b)", re.IGNORECASE)
 
@@ -258,3 +265,72 @@ def compare_statements_with_reports(dataset: Dataset) -> list[StatementCompariso
                 )
             )
     return comparisons
+
+
+FLOW_FIELDS = ("clause reference", "obligation wording", "required level", "issuer's measured level", "deed dates")
+_CLAUSE_REFERENCE = re.compile(r"\bclause\b|\bschedule\b|\b\d+\.\d+(?:\.\d+)*\b", re.IGNORECASE)
+_OBLIGATION_WORDING = re.compile(r"\b(?:shall|maintain|ensure|not exceed|at least)\b", re.IGNORECASE)
+
+
+@dataclass(frozen=True)
+class FieldFlow:
+    """Whether the issuer's statement and the trustee's publications carry one kind of information about a breach."""
+
+    statement: str
+    isin: str
+    field: str
+    issuer: bool
+    trustee: bool
+
+
+def field_flows(dataset: Dataset) -> list[FieldFlow]:
+    """For each breach both parties report, which of them prints each kind of information.
+
+    The rules are mechanical: a clause reference is a clause, schedule or numbered paragraph; wording states the
+    obligation with a verb such as "shall" or "maintain"; the issuer's measured level counts for the trustee only if
+    the trustee prints the same number. Deed dates on the trustee's side come from its letters for the quarter.
+    """
+    flows = []
+    for comparison in compare_statements_with_reports(dataset):
+        if comparison.agreement is not Agreement.CONSISTENT or not comparison.statement_reports_breach:
+            continue
+        statement = dataset.compliance_statements[comparison.statement]
+        lines = [line for line in statement.exceptions if comparison.isin in line.isins]
+        reports = [r for r in dataset.breach_reports.values() if r.period.end == comparison.period_end]
+        own = [r for r in current_versions(reports, dataset) if r.trustee in trustees_claimed(dataset, comparison.isin)]
+        items = [item for r in own for row in r.rows for item in row.items if comparison.isin in item.isins]
+        notices = [
+            n
+            for n in dataset.breach_notices.values()
+            if comparison.isin in n.isins and n.period_end == comparison.period_end
+        ]
+        measured = {_level_key(line.actual_as_reported) for line in lines if line.actual_as_reported} - {None}
+        printed = {_level_key(level) for item in items for level in item.levels_stated}
+        issuer = {
+            "clause reference": any(_CLAUSE_REFERENCE.search(line.covenant_as_reported) for line in lines),
+            "obligation wording": any(_OBLIGATION_WORDING.search(line.covenant_as_reported) for line in lines),
+            "required level": any(
+                line.required_as_reported and _level_key(line.required_as_reported) for line in lines
+            ),
+            "issuer's measured level": bool(measured),
+            "deed dates": any(line.deed_dates_as_reported for line in lines),
+        }
+        trustee = {
+            "clause reference": any(
+                item.clause_reference_as_reported or _CLAUSE_REFERENCE.search(item.covenant_as_reported)
+                for item in items
+            ),
+            "obligation wording": any(
+                item.specificity is CovenantSpecificity.CLAUSE_TEXT
+                and _OBLIGATION_WORDING.search(item.covenant_as_reported)
+                for item in items
+            ),
+            "required level": any(item.levels_stated for item in items),
+            "issuer's measured level": bool(measured & printed),
+            "deed dates": any(n.deed_dates for n in notices),
+        }
+        flows.extend(
+            FieldFlow(comparison.statement, comparison.isin, field, issuer[field], trustee[field])
+            for field in FLOW_FIELDS
+        )
+    return flows

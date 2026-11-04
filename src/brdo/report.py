@@ -10,13 +10,21 @@ from datetime import date
 from statistics import median
 
 from brdo.census import listed_in_breach_reports
-from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports, revisions
+from brdo.consistency import (
+    FLOW_FIELDS,
+    compare_notices_with_reports,
+    compare_statements_with_reports,
+    field_flows,
+    revisions,
+)
+from brdo.pit import available_from
 from brdo.status import current_versions, derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
     CONTRACT_DOCUMENT_TYPES,
     ActionKind,
     Agreement,
+    CovenantCategory,
     CovenantSpecificity,
     CoverageStatus,
     DocumentType,
@@ -411,52 +419,139 @@ def _census_section(dataset: Dataset) -> str:
     )
 
 
-_AWAITING = "only awaiting instructions or continuing"
-_NOTHING = "no follow-up reported"
-_OUTCOMES = [
+_CLOSURE_STATES = [
+    ("enforcement step or nominee director reported", {ActionKind.ENFORCEMENT, ActionKind.NOMINEE_DIRECTOR}),
+    ("waiver reported", {ActionKind.WAIVER_REPORTED}),
+    ("holders instructed no action", {ActionKind.NO_ACTION_INSTRUCTED}),
+    ("cure reported for a financial covenant", set()),
+    ("cure reported for another obligation, such as a late filing", set()),
+    ("meeting reported as held", {ActionKind.HOLDERS_MEETING_HELD}),
+    ("meeting adjourned for lack of quorum", set()),
+    ("meeting reported as scheduled", {ActionKind.HOLDERS_MEETING_SCHEDULED}),
     (
-        "a waiver, cure, enforcement step or holders' instruction is reported",
+        "awaiting instructions, following up or continuing",
         {
-            ActionKind.WAIVER_REPORTED,
-            ActionKind.CURE_REPORTED,
-            ActionKind.ENFORCEMENT,
-            ActionKind.NOMINEE_DIRECTOR,
-            ActionKind.NO_ACTION_INSTRUCTED,
+            ActionKind.AWAITING_INSTRUCTIONS,
+            ActionKind.FOLLOW_UP_WITH_ISSUER,
+            ActionKind.REPORTED_AS_CONTINUING,
+            ActionKind.OTHER,
         },
     ),
-    ("a holders' meeting is reported as held or adjourned", {ActionKind.HOLDERS_MEETING_HELD}),
-    ("a holders' meeting is reported as scheduled", {ActionKind.HOLDERS_MEETING_SCHEDULED}),
 ]
+_OUTCOME_STATES = {state for state, _ in _CLOSURE_STATES[:5]}
+
+
+def _closure_states(dataset: Dataset, period: date | None) -> dict[tuple[str, str], set[str]]:
+    """Every published follow-up state per trustee and listed ISIN. A state is never merged into another."""
+    reports = current_versions([r for r in dataset.breach_reports.values() if r.period.end == period], dataset)
+    states: dict[tuple[str, str], set[str]] = defaultdict(set)
+    for report in reports:
+        for row in report.rows:
+            for isin in row.isins:
+                kinds = {action.kind for action in row.actions}
+                for state, wanted in _CLOSURE_STATES:
+                    if kinds & wanted:
+                        states[(report.trustee, isin)].add(state)
+                if ActionKind.CURE_REPORTED in kinds:
+                    financial = any(
+                        item.category is CovenantCategory.FINANCIAL for item in row.items if isin in item.isins
+                    )
+                    states[(report.trustee, isin)].add(_CLOSURE_STATES[3 if financial else 4][0])
+                states.setdefault((report.trustee, isin), set())
+    for notice in dataset.breach_notices.values():
+        for key in [key for key in states if key[0] == notice.trustee and key[1] in notice.isins]:
+            if notice.adjourned_for_lack_of_quorum:
+                states[key].add(_CLOSURE_STATES[6][0])
+            if notice.meeting_proposed_for:
+                states[key].add(_CLOSURE_STATES[7][0])
+    return states
 
 
 def _outcomes_section(dataset: Dataset) -> str:
     period = main_period(dataset)
-    reports = current_versions([r for r in dataset.breach_reports.values() if r.period.end == period], dataset)
-    kinds: dict[tuple[str, str], set[ActionKind]] = defaultdict(set)
-    for report in reports:
-        for row in report.rows:
-            for isin in row.isins:
-                kinds[(report.trustee, isin)].update(action.kind for action in row.actions)
-    for notice in dataset.breach_notices.values():
-        for key in [key for key in kinds if key[1] in notice.isins and key[0] == notice.trustee]:
-            if notice.adjourned_for_lack_of_quorum:
-                kinds[key].add(ActionKind.HOLDERS_MEETING_HELD)
-            if notice.meeting_proposed_for:
-                kinds[key].add(ActionKind.HOLDERS_MEETING_SCHEDULED)
-    labels = [label for label, _ in _OUTCOMES] + [_AWAITING, _NOTHING]
-    counts: dict[str, Counter] = defaultdict(Counter)
-    for (trustee, _), found in kinds.items():
-        label = next((label for label, wanted in _OUTCOMES if found & wanted), _AWAITING if found else _NOTHING)
-        counts[trustee][label] += 1
-    trustees = sorted(counts)
+    states = _closure_states(dataset, period)
+    trustees = sorted({trustee for trustee, _ in states})
+    counts = {trustee: Counter() for trustee in trustees}
+    for (trustee, _), found in states.items():
+        counts[trustee].update(found)
+        counts[trustee]["no outcome published"] += not (found & _OUTCOME_STATES)
+    labels = [state for state, _ in _CLOSURE_STATES] + ["no outcome published"]
     rows = [[label] + [counts[trustee].get(label, 0) for trustee in trustees] for label in labels]
     return (
-        "## Where the published follow-up stops\n\n"
-        f"For each ISIN listed in a current report for the quarter ended {period}, the furthest follow-up that the "
-        "trustee's transcribed reports and letters publish, by trustee. This measures the public record, not what "
-        "trustees or holders did: steps taken but not published are invisible here. The categories are the project's "
-        "reading of each report's action cells, and what counts as a cure differs by covenant: a late filing that is "
-        "later made is reported as cured.\n\n" + _table(["furthest follow-up published"] + trustees, rows)
+        "## What the published follow-up shows\n\n"
+        f"For each ISIN listed in a current report for the quarter ended {period}, every follow-up state that the "
+        "trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the "
+        "states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed "
+        "meeting are different things. The last row counts ISINs for which none of the first five states, the "
+        "outcomes, is published. This measures the public record, not what trustees or holders did. The states are the "
+        "project's reading of each report's action cells, and a cure is typed by the covenant category of its row.\n\n"
+        + _table(["published follow-up"] + trustees, rows)
+    )
+
+
+def _flows_section(dataset: Dataset) -> str:
+    flows = field_flows(dataset)
+    if not flows:
+        return ""
+    tally: dict[str, Counter] = defaultdict(Counter)
+    for flow in flows:
+        side = "both" if flow.issuer and flow.trustee else "issuer only" if flow.issuer else "trustee only"
+        tally[flow.field][side if flow.issuer or flow.trustee else "neither"] += 1
+    sides = ["both", "issuer only", "trustee only", "neither"]
+    pairs = len({(flow.statement, flow.isin) for flow in flows})
+    return (
+        "## What each party adds when both report a breach\n\n"
+        f"For the {pairs} ISIN-level agreements between an issuer's statement and the trustee's report, which party "
+        "prints each kind of information. The issuer's measured level counts for the trustee only if the trustee "
+        "prints the same number, and the trustee's deed dates come from its letters for the quarter. Agreement on the "
+        "breach is transmission; the fields show what each party contributes from what it alone holds.\n\n"
+        + _table(
+            ["information", *sides], [[field, *(tally[field].get(side, 0) for side in sides)] for field in FLOW_FIELDS]
+        )
+    )
+
+
+def _timing_section(dataset: Dataset) -> str:
+    period = main_period(dataset)
+    rows = []
+    for report in sorted(dataset.breach_reports.values(), key=lambda r: r.document):
+        if report.period.end != period:
+            continue
+        available, basis = available_from(dataset.documents[report.document])
+        detected = [row.detected.value for row in report.rows if row.detected and row.detected.value]
+        rows.append(
+            [
+                report.document,
+                min(detected, default=None),
+                max(detected, default=None),
+                available,
+                basis,
+                (available - period).days if available else None,
+            ]
+        )
+    earlier = [
+        c
+        for c in compare_statements_with_reports(dataset)
+        if c.trustee_lists
+        and (issuer := available_from(dataset.documents[dataset.compliance_statements[c.statement].document])[0])
+        and c.trustee_report
+        and (trustee := available_from(dataset.documents[c.trustee_report])[0])
+        and issuer < trustee
+    ]
+    return (
+        "## What was public when\n\n"
+        "An account of a past date must use only what was public by then. Each document's availability is estimated "
+        "from the server's Last-Modified header or a listing page, or failing those from the document's own date, "
+        "which is only a lower bound. Last-Modified dates the file version held here, so an earlier version may have "
+        "been published before it. `brdo status --as-of` and `brdo show --as-of` apply this to any date.\n\n"
+        f"Breach reports for the quarter ended {period}, with the trustees' detection dates and when the file held "
+        "here became available:\n\n"
+        + _table(
+            ["report", "first detection", "last detection", "file available from", "basis", "days after quarter end"],
+            rows,
+        )
+        + f"\n\nIn {len(earlier)} ISIN-level comparisons with a listing, the issuer's statement was available before "
+        "the trustee's report. During that interval the public record held the issuer's account alone."
     )
 
 
@@ -600,8 +695,10 @@ def render_report(dataset: Dataset) -> str:
         _actions_section(dataset),
         _consistency_section(dataset),
         _statements_section(dataset),
+        _flows_section(dataset),
         _census_section(dataset),
         _outcomes_section(dataset),
+        _timing_section(dataset),
         _status_section(dataset),
         _funnel_section(dataset),
         _evolution_section(dataset),

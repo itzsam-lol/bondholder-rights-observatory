@@ -140,23 +140,58 @@ The receipt dates come from the trustee's own table of compliance reports receiv
 | INE00VD07016 | infinity-2026-06-management | issuer | financial_covenants | compliance | yes | not_comparable | 2026-08-07 | 2026-08-12 | 2026-08-13 |  |  |
 | INE00VD07032 | infinity-2026-06-management | issuer | financial_covenants | compliance | yes | not_comparable | 2026-08-07 | 2026-08-12 | 2026-08-13 |  |  |
 
+## What each party adds when both report a breach
+
+For the 17 ISIN-level agreements between an issuer's statement and the trustee's report, which party prints each kind of information. The issuer's measured level counts for the trustee only if the trustee prints the same number, and the trustee's deed dates come from its letters for the quarter. Agreement on the breach is transmission; the fields show what each party contributes from what it alone holds.
+
+| information | both | issuer only | trustee only | neither |
+|---|---|---|---|---|
+| clause reference | 5 | 1 | 10 | 1 |
+| obligation wording | 1 | 0 | 12 | 4 |
+| required level | 9 | 0 | 4 | 4 |
+| issuer's measured level | 1 | 8 | 0 | 8 |
+| deed dates | 6 | 0 | 9 | 2 |
+
 ## The monitored population behind a breach report
 
 A trustee's breach report is selected on a breach having been reported. Its tables of compliance reports received (Annex-VIIA, Table 3) list the issues it monitors, which gives a denominator for the same trustee and quarter. The tables are not republished here. The dataset keeps each file's hash, the count of ISINs it prints, the sample, and the few rows the analysis cites, and `brdo verify` recomputes the count and the sample from the file. A listing is a trustee's report of a breach, so the share listed is not a breach rate.
 
 catalyst-trusteeship's table of quarterly compliance reports received for the quarter ended 2026-06-30 prints 1832 distinct ISINs that pass the check digit. Its breach report for the same quarter lists 44 ISINs, 2.4% of that number. 43 of them are printed in the census; INE982X08034 is not. A comparison sample of 20 ISINs that the breach report does not list is drawn from the census by a fixed rule, so anyone holding the same file can reproduce it: INE003L07077, INE02KN07071, INE02Y107057, INE0IX207239, INE115A07PY3, INE125T07311, INE134E08IL6, INE134E08JH2, INE235P07548, INE296A08870, INE348L07316, INE432R07265, INE448U07273, INE477L07BC0, INE519Q08186, INE721A07RQ0, INE787H08063, INE814O07592, INE866I07750, INE918K07PU7.
 
-## Where the published follow-up stops
+## What the published follow-up shows
 
-For each ISIN listed in a current report for the quarter ended 2026-06-30, the furthest follow-up that the trustee's transcribed reports and letters publish, by trustee. This measures the public record, not what trustees or holders did: steps taken but not published are invisible here. The categories are the project's reading of each report's action cells, and what counts as a cure differs by covenant: a late filing that is later made is reported as cured.
+For each ISIN listed in a current report for the quarter ended 2026-06-30, every follow-up state that the trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed meeting are different things. The last row counts ISINs for which none of the first five states, the outcomes, is published. This measures the public record, not what trustees or holders did. The states are the project's reading of each report's action cells, and a cure is typed by the covenant category of its row.
 
-| furthest follow-up published | axis-trustee | catalyst-trusteeship | idbi-trusteeship | mitcon-credentia | vistra-itcl |
+| published follow-up | axis-trustee | catalyst-trusteeship | idbi-trusteeship | mitcon-credentia | vistra-itcl |
 |---|---|---|---|---|---|
-| a waiver, cure, enforcement step or holders' instruction is reported | 1 | 0 | 24 | 1 | 7 |
-| a holders' meeting is reported as held or adjourned | 0 | 15 | 3 | 0 | 0 |
-| a holders' meeting is reported as scheduled | 0 | 24 | 11 | 0 | 0 |
-| only awaiting instructions or continuing | 0 | 5 | 0 | 0 | 0 |
-| no follow-up reported | 0 | 0 | 0 | 0 | 0 |
+| enforcement step or nominee director reported | 0 | 0 | 0 | 1 | 0 |
+| waiver reported | 1 | 0 | 0 | 0 | 1 |
+| holders instructed no action | 0 | 0 | 0 | 0 | 6 |
+| cure reported for a financial covenant | 0 | 0 | 0 | 0 | 0 |
+| cure reported for another obligation, such as a late filing | 0 | 0 | 24 | 0 | 0 |
+| meeting reported as held | 1 | 0 | 3 | 1 | 7 |
+| meeting adjourned for lack of quorum | 0 | 15 | 0 | 0 | 0 |
+| meeting reported as scheduled | 0 | 39 | 22 | 0 | 3 |
+| awaiting instructions, following up or continuing | 0 | 44 | 4 | 0 | 0 |
+| no outcome published | 0 | 44 | 14 | 0 | 0 |
+
+## What was public when
+
+An account of a past date must use only what was public by then. Each document's availability is estimated from the server's Last-Modified header or a listing page, or failing those from the document's own date, which is only a lower bound. Last-Modified dates the file version held here, so an earlier version may have been published before it. `brdo status --as-of` and `brdo show --as-of` apply this to any date.
+
+Breach reports for the quarter ended 2026-06-30, with the trustees' detection dates and when the file held here became available:
+
+| report | first detection | last detection | file available from | basis | days after quarter end |
+|---|---|---|---|---|---|
+| axis-t5-2026-06-v20260814 | 2026-08-14 | 2026-08-14 | 2026-09-10 | http_last_modified | 72 |
+| axis-t5-2026-06-v20260916 | 2026-08-14 | 2026-08-14 | 2026-09-30 | http_last_modified | 92 |
+| beacon-t5-2026-06 |  |  | 2026-09-13 | http_last_modified | 75 |
+| ctl-t5-2026-06 | 2026-07-22 | 2026-09-07 | 2026-09-13 | http_last_modified | 75 |
+| idbi-t5-2026-06 | 2026-06-12 | 2026-09-15 | 2026-09-15 | http_last_modified | 77 |
+| mitcon-t5-2026-06 | 2023-10-11 | 2023-10-11 | 2026-10-19 | http_last_modified | 111 |
+| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 | 2026-09-11 | http_last_modified | 73 |
+
+In 21 ISIN-level comparisons with a listing, the issuer's statement was available before the trustee's report. During that interval the public record held the issuer's account alone.
 
 ## Breach-disclosure status by reporting period
 

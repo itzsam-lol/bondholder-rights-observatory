@@ -4,7 +4,7 @@ import argparse
 import json
 import logging
 import sys
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import yaml
@@ -14,6 +14,7 @@ from brdo import models
 from brdo.build import tables, write_csv, write_sqlite
 from brdo.fetch import Cache, Fetcher, RetrievalFailed, RetrievalRefused, Retrieved, default_cache_dir, source_for_url
 from brdo.pdftext import normalize
+from brdo.pit import as_of
 from brdo.report import render_report
 from brdo.status import derive_all
 from brdo.store import DatasetError, Severity, check_integrity, load_dataset
@@ -245,8 +246,12 @@ def cmd_scaffold_instruments(args: argparse.Namespace) -> int:
     return 0
 
 
+def _as_of(args: argparse.Namespace, dataset):
+    return as_of(dataset, args.as_of) if args.as_of else dataset
+
+
 def cmd_status(args: argparse.Namespace) -> int:
-    dataset = _load(args)
+    dataset = _as_of(args, _load(args))
     for status in derive_all(dataset):
         print(f"{status.isin}  {status.period_end}  {status.status:<24} {status.basis}")
     return 0
@@ -279,7 +284,7 @@ def cmd_report(args: argparse.Namespace) -> int:
 
 
 def cmd_show(args: argparse.Namespace) -> int:
-    dataset = _load(args)
+    dataset = _as_of(args, _load(args))
     instrument = dataset.instruments.get(args.isin)
     if instrument is None:
         print(f"no record for {args.isin}", file=sys.stderr)
@@ -378,9 +383,10 @@ def build_parser() -> argparse.ArgumentParser:
         "scaffold-instruments", help="create minimal instrument records for ISINs listed in breach reports"
     ).set_defaults(func=cmd_scaffold_instruments)
 
-    commands.add_parser("status", help="derived breach-disclosure status per ISIN and period").set_defaults(
-        func=cmd_status
-    )
+    as_of_help = "use only documents available by this date (YYYY-MM-DD)"
+    status = commands.add_parser("status", help="derived breach-disclosure status per ISIN and period")
+    status.add_argument("--as-of", type=date.fromisoformat, help=as_of_help)
+    status.set_defaults(func=cmd_status)
 
     build = commands.add_parser("build", help="write CSV exports (and optionally SQLite)")
     build.add_argument("--out", type=Path, default=Path("exports"))
@@ -397,6 +403,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     show = commands.add_parser("show", help="everything recorded about one ISIN")
     show.add_argument("isin")
+    show.add_argument("--as-of", type=date.fromisoformat, help=as_of_help)
     show.set_defaults(func=cmd_show)
     return parser
 
