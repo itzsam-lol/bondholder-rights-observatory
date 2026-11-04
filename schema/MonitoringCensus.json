@@ -154,6 +154,14 @@
     "period": {
       "$ref": "#/$defs/Period"
     },
+    "report_not_received": {
+      "description": "ISINs with a row marking the issuer's quarterly compliance report as not received",
+      "items": {
+        "type": "string"
+      },
+      "title": "Report Not Received",
+      "type": "array"
+    },
     "sample": {
       "items": {
         "type": "string"

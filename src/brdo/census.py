@@ -5,14 +5,22 @@ drawn by a fixed rule, and the few rows the analysis cites.
 """
 
 import hashlib
+import re
 from collections.abc import Iterable
 
-from brdo.identifiers import printed_isins
+from brdo.identifiers import is_valid_isin, printed_isins
 from brdo.models import MonitoringCensus
 from brdo.status import current_versions
 from brdo.store import Dataset
 
 SAMPLE_SIZE = 20
+_NOT_RECEIVED = re.compile(r"\b(IN[A-Z0-9]{10}) [\d,]+\.\d{2} (?:Secured|Unsecured|UnSecured) No\b")
+
+
+def marked_not_received(pages: list[str]) -> frozenset[str]:
+    """ISINs in a row giving an issue size, a security flag and then "No" for the compliance report's receipt."""
+    text = re.sub(r"\s+", " ", " ".join(pages))
+    return frozenset(isin for isin in _NOT_RECEIVED.findall(text) if is_valid_isin(isin))
 
 
 def draw_sample(population: Iterable[str], exclude: Iterable[str], size: int, seed: str) -> list[str]:
@@ -41,6 +49,11 @@ def check_census(dataset: Dataset, census: MonitoringCensus, pages: list[str]) -
     listed = listed_in_breach_reports(dataset, census)
     if sorted(listed - printed) != sorted(census.listed_not_printed):
         problems.append(f"listed ISINs the file omits are {sorted(listed - printed)}, the record says otherwise")
+    not_received = sorted(marked_not_received(pages))
+    if not_received != sorted(census.report_not_received):
+        problems.append(
+            f"the file marks {len(not_received)} ISINs' reports as not received, the record lists otherwise"
+        )
     seed = dataset.documents[census.document].sha256 or ""
     expected = draw_sample(printed, listed, len(census.sample), seed)
     if expected != sorted(census.sample):

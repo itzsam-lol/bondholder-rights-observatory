@@ -630,6 +630,10 @@ class MonitoringCensus(Record):
         default_factory=list, description="ISINs in the trustee's breach report for the period that the file omits"
     )
     sample: list[Isin] = Field(default_factory=list)
+    report_not_received: list[Isin] = Field(
+        default_factory=list,
+        description="ISINs with a row marking the issuer's quarterly compliance report as not received",
+    )
     entries: list[CensusEntry] = Field(default_factory=list)
     note: str | None = None
 

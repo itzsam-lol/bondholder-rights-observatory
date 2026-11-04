@@ -321,7 +321,12 @@ def _statements_section(dataset: Dataset) -> str:
     period = main_period(dataset)
     searched: dict[str, set[SearchOutcome]] = defaultdict(set)
     for search in dataset.searches.values():
-        if search.purpose is SearchPurpose.COMPLIANCE_STATEMENT and search.period and search.period.end == period:
+        if (
+            search.purpose is SearchPurpose.COMPLIANCE_STATEMENT
+            and search.period
+            and search.period.end == period
+            and search.subject in dataset.issuers
+        ):
             searched[search.subject].add(search.outcome)
     best = Counter(
         next((o for o in _OUTCOME_RANK if o in outcomes), SearchOutcome.NOT_FOUND) for outcomes in searched.values()
@@ -402,10 +407,14 @@ def _census_section(dataset: Dataset) -> str:
             f"{census.period.end} prints {census.isins_printed} distinct ISINs that pass the check digit. Its breach "
             f"report for the same quarter lists {len(listed)} ISINs, {len(listed) / census.isins_printed:.1%} of that "
             f"number. {len(listed) - len(absent)} of them are printed in the census; "
-            f"{', '.join(absent) or 'none'} {'is' if len(absent) == 1 else 'are'} not. A comparison sample of "
+            f"{', '.join(absent) or 'none'} {'is' if len(absent) == 1 else 'are'} not. The census marks the issuer's "
+            f"quarterly compliance report as not received for {len(census.report_not_received)} ISINs, of which the "
+            f"breach report lists {len(listed & set(census.report_not_received))}. Whether non-receipt breaches an "
+            "instrument's terms depends on its deed, which the record does not show. A comparison sample of "
             f"{len(census.sample)} ISINs that the breach report does not list is drawn from the census by a fixed "
             "rule, "
             f"so anyone holding the same file can reproduce it: {', '.join(census.sample)}."
+            + _sample_pilot(dataset, census)
         )
     return (
         "## The monitored population behind a breach report\n\n"
@@ -416,6 +425,20 @@ def _census_section(dataset: Dataset) -> str:
         "prints, the sample, and the few rows the analysis cites, and `brdo verify` recomputes the count and the "
         "sample from the file. A listing is a trustee's report of a breach, so the share listed is not a "
         "breach rate.\n\n" + "\n\n".join(paragraphs)
+    )
+
+
+def _sample_pilot(dataset: Dataset, census) -> str:
+    searches = [s for s in dataset.searches.values() if s.subject in census.sample]
+    if not searches:
+        return ""
+    outcomes = Counter(s.outcome for s in searches)
+    found = outcomes.get(SearchOutcome.FOUND, 0)
+    excluded = outcomes.get(SearchOutcome.EXCLUDED_BY_POLICY, 0)
+    return (
+        f" A pilot of {len(searches)} searches covering {len({s.subject for s in searches})} sampled ISINs looked "
+        f"for the issuer's covenant statement for the quarter: {found} found one on a source the pipeline may use, and "
+        f"{excluded} saw filings only on a source the project excludes."
     )
 
 

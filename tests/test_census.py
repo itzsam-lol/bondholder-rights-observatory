@@ -1,6 +1,6 @@
 """A census is measured, not republished, so its count and sample must be reproducible from the file alone."""
 
-from brdo.census import check_census, draw_sample
+from brdo.census import check_census, draw_sample, marked_not_received
 from brdo.models import MonitoringCensus
 from tests.conftest import ISIN_LISTED, ISIN_UNLISTED, QUARTER, SHA
 
@@ -40,3 +40,11 @@ def test_a_listed_isin_missing_from_the_census_must_be_recorded(dataset):
     problems = check_census(dataset, _census(isins_printed=2), pages)
     assert any("listed ISINs the file omits" in p for p in problems)
     assert check_census(dataset, _census(isins_printed=2, listed_not_printed=[ISIN_LISTED]), pages) == []
+
+
+def test_a_row_marking_the_report_not_received_is_read_and_must_be_recorded(dataset):
+    pages = [f"0001 Example {ISIN_LISTED} 10.00 Secured Yes", f"0002 Example {OTHER} 5.00 UnSecured No Not Received"]
+    assert marked_not_received(pages) == {OTHER}
+    record = _census(isins_printed=2, sample=[OTHER])
+    assert any("not received" in p for p in check_census(dataset, record, pages))
+    assert check_census(dataset, _census(isins_printed=2, sample=[OTHER], report_not_received=[OTHER]), pages) == []
