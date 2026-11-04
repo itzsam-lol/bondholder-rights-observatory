@@ -1,0 +1,39 @@
+[project]
+name = "bondholder-rights-observatory"
+version = "0.1.0"
+description = "Source-linked, instrument-level records of contractual protections and public disclosures for Indian listed corporate debt."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "pydantic>=2.7",
+    "PyYAML>=6.0",
+    "pypdf>=5.0",
+    "fonttools>=4.68.0",
+]
+
+[project.scripts]
+brdo = "brdo.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/brdo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["network: needs internet access and the live sources"]
+addopts = "-m 'not network'"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RET"]
