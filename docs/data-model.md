@@ -85,11 +85,21 @@ Only executed text establishes an operative term.
 
 ## Point-in-time views
 
-`pit.available_from` estimates when the exact file held became public: from a listing page date, the server's Last-Modified header, or failing both the document's own date, which is only a lower bound. `pit.as_of` restricts the dataset to records whose documents were available by a date, so every derived status, comparison and report can be computed as of that date. `documents.csv` carries `available_from` and its basis.
+When a file became public is never known exactly, so `pit.availability` gives each file three dates and keeps them apart:
+
+| Date | Meaning | Proves |
+|---|---|---|
+| `available_not_before` | The latest date the file gives itself, its signature, its "as on" date, or a letter transcribed from it. It cannot have been public earlier | A lower bound |
+| `available_from` | The estimate: the later of the publisher's own date (a listing page) and the server's Last-Modified header for the exact file held, never before the lower bound. Failing both, the lower bound itself; failing that, the observation | Nothing; Last-Modified dates the version on the server, and a copied file can carry a misleading date |
+| `available_observed` | The day the project retrieved the file from its public address | That the file was public by then |
+
+`pit.as_of(dataset, day, mode)` keeps only what the chosen dates show public by `day`. `mode` is `estimated` (the default) or `observed`, which admits a file only from the day the project saw it, so nothing can count too early. Every record whose document is withheld goes. So does every claim, document link, issuer name variant and discrepancy whose support was not yet public, and every observation made after `day`; the evidence lists of what remains are cut to what was public. The search log is kept whole, because it records the project's own steps. A report that a logged search later found, but that the view withholds, gives `no_report_found` with basis `trustee_report_not_yet_public`, never `trustee_report_not_searched`. The view records its `cutoff`, its mode and the documents it `withheld`. A test rebuilds the view at every date on which some document's availability changes, in both modes, and fails if anything later leaks in.
+
+This is the record as it stood, not as the project knew it on that day. For what the dataset itself said at an earlier time, use the repository's history.
 
 ## What each party adds, and follow-up states
 
-`consistency.field_flows` records, for each agreement between an issuer's statement and a trustee's report, whether each party prints a clause reference, the obligation's wording, a required level, the issuer's measured level and deed dates. The report counts follow-up states per trustee without ranking or merging them, and types a cure by the covenant category of its row. A late filing made good is therefore never counted as a financial covenant restored.
+`consistency.field_flows` records, for each agreement between an issuer's statement and a trustee's report, whether each party prints a clause reference, the obligation's wording, a required level, the issuer's measured level and deed dates, and the text that satisfied each rule. `consistency.follow_up_states` lists every follow-up state per trustee and listed ISIN with the row or letter behind it, never ranking or merging them. It types a cure by the covenant category of its row, so a late filing made good is never counted as a financial covenant restored. It does not count a letter that names another quarter. The report prints, beside every count of ISINs, the number of issuers behind it, because one issuer's ISINs share one history.
 
 ## Trustee censuses
 
@@ -101,8 +111,11 @@ A date is never just a date. Records keep distinct fields for what each one mean
 
 | Meaning | Where |
 |---|---|
-| When a document dates itself, was signed or was published, and how that is known | `Document.dates` (`kind`, `basis`) |
-| When the project retrieved it | `Document.retrieved_at` |
+| When a document dates itself or was signed | `Document.dates`, kinds `dated` and `signed` |
+| When the publisher says it was published, for example on a listing page | `Document.dates`, kind `published`, never from a server header |
+| When the server says the exact file held was last modified | `Document.dates`, kind `last_modified`, basis `http_last_modified` |
+| When the project retrieved it, and whether by pipeline or by hand | `Document.retrieved_at`, `Document.retrieved_manually` |
+| When it was public: lower bound, estimate and observation | Derived by `pit.availability`; see Point-in-time views |
 | The reporting period, and a report's "as on" date | `Document.period`, `Document.as_of` |
 | Date of actual breach, as printed and as read | `BreachRow.actual_breach` (`raw`, `value`, `note`) |
 | Date of detection, as printed and as read | `BreachRow.detected` |
@@ -138,6 +151,7 @@ Status answers one question: what does the reviewed record say about breaches fo
 | `no_report_found` | `not_listed_in_trustee_report` | Its trustee's fully transcribed report does not list it |
 | | `trustee_report_is_nil` | Its trustee's report is a nil table |
 | | `trustee_report_not_located` | A logged search did not find its trustee's report |
+| | `trustee_report_not_yet_public` | In a point-in-time view only: a logged search later found its trustee's report, but the report was not shown public by the view's date |
 | `inaccessible` | `trustee_report_not_accessible` | The report could not be reached, or policy excludes it |
 | `ambiguous` | `listing_depends_on_layout` | Listing depends on reading merged table cells |
 | | `trustee_not_established` | Sources disagree on the trustee, and at least one candidate's report was reviewed |
@@ -162,3 +176,16 @@ ISINs are validated with their check digit, and CINs and LEIs by format and chec
 ## Exports
 
 `brdo build` writes one CSV per table in [`exports/`](../exports), and optionally SQLite. All formats are computed from the same `tables()` function and are deterministic. Multi-valued cells are joined with `; `.
+
+Every column is described in [data-dictionary.md](data-dictionary.md), generated from `src/brdo/dictionary.py`, and in `exports/datapackage.json`, a Frictionless Data Package descriptor for use outside this repository. Each column has one kind:
+
+- `identifier`;
+- `source_text`, which is quoted and not licensed;
+- `read_from_source`;
+- `annotation`, which is single-pass;
+- `derived`;
+- `provenance`.
+
+Where a fact originates with a party other than its publisher, the dictionary says so. A test fails if any exported column is undocumented.
+
+`field_flows.csv` and `follow_up_states.csv` export the field-level comparison and the follow-up states, with the text, row or letter behind each decision.

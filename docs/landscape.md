@@ -43,6 +43,7 @@ The **circular of 27 October 2026** ([PDF](https://www.sebi.gov.in/sebi_data/att
 | **Online bond platforms** such as IndiaBonds | Per-ISIN pages, some linking issue documents. Terms prohibit extraction tools | A place to look by hand |
 | **Debenture trustees' websites** | Table 5 reports, notices, press releases | The main source for this release |
 | **Rating agencies** | Rationales, some stating "salient covenants" and reporting breaches | A cross-check from a party with its own surveillance, though it also relies on the issuer's information; mandated for covenants only in credit-enhanced and structured ratings |
+| **Exchanges' and depositories' research data** (SEBI circular of 20 December 2024) | For accredited academic institutions, research organisations and think tanks: public-basket data, including corporate announcements and offer documents, free up to 2 GB a year, possibly under an NDA. Depositories list no covenant data | A gated route to bulk filings and dissemination times, assessed in [exchange-access.md](exchange-access.md). Not used |
 | **Issuers' own websites** | Covenant compliance statements, auditors' certificates, compliance reports to trustees, intimations of amendment approvals | The second publisher used in this release; its statements are upstream of the trustee's report, not independent of it. Of seven issuer sites tried, six served the project's client and one refused its filings; one builds its disclosure list in the browser |
 
 ## Adjacent work

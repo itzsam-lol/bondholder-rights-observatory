@@ -51,16 +51,26 @@ For each comparison between an issuer's statement and a trustee's report, the da
 
 ## What each party adds
 
-The field-level comparison uses mechanical rules, so that it can be re-run and challenged:
+The field-level comparison uses mechanical rules, so that it can be re-run and challenged. `exports/field_flows.csv` gives, for each decision, the text that satisfied the rule:
 
-- **Clause reference:** a clause, a schedule or a numbered paragraph.
+- **Clause reference:** a named clause, schedule, paragraph, section or article, or a numbered paragraph opening the text. On the trustee's side, a clause reference transcribed from the row also counts. A bare decimal elsewhere, such as a measured level of "-1.02%", is not a reference; an earlier version of the rule counted it as one, and was corrected after each decision was checked by hand.
 - **Obligation wording:** a verb such as "shall", "maintain", "ensure", "not exceed" or "at least". On the trustee's side it also needs an item marked as clause text.
 - **The issuer's measured level:** credited to the trustee only if the trustee prints the same number and unit.
 - **Deed dates:** on the trustee's side, from its letters for the quarter.
 
 ## Availability dates
 
-A document's availability is taken from a listing page or the server's Last-Modified header, and failing those from its own printed date as a lower bound. Last-Modified describes the version held, which may be later than the first publication. Timing figures are therefore measurements of the files held, not findings about anyone's timeliness.
+Three dates are kept for each file (see [data-model.md](data-model.md#point-in-time-views)):
+
+- **A lower bound** from the file's own dates and the letters in it.
+- **An estimate** from the publisher's listing date or the server's Last-Modified header, whichever is later.
+- **An observation**, the day the project retrieved the file.
+
+A Last-Modified header is recorded as `last_modified` and never as a publication date. It describes the version held, which may be later than the first publication. A copied file can also carry a date unrelated to its publication. Timing figures are therefore measurements of the files held, not findings about anyone's timeliness. Every observation in this release falls on 3 or 4 November 2026, so the project can prove nothing about what was public before then. The estimates are the only basis for earlier dates.
+
+## Follow-up states
+
+Each state comes from the project's reading of a report's action cells, or from the trustee's letters naming the ISIN. A letter that names another quarter is not counted for this one. A letter continuing an adjourned meeting names no quarter, and counts for the ISIN it names. `exports/follow_up_states.csv` lists every state with the row or letter that shows it.
 
 ## The comparison sample
 
@@ -76,12 +86,14 @@ The first pilot searched for the June 2026 covenant statement of four sampled is
 | ISIN completeness | An ISIN in a report's text that was not transcribed | ISINs absent from the text layer |
 | Text layer audit | Outlined text, scans, OCR layers | Other ways a text layer can differ from the page |
 | Tests on the dataset | Stale exports, NSE material, a listed ISIN without `reported_breach` or a disagreeing statement, e-mail addresses, depository participant IDs, PANs and written-out phone numbers in the published records | Annotation quality; personal data in forms the patterns do not cover |
+| Point-in-time test | A record, claim, observation or status document in a view of a date that its evidence was not shown public by, at every date where availability changes and in both modes | Wrong availability dates themselves |
+| Data dictionary test | An exported column with no description or kind | A description that is wrong |
 
 A deliberately altered threshold and a deliberately altered deed date both fail verification, and an altered ISIN fails its check digit.
 
 **Not checked by machine:** the assignment of an ISIN to a row where cells are merged, categories, specificity, action kinds, parsed limits, and plain-English notes. These come from a single pass of curation, with no independent second review. Treat them as a careful first reading, and report errors.
 
-In this release 105 anchors rest on reading a rendered page, because the file has no usable text layer for that passage. They are reported as `visual_only`, and checking one means opening the page.
+At the last full run of `brdo verify`, on 4 November 2026, 107 anchors rested on reading a rendered page, because the file has no usable text layer for that passage. They are reported as `visual_only`, and checking one means opening the page. `evidence.csv` marks every anchor recorded as read from the rendering (`read_from_rendering`). Not all of them are `visual_only`, because some of their words are found in the text layer anyway. See [reliability.md](reliability.md) for what has and has not been checked, and the rules a second annotator should apply.
 
 ## Classifying covenants
 

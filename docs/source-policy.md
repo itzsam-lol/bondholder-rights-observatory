@@ -36,7 +36,7 @@ Several trustees' sites restrict reuse of their content for public purposes with
 | Aye Finance's filing | About 31% | The existing and revised text of one covenant, which is the point of citing it |
 | SEBI and ICRA documents | Under 5% | Single passages |
 
-The 160-character cap is a restraint the project imposes on itself. It is not a legal threshold or a safe harbour, and fair dealing does not turn on a number of characters. This policy has not been reviewed by a lawyer.
+The 160-character cap is a restraint the project imposes on itself. It is not a legal threshold or a safe harbour, and fair dealing does not turn on a number of characters. This policy has not been reviewed by a lawyer. The questions a review should answer, and the facts it needs, are in [legal-review-brief.md](legal-review-brief.md). Until then, no limit is relaxed. That includes any reading of SEBI's circular of 25 February 2022 on free use of mandated disclosures.
 
 These are high shares for the shortest reports, because a table of names and dates has little else in it. That is a judgement call, made on the basis that those items are facts. **If a rightsholder objects, the remedy is simple**: open an issue and the quotations from that source will be removed or reduced, leaving the facts and the link.
 
@@ -59,11 +59,13 @@ A trustee's census of monitored issues is a long table of company names, ISINs a
 | **NSE** | **Excluded** | Terms prohibit automated collection and storage, and hyperlinks without prior written permission. The dataset holds no NSE URL or content, and tests enforce that |
 | **Bond Central** | **Not assessed** | Unreachable when reviewed |
 
+Formal research access to exchange data, under SEBI's circular of 20 December 2024, is assessed in [exchange-access.md](exchange-access.md). No application has been made. Any data obtained under an agreement would form a separate, restricted tier, never mixed into these records.
+
 These rules are enforced in code: `Fetcher` refuses unregistered hosts and closed sources before making any request and re-checks after a redirect, `check_integrity` refuses records that break the policy, and `tests/test_dataset.py` checks the published data.
 
 ### What the fetcher will not do
 
-It will not change its user agent, retry around a block, solve a challenge, use a login, or call an undocumented data API. It identifies itself as `bondholder-rights-observatory` with a link to this repository, keeps at least five seconds between requests to a host, and honours any longer crawl delay.
+It will not change its user agent, retry around a block, solve a challenge, use a login, or call an undocumented data API. It identifies itself as `bondholder-rights-observatory` with a link to this repository, keeps at least five seconds between requests to a host, and honours any longer crawl delay. If a host's robots.txt cannot be read, it fetches nothing from that host. It reports that as a failure to read the file, to be logged as an access error, not as a restriction the site never stated.
 
 ### Manual retrieval
 

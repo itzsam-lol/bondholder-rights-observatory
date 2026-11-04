@@ -46,7 +46,7 @@ The sample starts from the quarterly covenant-breach reports that SEBI requires 
 | Contract clauses | 25, with parsed limits where the wording is unambiguous and plain-English notes |
 | Search log | 69 attempts, successful or not |
 | Open discrepancies | 18 |
-| Evidence anchors | 1,254: 1,147 verified by machine against the file's text, 107 read from the rendered page |
+| Evidence anchors | 1,254. At the last full run of `brdo verify` (4 November 2026), 1,147 were verified by machine against the file's text and 107 read from the rendered page |
 
 The full, generated measurements are in the [observability report](docs/observability-report.md).
 
@@ -54,16 +54,18 @@ The full, generated measurements are in the [observability report](docs/observab
 
 These describe this sample, which is selected on a breach having been reported. They do not describe the market.
 
+- **Counts of ISINs overstate the evidence.** One issuer's ISINs usually share one deed, one certificate and one letter. Five issuers hold 48 of the 91 ISINs listed for the quarter, and the field-level findings below rest on two issuers. The report prints the number of issuers beside every count of ISINs. See [docs/coverage.md](docs/coverage.md).
+
 - **The trace to the contract breaks at the last step, and for access reasons.** Trustees' letters cite a dated trust deed or trustee agreement for 52 of the 93 listed ISINs. No contract could be retrieved through the pipeline. BSE refuses identified automated clients, NSE's terms forbid automated collection and even unapproved links, and a bond platform's terms forbid extraction tools.
 - **The issuer publishes too, but its statement is upstream of the trustee's report, not independent of it.** Issuers must give their trustee an auditor-certified statement of covenant compliance every quarter and keep it on their website. Logged searches for the June 2026 quarter found one for 3 of 11 issuers, and one more was refused to the project's client. By two trustees' own printed definitions, the dates in their breach reports are the certificate's dates.
 - **Agreement is mostly transmission; divergence is where new information shows.** Of 22 comparisons, 17 agree, 3 differ and 2 cannot be compared. In every agreement the trustee dates its detection on or after the issuer's material reached it, and in 6 it cites the auditor's certificate. Agreement shows the statement was carried through, not that it was confirmed. The differences show information that one party has and the other lacks: an auditor's all-covenant conclusion against a trustee's governance breach, and an issuer's breach the trustee does not list.
 - **Agreement within one trustee proves even less.** Wherever a trustee's notice prints a level (24 comparisons), it matches that trustee's report.
 - **Contract versions leave public traces even when contracts do not, but traces are not the contract.** Changing the terms of listed debentures needs the exchange's prior approval, after the board, the trustee and three-fourths of holders agree. One issuer's intimation of that approval explains most of five differing statements of one covenant, yet cannot settle which limit applied on the test date. Every clause record says whether it is a description, a proposal, an approval in principle or executed text; none yet is executed text.
 - **A trustee's own census gives a denominator.** Catalyst's table of compliance reports received for the quarter prints 1,832 ISINs; its breach report lists 44 of them (2.4%). A listing is not a breach rate.
-- **The published follow-up mostly stops before an outcome.** No trustee publishes a cure of a financial covenant; the 24 cures published are late filings and similar obligations made good. For every ISIN Catalyst listed, no outcome is published at all.
-- **Each party adds what it alone holds.** Where issuer and trustee agree on a breach, the trustee adds the deed's wording, references and dates; the issuer adds the measured level, which the trustee repeats in one of nine cases.
+- **The published follow-up mostly stops before an outcome.** No trustee publishes a cure of a financial covenant; the 24 cures published, for ISINs of three issuers, are late filings and similar obligations made good. For every ISIN Catalyst listed, no outcome is published at all.
+- **Each party adds what it alone holds.** Where issuer and trustee agree on a breach, the trustee adds the deed's wording, references and dates; the issuer adds the measured level, which the trustee repeats in one of nine cases. The agreements come from two issuers, and the measured-level contrast from one, so this is a well-documented case rather than a pattern.
 - **Trustees differ in what they publish as a breach.** Catalyst's census marks the compliance report as not received for 59 ISINs, of which its breach report lists 2; IDBI's report lists non-submission of results as breaches.
-- **What was public when can be reconstructed.** Every document has an availability date, and `--as-of` shows the record as it stood on any date. The issuers' statements were public before the trustees' reports in every comparison.
+- **What was public when can be bounded, not proved.** Every document carries a lower bound, an estimate and the day the project observed it, and `--as-of` rebuilds the record as it stood on a date without letting later claims or observations in. By the servers' Last-Modified dates, the issuers' statements preceded the trustees' reports in every comparison. The project's own observations, all from 3 and 4 November 2026, cannot order them.
 - **Trustees' disclosures carry very different amounts of the contract.** One trustee prints the clause text for nearly every ISIN. Others mostly print a description such as "Non submission of financial results".
 - **The same column means different things.** "Date of actual breach" is defined differently by different trustees, and used in two ways within a single report. An issuer's statement date confirms one trustee's printed definition.
 - **Disclosures change without notice.** Only a reader who kept both versions of one report can see that a "seeking instructions" became a reported waiver.
@@ -84,9 +86,21 @@ Flat files are in [`exports/`](exports), and the records they are built from are
 | `provisions.csv` | Contract clauses with parsed limits, including earlier and amended versions |
 | `instrument_status.csv` | What the reviewed record says, per ISIN and period, and on what basis |
 | `notice_report_comparisons.csv` | A trustee's report compared mechanically with its own notice |
-| `evidence.csv` | Every anchor: document, page and quotation |
-| `documents.csv` | Every cited file with its URL, SHA-256 and dates |
+| `field_flows.csv` | For each issuer–trustee agreement, which party prints each kind of information, and the text behind each decision |
+| `follow_up_states.csv` | Every follow-up state published for each listed ISIN, with the report row or letter that shows it |
+| `evidence.csv` | Every anchor: document, page, quotation, and whether it was read from the rendered page |
+| `documents.csv` | Every cited file with its URL, SHA-256, how it was retrieved, and its lower bound, estimate and observation of availability |
 | `discrepancies.csv`, `searches.csv`, `sources.csv` | Open disagreements, the search log and the access policy per source |
+
+Every column is described in [docs/data-dictionary.md](docs/data-dictionary.md), and in `exports/datapackage.json` (a [Frictionless Data Package](https://datapackage.org/) descriptor) for tools outside this repository. Each column is labelled with one kind:
+
+- `source_text`: a quotation, not covered by the licence;
+- `read_from_source`: a fact the source states;
+- `annotation`: the project's single-pass reading;
+- `derived`: computed by code;
+- `provenance` or `identifier`.
+
+Where a fact originates with someone other than the party publishing it, the dictionary says so.
 
 Statuses come from a closed list, and they must never be merged. [docs/data-model.md](docs/data-model.md) defines them.
 
@@ -115,7 +129,9 @@ $ uv run brdo fetch                 # download the cited files into a local cach
 $ uv run brdo verify                # re-test every evidence anchor against those files
 $ uv run brdo build --sqlite dist/brdo.sqlite
 $ uv run brdo report --out docs/observability-report.md
-$ uv run brdo show INE179P08082 --as-of 2026-08-15   # the record as it stood on a date
+$ uv run brdo dictionary            # the data dictionary, after checking every column is described
+$ uv run brdo show INE179P08082 --as-of 2026-08-15   # the record as it stood on a date, by estimated availability
+$ uv run brdo status --as-of 2026-11-03 --availability observed   # only what the project itself saw by then
 ```
 
 `brdo verify` reports how each passage was matched and lists any page whose text layer cannot be trusted. Exports are deterministic, and the tests fail if the committed exports or report drift from the records. A file that has changed at its source shows up as a hash mismatch and is never silently accepted.
@@ -130,7 +146,8 @@ exports/    Flat CSV files generated from data/
 schema/     JSON Schemas for each record type
 src/brdo/   Loading, retrieval policy, evidence checking, status derivation, comparisons, exports, report
 tests/      Offline tests, including checks on the published dataset itself
-docs/       Research design and agenda, landscape, source policy, data model, methods, generated report
+docs/       Data model and dictionary, methods, reliability, coverage, source policy, exchange access,
+            legal review brief, research design and agenda, landscape, generated report
 ```
 
 ## Limits of this release
@@ -139,19 +156,21 @@ docs/       Research design and agenda, landscape, source policy, data model, me
 - **The sample is selected on reported breaches.** It says nothing about how common breaches are.
 - **One quarter, six trustees, three issuers' own statements.** NSE-only material is excluded, two trustees' reports were not located, and Bond Central could not be reached for review. Issuer statements were mostly sought through a search engine, which misses filings that are on issuers' sites.
 - **Issuers' statements are self-reports.** Auditors give them limited assurance, not an audit opinion, and a statement limited to financial covenants says nothing about other undertakings.
-- **Single-pass curation.** Transcriptions and annotations have not had an independent second review (`annotation_reviewed` is false throughout). The machine checks catch transcription errors in quotations. They cannot catch a wrong classification.
+- **Single-pass curation.** Transcriptions and annotations have not had an independent second review (`annotation_reviewed` is false throughout). The machine checks catch transcription errors in quotations. They cannot catch a wrong classification. [docs/reliability.md](docs/reliability.md) lists the judgements each finding rests on, the rules for a second annotator, and two rule errors found and corrected in an audit of the mechanical rules.
+- **Availability dates before November 2026 are estimates.** They rest on servers' Last-Modified headers, which date the file version held. The project observed every file on 3 or 4 November 2026.
 - **Quotations are deliberately short.** Text from sources with restrictive terms is capped at 160 characters, so the source page must be opened to read a long clause in full.
 
 ## Roadmap
 
-[docs/research-agenda.md](docs/research-agenda.md) sets out the reasoning. In order:
+The dataset is the product, so the order puts trustworthiness before size. [docs/research-agenda.md](docs/research-agenda.md) explains what the research questions ask of the data, and the documents linked below what is pending.
 
-1. Check every sample issuer's own disclosure page for its covenant statements over several quarters, and compare them with the trustees' reports.
-2. Reconstruct covenant versions from amendment approvals, holders' resolutions and trustees' letters.
-3. Draw a comparison sample of instruments with no reported breach from trustees' own monitoring tables.
-4. Capture disclosures every quarter to measure revision and removal.
-5. Document how trustees use the columns of the prescribed breach report.
-6. Later, and only after independent double annotation, build an evaluation set for document understanding that excludes sources reserving AI-training rights.
+1. **Independent second annotation** of the judgements behind the main findings, with agreement measured and disagreements kept ([docs/reliability.md](docs/reliability.md)).
+2. **Re-run `brdo verify`** from a network that reaches the sources, and commit a dated record of which anchors verified.
+3. **Close the cheapest gaps by hand:** Pahal's two filings and the BSE candidates, under the manual-only policy ([docs/coverage.md](docs/coverage.md)).
+4. **Assess Bond Central** in a browser. Then decide, with the legal questions answered, whether to ask the exchanges about research access ([docs/exchange-access.md](docs/exchange-access.md), [docs/legal-review-brief.md](docs/legal-review-brief.md)).
+5. **Capture every disclosure page each quarter,** so that availability is observed rather than estimated, and revisions and removals can be measured.
+6. **Widen the sample** only after these: every sample issuer's regulation 62 page over several quarters, covenant versions from amendment trails, a comparison sample from trustees' censuses, and further trustees, with a note on how each trustee uses the columns of the prescribed breach report.
+7. Later, and only after independent double annotation, build an evaluation set for document understanding that excludes sources reserving AI-training rights.
 
 ## Licence
 

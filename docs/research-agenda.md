@@ -11,7 +11,7 @@ This document sets out what the evidence collected so far implies, and where the
 - **A denominator now exists for one trustee and quarter.** Catalyst's own census of the issues it monitors prints 1,832 ISINs; its breach report lists 44 of them.
 - **For most breaches, the published record stops before any outcome.** No trustee publishes a cure of a financial covenant; the cures published are late filings made good. For every ISIN Catalyst listed, no outcome is published at all.
 - **Each party adds what it alone holds.** Where issuer and trustee agree that a breach occurred, the trustee adds the deed's wording, references and dates, and the issuer the measured level.
-- **What was public when can now be reconstructed.** Every document carries an availability date, and the record can be viewed as it stood on any date.
+- **What was public when can be bounded, not proved.** Every document carries a lower bound, an estimate and the day the project observed it. The record can be rebuilt as it stood on a date from the estimates, or from observations alone.
 
 ## The disclosure chain, and why it is the right object of study
 
@@ -102,12 +102,19 @@ For the 17 agreements, `brdo report` records which party prints each kind of inf
 | Information | Trustee only | Issuer only | Both | Neither |
 |---|---|---|---|---|
 | Obligation wording | 12 | 0 | 1 | 4 |
-| Clause reference | 10 | 1 | 5 | 1 |
+| Clause reference | 9 | 1 | 5 | 2 |
 | Deed dates (trustee's letters) | 9 | 0 | 6 | 2 |
 | Required level | 4 | 0 | 9 | 4 |
 | The issuer's measured level | 0 | 8 | 1 | 8 |
 
 The fact of the breach passes through the chain. What each party adds is what it alone holds: the trustee holds the deed and prints its wording, references and dates; the issuer holds its books and prints the measured level. The trustee repeats that level in one of the nine cases where the issuer prints one.
+
+**Two corrections and a caution, made on 4 November 2026.**
+
+- The clause-reference row first read 10 and 1 in its first and last columns. The rule had read the measured level "-1.02%" printed for INE179P07589 as a numbered clause. It was corrected after every decision was checked by hand.
+- The 17 agreements come from two issuers, Dvara (11) and Satya (6), so each contrast in the table is carried by one or two issuers. The measured level is Dvara's alone. Catalyst omits it for eight ISINs, and IDBI prints it for the ninth.
+
+This is a well-documented case of how one chain divides information, not a pattern across issuers. The report now prints issuer counts beside ISIN counts.
 
 Two parties can therefore be dependent on one fact and complementary on others, and a reader who wants both the obligation and the measurement needs both publications. The rules behind the table are mechanical and stated in `consistency.field_flows`.
 
@@ -115,7 +122,7 @@ Two parties can therefore be dependent on one fact and complementary on others, 
 
 The published follow-up is counted state by state, never merged. For the quarter ended 30 June 2026:
 
-- **No trustee publishes a cure of a financial covenant.** All 24 published cures concern other obligations, mostly late filings later made (IDBI).
+- **No trustee publishes a cure of a financial covenant.** All 24 published cures concern other obligations, mostly late filings later made (IDBI). The 24 ISINs belong to three issuers, and 23 of them to two public bodies.
 - **The outcomes published are few.** Holders instructed no action for 6 ISINs (Vistra). A waiver is reported for 2 (Axis, Vistra) and a nominee director for 1 (MITCON).
 - **For all 44 of Catalyst's ISINs, no outcome is published.** Meetings were scheduled for 39, adjourned for lack of quorum for 15, and instructions are awaited for all 44.
 
@@ -129,10 +136,12 @@ Whether a missing compliance report breaches a particular instrument's terms dep
 
 ## What was public when
 
-Each document now carries an availability date, estimated from a listing page or the server's Last-Modified header, or failing those from its own date as a lower bound. `brdo status --as-of` and `brdo show --as-of` use only what was public by a date, so a later version cannot leak into an earlier account. This is the hindsight problem that real-time datasets in macroeconomics address, for example Croushore and Stark (2001, *Journal of Econometrics*).
+Each document carries three dates: a lower bound from its own dates, an estimate from a listing page or the server's Last-Modified header, and the day the project observed it. `brdo status --as-of` and `brdo show --as-of` use only what was public by a date, judged by the estimates or, with `--availability observed`, by observations alone, so a later version cannot leak into an earlier account. This is the hindsight problem that real-time datasets in macroeconomics address, for example Croushore and Stark (2001, *Journal of Econometrics*).
+
+The first version of these views let claims and observations from later documents into earlier views, and recorded server headers as publication dates. Both were corrected on 4 November 2026, and a test now checks every view.
 
 - **Breach reports are late in the files held.** The trustees' report files for the quarter ended 30 June 2026 date from 72 to 111 days after the quarter end. Most detections in them fall between June and September 2026, and some rows carry detections from 2023 and 2024.
-- **The issuer's account comes first.** In all 21 comparisons with a listing, the issuer's statement was public before the trustee's report, so for a time the public record held the issuer's account alone.
+- **By the servers' dates, the issuer's account comes first.** In all 21 comparisons with a listing, the Last-Modified date of the issuer's file precedes that of the trustee's report. If those dates are right, the public record held the issuer's account alone for a time. The project's own observations, all from 3 and 4 November 2026, cannot order them.
 - **A document's own date is not its publication date.** Dvara's regulation 59 intimation is dated 2 July 2026, but the copy on the issuer's site was last modified on 3 August. Its date of publication depends on the channel, and an exchange may have disseminated it earlier.
 - **Last-Modified dates the version held.** An earlier version may have been published sooner, so these are measurements of the files held, not findings about anyone's timeliness.
 
@@ -248,7 +257,9 @@ Only after independent double annotation with measured agreement, excluding sour
 - Do not republish whole tables or documents because their content is factual. The census is measured and sampled, not reproduced.
 - Do not collect personal data that documents happen to contain. A test now fails if the published records contain e-mail addresses, depository participant IDs, PANs or phone numbers in common written forms.
 
-## What a recognisable contribution would look like
+## Possible outputs, downstream of the dataset
+
+The product is the dataset itself: its records, evidence, provenance, documentation and history. Anything below is optional, and the repository is not organised around it.
 
 - **A data descriptor** for the evidence graph, with a datasheet, hashes and the access log.
 - **A methods paper on auditing mandated disclosure chains,** treating visibility, dependence, fidelity and closure as separate measurements. India's corporate bond market is the case.
