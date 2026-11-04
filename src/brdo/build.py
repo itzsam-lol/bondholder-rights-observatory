@@ -16,7 +16,7 @@ from typing import Any
 from brdo.census import listed_in_breach_reports
 from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports
 from brdo.models import Evidence
-from brdo.pit import available_from
+from brdo.pit import availability
 from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import CONTRACT_DOCUMENT_TYPES, AiTrainingSignal, InstrumentProperty
@@ -77,7 +77,9 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
     out["documents"] = []
     for d in sorted(dataset.documents.values(), key=lambda d: d.id):
         dated_on, dated_basis = dated(d, "dated")
+        signed_on, _ = dated(d, "signed")
         published_on, published_basis = dated(d, "published")
+        found = availability(d, dataset)
         out["documents"].append(
             {
                 "id": d.id,
@@ -87,16 +89,22 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "url": d.url,
                 "landing_page": d.landing_page,
                 "retrieved_at": d.retrieved_at,
+                "retrieved_manually": d.retrieved_manually,
+                "source_retrieval_policy": dataset.sources[d.source].retrieval,
                 "sha256": d.sha256,
                 "size_bytes": d.size_bytes,
                 "media_type": d.media_type,
                 "pages": d.pages,
                 "dated": dated_on,
                 "dated_basis": dated_basis,
+                "signed": signed_on,
                 "published": published_on,
                 "published_basis": published_basis,
-                "available_from": available_from(d)[0],
-                "available_basis": available_from(d)[1],
+                "last_modified": found.last_modified,
+                "available_not_before": found.not_before,
+                "available_from": found.estimate,
+                "available_basis": found.estimate_basis,
+                "available_observed": found.observed,
                 "period_start": d.period.start if d.period else None,
                 "period_end": d.period.end if d.period else None,
                 "as_of": d.as_of,

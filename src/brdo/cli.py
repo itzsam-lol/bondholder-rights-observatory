@@ -27,7 +27,7 @@ from brdo.verify import (
     untranscribed_isins,
     verify_dataset,
 )
-from brdo.vocab import DocumentType, RetrievalPolicy
+from brdo.vocab import AvailabilityMode, DocumentType, RetrievalPolicy
 
 DEFAULT_DATA = Path("data")
 
@@ -156,7 +156,7 @@ def cmd_add_document(args: argparse.Namespace) -> int:
         record["landing_page"] = args.landing_page
     if retrieved.last_modified:
         record["dates"] = [
-            {"kind": "published", "value": retrieved.last_modified.date(), "basis": "http_last_modified"}
+            {"kind": "last_modified", "value": retrieved.last_modified.date(), "basis": "http_last_modified"}
         ]
     with (args.data / "documents.yaml").open("a", encoding="utf-8") as handle:
         yaml.safe_dump([record], handle, sort_keys=False, allow_unicode=True, width=110)
@@ -247,7 +247,7 @@ def cmd_scaffold_instruments(args: argparse.Namespace) -> int:
 
 
 def _as_of(args: argparse.Namespace, dataset):
-    return as_of(dataset, args.as_of) if args.as_of else dataset
+    return as_of(dataset, args.as_of, AvailabilityMode(args.availability)) if args.as_of else dataset
 
 
 def cmd_status(args: argparse.Namespace) -> int:
@@ -291,6 +291,11 @@ def cmd_show(args: argparse.Namespace) -> int:
         return 1
     issuer = dataset.issuers[instrument.issuer]
     print(f"{instrument.isin}  {issuer.name}")
+    if dataset.cutoff is not None:
+        print(
+            f"  as of  {dataset.cutoff} ({dataset.availability_mode} availability): "
+            f"{len(dataset.documents)} documents shown public by then, {len(dataset.withheld)} withheld"
+        )
     for claim in instrument.claims:
         print(f"  claim  {claim.property}: {claim.value}  (asserted by {claim.asserted_by})")
     for link in instrument.documents:
@@ -383,9 +388,17 @@ def build_parser() -> argparse.ArgumentParser:
         "scaffold-instruments", help="create minimal instrument records for ISINs listed in breach reports"
     ).set_defaults(func=cmd_scaffold_instruments)
 
-    as_of_help = "use only documents available by this date (YYYY-MM-DD)"
+    as_of_help = "use only what was shown public by this date (YYYY-MM-DD)"
+    availability_help = (
+        "which availability dates --as-of trusts: 'estimated' (publisher or server dates, the default) or "
+        "'observed' (only the day the project retrieved each file, so nothing counts too early)"
+    )
+    modes = [mode.value for mode in AvailabilityMode]
     status = commands.add_parser("status", help="derived breach-disclosure status per ISIN and period")
     status.add_argument("--as-of", type=date.fromisoformat, help=as_of_help)
+    status.add_argument(
+        "--availability", choices=modes, default=AvailabilityMode.ESTIMATED.value, help=availability_help
+    )
     status.set_defaults(func=cmd_status)
 
     build = commands.add_parser("build", help="write CSV exports (and optionally SQLite)")
@@ -404,6 +417,7 @@ def build_parser() -> argparse.ArgumentParser:
     show = commands.add_parser("show", help="everything recorded about one ISIN")
     show.add_argument("isin")
     show.add_argument("--as-of", type=date.fromisoformat, help=as_of_help)
+    show.add_argument("--availability", choices=modes, default=AvailabilityMode.ESTIMATED.value, help=availability_help)
     show.set_defaults(func=cmd_show)
     return parser
 

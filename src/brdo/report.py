@@ -17,7 +17,7 @@ from brdo.consistency import (
     field_flows,
     revisions,
 )
-from brdo.pit import available_from
+from brdo.pit import availability
 from brdo.status import current_versions, derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
@@ -540,41 +540,65 @@ def _timing_section(dataset: Dataset) -> str:
     for report in sorted(dataset.breach_reports.values(), key=lambda r: r.document):
         if report.period.end != period:
             continue
-        available, basis = available_from(dataset.documents[report.document])
+        found = availability(dataset.documents[report.document], dataset)
         detected = [row.detected.value for row in report.rows if row.detected and row.detected.value]
         rows.append(
             [
                 report.document,
                 min(detected, default=None),
                 max(detected, default=None),
-                available,
-                basis,
-                (available - period).days if available else None,
+                found.not_before,
+                found.estimate,
+                found.estimate_basis,
+                (found.estimate - period).days if found.estimate else None,
+                found.observed,
             ]
         )
-    earlier = [
-        c
-        for c in compare_statements_with_reports(dataset)
-        if c.trustee_lists
-        and (issuer := available_from(dataset.documents[dataset.compliance_statements[c.statement].document])[0])
-        and c.trustee_report
-        and (trustee := available_from(dataset.documents[c.trustee_report])[0])
-        and issuer < trustee
-    ]
+    pairs = []
+    for c in compare_statements_with_reports(dataset):
+        if not (c.trustee_lists and c.trustee_report):
+            continue
+        issuer = availability(dataset.documents[dataset.compliance_statements[c.statement].document], dataset)
+        trustee = availability(dataset.documents[c.trustee_report], dataset)
+        pairs.append((issuer, trustee))
+    estimated = [(i, t) for i, t in pairs if i.estimate and t.estimate]
+    issuer_first = [(i, t) for i, t in estimated if i.estimate < t.estimate]
+    bases = sorted({b for i, t in issuer_first for b in (i.estimate_basis, t.estimate_basis)})
+    observed = [(i, t) for i, t in pairs if i.observed and t.observed]
+    observed_issuer_first = sum(i.observed < t.observed for i, t in observed)
+    observed_trustee_first = sum(t.observed < i.observed for i, t in observed)
     return (
         "## What was public when\n\n"
-        "An account of a past date must use only what was public by then. Each document's availability is estimated "
-        "from the server's Last-Modified header or a listing page, or failing those from the document's own date, "
-        "which is only a lower bound. Last-Modified dates the file version held here, so an earlier version may have "
-        "been published before it. `brdo status --as-of` and `brdo show --as-of` apply this to any date.\n\n"
-        f"Breach reports for the quarter ended {period}, with the trustees' detection dates and when the file held "
-        "here became available:\n\n"
+        "An account of a past date must use only what was public by then. The record keeps three kinds of date for "
+        "each file and never treats one as another: a lower bound (the latest date the file gives itself, or prints in "
+        "a letter or an \"as on\" date it contains), an estimate (the publisher's listing date or the server's "
+        "Last-Modified date for the exact file held, whichever is later), and the day the project observed the file "
+        "in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the "
+        "version held, so an earlier version may have been public sooner, and a copied file can carry a misleading "
+        "date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the "
+        "estimates, or with `--availability observed` from the observations alone.\n\n"
+        f"Breach reports for the quarter ended {period}, with the trustees' detection dates and the three dates for "
+        "the file held:\n\n"
         + _table(
-            ["report", "first detection", "last detection", "file available from", "basis", "days after quarter end"],
+            [
+                "report",
+                "first detection",
+                "last detection",
+                "not public before",
+                "estimated public from",
+                "basis",
+                "estimate, days after quarter end",
+                "observed by the project",
+            ],
             rows,
         )
-        + f"\n\nIn {len(earlier)} ISIN-level comparisons with a listing, the issuer's statement was available before "
-        "the trustee's report. During that interval the public record held the issuer's account alone."
+        + f"\n\nBy the estimates, the issuer's statement was public before the trustee's report in {len(issuer_first)} "
+        f"of {len(estimated)} ISIN-level comparisons with a listing, and the estimates behind them all rest on "
+        f"{' and '.join(bases) or 'no dates'}. If those dates are right, the public record held the issuer's account "
+        "alone for a time. The project's own observations cannot order the two: "
+        f"it observed the issuer's statement first in {observed_issuer_first} and the trustee's report first in "
+        f"{observed_trustee_first} of {len(observed)} comparisons, an order that reflects when the project looked, not "
+        "when either was published."
     )
 
 

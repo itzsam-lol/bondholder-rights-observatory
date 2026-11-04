@@ -17,6 +17,7 @@ from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validat
 from brdo.dates import find_printed_dates, parse_printed_date
 from brdo.identifiers import is_valid_cin, is_valid_isin, is_valid_lei
 from brdo.vocab import (
+    DATE_BASES_BY_KIND,
     ActionKind,
     Agreement,
     AiTrainingSignal,
@@ -157,6 +158,15 @@ class DocumentDate(Record):
     kind: DocumentDateKind
     value: date
     basis: DateBasis
+
+    @model_validator(mode="after")
+    def _basis_supports_kind(self) -> "DocumentDate":
+        if self.basis not in DATE_BASES_BY_KIND[self.kind]:
+            raise ValueError(
+                f"a {self.kind} date cannot rest on {self.basis}; a server's Last-Modified header is recorded as "
+                "last_modified, never as a publication date"
+            )
+        return self
 
 
 class Document(Record):

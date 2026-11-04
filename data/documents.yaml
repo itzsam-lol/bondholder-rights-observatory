@@ -11,7 +11,7 @@
   media_type: application/pdf
   pages: 126
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-28
     basis: http_last_modified
   - kind: dated
@@ -30,7 +30,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-10-28
     basis: http_last_modified
   - kind: dated
@@ -49,7 +49,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2025-02-28
     basis: http_last_modified
   - kind: dated
@@ -68,7 +68,7 @@
   media_type: application/pdf
   pages: 5
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-13
     basis: http_last_modified
   period: &id001
@@ -88,7 +88,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-10
     basis: http_last_modified
   period: *id001
@@ -107,7 +107,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-30
     basis: http_last_modified
   period: *id001
@@ -127,7 +127,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-10-29
     basis: http_last_modified
   period:
@@ -148,7 +148,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-10-19
     basis: http_last_modified
   - kind: signed
@@ -169,7 +169,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-11
     basis: http_last_modified
   period: *id001
@@ -186,7 +186,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-15
     basis: http_last_modified
   period: *id001
@@ -216,7 +216,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2025-11-28
     basis: http_last_modified
 - id: ctl-notice-aye-ine501x07588-2026-09
@@ -231,7 +231,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-30
     basis: http_last_modified
 - id: ctl-notice-aye-ine501x07570-2026-05
@@ -246,7 +246,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-05-06
     basis: http_last_modified
 - id: ctl-notice-aye-2026-10
@@ -261,7 +261,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-10-26
     basis: http_last_modified
 - id: ctl-notice-casablanca-2026-08
@@ -276,7 +276,7 @@
   media_type: application/pdf
   pages: 6
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-24
     basis: http_last_modified
 - id: ctl-notice-convenient-2026-08
@@ -291,7 +291,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-24
     basis: http_last_modified
 - id: ctl-notice-akara-2026-08
@@ -306,7 +306,7 @@
   media_type: application/pdf
   pages: 6
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-24
     basis: http_last_modified
 - id: idbi-notice-konkan-2026-09
@@ -321,7 +321,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-14
     basis: http_last_modified
 - id: idbi-notice-konkan-2026-05
@@ -337,7 +337,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-05-27
     basis: http_last_modified
 - id: idbi-notice-belstar-2026-07
@@ -353,7 +353,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-07-28
     basis: http_last_modified
 - id: idbi-notice-dvara-2026-08
@@ -368,7 +368,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-14
     basis: http_last_modified
 - id: ctl-notice-pahal-2026-08
@@ -383,7 +383,7 @@
   media_type: application/pdf
   pages: 35
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-29
     basis: http_last_modified
 - id: ctl-notice-satya-2026-08
@@ -398,7 +398,7 @@
   media_type: application/pdf
   pages: 19
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-24
     basis: http_last_modified
 - id: ctl-notice-samunnati-2026-08
@@ -413,7 +413,7 @@
   media_type: application/pdf
   pages: 9
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-24
     basis: http_last_modified
 - id: ctl-notice-light-2026-08
@@ -428,7 +428,7 @@
   media_type: application/pdf
   pages: 12
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-25
     basis: http_last_modified
 - id: ctl-notice-neogrowth-2026-08
@@ -443,7 +443,7 @@
   media_type: application/pdf
   pages: 6
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-25
     basis: http_last_modified
 - id: ctl-notice-dvara-2026-08
@@ -458,7 +458,7 @@
   media_type: application/pdf
   pages: 41
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-29
     basis: http_last_modified
 - id: ctl-notice-infinity-2026-08
@@ -473,7 +473,7 @@
   media_type: application/pdf
   pages: 8
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-29
     basis: http_last_modified
 - id: idbi-notice-aliens-2026-09b
@@ -489,7 +489,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-01
     basis: http_last_modified
 - id: idbi-notice-mecl-2026-08
@@ -504,7 +504,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-24
     basis: http_last_modified
 - id: idbi-notice-pidb-2026-08
@@ -519,7 +519,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-21
     basis: http_last_modified
 - id: idbi-notice-emami-2026-09
@@ -534,7 +534,7 @@
   media_type: application/pdf
   pages: 2
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-16
     basis: http_last_modified
 - id: idbi-notice-pvp-2026-06
@@ -549,7 +549,7 @@
   media_type: application/pdf
   pages: 3
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-06-17
     basis: http_last_modified
 - id: mitcon-press-ramasigns-2026-08-14
@@ -564,7 +564,7 @@
   media_type: application/pdf
   pages: 23
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-08-14
     basis: http_last_modified
 - id: beacon-t5-2026-06
@@ -580,7 +580,7 @@
   media_type: application/pdf
   pages: 1
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-13
     basis: http_last_modified
   - kind: published
@@ -604,7 +604,7 @@
   media_type: application/pdf
   pages: 8
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-02-17
     basis: http_last_modified
 - id: sebi-mc-cra-2025-07-11
@@ -619,7 +619,7 @@
   pages: 109
   landing_page: https://www.sebi.gov.in/legal/master-circulars/jul-2025/master-circular-for-credit-rating-agencies-cras-_95221.html
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2025-07-11
     basis: http_last_modified
 - id: sebi-lodr-2026-10-15
@@ -635,7 +635,7 @@
   pages: 230
   landing_page: https://www.sebi.gov.in/legal/regulations/oct-2026/securities-and-exchange-board-of-india-listing-obligations-and-disclosure-requirements-regulations-2015-last-amended-on-october-15-2026-_105365.html
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-10-22
     basis: http_last_modified
 - id: dvara-reg59-2026-07-02
@@ -654,7 +654,7 @@
   - kind: dated
     value: 2026-07-02
     basis: stated_in_document
-  - kind: published
+  - kind: last_modified
     value: 2026-08-03
     basis: http_last_modified
   notes: BSE's letter annexed to the intimation is dated July 1, 2026 and acknowledges the issuer's application
@@ -676,7 +676,7 @@
   - kind: dated
     value: 2026-08-12
     basis: stated_in_document
-  - kind: published
+  - kind: last_modified
     value: 2026-08-12
     basis: http_last_modified
   notes: The statement of covenant compliance (page 8) is a scanned page with an OCR text layer that misreads several
@@ -696,7 +696,7 @@
   - kind: dated
     value: 2026-08-07
     basis: stated_in_document
-  - kind: published
+  - kind: last_modified
     value: 2026-08-10
     basis: http_last_modified
   notes: The auditor's report is dated August 07, 2026. The covering letter names scrip codes 976074 and 976594.
@@ -716,7 +716,7 @@
   - kind: dated
     value: 2026-08-14
     basis: stated_in_document
-  - kind: published
+  - kind: last_modified
     value: 2026-08-21
     basis: http_last_modified
   notes: Annexures E and F (pages 13 to 20) are scanned without a text layer and are read from the rendered page.
@@ -734,7 +734,7 @@
   pages: 2
   landing_page: https://www.sebi.gov.in/media-and-notifications/press-releases/jun-2026/constitution-of-an-expert-working-group-on-review-of-extant-regulatory-framework-applicable-for-debenture-trusteeship-activities-and-other-incidental-matters_102461.html
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-06-30
     basis: http_last_modified
 - id: ctl-qcr-2026-06
@@ -750,6 +750,6 @@
   pages: 57
   landing_page: https://catalysttrustee.com/periodical-status-performance-reports-quarterly-compliance-reports-financial-statement/
   dates:
-  - kind: published
+  - kind: last_modified
     value: 2026-09-13
     basis: http_last_modified

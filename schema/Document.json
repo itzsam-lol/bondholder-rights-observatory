@@ -38,7 +38,8 @@
       "enum": [
         "dated",
         "signed",
-        "published"
+        "published",
+        "last_modified"
       ],
       "title": "DocumentDateKind",
       "type": "string"

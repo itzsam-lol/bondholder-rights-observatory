@@ -99,7 +99,9 @@ class DocumentDateKind(StrEnum):
     """The date the document gives itself (for example "Date: June 7, 2024")."""
     SIGNED = "signed"
     PUBLISHED = "published"
-    """When the document was made publicly available."""
+    """When the publisher says the document was made publicly available, for example a date on its listing page."""
+    LAST_MODIFIED = "last_modified"
+    """When the server says the exact file held was last modified. It dates that version, not its first publication."""
 
 
 class DateBasis(StrEnum):
@@ -109,6 +111,26 @@ class DateBasis(StrEnum):
     LISTING_PAGE = "listing_page"
     HTTP_LAST_MODIFIED = "http_last_modified"
     FILE_METADATA = "file_metadata"
+
+
+DATE_BASES_BY_KIND = {
+    DocumentDateKind.DATED: frozenset({DateBasis.STATED_IN_DOCUMENT, DateBasis.FILE_METADATA}),
+    DocumentDateKind.SIGNED: frozenset({DateBasis.STATED_IN_DOCUMENT}),
+    DocumentDateKind.PUBLISHED: frozenset({DateBasis.STATED_IN_DOCUMENT, DateBasis.LISTING_PAGE}),
+    DocumentDateKind.LAST_MODIFIED: frozenset({DateBasis.HTTP_LAST_MODIFIED, DateBasis.FILE_METADATA}),
+}
+"""Which ways of knowing a date can support which meaning. A server header cannot show that a file was published."""
+
+
+class AvailabilityMode(StrEnum):
+    """Which dates a point-in-time view trusts to decide that a document was public by a given day."""
+
+    ESTIMATED = "estimated"
+    """A file counts from its estimated availability: the publisher's date, the server's Last-Modified date or, failing
+    both, its own date, which is only a lower bound. Closer to what was public, but a file may count too early."""
+    OBSERVED = "observed"
+    """A file counts only from the day it was observed to be public, which is when the project retrieved it. No file
+    counts too early, but files that were public long before the project looked are left out."""
 
 
 class CovenantCategory(StrEnum):

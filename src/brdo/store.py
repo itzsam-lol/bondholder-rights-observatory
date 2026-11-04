@@ -17,6 +17,7 @@ Layout of the data directory::
 
 from collections.abc import Iterator
 from dataclasses import dataclass, field
+from datetime import date
 from enum import StrEnum
 from pathlib import Path
 from typing import Any
@@ -44,6 +45,7 @@ from brdo.models import (
 from brdo.vocab import (
     CONTRACT_DOCUMENT_TYPES,
     TERM_STATING_DOCUMENT_TYPES,
+    AvailabilityMode,
     DocumentType,
     ExcerptPolicy,
     InstrumentProperty,
@@ -91,6 +93,12 @@ class Dataset:
     regulatory_references: dict[str, RegulatoryReference] = field(default_factory=dict)
     searches: dict[str, SearchRecord] = field(default_factory=dict)
     discrepancies: dict[str, Discrepancy] = field(default_factory=dict)
+    cutoff: date | None = None
+    """Set on a point-in-time view (see ``pit.as_of``): the day whose public record the view holds."""
+    availability_mode: AvailabilityMode | None = None
+    """Which availability dates the point-in-time view trusted."""
+    withheld: dict[str, Document] = field(default_factory=dict)
+    """Documents of the full record that a point-in-time view leaves out because they were not shown public by then."""
 
     def source_of(self, document_id: str) -> Source:
         return self.sources[self.documents[document_id].source]
@@ -258,8 +266,19 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
     def warn(where: str, message: str) -> None:
         problems.append(Problem(Severity.WARNING, where, message))
 
+    from brdo.pit import availability  # pit builds on this module, so it is imported here
+
     for document in dataset.documents.values():
         where = f"document {document.id}"
+        found = availability(document, dataset)
+        if found.dated_after_observation:
+            error(where, f"carries a date after {found.observed}, the day it was retrieved")
+        if found.estimate_precedes_own_date:
+            warn(
+                where,
+                f"its server or publisher date precedes {found.not_before}, the latest date it or a letter in it "
+                "gives; its availability is taken from that later date",
+            )
         source = dataset.sources.get(document.source)
         if source is None:
             error(where, f"unknown source {document.source}")

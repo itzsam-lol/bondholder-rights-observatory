@@ -3,7 +3,7 @@
 import csv
 import json
 import re
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import pytest
@@ -13,11 +13,20 @@ from brdo.build import tables
 from brdo.census import check_census
 from brdo.fetch import Cache, Fetcher, default_cache_dir
 from brdo.identifiers import is_valid_isin
+from brdo.pit import as_of, availability
 from brdo.report import render_report
-from brdo.status import StatusBasis, derive_all
+from brdo.status import StatusBasis, derive_all, trustees_claimed
 from brdo.store import check_integrity, load_dataset
 from brdo.verify import AnchorStatus, load_document_text, verify_dataset
-from brdo.vocab import CoverageStatus, RedistributionPolicy, RetrievalPolicy, SourceKind
+from brdo.vocab import (
+    AvailabilityMode,
+    CoverageStatus,
+    RedistributionPolicy,
+    RetrievalPolicy,
+    SearchOutcome,
+    SearchPurpose,
+    SourceKind,
+)
 
 REPOSITORY = Path(__file__).parent.parent
 
@@ -137,6 +146,49 @@ def test_covenants_differ_within_an_issuer(data):
     first = data.provisions["aye-ine501x07588-clause-10-3-a"]
     second = data.provisions["aye-ine501x07570-clause-9-3-a-viii"]
     assert (first.thresholds[0].value, first.metric) != (second.thresholds[0].value, second.metric)
+
+
+def _cutoffs(data) -> list[date]:
+    """Every day on which some document's availability changes under either mode, and the day before it."""
+    days = set()
+    for document in data.documents.values():
+        found = availability(document, data)
+        days |= {day for day in (found.estimate, found.observed) if day is not None}
+    return sorted({day + timedelta(days=offset) for day in days for offset in (-1, 0)})
+
+
+@pytest.mark.parametrize("mode", list(AvailabilityMode))
+def test_no_point_in_time_view_holds_anything_later_than_its_date(data, mode):
+    for day in _cutoffs(data):
+        view = as_of(data, day, mode)
+        for document in view.documents.values():
+            found = availability(document, data)
+            shown = found.observed if mode is AvailabilityMode.OBSERVED else found.estimate
+            assert shown is not None and shown <= day, (day, document.id)
+        for label, item in view.evidence():
+            assert item.document in view.documents, (day, label, item.document)
+        observations = [o for i in view.instruments.values() for c in i.claims for o in c.observations]
+        observations += [o for i in view.issuers.values() for o in i.observations]
+        observations += [o for d in view.discrepancies.values() for o in d.observations]
+        assert all(o.observed_on <= day for o in observations), day
+        found_reports = {
+            (s.subject, s.period.end)
+            for s in view.searches.values()
+            if s.purpose is SearchPurpose.TRUSTEE_REPORT and s.outcome is SearchOutcome.FOUND and s.period
+        }
+        for status in derive_all(view):
+            assert set(status.documents) <= set(view.documents), (day, status)
+            if status.basis is StatusBasis.TRUSTEE_REPORT_NOT_SEARCHED:
+                trustees = trustees_claimed(view, status.isin)
+                assert not {(t, status.period_end) for t in trustees} & found_reports, (day, status)
+
+
+def test_the_full_record_is_the_view_as_of_the_last_retrieval(data):
+    last = max(d.retrieved_at.date() for d in data.documents.values() if d.retrieved_at)
+    for mode in AvailabilityMode:
+        view = as_of(data, last, mode)
+        assert set(view.documents) == set(data.documents)
+        assert derive_all(view) == derive_all(data)
 
 
 def test_absence_from_a_report_is_recorded_as_no_report_found(data):

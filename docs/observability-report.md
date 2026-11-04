@@ -177,21 +177,21 @@ For each ISIN listed in a current report for the quarter ended 2026-06-30, every
 
 ## What was public when
 
-An account of a past date must use only what was public by then. Each document's availability is estimated from the server's Last-Modified header or a listing page, or failing those from the document's own date, which is only a lower bound. Last-Modified dates the file version held here, so an earlier version may have been published before it. `brdo status --as-of` and `brdo show --as-of` apply this to any date.
+An account of a past date must use only what was public by then. The record keeps three kinds of date for each file and never treats one as another: a lower bound (the latest date the file gives itself, or prints in a letter or an "as on" date it contains), an estimate (the publisher's listing date or the server's Last-Modified date for the exact file held, whichever is later), and the day the project observed the file in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the version held, so an earlier version may have been public sooner, and a copied file can carry a misleading date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the estimates, or with `--availability observed` from the observations alone.
 
-Breach reports for the quarter ended 2026-06-30, with the trustees' detection dates and when the file held here became available:
+Breach reports for the quarter ended 2026-06-30, with the trustees' detection dates and the three dates for the file held:
 
-| report | first detection | last detection | file available from | basis | days after quarter end |
-|---|---|---|---|---|---|
-| axis-t5-2026-06-v20260814 | 2026-08-14 | 2026-08-14 | 2026-09-10 | http_last_modified | 72 |
-| axis-t5-2026-06-v20260916 | 2026-08-14 | 2026-08-14 | 2026-09-30 | http_last_modified | 92 |
-| beacon-t5-2026-06 |  |  | 2026-09-13 | http_last_modified | 75 |
-| ctl-t5-2026-06 | 2026-07-22 | 2026-09-07 | 2026-09-13 | http_last_modified | 75 |
-| idbi-t5-2026-06 | 2026-06-12 | 2026-09-15 | 2026-09-15 | http_last_modified | 77 |
-| mitcon-t5-2026-06 | 2023-10-11 | 2023-10-11 | 2026-10-19 | http_last_modified | 111 |
-| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 | 2026-09-11 | http_last_modified | 73 |
+| report | first detection | last detection | not public before | estimated public from | basis | estimate, days after quarter end | observed by the project |
+|---|---|---|---|---|---|---|---|
+| axis-t5-2026-06-v20260814 | 2026-08-14 | 2026-08-14 | 2026-08-14 | 2026-09-10 | http_last_modified | 72 | 2026-11-03 |
+| axis-t5-2026-06-v20260916 | 2026-08-14 | 2026-08-14 | 2026-09-16 | 2026-09-30 | http_last_modified | 92 | 2026-11-03 |
+| beacon-t5-2026-06 |  |  | 2026-06-30 | 2026-09-13 | listing_page | 75 | 2026-11-04 |
+| ctl-t5-2026-06 | 2026-07-22 | 2026-09-07 |  | 2026-09-13 | http_last_modified | 75 | 2026-11-03 |
+| idbi-t5-2026-06 | 2026-06-12 | 2026-09-15 |  | 2026-09-15 | http_last_modified | 77 | 2026-11-03 |
+| mitcon-t5-2026-06 | 2023-10-11 | 2023-10-11 | 2026-09-12 | 2026-10-19 | http_last_modified | 111 | 2026-11-03 |
+| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 |  | 2026-09-11 | http_last_modified | 73 | 2026-11-03 |
 
-In 21 ISIN-level comparisons with a listing, the issuer's statement was available before the trustee's report. During that interval the public record held the issuer's account alone.
+By the estimates, the issuer's statement was public before the trustee's report in 21 of 21 ISIN-level comparisons with a listing, and the estimates behind them all rest on http_last_modified. If those dates are right, the public record held the issuer's account alone for a time. The project's own observations cannot order the two: it observed the issuer's statement first in 0 and the trustee's report first in 21 of 21 comparisons, an order that reflects when the project looked, not when either was published.
 
 ## Breach-disclosure status by reporting period
 

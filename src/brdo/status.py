@@ -16,6 +16,7 @@ from brdo.store import Dataset
 from brdo.vocab import (
     CovenantCategory,
     CoverageStatus,
+    DocumentType,
     InstrumentProperty,
     NoticeKind,
     SearchOutcome,
@@ -38,6 +39,8 @@ class StatusBasis(StrEnum):
     TRUSTEE_REPORT_INCOMPLETELY_TRANSCRIBED = "trustee_report_incompletely_transcribed"
     TRUSTEE_REPORT_NOT_ACCESSIBLE = "trustee_report_not_accessible"
     TRUSTEE_REPORT_NOT_LOCATED = "trustee_report_not_located"
+    TRUSTEE_REPORT_NOT_YET_PUBLIC = "trustee_report_not_yet_public"
+    """In a point-in-time view: a logged search later found the trustee's report, not shown public by then."""
     TRUSTEE_REPORT_NOT_SEARCHED = "trustee_report_not_searched"
     TRUSTEE_NOT_ESTABLISHED = "trustee_not_established"
     TRUSTEE_UNKNOWN = "trustee_unknown"
@@ -167,6 +170,16 @@ def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentSt
             and search.period is not None
             and search.period.end == period_end
         ]
+        if any(
+            search.outcome is SearchOutcome.FOUND
+            and any(
+                document in dataset.withheld
+                and dataset.withheld[document].type is DocumentType.TRUSTEE_BREACH_STATUS_REPORT
+                for document in search.documents
+            )
+            for search in searches
+        ):
+            return result(CoverageStatus.NO_REPORT_FOUND, StatusBasis.TRUSTEE_REPORT_NOT_YET_PUBLIC)
         if any(s.outcome in (SearchOutcome.ACCESS_ERROR, SearchOutcome.EXCLUDED_BY_POLICY) for s in searches):
             return result(CoverageStatus.INACCESSIBLE, StatusBasis.TRUSTEE_REPORT_NOT_ACCESSIBLE)
         if any(s.outcome is SearchOutcome.NOT_FOUND for s in searches):
