@@ -12,6 +12,7 @@ from brdo.models import (
     BreachReport,
     BreachRow,
     Claim,
+    ComplianceStatement,
     Document,
     Evidence,
     Instrument,
@@ -19,6 +20,7 @@ from brdo.models import (
     Period,
     ReportedDate,
     Source,
+    StatedException,
 )
 from brdo.store import Dataset
 from brdo.vocab import (
@@ -30,6 +32,8 @@ from brdo.vocab import (
     RedistributionPolicy,
     RetrievalPolicy,
     SourceKind,
+    StatementMaker,
+    StatementScope,
 )
 
 ISIN_LISTED = "INE501X07588"
@@ -154,3 +158,26 @@ def write_pdf(path: Path, pages: list[bytes]) -> Path:
 def text_stream(text: str) -> bytes:
     escaped = text.replace("(", r"\(").replace(")", r"\)")
     return f"BT /F1 10 Tf 40 700 Td ({escaped}) Tj ET".encode("latin-1")
+
+
+def make_statement(
+    identifier: str = "statement-q1",
+    *,
+    breach: bool,
+    isin: str = ISIN_LISTED,
+    scope: StatementScope = StatementScope.ALL_COVENANTS,
+    made_by: StatementMaker = StatementMaker.ISSUER,
+    exceptions: list[StatedException] | None = None,
+) -> ComplianceStatement:
+    return ComplianceStatement(
+        id=identifier,
+        document="report-q1",
+        instruments=[isin],
+        period=QUARTER,
+        stated_by="trustee-a",
+        made_by=made_by,
+        scope=scope,
+        breach_stated=breach,
+        exceptions=exceptions or [],
+        evidence=[Evidence(document="report-q1", page=1, quote="complied")],
+    )

@@ -42,6 +42,8 @@ from brdo.vocab import (
     SearchOutcome,
     SearchPurpose,
     SourceKind,
+    StatementMaker,
+    StatementScope,
     TestBasis,
     TestFrequency,
     ThresholdUnit,
@@ -538,16 +540,64 @@ class BreachNotice(Record):
                 yield anchor(level, self.covenant_page or self.page)
 
 
+class StatedException(Record):
+    """One line of the exceptions a compliance statement lists, as printed."""
+
+    isins: list[Isin] = Field(min_length=1)
+    page: int = Field(ge=1)
+    covenant_as_reported: Quote
+    required_as_reported: Quote | None = None
+    actual_as_reported: Quote | None = None
+    deed_dates_as_reported: Quote | None = None
+
+
 class ComplianceStatement(Record):
-    """An explicit statement, for stated instruments and a stated period, about covenant compliance."""
+    """An explicit statement, for stated instruments and a stated period, about covenant compliance.
+
+    ``stated_by`` is the source that published the statement; ``made_by`` is who made it. ``isins_printed`` is
+    false when the statement covers an ISIN only by a general statement about all listed debentures, or by not
+    listing it among its exceptions.
+    """
 
     id: RecordId
+    document: RecordId
     instruments: list[Isin] = Field(min_length=1)
     period: Period
     stated_by: RecordId
+    made_by: StatementMaker
+    scope: StatementScope
     breach_stated: bool
+    isins_printed: bool = True
+    exceptions: list[StatedException] = Field(default_factory=list)
+    visual_fallback: bool = Field(default=False, description="Exceptions were read from the rendered page")
     evidence: list[Evidence] = Field(min_length=1)
     note: str | None = None
+
+    @model_validator(mode="after")
+    def _exceptions_are_breaches_of_listed_instruments(self) -> "ComplianceStatement":
+        if self.exceptions and not self.breach_stated:
+            raise ValueError(f"{self.id}: lists exceptions but does not state a breach")
+        outside = {isin for line in self.exceptions for isin in line.isins} - set(self.instruments)
+        if outside:
+            raise ValueError(f"{self.id}: exceptions name {sorted(outside)}, which are not among its instruments")
+        return self
+
+    def anchors(self) -> Iterator[Evidence]:
+        def anchor(text: str, page: int | None) -> Evidence:
+            return Evidence(document=self.document, page=page, quote=text, visual_fallback=self.visual_fallback)
+
+        for line in self.exceptions:
+            for isin in line.isins:
+                yield anchor(isin, line.page)
+            for text in (
+                line.covenant_as_reported,
+                line.required_as_reported,
+                line.actual_as_reported,
+                line.deed_dates_as_reported,
+            ):
+                if text and len(text) >= MIN_ANCHOR_CHARS:
+                    yield anchor(text, line.page)
+        yield from self.evidence
 
 
 class RegulatoryReference(Record):

@@ -1,0 +1,41 @@
+statement,document,page,isins,covenant_as_reported,required_as_reported,actual_as_reported,deed_dates_as_reported,read_from_rendering
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07464; INE179P07530,(PAR 30 +RL + Net charge off TTM )/ AUM,<=10%,12.15%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07464; INE179P07530,(PAR 90 +RL - LLR)/Tier 1,<=10%,29.26%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07464; INE179P07530,ROA TTM,>=0%,-1.87%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07332; INE179P07605,PAR 30 to AUM,10.00%,10.45%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07332; INE179P07605,PAR 90 to AUM,7.00%,8.73%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07332; INE179P07605,Loan Loss Reserve Ratio of PAR 90 Days,>=55%,51.61%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P08082,Cost to Income Ratio,<=70%,75.24%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P08074,PAR 90 Pre Write Off (current FY) / AUM,<=1.5%,8.84%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P08074,PAR 90 Pre Write Off (current FY) / On Book POS,<=1.5%,5.98%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P08074,PAR 30 / AUM,<=3.5%,10.45%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P08074,PAR 30 / On Book POS,<=3.5%,7.61%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07548,PAR 90 + TTM Write Off,<=6%,11.22%,,true
+dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,INE179P07548,Return On Assets (ROA),>=0.75%,-1.02%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07464; INE179P07530,(PAR 90 +RL - LLR)/Tier 1,<=10%,22.43%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07464; INE179P07530,ROA TTM,>=0%,-1.03%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P08082,Cost to Income Ratio,<=85%,92.74%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07332,PAR 30 to AUM,<=4%,6.86%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07332,PAR 90 to AUM,<=3%,5.67%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07332,Operational Self Sufficiency Ratio,>=100%,85.51%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07332,Loan Loss Reserve Ratio of PAR 90 Days,>=50%,42.14%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07332,Cost to Income Ratio,<=80%,155.64%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07605,PAR 90 to AUM,<=5%,5.67%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07605,Operational Self Sufficiency Ratio,>=100%,85.51%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07605,Loan Loss Reserve Ratio of PAR 90 Days,>=50%,42.14%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P08074,PAR 90 Pre Write Off (current FY) / AUM,<=1.5%,6.90%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P08074,PAR 90 Pre Write Off (current FY) / On Book POS,<=1.5%,3.60%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P08074,PAR 30 / AUM,<=3.5%,6.86%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P08074,Company shall not report any losses during the quarter,Profit,Losses,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07548,PAR 90+ (+) TTM Write Off,<=6%,7.47%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07548,Return On Assets (ROA),>=0.75%,-2.68%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07597; INE179P07613,PAT is Not Negative for Last four consecutive quarters,Profit,Losses,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07589,Return on Assets,>=1%,-1.02%,,true
+dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,INE179P07621,Tier I Capital,>=18%,17.67%,,true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X08034,Clause 3.3 (a) of Debenture Trust Deed,,,08-Jul-19,true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X08042,Clause 3.3 (a) of Debenture Trust Deed,,,01-Aug-19,true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X07432,"Clause 17.4 (a)(i), (v), (ix), (x) & (xiii) of Debenture Trust Deed",,,23-Jul-2024 and Amendment to Trust Deed dated 30-May-2025,true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X07176,Clause 2.5.3 (b) & (d) of Debenture Trust Deed,,,10-Aug-21,true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X07457,"Clause 10.3 (c), (d) & (e) of Debenture Trust Deed",,,"20-Aug-19, Amendment to Trust Deed dated 25-Aug-21 and again Amendment to Trust Deed dated 16-Dec-24",true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X08091,"Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed",,,30-Nov-23 executed for issuance of Rs. 25 crores & 20-Dec-23 executed for re-issuance of Rs. 24 crores,true
+satya-2026-06-financial-covenants,satya-qcr-2026-06,20,INE982X08109,"Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed",,,"09-Feb-24 executed for issuance of Rs. 25 crores, 22-Feb-24 executed for re-issuance of Rs. 15 crores, 27-Mar-24 executed for re-issuance of Rs. 15 crores",true

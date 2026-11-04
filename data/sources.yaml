@@ -335,3 +335,50 @@
       gathering and extraction tools to extract (whether once or many times) any parts of Platform", systematic
       downloading, and derivative databases. Per-ISIN pages link issue documents, which can be consulted in a browser;
       the pipeline does not retrieve from this platform.
+- id: infinity-fincorp-web
+  name: Infinity Fincorp Solutions Private Limited (issuer website)
+  kind: issuer
+  domains:
+  - infinityfincorp.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: '2026-11-04'
+    urls:
+    - https://www.infinityfincorp.com/docs/Website_terms and conditions.pdf
+    summary: The terms limit use of the site's content to personal, non-commercial use and forbid copying, reproduction
+      or distribution without written authorization. They do not address automated access. The address /robots.txt
+      returns a script fragment rather than a robots file, which the fetcher treats as no robots file. Only the
+      issuer's own regulatory filing is cited, with short quotations.
+- id: pahal-finance-web
+  name: Pahal Financial Services Private Limited (issuer website)
+  kind: issuer
+  domains:
+  - pahalfinance.com
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  notes: On 2026-11-04 the home page answered the project's identified client, and robots.txt allows everything,
+    but two filings under /wp-content/uploads/ answered HTTP 403. The project treats that as an access restriction
+    and does not alter its client to get past it. Files can be downloaded in a browser and ingested with add-document
+    --from-file.
+- id: satya-microcapital-web
+  name: SATYA MicroCapital Limited (issuer website)
+  kind: issuer
+  domains:
+  - satyamicrocapital.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: '2026-11-04'
+    urls:
+    - http://satyamicrocapital.com/reports/Terms of Use_SATYA_FINAL_.pdf
+    summary: The terms forbid copying, reproducing or republishing content for publication or distribution without
+      permission, and do not address automated access; robots.txt disallows only /wp-admin/. The quarterly compliance
+      reports on the regulation 62 page also print lists of individual debenture holders, which the project never
+      transcribes.

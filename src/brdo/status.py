@@ -11,9 +11,17 @@ from dataclasses import dataclass
 from datetime import date
 from enum import StrEnum
 
-from brdo.models import BreachReport
+from brdo.models import BreachItem, BreachReport, ComplianceStatement
 from brdo.store import Dataset
-from brdo.vocab import CoverageStatus, InstrumentProperty, NoticeKind, SearchOutcome, SearchPurpose
+from brdo.vocab import (
+    CovenantCategory,
+    CoverageStatus,
+    InstrumentProperty,
+    NoticeKind,
+    SearchOutcome,
+    SearchPurpose,
+    StatementScope,
+)
 
 
 class StatusBasis(StrEnum):
@@ -61,6 +69,13 @@ def trustees_claimed(dataset: Dataset, isin: str) -> set[str]:
     return {str(claim.value) for claim in instrument.claims if claim.property is InstrumentProperty.DEBENTURE_TRUSTEE}
 
 
+def addresses(statement: ComplianceStatement, items: Iterable[BreachItem]) -> bool:
+    """Whether a statement's stated scope reaches at least one of the listed covenants."""
+    if statement.scope is StatementScope.ALL_COVENANTS:
+        return True
+    return any(item.category is CovenantCategory.FINANCIAL for item in items)
+
+
 def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentStatus:
     def result(status: CoverageStatus, basis: StatusBasis, documents: Iterable[str] = ()) -> InstrumentStatus:
         return InstrumentStatus(isin, period_end, status, basis, tuple(sorted(set(documents))))
@@ -80,15 +95,17 @@ def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentSt
 
     if listed_now:
         documents = [report.document for report, _ in listed_now]
-        if says_no_breach:
+        rows = [row for report, _ in listed_now for row in report.rows if isin in row.isins]
+        listed_items = [item for row in rows for item in row.items if isin in item.isins]
+        contradicting = [statement for statement in says_no_breach if addresses(statement, listed_items)]
+        if contradicting:
             return result(
                 CoverageStatus.CONFLICTING,
                 StatusBasis.STATEMENTS_DISAGREE,
-                documents + [ev.document for s in says_no_breach for ev in s.evidence],
+                documents + [statement.document for statement in contradicting],
             )
         if all(uncertain for _, uncertain in listed_now):
             return result(CoverageStatus.AMBIGUOUS, StatusBasis.LISTING_DEPENDS_ON_LAYOUT, documents)
-        rows = [row for report, _ in listed_now for row in report.rows if isin in row.isins]
         if all(row.carried_over_from for row in rows):
             return result(CoverageStatus.REPORTED_BREACH, StatusBasis.LISTED_AS_CARRIED_OVER, documents)
         return result(CoverageStatus.REPORTED_BREACH, StatusBasis.LISTED_IN_CURRENT_VERSION, documents)
@@ -108,7 +125,7 @@ def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentSt
             CoverageStatus.REPORTED_BREACH, StatusBasis.NAMED_IN_TRUSTEE_NOTICE, [n.document for n in notices]
         )
     if statements:
-        documents = [ev.document for statement in statements for ev in statement.evidence]
+        documents = [statement.document for statement in statements]
         if len(says_no_breach) == len(statements):
             return result(CoverageStatus.REPORTED_NO_BREACH, StatusBasis.EXPLICIT_STATEMENT, documents)
         if says_no_breach:

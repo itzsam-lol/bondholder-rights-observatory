@@ -15,6 +15,7 @@ from brdo.models import (
     Provision,
     ReportedDate,
     SearchRecord,
+    StatedException,
     Threshold,
 )
 from brdo.vocab import (
@@ -30,7 +31,7 @@ from brdo.vocab import (
     SearchPurpose,
     ThresholdUnit,
 )
-from tests.conftest import make_document, make_report, make_row
+from tests.conftest import ISIN_LISTED, make_document, make_report, make_row, make_statement
 
 
 def test_quotes_are_capped_so_the_dataset_only_holds_short_quotations():
@@ -200,3 +201,23 @@ def test_document_types_are_a_closed_vocabulary():
     with pytest.raises(ValidationError):
         Document(id="d", source="s", type="brochure", title="t", url="https://x.example")
     assert DocumentType.TRUSTEE_BREACH_STATUS_REPORT.value == "trustee_breach_status_report"
+
+
+def test_a_statement_listing_exceptions_must_state_a_breach():
+    line = StatedException(isins=[ISIN_LISTED], page=1, covenant_as_reported="Cost to Income Ratio")
+    with pytest.raises(ValidationError, match="does not state a breach"):
+        make_statement(breach=False, exceptions=[line])
+
+
+def test_exceptions_may_only_name_the_statements_own_instruments():
+    line = StatedException(isins=["INE501X07570"], page=1, covenant_as_reported="Cost to Income Ratio")
+    with pytest.raises(ValidationError, match="not among its instruments"):
+        make_statement(breach=True, exceptions=[line])
+
+
+def test_every_exception_field_becomes_a_checkable_anchor():
+    line = StatedException(
+        isins=[ISIN_LISTED], page=8, covenant_as_reported="Cost to Income Ratio", required_as_reported="<=85%"
+    )
+    quotes = {anchor.quote for anchor in make_statement(breach=True, exceptions=[line]).anchors()}
+    assert {ISIN_LISTED, "Cost to Income Ratio", "<=85%"} <= quotes

@@ -296,6 +296,20 @@ class SearchOutcome(StrEnum):
     ACCESS_ERROR = "access_error"
 
 
+class StatementMaker(StrEnum):
+    """Who made a compliance statement, which is not always who published it."""
+
+    ISSUER = "issuer"
+    STATUTORY_AUDITOR = "statutory_auditor"
+
+
+class StatementScope(StrEnum):
+    """Which covenants a compliance statement says it covers."""
+
+    ALL_COVENANTS = "all_covenants"
+    FINANCIAL_COVENANTS = "financial_covenants"
+
+
 class DiscrepancyKind(StrEnum):
     IDENTITY = "identity"
     """Sources disagree about who or what an entity is (for example the trustee of an ISIN)."""
@@ -305,6 +319,8 @@ class DiscrepancyKind(StrEnum):
     """A later version of the same disclosure differs from an earlier one."""
     LAYOUT = "layout"
     """A disclosure's layout makes an assignment (for example ISIN to issuer) uncertain."""
+    COMPLIANCE = "compliance"
+    """Statements about whether the same obligation was met disagree."""
 
 
 class DiscrepancyStatus(StrEnum):

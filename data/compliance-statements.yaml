@@ -1,11 +1,30 @@
 # Explicit statements about covenant compliance for stated instruments and a stated period.
-# A statement belongs to whoever made it; the project does not adopt it.
+# A statement belongs to whoever made it; the project does not adopt it. Identifiers in a statement that are
+# outside this dataset (for example bonds listed in IFSC) are left out of its instruments and mentioned in the note.
 
 - id: dvara-2025-12-exceptions
+  document: dvara-reg54-2026-02-11
   instruments: [INE179P07464, INE179P07530, INE179P07332, INE179P07605, INE179P08082, INE179P08074, INE179P07548]
   period: {start: 2025-10-01, end: 2025-12-31}
   stated_by: dvara-kgfs-web
+  made_by: issuer
+  scope: all_covenants
   breach_stated: true
+  visual_fallback: true
+  exceptions:
+    - {isins: [INE179P07464, INE179P07530], page: 8, covenant_as_reported: (PAR 30 +RL + Net charge off TTM )/ AUM, required_as_reported: <=10%, actual_as_reported: 12.15%}
+    - {isins: [INE179P07464, INE179P07530], page: 8, covenant_as_reported: (PAR 90 +RL - LLR)/Tier 1, required_as_reported: <=10%, actual_as_reported: 29.26%}
+    - {isins: [INE179P07464, INE179P07530], page: 8, covenant_as_reported: ROA TTM, required_as_reported: '>=0%', actual_as_reported: '-1.87%'}
+    - {isins: [INE179P07332, INE179P07605], page: 8, covenant_as_reported: PAR 30 to AUM, required_as_reported: 10.00%, actual_as_reported: 10.45%}
+    - {isins: [INE179P07332, INE179P07605], page: 8, covenant_as_reported: PAR 90 to AUM, required_as_reported: 7.00%, actual_as_reported: 8.73%}
+    - {isins: [INE179P07332, INE179P07605], page: 8, covenant_as_reported: Loan Loss Reserve Ratio of PAR 90 Days, required_as_reported: '>=55%', actual_as_reported: 51.61%}
+    - {isins: [INE179P08082], page: 8, covenant_as_reported: Cost to Income Ratio, required_as_reported: <=70%, actual_as_reported: 75.24%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 90 Pre Write Off (current FY) / AUM, required_as_reported: <=1.5%, actual_as_reported: 8.84%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 90 Pre Write Off (current FY) / On Book POS, required_as_reported: <=1.5%, actual_as_reported: 5.98%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 30 / AUM, required_as_reported: <=3.5%, actual_as_reported: 10.45%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 30 / On Book POS, required_as_reported: <=3.5%, actual_as_reported: 7.61%}
+    - {isins: [INE179P07548], page: 8, covenant_as_reported: PAR 90 + TTM Write Off, required_as_reported: <=6%, actual_as_reported: 11.22%}
+    - {isins: [INE179P07548], page: 8, covenant_as_reported: Return On Assets (ROA), required_as_reported: '>=0.75%', actual_as_reported: '-1.02%'}
   evidence:
     - document: dvara-reg54-2026-02-11
       page: 8
@@ -17,10 +36,14 @@
     December 2025. The filing also lists three identifiers beginning INIFD, which are outside this dataset.
 
 - id: dvara-2025-12-complied
+  document: dvara-reg54-2026-02-11
   instruments: [INE179P07597, INE179P07589]
   period: {start: 2025-10-01, end: 2025-12-31}
   stated_by: dvara-kgfs-web
+  made_by: issuer
+  scope: all_covenants
   breach_stated: false
+  isins_printed: false
   evidence:
     - document: dvara-reg54-2026-02-11
       page: 8
@@ -31,3 +54,106 @@
     Covered by exclusion: the annexure says all covenants of listed debentures were complied with except those it lists, and
     these ISINs are not listed. They are included because their trust deeds pre-date the period. This is the issuer's
     statement, and for INE179P07589 see discrepancy dvara-roa-exception-list.
+
+- id: dvara-2026-06-exceptions
+  document: dvara-sc-2026-08-12
+  instruments: [INE179P07464, INE179P07530, INE179P08082, INE179P07332, INE179P07605, INE179P08074, INE179P07548, INE179P07597, INE179P07613, INE179P07589, INE179P07621]
+  period: {start: 2026-04-01, end: 2026-06-30}
+  stated_by: dvara-kgfs-web
+  made_by: issuer
+  scope: all_covenants
+  breach_stated: true
+  visual_fallback: true
+  exceptions:
+    - {isins: [INE179P07464, INE179P07530], page: 8, covenant_as_reported: (PAR 90 +RL - LLR)/Tier 1, required_as_reported: <=10%, actual_as_reported: 22.43%}
+    - {isins: [INE179P07464, INE179P07530], page: 8, covenant_as_reported: ROA TTM, required_as_reported: '>=0%', actual_as_reported: '-1.03%'}
+    - {isins: [INE179P08082], page: 8, covenant_as_reported: Cost to Income Ratio, required_as_reported: <=85%, actual_as_reported: 92.74%}
+    - {isins: [INE179P07332], page: 8, covenant_as_reported: PAR 30 to AUM, required_as_reported: <=4%, actual_as_reported: 6.86%}
+    - {isins: [INE179P07332], page: 8, covenant_as_reported: PAR 90 to AUM, required_as_reported: <=3%, actual_as_reported: 5.67%}
+    - {isins: [INE179P07332], page: 8, covenant_as_reported: Operational Self Sufficiency Ratio, required_as_reported: '>=100%', actual_as_reported: 85.51%}
+    - {isins: [INE179P07332], page: 8, covenant_as_reported: Loan Loss Reserve Ratio of PAR 90 Days, required_as_reported: '>=50%', actual_as_reported: 42.14%}
+    - {isins: [INE179P07332], page: 8, covenant_as_reported: Cost to Income Ratio, required_as_reported: <=80%, actual_as_reported: 155.64%}
+    - {isins: [INE179P07605], page: 8, covenant_as_reported: PAR 90 to AUM, required_as_reported: <=5%, actual_as_reported: 5.67%}
+    - {isins: [INE179P07605], page: 8, covenant_as_reported: Operational Self Sufficiency Ratio, required_as_reported: '>=100%', actual_as_reported: 85.51%}
+    - {isins: [INE179P07605], page: 8, covenant_as_reported: Loan Loss Reserve Ratio of PAR 90 Days, required_as_reported: '>=50%', actual_as_reported: 42.14%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 90 Pre Write Off (current FY) / AUM, required_as_reported: <=1.5%, actual_as_reported: 6.90%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 90 Pre Write Off (current FY) / On Book POS, required_as_reported: <=1.5%, actual_as_reported: 3.60%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: PAR 30 / AUM, required_as_reported: <=3.5%, actual_as_reported: 6.86%}
+    - {isins: [INE179P08074], page: 8, covenant_as_reported: Company shall not report any losses during the quarter, required_as_reported: Profit, actual_as_reported: Losses}
+    - {isins: [INE179P07548], page: 8, covenant_as_reported: PAR 90+ (+) TTM Write Off, required_as_reported: <=6%, actual_as_reported: 7.47%}
+    - {isins: [INE179P07548], page: 8, covenant_as_reported: Return On Assets (ROA), required_as_reported: '>=0.75%', actual_as_reported: '-2.68%'}
+    - {isins: [INE179P07597, INE179P07613], page: 8, covenant_as_reported: PAT is Not Negative for Last four consecutive quarters, required_as_reported: Profit, actual_as_reported: Losses}
+    - {isins: [INE179P07589], page: 8, covenant_as_reported: Return on Assets, required_as_reported: '>=1%', actual_as_reported: '-1.02%'}
+    - {isins: [INE179P07621], page: 8, covenant_as_reported: Tier I Capital, required_as_reported: '>=18%', actual_as_reported: 17.67%}
+  evidence:
+    - document: dvara-sc-2026-08-12
+      page: 8
+      quote: The company has complied with all the covenants in respect of listed non-convertible debentures
+      locator: Annexure II
+      visual_fallback: true
+    - document: dvara-sc-2026-08-12
+      page: 4
+      quote: except for those stated in Annexure
+  note: >-
+    The issuer's annexure, signed for the company and initialled by its statutory auditor, lists these ISINs as exceptions
+    with the level at 30 June 2026. The auditor's report gives limited assurance in negative form. The annexure also
+    lists three identifiers beginning INIFD, which are outside this dataset. In the ROA TTM group the rendered page prints
+    the last identifier as INF179P07530; it is read here as INE179P07530, which the group above prints.
+
+- id: infinity-2026-06-auditor
+  document: infinity-sc-2026-08-07
+  instruments: [INE00VD07016, INE00VD07032]
+  period: {start: 2026-04-01, end: 2026-06-30}
+  stated_by: infinity-fincorp-web
+  made_by: statutory_auditor
+  scope: all_covenants
+  breach_stated: false
+  isins_printed: false
+  evidence:
+    - {document: infinity-sc-2026-08-07, page: 4, quote: nothing has come to our attention that causes us to believe that}
+    - {document: infinity-sc-2026-08-07, page: 4, quote: The Company is not in compliance with all covenants as mentioned in the Debenture Trust Deeds}
+  note: >-
+    Limited assurance in negative form, in a report dated August 07, 2026, on security cover and compliance with all
+    covenants as on June 30, 2026. The conclusion does not name ISINs; the covering letter names the issuer's two scrip
+    codes and the company's statement on page 8 names both ISINs.
+
+- id: infinity-2026-06-management
+  document: infinity-sc-2026-08-07
+  instruments: [INE00VD07016, INE00VD07032]
+  period: {start: 2026-04-01, end: 2026-06-30}
+  stated_by: infinity-fincorp-web
+  made_by: issuer
+  scope: financial_covenants
+  breach_stated: false
+  evidence:
+    - {document: infinity-sc-2026-08-07, page: 6, quote: 'has complied with all the financial covenants as prescribed in the Debenture Trust Deed, as at June 30, 2026'}
+    - {document: infinity-sc-2026-08-07, page: 8, quote: 'Statement of compliance with Financial Covenants as at June 30, 2026'}
+  note: The statement on page 8 marks each listed financial covenant "Complied".
+
+- id: satya-2026-06-financial-covenants
+  document: satya-qcr-2026-06
+  instruments: [INE982X08034, INE982X08042, INE982X07432, INE982X07176, INE982X07457, INE982X08091, INE982X08109]
+  period: {start: 2026-04-01, end: 2026-06-30}
+  stated_by: satya-microcapital-web
+  made_by: statutory_auditor
+  scope: financial_covenants
+  breach_stated: true
+  visual_fallback: true
+  exceptions:
+    - {isins: [INE982X08034], page: 20, covenant_as_reported: Clause 3.3 (a) of Debenture Trust Deed, deed_dates_as_reported: 08-Jul-19}
+    - {isins: [INE982X08042], page: 20, covenant_as_reported: Clause 3.3 (a) of Debenture Trust Deed, deed_dates_as_reported: 01-Aug-19}
+    - {isins: [INE982X07432], page: 20, covenant_as_reported: 'Clause 17.4 (a)(i), (v), (ix), (x) & (xiii) of Debenture Trust Deed', deed_dates_as_reported: 23-Jul-2024 and Amendment to Trust Deed dated 30-May-2025}
+    - {isins: [INE982X07176], page: 20, covenant_as_reported: Clause 2.5.3 (b) & (d) of Debenture Trust Deed, deed_dates_as_reported: 10-Aug-21}
+    - {isins: [INE982X07457], page: 20, covenant_as_reported: 'Clause 10.3 (c), (d) & (e) of Debenture Trust Deed', deed_dates_as_reported: '20-Aug-19, Amendment to Trust Deed dated 25-Aug-21 and again Amendment to Trust Deed dated 16-Dec-24'}
+    - {isins: [INE982X08091], page: 20, covenant_as_reported: 'Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed', deed_dates_as_reported: 30-Nov-23 executed for issuance of Rs. 25 crores & 20-Dec-23 executed for re-issuance of Rs. 24 crores}
+    - {isins: [INE982X08109], page: 20, covenant_as_reported: 'Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed', deed_dates_as_reported: '09-Feb-24 executed for issuance of Rs. 25 crores, 22-Feb-24 executed for re-issuance of Rs. 15 crores, 27-Mar-24 executed for re-issuance of Rs. 15 crores'}
+  evidence:
+    - {document: satya-qcr-2026-06, page: 18, quote: has not complied with the financial covenants as per the terms of the Debenture Trust Deeds, visual_fallback: true}
+    - {document: satya-qcr-2026-06, page: 20, quote: The Company is in the process of seeking waiver from NCD/Bond holder., visual_fallback: true}
+  note: >-
+    The statutory auditor's certificate of 14 August 2026 (Annexure F) gives limited assurance in negative form that the
+    company has not complied with the financial covenants except as stated in its annexure, which marks each ISIN "N" and
+    names the clauses breached. The annexure also lists three identifiers beginning INIFD, outside this dataset. The
+    deed dates for INE982X08109 continue beyond the quoted text with 30-May-24 and 21-Jun-24. The same report's limited review report
+    says the company breached certain debt covenants with various lenders during the year to 31 March 2026 and the
+    quarter to 30 June 2026.

@@ -1,8 +1,22 @@
 from datetime import date
 
-from brdo.consistency import compare_notices_with_reports, revisions, stated_thresholds
-from brdo.models import BreachNotice
-from tests.conftest import ISIN_LISTED, QUARTER, make_document, make_report, make_row
+from brdo.consistency import (
+    compare_notices_with_reports,
+    compare_statements_with_reports,
+    revisions,
+    stated_thresholds,
+)
+from brdo.models import BreachNotice, StatedException
+from brdo.vocab import Agreement, CovenantCategory, StatementScope
+from tests.conftest import (
+    ISIN_LISTED,
+    ISIN_UNLISTED,
+    QUARTER,
+    make_document,
+    make_report,
+    make_row,
+    make_statement,
+)
 
 
 def test_thresholds_are_read_regardless_of_spacing_and_case():
@@ -93,3 +107,45 @@ def test_identical_versions_show_no_revision(dataset):
     dataset.documents["report-v2"] = make_document("report-v2", supersedes=["report-q1"])
     dataset.breach_reports["report-v2"] = make_report("report-v2")
     assert revisions(dataset) == []
+
+
+def _compare(dataset, statement):
+    dataset.compliance_statements[statement.id] = statement
+    return [c for c in compare_statements_with_reports(dataset) if c.statement == statement.id]
+
+
+def test_an_issuer_statement_listing_the_breach_agrees_with_the_trustee(dataset):
+    line = StatedException(isins=[ISIN_LISTED], page=1, covenant_as_reported="ratio", required_as_reported="<=5.00%")
+    [result] = _compare(dataset, make_statement(breach=True, exceptions=[line]))
+    assert (result.agreement, result.trustee_lists) == (Agreement.CONSISTENT, True)
+    assert result.levels_only_in_statement == ()
+
+
+def test_a_required_level_the_trustee_does_not_print_is_surfaced(dataset):
+    line = StatedException(isins=[ISIN_LISTED], page=1, covenant_as_reported="ratio", required_as_reported="<=8%")
+    [result] = _compare(dataset, make_statement(breach=True, exceptions=[line]))
+    assert result.levels_only_in_statement == ("<=8%",)
+
+
+def test_a_statement_of_compliance_differs_from_a_listing(dataset):
+    [result] = _compare(dataset, make_statement(breach=False))
+    assert result.agreement is Agreement.DIFFERS
+
+
+def test_a_financial_only_statement_cannot_answer_a_listing_of_another_kind(dataset):
+    row = make_row()
+    item = row.items[0].model_copy(update={"category": CovenantCategory.AFFIRMATIVE})
+    dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+    [result] = _compare(dataset, make_statement(breach=False, scope=StatementScope.FINANCIAL_COVENANTS))
+    assert result.agreement is Agreement.NOT_COMPARABLE
+
+
+def test_a_breach_stated_by_the_issuer_but_absent_from_a_complete_report_differs(dataset):
+    [result] = _compare(dataset, make_statement(breach=True, isin=ISIN_UNLISTED))
+    assert (result.agreement, result.trustee_lists) == (Agreement.DIFFERS, False)
+
+
+def test_without_a_complete_report_absence_is_not_compared(dataset):
+    dataset.breach_reports["report-q1"] = make_report(extraction_complete=False, visually_reviewed=False)
+    [result] = _compare(dataset, make_statement(breach=True, isin=ISIN_UNLISTED))
+    assert (result.agreement, result.trustee_lists) == (Agreement.NOT_COMPARABLE, None)

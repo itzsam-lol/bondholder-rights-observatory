@@ -367,9 +367,11 @@ breach notice ctl-notice-satya-2026-08-p1,ctl-notice-satya-2026-08,1,,received i
 breach notice ctl-notice-satya-2026-08-p5,ctl-notice-satya-2026-08,5,,"Clause 17.4 (a) (i), (v), (ix), (x) and (xiii) of the Debenture Trust Deed Further, basis the security cover certificate by the statutory auditor, the issuer",false
 breach notice ctl-notice-satya-2026-08-p5,ctl-notice-satya-2026-08,5,,"Debenture Trust Deed (“DTD”) dated 23rd July, 2024",false
 breach notice ctl-notice-satya-2026-08-p5,ctl-notice-satya-2026-08,5,,received intimation from the issuer on 14th August 2026,false
+discrepancy satya-deed-history,ctl-notice-satya-2026-08,5,,"Debenture Trust Deed (“DTD”) dated 23rd July, 2024",false
 breach notice ctl-notice-satya-2026-08-p8,ctl-notice-satya-2026-08,8,,"Clause 10.3 (c), (d) and (e) of the Debenture Trust Deed Further, basis the security cover certificate by the statutory auditor, the issuer has not maintained",false
 breach notice ctl-notice-satya-2026-08-p8,ctl-notice-satya-2026-08,8,,"Debenture Trust Deed (“DTD”) dated 25th August, 2021",false
 breach notice ctl-notice-satya-2026-08-p8,ctl-notice-satya-2026-08,8,,received intimation from the issuer on 14th August 2026,false
+discrepancy satya-deed-history,ctl-notice-satya-2026-08,8,,"Debenture Trust Deed (“DTD”) dated 25th August, 2021",false
 breach notice ctl-notice-satya-2026-08-p11,ctl-notice-satya-2026-08,11,,"As per clause 3.3 of the Debenture Trust Deed (a) Until the Final Settlement Date, the GNPA shall not exceed 3% (three percent) of the Assets under Management",false
 breach notice ctl-notice-satya-2026-08-p11,ctl-notice-satya-2026-08,11,,"Debenture Trust Deed (“DTD”) dated 8th July, 2019",false
 breach notice ctl-notice-satya-2026-08-p11,ctl-notice-satya-2026-08,11,,received intimation from the issuer on 14th August 2026,false
@@ -512,6 +514,7 @@ breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,1,,"Clause no. 6.1 (b) The cha
 breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,1,,Intimation to Debenture Holders vide email dt.14-08-2026 and to CRA & SEBI vide email dt.15-08-2026 and Stock Exchange Intimated dated 11-09-2026,false
 breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,1,,Samunnati Finance Private Limited,false
 discrepancy aye-cin-form,ctl-t5-2026-06,1,,Aye Finance Private Limited,false
+discrepancy infinity-governance-covenant,ctl-t5-2026-06,1,,comply with any corporate governance requirements applicable to the Company,false
 discrepancy samunnati-two-cins,ctl-t5-2026-06,1,,Samunnati Finance Private Limited,false
 discrepancy trustee-of-ine501x07588,ctl-t5-2026-06,1,,INE501X07588,false
 instrument INE00VD07016 claim debenture_trustee,ctl-t5-2026-06,1,,INE00VD07016,false
@@ -582,6 +585,7 @@ breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,2,,"Intimation to Debenture Ho
 breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,2,,Satya Microcapital Limited,false
 breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,2,,h)Company to maintain minimum liquidity amount equivalent to next 1.5 month liabilities after including Put Options/interest reset on liabilities (assuming,false
 discrepancy samunnati-two-cins,ctl-t5-2026-06,2,,INE0N5S07052,false
+discrepancy satya-ine982x08042-not-in-trustee-report,ctl-t5-2026-06,2,,INE982X08034,false
 instrument INE08XP07357 claim debenture_trustee,ctl-t5-2026-06,2,,INE08XP07357,false
 instrument INE08XP07365 claim debenture_trustee,ctl-t5-2026-06,2,,INE08XP07365,false
 instrument INE0N5S07052 claim debenture_trustee,ctl-t5-2026-06,2,,INE0N5S07052,false
@@ -661,6 +665,7 @@ breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,4,,Dvara Kshetriya Gramin Fin
 breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,4,,"Intimation to Debenture Holders 27-08-2026, CRA & SEBI vide email dt. 27-08-2026 and Stock Exchange Intimation dated 11-09-2026",false
 discrepancy dvara-cost-to-income-limit,ctl-t5-2026-06,4,,maintain the Cost to Income Ratio of less than 80%,false
 discrepancy dvara-isin-in-notice,ctl-t5-2026-06,4,,INE179P07530,false
+discrepancy dvara-portfolio-quality-levels,ctl-t5-2026-06,4,,Loan Loss Reserve Ratio of at least 55%,false
 instrument INE179P07332 claim debenture_trustee,ctl-t5-2026-06,4,,INE179P07332,false
 instrument INE179P07464 claim debenture_trustee,ctl-t5-2026-06,4,,INE179P07464,false
 instrument INE179P07530 claim debenture_trustee,ctl-t5-2026-06,4,,INE179P07530,false
@@ -704,10 +709,160 @@ instrument INE179P08074 claim debenture_trustee,ctl-t5-2026-06,5,,INE179P08074,f
 instrument INE2GLH07012 claim debenture_trustee,ctl-t5-2026-06,5,,INE2GLH07012,false
 instrument INE2GLH07020 claim debenture_trustee,ctl-t5-2026-06,5,,INE2GLH07020,false
 compliance statement dvara-2025-12-complied,dvara-reg54-2026-02-11,8,Annexure II,The company has complied with all the covenants in respect of listed non-convertible debentures,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,(PAR 30 +RL + Net charge off TTM )/ AUM,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,(PAR 90 +RL - LLR)/Tier 1,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,-1.02%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,-1.87%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,10.00%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,10.45%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,10.45%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,11.22%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,12.15%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,29.26%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,5.98%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,51.61%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,7.00%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,7.61%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,75.24%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,8.73%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,8.84%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=1.5%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=1.5%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=10%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=10%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=3.5%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=3.5%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=6%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,<=70%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,>=0%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,>=0.75%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,>=55%,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,Cost to Income Ratio,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07332,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07332,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07332,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07464,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07464,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07464,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07530,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07530,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07530,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07548,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07548,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07605,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07605,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P07605,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P08074,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P08074,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P08074,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P08074,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,INE179P08082,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,Loan Loss Reserve Ratio of PAR 90 Days,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 30 / AUM,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 30 / On Book POS,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 30 to AUM,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 90 + TTM Write Off,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 90 Pre Write Off (current FY) / AUM,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 90 Pre Write Off (current FY) / On Book POS,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,PAR 90 to AUM,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,ROA TTM,false
+compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,,Return On Assets (ROA),false
 compliance statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,8,Annexure II,The company has complied with all the covenants in respect of listed non-convertible debentures,false
 discrepancy dvara-cost-to-income-limit,dvara-reg54-2026-02-11,8,,Cost to Income Ratio,false
+discrepancy dvara-portfolio-quality-levels,dvara-reg54-2026-02-11,8,,Loan Loss Reserve Ratio of PAR 90 Days,false
 discrepancy dvara-roa-exception-list,dvara-reg54-2026-02-11,8,,The company has complied with all the covenants in respect of listed non-convertible debentures,false
 provision dvara-ine179p08082-cost-to-income-2025-12,dvara-reg54-2026-02-11,8,,Cost to Income Ratio,false
+discrepancy dvara-cost-to-income-limit,dvara-reg59-2026-07-02,3,,Waiver of the breach of existing threshold until the date of execution of the Amendment Deed,false
+discrepancy dvara-cost-to-income-limit,dvara-reg59-2026-07-02,3,,"less than 70% (seventy percent), until the Final Settlement Date",false
+provision dvara-ine179p08082-cost-to-income-existing-2026-06,dvara-reg59-2026-07-02,3,,"Currently, the Issuer is required to maintain the Cost to Income Ratio of less than 70% (seventy percent), until the Final Settlement Date.",false
+provision dvara-ine179p08082-cost-to-income-proposed-2026-07,dvara-reg59-2026-07-02,3,,"(a) Waiver of the breach of existing threshold until the date of execution of the Amendment Deed. (b) Commencing from the date of execution of the Amendment Deed, to be modified to prescribe that the Issuer shall: (i) until March 31, 2026, maintain the Cost to Income Ratio of less than or equal to 85% (eighty five percent); (ii) until September 30, 2026, maintain the Cost to Income Ratio of less than or equal to 80% (eighty percent); and (iii) until December 31, 2026, and at all times thereafter until the Final Settlement Date, maintain the Cost to Income Ratio of less than or equal to 70% (seventy percent).",false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,4,,except for those stated in Annexure,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,(PAR 90 +RL - LLR)/Tier 1,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,-1.02%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,-1.03%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,-2.68%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,155.64%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,17.67%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,22.43%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,3.60%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,42.14%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,42.14%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,5.67%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,5.67%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,6.86%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,6.86%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,6.90%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,7.47%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,85.51%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,85.51%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,92.74%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=1.5%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=1.5%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=10%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=3%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=3.5%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=4%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=5%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=6%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=80%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,<=85%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=0%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=0.75%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=1%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=100%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=100%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=18%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=50%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,>=50%,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Company shall not report any losses during the quarter,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Cost to Income Ratio,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Cost to Income Ratio,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07332,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07332,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07332,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07332,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07332,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07464,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07464,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07530,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07530,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07548,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07548,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07589,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07597,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07605,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07605,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07605,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07613,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P07621,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P08074,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P08074,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P08074,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P08074,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,INE179P08082,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Loan Loss Reserve Ratio of PAR 90 Days,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Loan Loss Reserve Ratio of PAR 90 Days,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Losses,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Losses,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Operational Self Sufficiency Ratio,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Operational Self Sufficiency Ratio,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 30 / AUM,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 30 to AUM,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 90 Pre Write Off (current FY) / AUM,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 90 Pre Write Off (current FY) / On Book POS,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 90 to AUM,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 90 to AUM,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAR 90+ (+) TTM Write Off,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,PAT is Not Negative for Last four consecutive quarters,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Profit,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Profit,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,ROA TTM,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Return On Assets (ROA),false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Return on Assets,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,Annexure II,The company has complied with all the covenants in respect of listed non-convertible debentures,false
+compliance statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,8,,Tier I Capital,false
+discrepancy dvara-cost-to-income-limit,dvara-sc-2026-08-12,8,,<=85%,false
+discrepancy dvara-portfolio-quality-levels,dvara-sc-2026-08-12,8,,>=50%,false
 provision krcl-asset-cover-per-icra,icra-krcl-139196,1,,"The bonds are secured by way of first pari -passu charge on the specific assets, except the debt on the company's book, with minimum asset coverage of 1.25 times of the aggregate face value of the bonds outstanding at all times .",false
 provision krcl-dscr-per-icra,icra-krcl-139196,1,,"ICRA has taken note of the debt service coverage ratio (DSCR) covenant breach, which is to be maintained at 1.25 times.",false
 breach notice idbi-notice-aliens-2026-09b-p1,idbi-notice-aliens-2026-09b,,,INE223Y07017,false
@@ -948,6 +1103,12 @@ instrument INE906B07IZ5 claim debenture_trustee,idbi-t5-2026-06,1,,INE906B07IZ5,
 instrument INE906B07JA6 claim debenture_trustee,idbi-t5-2026-06,1,,INE906B07JA6,false
 instrument INE906B07JB4 claim debenture_trustee,idbi-t5-2026-06,1,,INE906B07JB4,false
 issuer vr-dakshin name variant,idbi-t5-2026-06,1,,formerly known as Sugam Vanijya Holdings,false
+compliance statement infinity-2026-06-auditor,infinity-sc-2026-08-07,4,,The Company is not in compliance with all covenants as mentioned in the Debenture Trust Deeds,false
+compliance statement infinity-2026-06-auditor,infinity-sc-2026-08-07,4,,nothing has come to our attention that causes us to believe that,false
+discrepancy infinity-governance-covenant,infinity-sc-2026-08-07,4,,The Company is not in compliance with all covenants as mentioned in the Debenture Trust Deeds,false
+discrepancy infinity-governance-covenant,infinity-sc-2026-08-07,4,,nothing has come to our attention that causes us to believe that,false
+compliance statement infinity-2026-06-management,infinity-sc-2026-08-07,6,,"has complied with all the financial covenants as prescribed in the Debenture Trust Deed, as at June 30, 2026",false
+compliance statement infinity-2026-06-management,infinity-sc-2026-08-07,8,,"Statement of compliance with Financial Covenants as at June 30, 2026",false
 breach notice mitcon-press-ramasigns-2026-08-14-p1,mitcon-press-ramasigns-2026-08-14,,,INE650D08013,false
 breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,,,INE650D08013,false
 breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,1,,02-05-2025 03-06-2025 02-07-2025 04-08-2025 03-09-2025 03-10-2025 03-11-2025 01-12-2025 01-01-2026 02-02-2026 02-03-2026 02-04-2026 04-05-2026 03-06-2026,false
@@ -960,15 +1121,55 @@ breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,1,,Ramasigns Industries 
 breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,1,,Unsecured,false
 breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,1,,"We have duly intimated the debenture holders, stock exchanges, SEBI, and other applicable regulatory authorities regarding the default in payment of interest",false
 instrument INE650D08013 claim debenture_trustee,mitcon-t5-2026-06,1,,INE650D08013,false
+discrepancy satya-ine982x08042-not-in-trustee-report,satya-qcr-2026-06,1,,"INE982X08042 (Full redemptions were made on July 08, 2026)",false
+instrument INE982X08042 claim debenture_trustee,satya-qcr-2026-06,1,,Catalyst Trusteeship Limited,false
+instrument INE982X08042 claim debenture_trustee,satya-qcr-2026-06,1,,"INE982X08042 (Full redemptions were made on July 08, 2026)",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,18,,has not complied with the financial covenants as per the terms of the Debenture Trust Deeds,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,01-Aug-19,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,08-Jul-19,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"09-Feb-24 executed for issuance of Rs. 25 crores, 22-Feb-24 executed for re-issuance of Rs. 15 crores, 27-Mar-24 executed for re-issuance of Rs. 15 crores",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,10-Aug-21,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"20-Aug-19, Amendment to Trust Deed dated 25-Aug-21 and again Amendment to Trust Deed dated 16-Dec-24",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,23-Jul-2024 and Amendment to Trust Deed dated 30-May-2025,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,30-Nov-23 executed for issuance of Rs. 25 crores & 20-Dec-23 executed for re-issuance of Rs. 24 crores,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"Clause 10.3 (c), (d) & (e) of Debenture Trust Deed",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"Clause 17.4 (a)(i), (v), (ix), (x) & (xiii) of Debenture Trust Deed",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,Clause 2.5.3 (b) & (d) of Debenture Trust Deed,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,Clause 3.3 (a) of Debenture Trust Deed,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,Clause 3.3 (a) of Debenture Trust Deed,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X07176,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X07432,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X07457,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X08034,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X08042,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X08091,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,INE982X08109,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,The Company is in the process of seeking waiver from NCD/Bond holder.,false
+discrepancy satya-deed-history,satya-qcr-2026-06,20,,Amendment to Trust Deed dated 25-Aug-21,false
+discrepancy satya-deed-history,satya-qcr-2026-06,20,,Amendment to Trust Deed dated 30-May-2025,false
+discrepancy satya-ine982x08042-not-in-trustee-report,satya-qcr-2026-06,20,,INE982X08042,false
 regulatory reference expert-working-group,sebi-circ-dt-sbu-2026-10-27,1,,Expert Working group,false
 regulatory reference sbu-extension,sebi-circ-dt-sbu-2026-10-27,2,,"upto April 27, 2027",false
+regulatory reference lodr-security-cover-with-results,sebi-lodr-2026-10-15,102,,disclose the security cover available in case of non - convertible debt securities along with its financial results,false
+regulatory reference lodr-auditor-certificate-covenants,sebi-lodr-2026-10-15,103,,"including compliance with all the covenants, in respect of listed non",false
+regulatory reference lodr-material-modification,sebi-lodr-2026-10-15,105,,shall not make material modification without prior approval of the stock exchange(s),false
+regulatory reference lodr-modification-consent,sebi-lodr-2026-10-15,106,,"holders of not less than three -fourths, by value of holders of that class of securities",false
+regulatory reference lodr-website-compliance-reports,sebi-lodr-2026-10-15,109,,all information and reports including compliance reports filed by the listed entity,false
+regulatory reference cra-covenants-structured-finance,sebi-mc-cra-2025-07-11,21,,the CRA shall include all the assumptions/ covenants made while carrying out the review of such products in the Press Release,false
+regulatory reference cra-covenants-credit-enhanced,sebi-mc-cra-2025-07-11,31,,the Press Release shall also contain a detailed explanation of all the covenants of the security,false
 regulatory reference covenants-in-offer-document,sebi-mc-dt-2026-09-28,29,,disclosed all covenants proposed to be included in debenture,false
 regulatory reference scms-credentials,sebi-mc-dt-2026-09-28,34,,"Provide secure login credentials to Issuers, CRAs, Debenture Trustees",false
 regulatory reference scms-covenants-entered,sebi-mc-dt-2026-09-28,38,,enter the covenants of the issuance in the system and upload the debenture trust deed,false
+regulatory reference issuer-covenant-compliance-status,sebi-mc-dt-2026-09-28,68,,compliance status with respect to financial covenants of the listed debt securities which shall be certified by the statutory auditor,false
 regulatory reference trustee-public-monitoring,sebi-mc-dt-2026-09-28,69,,Independently monitor any breach of covenants,false
 regulatory reference trustee-status-report,sebi-mc-dt-2026-09-28,69,,Furnish a status report on its website and to the Stock Exchange,false
 regulatory reference minimum-security-cover,sebi-mc-dt-2026-09-28,70,,Any breach of the minimum security cover within two working days,false
 regulatory reference covenant-guidance-note,sebi-mc-dt-2026-09-28,71,,Guidance note on list of Covenants,false
+regulatory reference trustee-table-3,sebi-mc-dt-2026-09-28,73,,Quarterly compliance report of the,false
+regulatory reference trustee-table-1-rating-links,sebi-mc-dt-2026-09-28,76,,Hyperlink of the press releases by the Credit rating Agency,false
+regulatory reference table-5-during-the-quarter,sebi-mc-dt-2026-09-28,78,,breached during the quarter,false
 regulatory reference table-5-format,sebi-mc-dt-2026-09-28,78,,"Status of information regarding breach of covenants/ terms of the issue, if any action taken by Debenture Trustee",false
 regulatory reference copy-of-trust-deed,sebi-mc-dt-2026-09-28,92,,Providing copy of debenture trust deed to investor,false
 regulatory reference inspect-trust-deed,sebi-mc-dt-2026-09-28,93,,"Inspect debenture trust deed, to obtain copy",false
@@ -976,6 +1177,7 @@ regulatory reference default-at-isin-level,sebi-mc-dt-2026-09-28,99,,shall be re
 regulatory reference isin-many-documents,sebi-mc-dt-2026-09-28,99,,a single ISIN which may have been split across multiple offer documents,false
 regulatory reference bond-central-scope,sebi-pr-bond-central-2025-02-27,1,,information repository for the public at large,false
 regulatory reference bond-central-documents,sebi-pr-bond-central-2025-02-27,2,,"corporate bond documents, and disclosures",false
+regulatory reference expert-working-group-suggestions,sebi-pr-ewg-2026-06-30,2,,"Such suggestions may be submitted in the format prescribed below on or before July 15, 2026",false
 breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,,INE679U07026,false
 breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,,INE679U07026,false
 breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,,INE679U08024,false

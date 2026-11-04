@@ -1,11 +1,11 @@
 isin,period_end,status,basis,documents
 INE00VD07016,2025-12-31,not_assessed,trustee_report_not_searched,
 INE00VD07016,2026-03-31,not_assessed,trustee_report_not_searched,
-INE00VD07016,2026-06-30,reported_breach,listed_in_current_version,ctl-t5-2026-06
+INE00VD07016,2026-06-30,conflicting,statements_disagree,ctl-t5-2026-06; infinity-sc-2026-08-07
 INE00VD07016,2026-09-30,not_assessed,trustee_report_not_searched,
 INE00VD07032,2025-12-31,not_assessed,trustee_report_not_searched,
 INE00VD07032,2026-03-31,not_assessed,trustee_report_not_searched,
-INE00VD07032,2026-06-30,reported_breach,listed_in_current_version,ctl-t5-2026-06
+INE00VD07032,2026-06-30,conflicting,statements_disagree,ctl-t5-2026-06; infinity-sc-2026-08-07
 INE00VD07032,2026-09-30,not_assessed,trustee_report_not_searched,
 INE01W207017,2025-12-31,not_assessed,trustee_report_not_searched,
 INE01W207017,2026-03-31,not_assessed,trustee_report_not_searched,
@@ -371,6 +371,10 @@ INE982X08034,2025-12-31,not_assessed,trustee_report_not_searched,
 INE982X08034,2026-03-31,not_assessed,trustee_report_not_searched,
 INE982X08034,2026-06-30,reported_breach,listed_in_current_version,ctl-t5-2026-06
 INE982X08034,2026-09-30,not_assessed,trustee_report_not_searched,
+INE982X08042,2025-12-31,not_assessed,trustee_report_not_searched,
+INE982X08042,2026-03-31,not_assessed,trustee_report_not_searched,
+INE982X08042,2026-06-30,reported_breach,explicit_statement,satya-qcr-2026-06
+INE982X08042,2026-09-30,not_assessed,trustee_report_not_searched,
 INE982X08091,2025-12-31,not_assessed,trustee_report_not_searched,
 INE982X08091,2026-03-31,not_assessed,trustee_report_not_searched,
 INE982X08091,2026-06-30,reported_breach,listed_in_current_version,ctl-t5-2026-06

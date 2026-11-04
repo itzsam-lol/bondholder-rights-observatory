@@ -299,9 +299,20 @@ def cmd_show(args: argparse.Namespace) -> int:
         if instrument.isin in notice.isins:
             deeds = ", ".join(str(d) for d in notice.deed_dates) or "none cited"
             print(f"  notice {notice.document} p{notice.page} {notice.issued_on} [{notice.kind}]; deeds: {deeds}")
+    for statement in sorted(dataset.compliance_statements.values(), key=lambda s: (s.period.end, s.id)):
+        if instrument.isin in statement.instruments:
+            says = "breach" if statement.breach_stated else "compliance"
+            print(
+                f"  stated {statement.document} {statement.period.end} "
+                f"by {statement.made_by} ({statement.scope}): {says}"
+            )
+            for line in statement.exceptions:
+                if instrument.isin in line.isins:
+                    levels = " ".join(text for text in (line.required_as_reported, line.actual_as_reported) if text)
+                    print(f"         {line.covenant_as_reported} {levels}".rstrip())
     for discrepancy in dataset.discrepancies.values():
-        if discrepancy.subject == instrument.isin:
-            print(f"  open   {discrepancy.id}: {discrepancy.description[:120]}")
+        if instrument.isin in {part.strip() for part in discrepancy.subject.split(",")}:
+            print(f"  {discrepancy.status:<6} {discrepancy.id}: {discrepancy.description[:120]}")
     for status in derive_all(dataset):
         if status.isin == instrument.isin:
             print(f"  status {status.period_end}: {status.status} ({status.basis})")

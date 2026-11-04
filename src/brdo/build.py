@@ -13,7 +13,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
-from brdo.consistency import compare_notices_with_reports
+from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports
 from brdo.models import Evidence
 from brdo.status import derive_all
 from brdo.store import Dataset
@@ -297,18 +297,57 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
         for c in compare_notices_with_reports(dataset)
     ]
 
+    statements = sorted(dataset.compliance_statements.values(), key=lambda s: s.id)
     out["compliance_statements"] = [
         {
             "id": s.id,
+            "document": s.document,
             "instruments": s.instruments,
             "period_start": s.period.start,
             "period_end": s.period.end,
             "stated_by": s.stated_by,
+            "made_by": s.made_by,
+            "scope": s.scope,
             "breach_stated": s.breach_stated,
+            "isins_printed": s.isins_printed,
+            "exceptions": len(s.exceptions),
             "evidence": _anchors(s.evidence),
             "note": s.note,
         }
-        for s in sorted(dataset.compliance_statements.values(), key=lambda s: s.id)
+        for s in statements
+    ]
+
+    out["compliance_statement_exceptions"] = [
+        {
+            "statement": s.id,
+            "document": s.document,
+            "page": line.page,
+            "isins": line.isins,
+            "covenant_as_reported": line.covenant_as_reported,
+            "required_as_reported": line.required_as_reported,
+            "actual_as_reported": line.actual_as_reported,
+            "deed_dates_as_reported": line.deed_dates_as_reported,
+            "read_from_rendering": s.visual_fallback,
+        }
+        for s in statements
+        for line in s.exceptions
+    ]
+
+    out["statement_report_comparisons"] = [
+        {
+            "statement": c.statement,
+            "isin": c.isin,
+            "period_end": c.period_end,
+            "made_by": c.made_by,
+            "scope": c.scope,
+            "statement_reports_breach": c.statement_reports_breach,
+            "trustee_report": c.trustee_report,
+            "trustee_lists": c.trustee_lists,
+            "agreement": c.agreement,
+            "basis": c.basis,
+            "levels_only_in_statement": list(c.levels_only_in_statement),
+        }
+        for c in compare_statements_with_reports(dataset)
     ]
 
     out["regulatory_references"] = [

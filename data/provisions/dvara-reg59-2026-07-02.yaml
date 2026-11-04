@@ -1,0 +1,48 @@
+- id: dvara-ine179p08082-cost-to-income-existing-2026-06
+  document: dvara-reg59-2026-07-02
+  clause: Not given in the letter
+  heading: EXISTING PROVISION
+  page: 3
+  text: >-
+    Currently, the Issuer is required to maintain the Cost to Income Ratio of less than 70% (seventy percent), until the
+    Final Settlement Date.
+  instruments: [INE179P08082]
+  category: financial
+  metric: Cost to income ratio
+  thresholds:
+    - {comparator: "<", value: 70, unit: percent}
+  visual_fallback: true
+  explanation: Operating costs must stay below 70% of income until the debentures are fully settled.
+  notes: >-
+    As described in the annexure to BSE's in-principle approval of July 1, 2026, which acknowledges the issuer's
+    application of June 8, 2026. This is BSE's description of the provision, not the trust deed's own text.
+
+- id: dvara-ine179p08082-cost-to-income-proposed-2026-07
+  document: dvara-reg59-2026-07-02
+  clause: Not given in the letter
+  heading: PROPOSED MODIFICATION/WAIVER
+  page: 3
+  text: >-
+    (a) Waiver of the breach of existing threshold until the date of execution of the Amendment Deed. (b) Commencing from
+    the date of execution of the Amendment Deed, to be modified to prescribe that the Issuer shall: (i) until March 31,
+    2026, maintain the Cost to Income Ratio of less than or equal to 85% (eighty five percent); (ii) until September 30,
+    2026, maintain the Cost to Income Ratio of less than or equal to 80% (eighty percent); and (iii) until December 31,
+    2026, and at all times thereafter until the Final Settlement Date, maintain the Cost to Income Ratio of less than or
+    equal to 70% (seventy percent).
+  instruments: [INE179P08082]
+  category: financial
+  metric: Cost to income ratio
+  thresholds:
+    - {comparator: "<=", value: 85, unit: percent, applies_to: 2026-03-31}
+    - {comparator: "<=", value: 80, unit: percent, applies_to: 2026-09-30}
+    - {comparator: "<=", value: 70, unit: percent}
+  amends: dvara-ine179p08082-cost-to-income-existing-2026-06
+  visual_fallback: true
+  explanation: >-
+    A proposal, approved in principle by BSE, to waive the breach and replace the 70% limit with 85% until 31 March 2026,
+    80% until 30 September 2026 and 70% again from December 2026. When the change took effect depends on the amendment
+    deed, which has not been retrieved.
+  notes: >-
+    The start dates of steps (ii) and (iii) are not stated and are left out. The same annexure proposes a complete waiver
+    of the waiver fees set out in the trust deed. The trustee's notice of August 2026 cites an Amendment Deed dated 29th
+    July 2026.

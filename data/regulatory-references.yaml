@@ -80,3 +80,67 @@
   page: 2
   quote: corporate bond documents, and disclosures
   relevance: Bond Central's stated scope overlaps with document access, so this project does not build a listing portal.
+- id: issuer-covenant-compliance-status
+  document: sebi-mc-dt-2026-09-28
+  page: 68
+  quote: compliance status with respect to financial covenants of the listed debt securities which shall be certified by the statutory auditor
+  relevance: Issuers must give trustees an auditor-certified statement of financial covenant compliance every quarter.
+- id: trustee-table-3
+  document: sebi-mc-dt-2026-09-28
+  page: 73
+  quote: Quarterly compliance report of the
+  relevance: >-
+    Trustees publish, per listed entity and ISIN, whether quarterly compliance reports and security cover certificates
+    were received (Annex-VIIA, Table 3), which makes a per-trustee census of monitored issues possible.
+- id: trustee-table-1-rating-links
+  document: sebi-mc-dt-2026-09-28
+  page: 76
+  quote: Hyperlink of the press releases by the Credit rating Agency
+  relevance: Trustees' rating-revision table links each ISIN to the rating agency's press release (Annex-VIIA, Table 1).
+- id: table-5-during-the-quarter
+  document: sebi-mc-dt-2026-09-28
+  page: 78
+  quote: breached during the quarter
+  relevance: The prescribed column heading ties a listing to breaches during the quarter, which some rows carry over.
+- id: lodr-security-cover-with-results
+  document: sebi-lodr-2026-10-15
+  page: 102
+  quote: disclose the security cover available in case of non - convertible debt securities along with its financial results
+  relevance: Regulation 54(3) of the LODR Regulations, the basis of the issuers' quarterly security cover filings.
+- id: lodr-auditor-certificate-covenants
+  document: sebi-lodr-2026-10-15
+  page: 103
+  quote: including compliance with all the covenants, in respect of listed non
+  relevance: Regulation 56(1)(d) requires a statutory auditor's certificate that covers compliance with all the covenants.
+- id: lodr-material-modification
+  document: sebi-lodr-2026-10-15
+  page: 105
+  quote: shall not make material modification without prior approval of the stock exchange(s)
+  relevance: Regulation 59(1). Changes to the terms of listed debentures need the exchange's prior approval.
+- id: lodr-modification-consent
+  document: sebi-lodr-2026-10-15
+  page: 106
+  quote: holders of not less than three -fourths, by value of holders of that class of securities
+  relevance: Regulation 59(2). The exchange approves only after the board, the trustee and three-fourths of holders by value.
+- id: lodr-website-compliance-reports
+  document: sebi-lodr-2026-10-15
+  page: 109
+  quote: all information and reports including compliance reports filed by the listed entity
+  relevance: Regulation 62(1)(g). Issuers' websites must carry the compliance reports they file, including covenant statements.
+- id: cra-covenants-credit-enhanced
+  document: sebi-mc-cra-2025-07-11
+  page: 31
+  quote: the Press Release shall also contain a detailed explanation of all the covenants of the security
+  relevance: >-
+    Rating press releases must explain all covenants for credit-enhanced ratings (paragraph 14.3). The master circular
+    sets no such general rule for other ratings.
+- id: cra-covenants-structured-finance
+  document: sebi-mc-cra-2025-07-11
+  page: 21
+  quote: the CRA shall include all the assumptions/ covenants made while carrying out the review of such products in the Press Release
+  relevance: For structured finance products, press releases must include the covenants assumed (paragraph 10.1.10).
+- id: expert-working-group-suggestions
+  document: sebi-pr-ewg-2026-06-30
+  page: 2
+  quote: Such suggestions may be submitted in the format prescribed below on or before July 15, 2026
+  relevance: The public comment window of SEBI's review of the trustee framework closed on 15 July 2026.

@@ -84,14 +84,112 @@
       ],
       "title": "Period",
       "type": "object"
+    },
+    "StatedException": {
+      "additionalProperties": false,
+      "description": "One line of the exceptions a compliance statement lists, as printed.",
+      "properties": {
+        "actual_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual As Reported"
+        },
+        "covenant_as_reported": {
+          "maxLength": 800,
+          "minLength": 3,
+          "title": "Covenant As Reported",
+          "type": "string"
+        },
+        "deed_dates_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deed Dates As Reported"
+        },
+        "isins": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Isins",
+          "type": "array"
+        },
+        "page": {
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "required_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Required As Reported"
+        }
+      },
+      "required": [
+        "isins",
+        "page",
+        "covenant_as_reported"
+      ],
+      "title": "StatedException",
+      "type": "object"
+    },
+    "StatementMaker": {
+      "description": "Who made a compliance statement, which is not always who published it.",
+      "enum": [
+        "issuer",
+        "statutory_auditor"
+      ],
+      "title": "StatementMaker",
+      "type": "string"
+    },
+    "StatementScope": {
+      "description": "Which covenants a compliance statement says it covers.",
+      "enum": [
+        "all_covenants",
+        "financial_covenants"
+      ],
+      "title": "StatementScope",
+      "type": "string"
     }
   },
   "additionalProperties": false,
-  "description": "An explicit statement, for stated instruments and a stated period, about covenant compliance.",
+  "description": "An explicit statement, for stated instruments and a stated period, about covenant compliance.\n\n``stated_by`` is the source that published the statement; ``made_by`` is who made it. ``isins_printed`` is\nfalse when the statement covers an ISIN only by a general statement about all listed debentures, or by not\nlisting it among its exceptions.",
   "properties": {
     "breach_stated": {
       "title": "Breach Stated",
       "type": "boolean"
+    },
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
     },
     "evidence": {
       "items": {
@@ -99,6 +197,13 @@
       },
       "minItems": 1,
       "title": "Evidence",
+      "type": "array"
+    },
+    "exceptions": {
+      "items": {
+        "$ref": "#/$defs/StatedException"
+      },
+      "title": "Exceptions",
       "type": "array"
     },
     "id": {
@@ -115,6 +220,14 @@
       "title": "Instruments",
       "type": "array"
     },
+    "isins_printed": {
+      "default": true,
+      "title": "Isins Printed",
+      "type": "boolean"
+    },
+    "made_by": {
+      "$ref": "#/$defs/StatementMaker"
+    },
     "note": {
       "anyOf": [
         {
@@ -130,18 +243,30 @@
     "period": {
       "$ref": "#/$defs/Period"
     },
+    "scope": {
+      "$ref": "#/$defs/StatementScope"
+    },
     "stated_by": {
       "maxLength": 120,
       "pattern": "^[a-z0-9][a-z0-9._-]*$",
       "title": "Stated By",
       "type": "string"
+    },
+    "visual_fallback": {
+      "default": false,
+      "description": "Exceptions were read from the rendered page",
+      "title": "Visual Fallback",
+      "type": "boolean"
     }
   },
   "required": [
     "id",
+    "document",
     "instruments",
     "period",
     "stated_by",
+    "made_by",
+    "scope",
     "breach_stated",
     "evidence"
   ],

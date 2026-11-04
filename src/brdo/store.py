@@ -127,8 +127,8 @@ class Dataset:
             for anchor in notice.anchors():
                 yield f"breach notice {notice.id}", anchor
         for statement in self.compliance_statements.values():
-            for item in statement.evidence:
-                yield f"compliance statement {statement.id}", item
+            for anchor in statement.anchors():
+                yield f"compliance statement {statement.id}", anchor
         for reference in self.regulatory_references.values():
             yield f"regulatory reference {reference.id}", reference.anchor()
         for discrepancy in self.discrepancies.values():
@@ -138,7 +138,10 @@ class Dataset:
 
 def _read_yaml(path: Path) -> Any:
     with path.open(encoding="utf-8") as handle:
-        return yaml.safe_load(handle)
+        try:
+            return yaml.safe_load(handle)
+        except yaml.YAMLError as error:
+            raise DatasetError([Problem(Severity.ERROR, path.name, f"is not valid YAML: {error}")]) from error
 
 
 def _parse[M: BaseModel](model: type[M], raw: Any, where: str, problems: list[Problem]) -> M | None:
@@ -370,6 +373,8 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         where = f"compliance statement {statement.id}"
         if statement.stated_by not in dataset.sources:
             error(where, f"unknown source {statement.stated_by}")
+        if statement.document not in dataset.documents:
+            error(where, f"unknown document {statement.document}")
         for isin in statement.instruments:
             if isin not in dataset.instruments:
                 error(where, f"unknown instrument {isin}")

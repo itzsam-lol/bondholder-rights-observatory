@@ -208,3 +208,9 @@ def test_duplicate_ids_are_refused(tmp_path):
 
 def test_an_empty_data_directory_loads_as_an_empty_dataset(tmp_path):
     assert load_dataset(tmp_path).instruments == {}
+
+
+def test_a_file_that_is_not_valid_yaml_is_reported_as_a_dataset_error(tmp_path):
+    (tmp_path / "sources.yaml").write_text("- id: x\n  name: [unclosed\n", encoding="utf-8")
+    with pytest.raises(DatasetError, match="sources.yaml: is not valid YAML"):
+        load_dataset(tmp_path)

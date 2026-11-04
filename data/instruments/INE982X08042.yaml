@@ -1,0 +1,20 @@
+isin: INE982X08042
+issuer: satya-microcapital
+claims:
+  - property: debenture_trustee
+    value: catalyst-trusteeship
+    asserted_by: satya-microcapital-web
+    evidence:
+      - document: satya-qcr-2026-06
+        page: 1
+        quote: INE982X08042 (Full redemptions were made on July 08, 2026)
+      - document: satya-qcr-2026-06
+        page: 1
+        quote: Catalyst Trusteeship Limited
+    note: >-
+      The issuer's compliance report for the quarter ended June 30, 2026, made under the trust deeds it entered into with
+      this trustee, lists the ISIN among its listed debentures.
+notes: >-
+  Not listed in the trustee's June 2026 quarter report. The auditor's certificate in the issuer's compliance report for that
+  quarter lists it as not complying with clause 3.3 (a) of its trust deed as of 30 June 2026. See discrepancy
+  satya-ine982x08042-not-in-trustee-report.

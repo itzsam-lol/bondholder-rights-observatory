@@ -12,7 +12,7 @@ from brdo.build import tables
 from brdo.fetch import Cache, Fetcher, default_cache_dir
 from brdo.identifiers import is_valid_isin
 from brdo.report import render_report
-from brdo.status import derive_all
+from brdo.status import StatusBasis, derive_all
 from brdo.store import check_integrity, load_dataset
 from brdo.verify import AnchorStatus, verify_dataset
 from brdo.vocab import CoverageStatus, RedistributionPolicy, RetrievalPolicy, SourceKind
@@ -61,12 +61,24 @@ def test_every_reported_breach_points_at_documents(data):
             assert status.documents, status
 
 
-def test_every_listed_isin_has_status_reported_breach_for_its_report_period(data):
+def test_a_listed_isin_is_a_reported_breach_unless_an_explicit_statement_disagrees(data):
     statuses = {(s.isin, s.period_end): s for s in derive_all(data)}
+    conflicting = set()
     for report in data.breach_reports.values():
         for row in report.rows:
             for isin in row.isins:
-                assert statuses[(isin, report.period.end)].status is CoverageStatus.REPORTED_BREACH
+                status = statuses[(isin, report.period.end)]
+                if status.status is CoverageStatus.CONFLICTING:
+                    assert status.basis is StatusBasis.STATEMENTS_DISAGREE
+                    conflicting.add(isin)
+                else:
+                    assert status.status is CoverageStatus.REPORTED_BREACH
+    assert conflicting == {"INE00VD07016", "INE00VD07032"}
+
+
+def test_a_breach_stated_only_by_the_issuer_is_still_a_reported_breach(data):
+    status = next(s for s in derive_all(data) if s.isin == "INE982X08042" and s.period_end == date(2026, 6, 30))
+    assert (status.status, status.basis) == (CoverageStatus.REPORTED_BREACH, StatusBasis.EXPLICIT_STATEMENT)
 
 
 def test_trustees_named_in_reports_are_registered_as_such(data):

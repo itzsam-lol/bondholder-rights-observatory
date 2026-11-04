@@ -9,7 +9,7 @@ from collections import Counter, defaultdict
 from datetime import date
 from statistics import median
 
-from brdo.consistency import compare_notices_with_reports, revisions
+from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports, revisions
 from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
@@ -80,11 +80,18 @@ def linkage_funnel(dataset: Dataset) -> list[tuple[str, int]]:
     ]
     linked = {isin for isin, _ in links}
     consistent = {isin for isin, link in links if link.agreement is Agreement.CONSISTENT}
+    issuer_named = {
+        isin
+        for statement in dataset.compliance_statements.values()
+        for line in statement.exceptions
+        for isin in line.isins
+    } & listed
     return [
         ("listed in a reviewed trustee breach report", len(listed)),
         ("named in a trustee's notice to its holders", len(named)),
-        ("the trustee states the date of the governing trust deed", len(with_deed)),
+        ("the trustee cites a dated trust deed or trustee agreement", len(with_deed)),
         ("the report itself prints the clause or the required level", len(text_printed)),
+        ("the issuer's or its auditor's statement names the covenant breached", len(issuer_named)),
         ("at least one clause transcribed in this dataset", len(transcribed)),
         ("reported breach linked to a transcribed clause", len(linked)),
         ("... and the two agree", len(consistent)),
@@ -286,15 +293,75 @@ def _consistency_section(dataset: Dataset) -> str:
         f"informed the trustee in {len(same_day)} of {len(dated)} comparisons. On covenant levels, the percentages, "
         f"multiples and crore amounts printed in the two match exactly in {len(agree)} of {len(threshold_checked)} "
         "comparisons where the notice prints any. This checks numbers only, so it cannot see a change of wording or "
-        "duration around the same number; see discrepancy dvara-cost-to-income-limit. Differences are listed "
-        "as they are, and may have ordinary "
-        "explanations.\n\n"
+        "duration around the same number; see discrepancy dvara-cost-to-income-limit. Both publications come from "
+        "the same trustee, so agreement between them is not independent corroboration. Differences are listed as "
+        "they are, and may have ordinary explanations.\n\n"
         "Detection date differs from the stated date of intimation:\n\n"
         + _table(["ISIN", "report", "row", "intimated per notice", "detected per report", "days"], differing)
     )
     if thresholds:
         section += "\n\nStated levels differ:\n\n" + _table(["ISIN", "report", "in notice", "in report"], thresholds)
     return section
+
+
+_OUTCOME_RANK = [SearchOutcome.FOUND, SearchOutcome.LOCATED_NOT_RETRIEVED, SearchOutcome.ACCESS_ERROR]
+
+
+def _statements_section(dataset: Dataset) -> str:
+    period = main_period(dataset)
+    searched: dict[str, set[SearchOutcome]] = defaultdict(set)
+    for search in dataset.searches.values():
+        if search.purpose is SearchPurpose.COMPLIANCE_STATEMENT and search.period and search.period.end == period:
+            searched[search.subject].add(search.outcome)
+    best = Counter(
+        next((o for o in _OUTCOME_RANK if o in outcomes), SearchOutcome.NOT_FOUND) for outcomes in searched.values()
+    )
+    comparisons = [c for c in compare_statements_with_reports(dataset) if c.trustee_lists is not None]
+    tally = Counter(c.agreement for c in comparisons)
+    rows = [
+        [
+            c.isin,
+            c.statement,
+            c.made_by,
+            c.scope,
+            "breach" if c.statement_reports_breach else "compliance",
+            c.trustee_report,
+            "yes" if c.trustee_lists else "no",
+            c.agreement,
+            ", ".join(c.levels_only_in_statement),
+        ]
+        for c in sorted(comparisons, key=lambda c: (c.agreement, c.isin, c.statement))
+    ]
+    return (
+        "## Issuers' own statements set beside the trustee's report\n\n"
+        "Issuers must give their trustee an auditor-certified statement of financial covenant compliance "
+        "every quarter, "
+        "and must keep the compliance reports they file on their own website (regulation 62(1)(g) of the LODR "
+        "Regulations). These statements are the issuer's or its auditor's, so they are a check on the trustee's report "
+        "that does not come from the trustee.\n\n"
+        f"For the quarter ended {period}, logged searches covered {len(searched)} issuers: a statement was found for "
+        f"{best[SearchOutcome.FOUND]}, located but not retrievable by the pipeline for "
+        f"{best[SearchOutcome.LOCATED_NOT_RETRIEVED]}, and not found for {best[SearchOutcome.NOT_FOUND]}.\n\n"
+        f"Set beside the trustee's report for the same quarter, {tally[Agreement.CONSISTENT]} ISIN-level comparisons "
+        f"agree, {tally[Agreement.DIFFERS]} differ and {tally[Agreement.NOT_COMPARABLE]} cannot be compared because "
+        "the statement's stated scope does not reach the listed covenant. A statement limited to financial covenants "
+        "says nothing about other undertakings. The last column lists required levels the statement prints that the "
+        "trustee's report does not print for that ISIN.\n\n"
+        + _table(
+            [
+                "ISIN",
+                "statement",
+                "made by",
+                "covers",
+                "says",
+                "trustee report",
+                "lists ISIN",
+                "agreement",
+                "levels only in statement",
+            ],
+            rows,
+        )
+    )
 
 
 def _status_section(dataset: Dataset) -> str:
@@ -429,6 +496,7 @@ def render_report(dataset: Dataset) -> str:
         _dates_section(dataset),
         _actions_section(dataset),
         _consistency_section(dataset),
+        _statements_section(dataset),
         _status_section(dataset),
         _funnel_section(dataset),
         _evolution_section(dataset),

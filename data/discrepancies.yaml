@@ -167,15 +167,80 @@
   kind: version_change
   subject: INE179P08082
   description: >-
-    Three public statements of one covenant differ. The issuer's annexure for 31 December 2025 prints <=70%. The trustee's
-    June 2026 quarter report quotes "less than 80%" from the Effective Date until the Final Settlement Date. The trustee's
-    notice for the same quarter quotes "less than or equal to 80%" until September 30, 2026, and cites an Amendment Deed dated
-    29 July 2026. The deed itself has not been retrieved.
+    Five public statements of one covenant differ, and a proposed amendment explains only part of the difference. The
+    issuer's annexure for 31 December 2025 prints <=70%. BSE's in-principle approval of 1 July 2026, annexed to the
+    issuer's intimation of 2 July 2026, describes the existing provision as less than 70% until the Final Settlement Date,
+    and a proposed waiver of the breach with a new schedule: <=85% until March 31, 2026, <=80% until September 30, 2026 and
+    <=70% until December 31, 2026 and thereafter. The trustee's notice quotes <=80% until September 30, 2026 and cites an
+    Amendment Deed dated 29 July 2026, which matches the proposed schedule. The trustee's June 2026 quarter report quotes
+    "less than 80%" from the Effective Date until the Final Settlement Date, which matches neither version. The issuer's
+    annexure for 30 June 2026 prints <=85%, the proposed level for the period to March 31, 2026. The amendment deed has
+    not been retrieved.
   evidence:
     - document: dvara-reg54-2026-02-11
       page: 8
       quote: Cost to Income Ratio
       visual_fallback: true
+    - {document: dvara-reg59-2026-07-02, page: 3, quote: 'less than 70% (seventy percent), until the Final Settlement Date', visual_fallback: true}
+    - {document: dvara-reg59-2026-07-02, page: 3, quote: Waiver of the breach of existing threshold until the date of execution of the Amendment Deed, visual_fallback: true}
     - {document: ctl-t5-2026-06, page: 4, quote: maintain the Cost to Income Ratio of less than 80%}
     - {document: ctl-notice-dvara-2026-08, page: 11, quote: Amendment Deed to the Debenture Trust Deed dated 29th July 2026}
     - {document: ctl-notice-dvara-2026-08, page: 11, quote: "until September 30, 2026 , maintain the Cost to Income Ratio of less than or equal to 80%"}
+    - {document: dvara-sc-2026-08-12, page: 8, quote: <=85%, visual_fallback: true}
+
+- id: dvara-portfolio-quality-levels
+  kind: value
+  subject: INE179P07332, INE179P07605
+  description: >-
+    The issuer's statements for 31 December 2025 and 30 June 2026 print different required levels for covenants of the
+    same names. For the two ISINs together, December prints PAR 30 to AUM 10.00%, PAR 90 to AUM 7.00% and a Loan Loss
+    Reserve Ratio of >=55%; June prints <=4% and <=3% for INE179P07332, <=5% for INE179P07605, and >=50% for both. The
+    trustee's June 2026 quarter report quotes a Loan Loss Reserve Ratio of at least 55% until the final settlement date for
+    INE179P07605. No amendment for these ISINs has been found.
+  evidence:
+    - {document: dvara-reg54-2026-02-11, page: 8, quote: Loan Loss Reserve Ratio of PAR 90 Days, visual_fallback: true}
+    - {document: dvara-sc-2026-08-12, page: 8, quote: '>=50%', visual_fallback: true}
+    - {document: ctl-t5-2026-06, page: 4, quote: Loan Loss Reserve Ratio of at least 55%}
+
+- id: infinity-governance-covenant
+  kind: compliance
+  subject: INE00VD07016, INE00VD07032
+  description: >-
+    The trustee's June 2026 quarter report lists both ISINs for a breach of an undertaking to comply with corporate
+    governance requirements and the RBI's fair practices code, with 30 June 2026 as the date of actual breach and 13 August
+    2026 as the date of detection. The statutory auditor's report of 7 August 2026, filed by the issuer, gives limited
+    assurance that nothing came to its attention to suggest that the company is not in compliance with all covenants as
+    on June 30, 2026. The management statement in the same filing covers financial covenants only. The two statements
+    were made six days apart and neither refers to the other.
+  evidence:
+    - {document: ctl-t5-2026-06, page: 1, quote: comply with any corporate governance requirements applicable to the Company}
+    - {document: infinity-sc-2026-08-07, page: 4, quote: nothing has come to our attention that causes us to believe that}
+    - {document: infinity-sc-2026-08-07, page: 4, quote: The Company is not in compliance with all covenants as mentioned in the Debenture Trust Deeds}
+
+- id: satya-ine982x08042-not-in-trustee-report
+  kind: compliance
+  subject: INE982X08042
+  description: >-
+    The statutory auditor's certificate in the issuer's compliance report for the quarter ended June 30, 2026 marks this
+    ISIN as not complying with clause 3.3 (a) of its trust deed as of 30 June 2026. The same report, addressed to the
+    trustee, lists the ISIN among those under its trust deeds with that trustee and says it was fully redeemed on July 08,
+    2026. The trustee's June 2026 quarter report lists INE982X08034, for which the certificate cites the same clause and
+    which the report says was redeemed on the same day, but does not list this ISIN.
+  evidence:
+    - {document: satya-qcr-2026-06, page: 20, quote: INE982X08042, visual_fallback: true}
+    - {document: satya-qcr-2026-06, page: 1, quote: 'INE982X08042 (Full redemptions were made on July 08, 2026)'}
+    - {document: ctl-t5-2026-06, page: 2, quote: INE982X08034}
+
+- id: satya-deed-history
+  kind: version_change
+  subject: INE982X07457, INE982X07432
+  description: >-
+    The trustee's notices and the issuer's auditor certificate give different trust deed histories. For INE982X07457 the
+    notice cites a trust deed dated 25 August 2021, while the certificate lists a trust deed of 20 August 2019 amended on
+    25 August 2021 and again on 16 December 2024. For INE982X07432 the notice cites 23 July 2024 and the certificate adds
+    an amendment dated 30 May 2025. For the other four Satya ISINs in the trustee's report, both give the same dates.
+  evidence:
+    - {document: ctl-notice-satya-2026-08, page: 8, quote: 'Debenture Trust Deed (“DTD”) dated 25th August, 2021'}
+    - {document: ctl-notice-satya-2026-08, page: 5, quote: 'Debenture Trust Deed (“DTD”) dated 23rd July, 2024'}
+    - {document: satya-qcr-2026-06, page: 20, quote: Amendment to Trust Deed dated 25-Aug-21, visual_fallback: true}
+    - {document: satya-qcr-2026-06, page: 20, quote: Amendment to Trust Deed dated 30-May-2025, visual_fallback: true}

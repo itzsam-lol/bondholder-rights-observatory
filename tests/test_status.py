@@ -2,14 +2,16 @@
 
 from datetime import date
 
-from brdo.models import BreachNotice, ComplianceStatement, Evidence, NoInformationEntry, SearchRecord
+from brdo.models import BreachNotice, ComplianceStatement, NoInformationEntry, SearchRecord
 from brdo.status import StatusBasis, derive_all, derive_status, reporting_periods
 from brdo.vocab import (
+    CovenantCategory,
     CoverageStatus,
     NoticeKind,
     SearchChannel,
     SearchOutcome,
     SearchPurpose,
+    StatementScope,
 )
 from tests.conftest import (
     ISIN_LISTED,
@@ -19,21 +21,15 @@ from tests.conftest import (
     make_report,
     make_row,
     make_source,
+    make_statement,
     trustee_claim,
 )
 
 PERIOD_END = QUARTER.end
 
 
-def _statement(identifier: str, breach: bool, isin: str = ISIN_UNLISTED) -> ComplianceStatement:
-    return ComplianceStatement(
-        id=identifier,
-        instruments=[isin],
-        period=QUARTER,
-        stated_by="trustee-a",
-        breach_stated=breach,
-        evidence=[Evidence(document="report-q1", page=1, quote="complied")],
-    )
+def _statement(identifier: str, breach: bool, isin: str = ISIN_UNLISTED, **options) -> ComplianceStatement:
+    return make_statement(identifier, breach=breach, isin=isin, **options)
 
 
 def test_listed_in_the_current_report_is_a_reported_breach(dataset):
@@ -62,6 +58,25 @@ def test_only_an_explicit_statement_gives_reported_no_breach(dataset):
 
 def test_a_statement_of_compliance_does_not_override_a_listing(dataset):
     dataset.compliance_statements["s"] = _statement("s", breach=False, isin=ISIN_LISTED)
+    result = derive_status(dataset, ISIN_LISTED, PERIOD_END)
+    assert (result.status, result.basis) == (CoverageStatus.CONFLICTING, StatusBasis.STATEMENTS_DISAGREE)
+
+
+def test_a_statement_limited_to_financial_covenants_does_not_answer_a_listing_of_another_kind(dataset):
+    row = make_row()
+    item = row.items[0].model_copy(update={"category": CovenantCategory.AFFIRMATIVE})
+    dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+    dataset.compliance_statements["s"] = _statement(
+        "s", breach=False, isin=ISIN_LISTED, scope=StatementScope.FINANCIAL_COVENANTS
+    )
+    result = derive_status(dataset, ISIN_LISTED, PERIOD_END)
+    assert (result.status, result.basis) == (CoverageStatus.REPORTED_BREACH, StatusBasis.LISTED_IN_CURRENT_VERSION)
+
+
+def test_a_statement_limited_to_financial_covenants_contradicts_a_financial_listing(dataset):
+    dataset.compliance_statements["s"] = _statement(
+        "s", breach=False, isin=ISIN_LISTED, scope=StatementScope.FINANCIAL_COVENANTS
+    )
     result = derive_status(dataset, ISIN_LISTED, PERIOD_END)
     assert (result.status, result.basis) == (CoverageStatus.CONFLICTING, StatusBasis.STATEMENTS_DISAGREE)
 

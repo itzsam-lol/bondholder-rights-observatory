@@ -6,7 +6,8 @@
         "value",
         "naming",
         "version_change",
-        "layout"
+        "layout",
+        "compliance"
       ],
       "title": "DiscrepancyKind",
       "type": "string"

@@ -8,11 +8,11 @@ import re
 from dataclasses import dataclass
 from datetime import date
 
-from brdo.models import BreachNotice, BreachReport, BreachRow
+from brdo.models import BreachItem, BreachNotice, BreachReport, BreachRow, ComplianceStatement
 from brdo.pdftext import normalize
-from brdo.status import current_versions
+from brdo.status import addresses, current_versions, trustees_claimed
 from brdo.store import Dataset
-from brdo.vocab import NoticeKind
+from brdo.vocab import Agreement, NoticeKind, StatementMaker, StatementScope
 
 _THRESHOLD = re.compile(r"\d+(?:[.,]\d+)*\s*(?:%|x\b|times\b|crores?\b|cr\b)", re.IGNORECASE)
 
@@ -140,3 +140,85 @@ def revisions(dataset: Dataset) -> list[Revision]:
                         )
                     )
     return found
+
+
+@dataclass(frozen=True)
+class StatementComparison:
+    """A compliance statement by an issuer or its auditor, set beside the trustee's report for the same quarter."""
+
+    statement: str
+    isin: str
+    period_end: date
+    made_by: StatementMaker
+    scope: StatementScope
+    statement_reports_breach: bool
+    trustee_report: str | None
+    trustee_lists: bool | None
+    agreement: Agreement
+    basis: str
+    levels_only_in_statement: tuple[str, ...]
+
+
+_LEVEL = re.compile(r"(\d+(?:\.\d+)?)\s*(%|x|times|crores?|cr)", re.IGNORECASE)
+
+
+def _level_key(text: str) -> tuple[float, str] | None:
+    match = _LEVEL.search(text)
+    if match is None:
+        return None
+    unit = {"times": "x", "crore": "cr", "crores": "cr"}.get(match.group(2).lower(), match.group(2).lower())
+    return float(match.group(1)), unit
+
+
+def _judge(statement: ComplianceStatement, items: list[BreachItem], reviewed: bool) -> tuple[Agreement, str]:
+    if not reviewed:
+        return Agreement.NOT_COMPARABLE, "no fully transcribed report of the ISIN's trustee for the period"
+    if statement.breach_stated:
+        if items:
+            return Agreement.CONSISTENT, "both report a breach"
+        return Agreement.DIFFERS, "the statement reports a breach the trustee's report does not list"
+    if not items:
+        return Agreement.CONSISTENT, "the statement reports compliance and the trustee's report does not list the ISIN"
+    if not addresses(statement, items):
+        return Agreement.NOT_COMPARABLE, "the statement covers financial covenants only; the trustee lists another kind"
+    return Agreement.DIFFERS, "the statement reports compliance; the trustee's report lists a breach"
+
+
+def compare_statements_with_reports(dataset: Dataset) -> list[StatementComparison]:
+    comparisons = []
+    for statement in sorted(dataset.compliance_statements.values(), key=lambda s: s.id):
+        period_end = statement.period.end
+        reports = [report for report in dataset.breach_reports.values() if report.period.end == period_end]
+        current = current_versions(reports, dataset)
+        for isin in statement.instruments:
+            own = [report for report in current if report.trustee in trustees_claimed(dataset, isin)]
+            items = [item for report in own for row in report.rows for item in row.items if isin in item.isins]
+            listing = [report.document for report in own if any(isin in row.isins for row in report.rows)]
+            complete = [report.document for report in own if report.extraction_complete]
+            reviewed = bool(listing) or bool(complete)
+            agreement, basis = _judge(statement, items, reviewed)
+            reported = {_level_key(level) for item in items for level in item.levels_stated}
+            stated = [
+                line.required_as_reported
+                for line in statement.exceptions
+                if isin in line.isins and line.required_as_reported and _level_key(line.required_as_reported)
+            ]
+            only_stated = (
+                tuple(sorted({level for level in stated if _level_key(level) not in reported})) if items else ()
+            )
+            comparisons.append(
+                StatementComparison(
+                    statement=statement.id,
+                    isin=isin,
+                    period_end=period_end,
+                    made_by=statement.made_by,
+                    scope=statement.scope,
+                    statement_reports_breach=statement.breach_stated,
+                    trustee_report=(listing or complete or [None])[0],
+                    trustee_lists=bool(items) if reviewed else None,
+                    agreement=agreement,
+                    basis=basis,
+                    levels_only_in_statement=only_stated,
+                )
+            )
+    return comparisons

@@ -1,0 +1,74 @@
+{
+  "additionalProperties": false,
+  "description": "One line of the exceptions a compliance statement lists, as printed.",
+  "properties": {
+    "actual_as_reported": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Actual As Reported"
+    },
+    "covenant_as_reported": {
+      "maxLength": 800,
+      "minLength": 3,
+      "title": "Covenant As Reported",
+      "type": "string"
+    },
+    "deed_dates_as_reported": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Deed Dates As Reported"
+    },
+    "isins": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Isins",
+      "type": "array"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "required_as_reported": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Required As Reported"
+    }
+  },
+  "required": [
+    "isins",
+    "page",
+    "covenant_as_reported"
+  ],
+  "title": "StatedException",
+  "type": "object"
+}
