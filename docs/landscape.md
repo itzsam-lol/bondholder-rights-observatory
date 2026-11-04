@@ -14,7 +14,7 @@ The governing text is SEBI's **Master Circular for Debenture Trustees** of 28 Se
 | IX | An investor charter: copies of the trust deed to investors, inspection rights | A route to deeds, framed for investors |
 | X | Default is reckoned at ISIN level. One ISIN may span several offer documents. Notice within three days and a meeting within 30 days of a breach or default | The reason for the ISIN key and many-to-many links; and the source of the notices used here |
 
-Chapter VII also prescribes seven other website tables. Table 1 lists rating revisions per ISIN with a link to the agency's press release (`trustee-table-1-rating-links`). Table 2 records payment status, and Table 8 defaults and action taken. Table 3 lists, per listed entity and ISIN, whether the issuer's quarterly compliance reports and security cover certificates were received (`trustee-table-3`). Table 3 is a census of the issues a trustee monitors, which makes it the natural sampling frame for a comparison with unreported instruments. Table 4 gives only counts.
+Chapter VII also prescribes seven other website tables. Table 1 lists rating revisions per ISIN with a link to the agency's press release (`trustee-table-1-rating-links`). Table 2 records payment status, and Table 8 defaults and action taken. Table 3 lists, per listed entity and ISIN, whether the issuer's quarterly compliance reports and security cover certificates were received (`trustee-table-3`). Table 3 is a census of the issues a trustee monitors, which makes it the natural sampling frame for a comparison with unreported instruments. Catalyst publishes its version as a quarterly file listing each issue by company and ISIN, with the date each quarterly compliance report was received. Files for every quarter back to June 2024 were listed on 4 November 2026. Table 4 gives only counts.
 
 ### Rules on the issuer's side
 
@@ -42,8 +42,8 @@ The **circular of 27 October 2026** ([PDF](https://www.sebi.gov.in/sebi_data/att
 | **NSE** | Hosts filings. Terms prohibit automated collection and hyperlinks without permission | Excluded from this release |
 | **Online bond platforms** such as IndiaBonds | Per-ISIN pages, some linking issue documents. Terms prohibit extraction tools | A place to look by hand |
 | **Debenture trustees' websites** | Table 5 reports, notices, press releases | The main source for this release |
-| **Rating agencies** | Rationales, some stating "salient covenants" and reporting breaches | A useful independent cross-check, mandated for covenants only in credit-enhanced and structured ratings |
-| **Issuers' own websites** | Covenant compliance statements, auditors' certificates, compliance reports to trustees, intimations of amendment approvals | The second channel used in this release. Of seven issuer sites tried, six served the project's client and one refused its filings; one builds its disclosure list in the browser |
+| **Rating agencies** | Rationales, some stating "salient covenants" and reporting breaches | A cross-check from a party with its own surveillance, though it also relies on the issuer's information; mandated for covenants only in credit-enhanced and structured ratings |
+| **Issuers' own websites** | Covenant compliance statements, auditors' certificates, compliance reports to trustees, intimations of amendment approvals | The second publisher used in this release; its statements are upstream of the trustee's report, not independent of it. Of seven issuer sites tried, six served the project's client and one refused its filings; one builds its disclosure list in the browser |
 
 ## Adjacent work
 

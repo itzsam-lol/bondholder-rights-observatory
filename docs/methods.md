@@ -33,6 +33,22 @@ For the quarter ended 30 June 2026, the issuer's statement of covenant complianc
 5. Identifiers in a statement that are outside this dataset, such as bonds listed in IFSC, are left out and mentioned in the note.
 6. Several compliance reports also print lists of individual debenture holders. Nothing from those pages is recorded.
 
+## Trustee censuses
+
+Catalyst publishes, for each quarter, a table of the quarterly compliance reports, financial statements and performance reports it has received. The table lists every monitored issue by company and ISIN, with the date of receipt and any delay. It is the trustee's version of Annex-VIIA, Table 3. The table for the quarter ended 30 June 2026 was retrieved through the pipeline and is identified by its hash.
+
+- **The census is measured, not transcribed.** `isins_printed` counts the distinct ISINs in the file's text that pass the check digit. One printed identifier fails it and is not counted.
+- **Omissions are recorded.** `listed_not_printed` names ISINs in the trustee's breach report for the quarter that the census omits.
+- **The sample is drawn by a fixed rule.** The ISINs outside the breach report are ranked by the SHA-256 of the file's hash, a colon and the ISIN, and the first 20 are taken. Anyone with the same file can reproduce the selection by hand.
+- **Only the rows the analysis relies on are quoted,** those giving receipt dates for ISINs whose issuer statements are compared.
+- `brdo verify` recomputes the count, the omissions and the sample from the cached file and fails on any difference.
+
+Row-by-row parsing of the table was tried and set aside. Serial numbers restart, cells run across rows, and date formats vary, so a parser would have needed a rule for every irregularity. The count of printed ISINs and a lookup of specific rows do not depend on the layout.
+
+## Lineage of agreements
+
+For each comparison between an issuer's statement and a trustee's report, the dataset records the statement's printed date, the trustee's recorded receipt of the issuer's compliance report where a census has been measured, the trustee's printed date of detection, and whether the trustee's row cites a certificate or auditor. These are facts read from the documents. The inference drawn from them, that an agreement may be transmission rather than confirmation, is the project's, and the report states it as such.
+
 ## What is checked by machine, and what is not
 
 | Check | Catches | Does not catch |
@@ -42,7 +58,7 @@ For the quarter ended 30 June 2026, the issuer's statement of covenant complianc
 | Evidence verification | A quotation or number not on the cited page, a file that has changed | Words read from an image; misreading a table's structure |
 | ISIN completeness | An ISIN in a report's text that was not transcribed | ISINs absent from the text layer |
 | Text layer audit | Outlined text, scans, OCR layers | Other ways a text layer can differ from the page |
-| Tests on the dataset | Stale exports, NSE material, a listed ISIN without `reported_breach` | Annotation quality |
+| Tests on the dataset | Stale exports, NSE material, a listed ISIN without `reported_breach` or a disagreeing statement, e-mail addresses, depository participant IDs, PANs and written-out phone numbers in the published records | Annotation quality; personal data in forms the patterns do not cover |
 
 A deliberately altered threshold and a deliberately altered deed date both fail verification, and an altered ISIN fails its check digit.
 

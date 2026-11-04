@@ -42,10 +42,11 @@ The sample starts from the quarterly covenant-breach reports that SEBI requires 
 | Trustee notices and letters | 66 records from 23 files, giving trust deed dates and clause references |
 | Issuers' and auditors' statements | 6 statements of covenant compliance in 4 filings, with 40 exception lines |
 | Amendment trail | 1 issuer intimation under regulation 59 with the exchange's in-principle approval |
+| Trustee census | 1 table of the issues a trustee monitors: 1,832 ISINs, measured rather than republished, with a reproducible sample of 20 |
 | Contract clauses | 25, with parsed limits where the wording is unambiguous and plain-English notes |
-| Search log | 63 attempts, successful or not |
+| Search log | 64 attempts, successful or not |
 | Open discrepancies | 18 |
-| Evidence anchors | 1,235: 1,130 verified by machine against the file's text, 105 read from the rendered page |
+| Evidence anchors | 1,254: 1,147 verified by machine against the file's text, 107 read from the rendered page |
 
 The full, generated measurements are in the [observability report](docs/observability-report.md).
 
@@ -54,10 +55,12 @@ The full, generated measurements are in the [observability report](docs/observab
 These describe this sample, which is selected on a breach having been reported. They do not describe the market.
 
 - **The trace to the contract breaks at the last step, and for access reasons.** Trustees' letters cite a dated trust deed or trustee agreement for 52 of the 93 listed ISINs. No contract could be retrieved through the pipeline. BSE refuses identified automated clients, NSE's terms forbid automated collection and even unapproved links, and a bond platform's terms forbid extraction tools.
-- **A second, independent channel exists.** Issuers must give their trustee an auditor-certified statement of covenant compliance every quarter, and must keep the compliance reports they file on their own website. Logged searches for the June 2026 quarter found such a statement for 3 of 11 issuers, and one more was located but refused to the project's client.
-- **Where both channels can be read, they mostly agree, and the exceptions matter.** Of 22 comparisons, 17 agree, 3 differ and 2 cannot be compared. In one difference the auditor's statement of compliance with all covenants contradicts the trustee's listing. In another the issuer reports a breach that the trustee's report does not list.
-- **Agreement within one trustee proves little.** Wherever a trustee's notice prints a level (24 comparisons), it matches that trustee's report. Comparing different parties is what surfaces disagreements over required levels and over which deeds and amendments govern an instrument.
-- **Contract versions leave public traces even when contracts do not.** Changing the terms of listed debentures needs the exchange's prior approval, after the board, the trustee and three-fourths of holders agree. One issuer's intimation of that approval explains most of five differing statements of one covenant.
+- **The issuer publishes too, but its statement is upstream of the trustee's report, not independent of it.** Issuers must give their trustee an auditor-certified statement of covenant compliance every quarter and keep it on their website. Logged searches for the June 2026 quarter found one for 3 of 11 issuers, and one more was refused to the project's client. By two trustees' own printed definitions, the dates in their breach reports are the certificate's dates.
+- **Agreement is mostly transmission; divergence is where new information shows.** Of 22 comparisons, 17 agree, 3 differ and 2 cannot be compared. In every agreement the trustee dates its detection on or after the issuer's material reached it, and in 6 it cites the auditor's certificate. Agreement shows the statement was carried through, not that it was confirmed. The differences show information that one party has and the other lacks: an auditor's all-covenant conclusion against a trustee's governance breach, and an issuer's breach the trustee does not list.
+- **Agreement within one trustee proves even less.** Wherever a trustee's notice prints a level (24 comparisons), it matches that trustee's report.
+- **Contract versions leave public traces even when contracts do not, but traces are not the contract.** Changing the terms of listed debentures needs the exchange's prior approval, after the board, the trustee and three-fourths of holders agree. One issuer's intimation of that approval explains most of five differing statements of one covenant, yet cannot settle which limit applied on the test date. Every clause record says whether it is a description, a proposal, an approval in principle or executed text; none yet is executed text.
+- **A trustee's own census gives a denominator.** Catalyst's table of compliance reports received for the quarter prints 1,832 ISINs; its breach report lists 44 of them (2.4%). A listing is not a breach rate.
+- **The published follow-up mostly stops before an outcome.** For every ISIN Catalyst listed, the furthest published step is a meeting scheduled or adjourned for lack of quorum, or instructions awaited. Other trustees' reports more often state an outcome, usually a late filing since made.
 - **Trustees' disclosures carry very different amounts of the contract.** One trustee prints the clause text for nearly every ISIN. Others mostly print a description such as "Non submission of financial results".
 - **The same column means different things.** "Date of actual breach" is defined differently by different trustees, and used in two ways within a single report. An issuer's statement date confirms one trustee's printed definition.
 - **Disclosures change without notice.** Only a reader who kept both versions of one report can see that a "seeking instructions" became a reported waiver.

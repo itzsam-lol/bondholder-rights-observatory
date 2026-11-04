@@ -36,7 +36,13 @@ Several trustees' sites restrict reuse of their content for public purposes with
 | Aye Finance's filing | About 31% | The existing and revised text of one covenant, which is the point of citing it |
 | SEBI and ICRA documents | Under 5% | Single passages |
 
+The 160-character cap is a restraint the project imposes on itself. It is not a legal threshold or a safe harbour, and fair dealing does not turn on a number of characters. This policy has not been reviewed by a lawyer.
+
 These are high shares for the shortest reports, because a table of names and dates has little else in it. That is a judgement call, made on the basis that those items are facts. **If a rightsholder objects, the remedy is simple**: open an issue and the quotations from that source will be removed or reduced, leaving the facts and the link.
+
+### Tables that are almost entirely facts
+
+A trustee's census of monitored issues is a long table of company names, ISINs and dates. Its content is factual, but republishing it whole would reproduce the trustee's publication. The project therefore keeps only what it measures from the table, a small sample and the rows it relies on, and publishes the code that recomputes everything from the hashed file.
 
 ## Access rules by source
 

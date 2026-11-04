@@ -16,6 +16,7 @@ JSON Schemas for every record type are in [`schema/`](../schema), generated from
 | `BreachNotice` | `data/breach-notices.yaml` | A trustee's letter about one instrument: deed dates, dates of intimation, meetings, adjournments |
 | `Provision` | `data/provisions/<document>.yaml` | One contractual undertaking, quoted, with parsed limits where unambiguous |
 | `ComplianceStatement` | `data/compliance-statements.yaml` | An explicit statement about compliance for stated instruments and a period, with who made it, what it covers and its exception lines |
+| `MonitoringCensus` | `data/monitoring-censuses.yaml` | A trustee's table of the issues it monitors, kept as measurements: the count of ISINs it prints, listed ISINs it omits, a reproducible sample, and cited rows with receipt dates |
 | `RegulatoryReference` | `data/regulatory-references.yaml` | A checked passage of a regulatory text that the design relies on |
 | `SearchRecord` | `data/searches.yaml` | One documented attempt to find something, including failures |
 | `Discrepancy` | `data/discrepancies.yaml` | A disagreement or oddity, kept open until resolved |
@@ -67,7 +68,24 @@ A `ComplianceStatement` separates the publisher (`stated_by`, a source) from the
 | `differs` | The statement reports compliance and the trustee lists a breach it covers; or the statement reports a breach that a fully transcribed trustee report does not list |
 | `not_comparable` | No fully transcribed report of the ISIN's trustee exists for the period; or the statement covers financial covenants only and the trustee lists another kind |
 
-The comparison also lists required levels that the statement prints and the trustee's report does not print for that ISIN.
+The comparison also lists required levels that the statement prints and the trustee's report does not print for that ISIN. It records lineage too: the statement's date, the date the trustee records receiving the issuer's compliance report (from a census, where measured), the trustee's date of detection, and whether the trustee's row cites a certificate. `trustee_could_rely_on_issuer` is true when the detection is on or after one of the earlier dates. Agreement in such cases is transmission, not independent confirmation.
+
+## Clause records and their legal stage
+
+`Provision.stage` says what a clause record is evidence of:
+
+| Stage | Meaning |
+|---|---|
+| `executed_text` | Quoted from the executed deed, supplemental deed or offer document |
+| `described_in_force` | A party's description of a term it treats as in force (the default) |
+| `proposed` | A change put forward for approval |
+| `approved_in_principle` | A proposed change approved in principle, for example by an exchange, not shown executed |
+
+Only executed text establishes an operative term.
+
+## Trustee censuses
+
+A `MonitoringCensus` is not a copy of the trustee's table. It holds the file's identity, `isins_printed`, `listed_not_printed`, a `sample` and the `entries` the analysis cites. `brdo verify` recomputes the count, the omissions and the sample from the hashed file and fails if they differ. The sample is the 20 ISINs, outside the trustee's breach report for the period, whose SHA-256 of the file's hash, a colon and the ISIN sorts first, so it can be reproduced without this code.
 
 ## Dates
 

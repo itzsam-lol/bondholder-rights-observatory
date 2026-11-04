@@ -1,173 +1,209 @@
 # Research agenda
 
-This document sets out where the project should go next, and why. It builds on the first release's [research design](research-design.md) and on a second pass, made on 4 November 2026, that looked beyond the trustees' reports. Statements about Indian sources are backed by records in `data/` or by passages checked against the source, named here by their identifiers. Statements about other work rest on the publications cited.
+This document sets out what the evidence collected so far implies, and where the project should go next. It builds on the first release's [research design](research-design.md) and on two later passes made on 4 November 2026. Statements about Indian sources are backed by records in `data/` or by passages checked against the source, named here by their identifiers. Statements about other work rest on the publications cited.
 
-## What the first release measured, and what it could not
+## In brief
 
-The first release measured backward traceability. Starting from breaches that trustees reported for the quarter ended 30 June 2026, it asked how far each could be followed towards the contract. The answer was a long way, and then a hard stop. Trustees' letters gave a deed date for 52 of 93 ISINs, but no contract could be retrieved through the pipeline.
+- **The public record of a bond's protections is a chain of statements.** An issuer measures its covenants, its auditor gives limited assurance, the issuer sends the result to its trustee, and the trustee reports breaches and writes to holders. Holders then meet, waive, or do nothing. An exchange approves any change to the terms, and the trust deed sits behind all of it.
+- **Different publishers are not different evidence.** By the trustees' own printed definitions, the dates in their breach reports are the dates of the issuer's certificate. In every case examined where the issuer's statement and the trustee's report agree, the trustee's detection is dated on or after the issuer's material reached it. Agreement there shows that a statement was passed on faithfully. It does not confirm it.
+- **Independent information is visible where the chain diverges.** A trustee reports a governance breach that the auditor's conclusion does not reflect. A trustee reports a clause the auditor's annexure does not name. An issuer reports a breach that the trustee's report omits.
+- **The executed contract is not the only ground truth, but it is still the only operative one.** Amendment approvals and descriptions can reconstruct much of a covenant's history. For one instrument they cannot settle which limit applied on the test date that mattered.
+- **A denominator now exists for one trustee and quarter.** Catalyst's own census of the issues it monitors prints 1,832 ISINs; its breach report lists 44 of them.
+- **For most breaches, the published record stops before any outcome.** For every ISIN Catalyst listed, the furthest published step is a holders' meeting that was scheduled or adjourned for lack of quorum, or a note that instructions are awaited.
 
-That design has three blind spots.
+## The disclosure chain, and why it is the right object of study
 
-- **It can only see what one party says.** Most of its comparisons set a trustee's report against the same trustee's letters. Agreement there (24 of 24 levels) is close to guaranteed and corroborates little.
-- **It treats the contract as the only ground truth.** The trace either reaches the deed or fails. Yet amendment approvals, issuers' own statements and auditors' certificates are also public evidence of what the contract says and when it changed.
-- **It cannot say anything about instruments without a reported breach.** The sample is chosen on the outcome.
+The first release asked how far a reported breach could be traced back towards the contract. The second found a second publisher, the issuer. The third shows that the two publishers are links in one designed chain:
 
-## What the second pass found
-
-### An independent channel exists: the issuer's own statement
-
-The master circular requires issuers to give their trustee, every quarter, "the compliance status with respect to financial covenants … certified by the statutory auditor". The LODR Regulations require a statutory auditor's certificate that covers "compliance with all the covenants" (regulation 56(1)(d)). They also require the compliance reports an issuer files to be on its website (regulation 62(1)(g)). These are references `issuer-covenant-compliance-status`, `lodr-auditor-certificate-covenants` and `lodr-website-compliance-reports`.
-
-So for every quarter there should be a second, independent public statement of whether each listed ISIN's covenants were met. For the quarter ended 30 June 2026, logged searches covered 11 issuers in the sample:
-
-- **Retrieved for 3:** Dvara KGFS, Infinity Fincorp and SATYA MicroCapital.
-- **Located but blocked for 1:** Pahal's server answered HTTP 403 to the project's identified client.
-- **Not found for 7:** Aye, Akara, Light, NeoGrowth, Samunnati, Konkan Railway and Meghalaya Energy.
-
-Most of the searches used a general search engine. That is a weak protocol, and a check of each issuer's regulation 62 page would be better. Two issuer pages were checked directly: Satya's held the statement, and Aye's listed none in the page served.
-
-Setting the three retrieved statements beside the trustees' reports gave 22 ISIN-level comparisons:
-
-| Outcome | Comparisons | Cases |
-|---|---|---|
-| Both report a breach | 17 | All 11 Dvara ISINs the trustees list appear among the issuer's own exceptions; 6 Satya ISINs |
-| Disagree | 3 | Infinity's auditor reports compliance with all covenants for two ISINs the trustee lists. Satya's auditor reports a breach for INE982X08042, which the trustee's report does not list |
-| Cannot be compared | 2 | Infinity's management statement covers financial covenants only, and the trustee lists a governance undertaking |
-
-The agreements are detailed. For INE982X07432 the issuer's auditor names "Clause 17.4 (a)(i), (v), (ix), (x) & (xiii)", the same sub-clauses as the trustee. For INE179P07589 IDBI prints a return on assets of −1.02% against 1%, and so does the issuer. IDBI's "date of actual breach", 12 August 2026, is the date of the issuer's statement. That matches IDBI's own printed definition of the column and is independent evidence of what the column means.
-
-The disagreements are the kind a single-source design cannot see:
-
-- **Infinity (`infinity-governance-covenant`).** The trustee lists both ISINs for breach of an undertaking to follow corporate governance requirements and the RBI's fair practices code. It gives 30 June 2026 as the date of breach and 13 August as the date of detection. Six days before detection, the issuer's auditor gave limited assurance that nothing suggested non-compliance with all covenants at that date.
-- **INE982X08042 (`satya-ine982x08042-not-in-trustee-report`).** The issuer's auditor reports it as non-compliant at 30 June 2026. The issuer's report to the trustee lists it under that trustee's deeds, and says it was fully redeemed on 8 July. The trustee lists a sister ISIN with the same clause and the same redemption date, but not this one.
-- **Deed histories (`satya-deed-history`).** For two of six Satya ISINs, the trustee's letters and the issuer's certificate disagree about which deeds and amendments govern. For INE982X07457, the date the trustee cites as the deed is, according to the issuer, an amendment.
-
-None of these is evidence that anyone erred. Each has ordinary possible explanations: scope, timing, redemption, or how a document was drafted. Each also changes what an outsider can conclude from either source alone.
-
-### Contract versions leave public traces even when contracts do not
-
-Regulation 59 of the LODR Regulations bars material modification of listed debentures without the exchange's prior approval. That approval comes only after the board, the trustee and holders of three-fourths by value have agreed (`lodr-material-modification`, `lodr-modification-consent`). An amendment therefore leaves a trail: an application, an in-principle approval, the issuer's intimation, a holders' resolution and a trustee's letter.
-
-For INE179P08082 that trail resolves most of what the first release recorded as unexplained. The issuer's intimation of 2 July 2026 annexes BSE's letter of 1 July. The letter describes the existing provision as a cost-to-income ratio of "less than 70% … until the Final Settlement Date". It describes the proposed change as a waiver of the breach followed by ≤85% until 31 March 2026, ≤80% until 30 September 2026 and ≤70% thereafter. The trustee's later letter matches that schedule and dates the amendment deed 29 July 2026.
-
-Two statements still do not fit. The trustee's quarterly report quotes "less than 80%" until the Final Settlement Date, which matches neither version. The issuer's own statement for 30 June prints ≤85%, the proposed level for the period to 31 March. Both stay open in `dvara-cost-to-income-limit`. The deed itself has not been retrieved, so the reconstruction rests on BSE's description of it. The provisions file records it that way, as a description in a letter rather than the text of the deed.
-
-This suggests the most promising route to the contract dimension is not the contract. It is the amendment channel, which is designed to be public.
-
-### Trustees publish more per-ISIN structure than the first release used
-
-The master circular prescribes eight website tables (`trustee-table-3`, `trustee-table-1-rating-links`). Table 1 links each rating revision to the agency's press release. Table 2 records payment status. Table 3 lists, by entity and ISIN, whether each quarterly compliance report and security cover certificate was received. Table 8 records defaults and the trustee's action.
-
-Table 3 matters most. It is a per-trustee census of monitored issues, which makes possible a comparison sample of instruments without a reported breach, drawn lawfully from trustees' own sites. Table 4, by contrast, gives only counts.
-
-The prescribed Table 5 heading says "breached during the quarter" (`table-5-during-the-quarter`). That is a further reason to treat rows carried over from earlier quarters, which some trustees print, as a distinct case.
-
-### The rating-agency channel is narrower than secondary sources suggest
-
-A search summary stated that SEBI requires every rating press release to explain the instrument's covenants. The master circular for rating agencies says otherwise. A detailed explanation of all covenants is required for credit-enhanced ratings (paragraph 14.3), and covenants assumed must be disclosed for structured finance products (paragraph 10.1.10). Some agencies include covenant annexures more widely, but that is practice, not a uniform rule, and it has not been assessed here. A rationale can still state a covenant and note its breach, as ICRA's rationale for Konkan Railway does for a debt service coverage covenant (`icra-krcl-139196`).
-
-### Access is a property of each publisher, not of a type of source
-
-Issuer websites are not uniformly open. Pahal served its home page but refused its filings to an identified client, and Aye's disclosure list did not appear in the page served. Openness can also cut the other way. Satya's quarterly report to its trustee, published on its own site, prints hundreds of individual debenture holders' names and addresses next to the covenant certificate. Easy access is not a licence to collect everything a file contains.
-
-## A sharper formulation
-
-The first release's question still stands:
-
-> For listed Indian non-convertible debentures, how much of the path from a contractual protection to a reported breach of it can an independent researcher reconstruct from public sources, and exactly where does that path break?
-
-The second pass suggests three questions beneath it, each answerable with this design:
-
-1. **Corroboration.** When two independent channels that are each mandated to report on the same covenant and quarter can both be read, do they agree? On which of: whether a breach occurred, which undertaking, the required level, and which version of the deed?
-2. **Versioning.** Can the operative version of a covenant at a given test date be reconstructed from public amendment traces, without the executed deed?
-3. **Comparability.** Are the same measures as observable for instruments that no trustee has reported, drawn from trustees' own census tables?
-
-### Why the dimensions are not combined into one score
-
-A document can exist, be discoverable, be readable in a browser, be retrievable by a declared program, be reusable under its terms, and stay unchanged over time. These are different properties, and they fail for different reasons and call for different remedies. A single index would hide which barrier binds. The FAIR principles for research data, which separate Findable, Accessible, Interoperable and Reusable, are a useful precedent for keeping them apart. They are also a reminder that a regulatory disclosure can be fully public and still not machine-actionable.
-
-The project therefore reports each dimension separately, per channel and per instrument. A composite would need a defensible weighting, which nothing here supplies.
-
-## Evidence channels
-
-| Channel | What it says about a covenant | Basis checked in this release | Access observed |
+| Link | What is published | Who makes it | Rule checked in this release |
 |---|---|---|---|
-| Trust deed, key information or offer document | The terms | Not assessed for issuers' websites | BSE browser only; NSE forbidden; SCMS credentialed |
-| Amendment approval and intimation (LODR 59) | A change to the terms, with old and new wording | `lodr-material-modification` | Issuer website (one case retrieved); exchange browser only |
-| Trustee breach report (Table 5) and letters | That a breach was found, with clause text or a description | `table-5-format`, `trustee-status-report` | Trustee websites, open |
-| Trustee monitoring tables (Tables 1, 2, 3, 8) | Per-ISIN census, rating links, payments, defaults | `trustee-table-3`, `trustee-table-1-rating-links` | Trustee websites; not yet transcribed |
-| Issuer's covenant compliance statement and auditor's certificate | Whether each covenant was met, sometimes with levels | `issuer-covenant-compliance-status`, `lodr-auditor-certificate-covenants`, `lodr-website-compliance-reports` | Issuer websites; open for 3 of 11 issuers searched |
-| Rating press release | Covenants for credit-enhanced and structured ratings; sometimes breaches | `cra-covenants-credit-enhanced`, `cra-covenants-structured-finance` | Agency websites; terms vary |
-| Depository ISIN pages | Identity, terms, trustee as recorded | Not a regulatory reference | Manual only |
-| Bond Central | Described as a public repository of documents and disclosures | `bond-central-scope` | Unreachable on 3 and 4 November 2026 |
-| Company registry charge filings | May attach the instrument creating a charge | Not assessed | Not assessed |
+| Covenant measured | The issuer's statement of compliance, often with required and actual levels | Issuer's management | `issuer-covenant-compliance-status` |
+| Measurement reviewed | The statutory auditor's certificate, in negative form | Auditor, limited assurance | `lodr-auditor-certificate-covenants` |
+| Statement transmitted | The trustee's record of when each issuer's compliance report arrived (Table 3) | Trustee | `trustee-table-3` |
+| Breach reported | The trustee's breach report (Table 5) and letters to holders | Trustee | `table-5-format` |
+| Holders consulted | Notices of meetings, adjournments, instructions, waivers | Trustee, holders | `default-at-isin-level` |
+| Terms changed | Application, exchange approval in principle, amendment deed | Issuer, exchange, trustee, holders | `lodr-material-modification`, `lodr-modification-consent` |
+| Published on the issuer's site | All compliance reports filed | Issuer | `lodr-website-compliance-reports` |
+
+Studying the chain rather than the bond changes what can be measured. Each link can be examined on four separate questions:
+
+1. **Visibility:** can an outsider see the link at all?
+2. **Dependence:** does it repeat an earlier link or add to it?
+3. **Fidelity:** does the contractual meaning survive the passage?
+4. **Closure:** does the chain reach an outcome?
+
+These questions also make the project's identity coherent. It is an audit of a mandated disclosure chain, made with an evidence graph that keeps attribution, lineage and legal stage explicit. The dataset is the instrument of that audit, not a bond database.
+
+## Corroboration or repetition
+
+### The evidence of dependence
+
+- **Rules.** The master circular routes the issuer's auditor-certified compliance status to the trustee each quarter, and the trustee's monitoring of breaches follows (`issuer-covenant-compliance-status`).
+- **Definitions printed by trustees.** Catalyst's breach report says "Date of Actual Breach is considered as Quarter for which covenant certiticate [sic] has been submitted". IDBI's says the date of actual breach is "the date of the certificate of Statutory Auditor or the due date for submission", and the date of detection is "the date of the receipt of the certificate from the issuer company". Both are printed notes in the transcribed reports.
+- **Dates.** For the 22 comparisons between an issuer's statement and the trustee's report for the quarter ended 30 June 2026, the dataset records:
+  - the statement's own date;
+  - where Catalyst's census has been measured, the date Catalyst records receiving the issuer's quarterly compliance report;
+  - the trustee's date of detection.
+
+  In all 17 agreements, detection is on or after one of the earlier two.
+- **Citations.** In 6 of the 17, the trustee's row names "the security cover certificate by the statutory auditor" as its basis.
+
+| Issuer | Statement dated | Report received by trustee | Trustee's detection | Outcome |
+|---|---|---|---|---|
+| Dvara KGFS (10 ISINs, Catalyst) | 12 Aug 2026 | 31 Jul 2026 | 24 Aug 2026 | Agree |
+| Dvara KGFS (1 ISIN, IDBI) | 12 Aug 2026 | not measured | 13 Aug 2026 | Agree |
+| SATYA MicroCapital (6 ISINs) | 14 Aug 2026 | 14 Aug 2026 | 14 Aug 2026 | Agree; the trustee cites the certificate |
+| SATYA MicroCapital (INE982X08042) | 14 Aug 2026 | not in the census | none | Only the issuer reports a breach |
+| Infinity Fincorp (2 ISINs) | 7 Aug 2026 | 12 Aug 2026 | 13 Aug 2026 | Disagree |
+
+So the 17 agreements are best read as **transmission**: the issuer's exception reached the trustee's report. That is worth measuring. It shows the chain working, and differences of level within an agreement (two Dvara ISINs) show where meaning shifts in transit. It is not independent confirmation of the issuer's statement.
+
+### Where independent information appears
+
+- **Infinity.** Catalyst received the issuer's quarterly compliance report on 12 August and dated its detection of a governance breach 13 August. The auditor's report of 7 August had concluded that nothing suggested non-compliance with all covenants. The trustee's information evidently came from something other than the auditor's conclusion, perhaps the compliance report itself. The record does not say.
+- **Satya, row 11.** The trustee reports breaches of clause 9.8 (ii) and (iii) for two ISINs, detected a week after the certificate, which names only clause 9.3 for them. The ISIN-level comparison counts these ISINs as agreeing. At clause level, the trustee adds a breach the certificate does not show.
+- **INE982X08042.** The issuer's auditor reports a breach; the trustee's report and its census omit the ISIN, which the issuer says was redeemed on 8 July.
+
+### What this changes
+
+- Comparisons must record lineage, not just agreement. The dataset now does, per comparison: statement date, receipt date, detection date, and whether the trustee cites the certificate.
+- Corroboration needs sources whose information does not run through the certificate. Candidates are:
+  - rating agency findings, which rest on their own surveillance;
+  - financial results, from which some ratios can be recomputed;
+  - holders' meeting outcomes;
+  - other lenders' notices, where disclosed.
+
+  None is yet collected systematically.
+- An issuer's assertion, an auditor's limited-assurance conclusion and a trustee's report are different kinds of evidence even about the same ISIN and quarter. They should never be counted as three confirmations.
+
+## What each kind of statement can establish
+
+| Statement | What it is | What it can establish | What it cannot |
+|---|---|---|---|
+| Issuer's statement of covenant compliance | Management's assertion | What the issuer says it measured, and the exceptions it admits | That the measurement is right |
+| Auditor's certificate | Limited assurance in negative form ("nothing has come to our attention…") | That the auditor found nothing contrary within its procedures, which rely on management representations | Compliance; covenants outside its stated scope |
+| Trustee's breach report | The trustee's record of breaches it detected, largely from issuer certificates | That the trustee recorded a breach, and when | That no other breach occurred; independent confirmation of the certificate |
+| Trustee's letter citing an amendment deed | The trustee's description of the deed | That the trustee treats a deed of that date as amending the terms | The deed's text |
+| Exchange's approval in principle | Approval of a proposed modification, subject to conditions | What was proposed and approved in principle, and the existing term as the application described it | That the modification was executed, or from when it applies |
+| Rating rationale | The agency's own analysis | What the agency took note of | Per-ISIN covenant status, unless it says so |
+
+Satya's certificate states the standard it follows: the Institute of Chartered Accountants of India's *Guidance Note on Reports or Certificates for Special Purposes (Revised 2016)*. It also says that the assurance obtained "is substantially lower than" a reasonable assurance engagement would give (`satya-qcr-2026-06`, page 18, read from the rendered page).
+
+## Contract versions: what public traces can and cannot settle
+
+Every clause record now states what it is evidence of (`Provision.stage`):
+
+- `executed_text` from the contract itself;
+- `described_in_force` by a party;
+- `proposed`;
+- `approved_in_principle`.
+
+Of 25 clause records, 24 are descriptions and 1 is an approval in principle. None is executed text.
+
+For INE179P08082 the public trail settles a great deal. BSE's letter describes the existing limit as "less than 70% … until the Final Settlement Date". It records a proposed waiver of the breach "until the date of execution of the Amendment Deed", and a schedule that applies "commencing from the date of execution of the Amendment Deed". The trustee dates that deed 29 July 2026.
+
+On the project's reading, which is an annotation and not a finding, the test at 30 June 2026 preceded the deed. The existing limit would then have applied on that date, with its breach waived. The issuer's statement for that date prints ≤85%, which is the proposed step for the period to 31 March. The trustee's report prints "less than 80%" until the Final Settlement Date. Which limit operated on 30 June depends on whether the executed deed treats the period before its execution differently. No public document found settles that.
+
+This is the general lesson. Approval trails reconstruct what was proposed and approved, and often what was in force before. Without the executed deed, they rarely establish the operative term on a particular test date.
+
+## Denominators, kept apart
+
+| Population | What it is | Size in this release | Use |
+|---|---|---|---|
+| Breach-selected sample | ISINs listed in reviewed trustees' breach reports for the quarter, plus a few related ISINs | 96 ISINs, 93 of them listed | Tracing reported breaches |
+| A trustee's monitored population | ISINs printed in the trustee's own table of compliance reports received | 1,832 ISINs for Catalyst, quarter ended 30 June 2026 | Denominator for that trustee's reports; sampling frame |
+| Comparison sample | 20 ISINs from Catalyst's census that its breach report does not list, drawn by a fixed, reproducible rule | 20 ISINs, listed in `monitoring-censuses.yaml` | The next study: are unreported instruments as observable? |
+| Listed debt market | All listed debt ISINs | Not measured | Not available from a source the pipeline may use |
+
+Catalyst's breach report lists 44 ISINs, 2.4% of the ISINs printed in its census, and its census prints 43 of those 44. A listing is a trustee's report of a breach. It is not a breach rate, and it says nothing about other trustees.
+
+## Observability, dimension by dimension
+
+The project does not combine these dimensions into a score. They fail for different reasons and call for different remedies, and a weighting would need a justification that nothing here supplies. The FAIR principles for research data keep findability, accessibility, interoperability and reusability apart for the same reason.
+
+| Dimension | What the project records | Where |
+|---|---|---|
+| Discoverability | Every search, its query or listing page, and its outcome | `searches.yaml` |
+| Browser accessibility | Whether a source serves people; manual-only sources | `sources.yaml` |
+| Automated retrievability | The policy per source, and refusals observed (BSE, one issuer) | `sources.yaml`, `searches.yaml` |
+| Readability | Text layer audit: outlined text, scans, OCR | `brdo verify` |
+| Matchability to an ISIN | Whether a statement prints the ISIN or covers it only by a general sentence | `isins_printed` fields |
+| Traceability | Every claim anchored to a page; machine-verified or read from a rendering | `evidence.csv` |
+| Reusability | Redistribution, quotation limits, AI-training reservations | `sources.yaml` |
+| Persistence | File hashes re-checked at source; listing pages that keep old quarters | `brdo fetch`, search notes |
+
+On persistence, Catalyst's page of compliance-report tables lists a file for every quarter back to the quarter ended 30 June 2024. The page holds the past as well as the present, which makes a lawful look backwards possible.
 
 ## Directions, in order of value
 
-### 1. A two-channel corroboration study
+### 1. A lineage-aware corroboration study
 
-Check the issuer's regulation 62 page directly, not through a search engine, for every issuer in the sample, for two to four quarters. Record each covenant statement beside the trustee's report for the same quarter, using the comparison that `brdo report` now computes.
+For the sample's issuers, over several quarters, collect three things: the issuer's statement from its regulation 62 page, the trustee's receipt date from its census, and the trustee's breach report. Classify each pair as transmission, divergence or addition.
 
-- **What it would show:** how often two mandated, independent public statements agree, and on what. This is the clearest measure of whether the public record can be relied on without the contract.
-- **What it needs:** the regulation 62 page protocol; transcription of scanned annexures from rendered pages; a manual queue for blocked sites.
-- **Risks:** issuer statements are self-reports given limited assurance, not audits. Statements limited to financial covenants cannot answer other kinds of breach, and the comparison must keep reporting those as not comparable rather than as agreement.
+Add at least one source whose information does not run through the certificate. Rating rationales, financial results and holders' meeting outcomes are the candidates.
 
-### 2. Reconstructing covenant versions from amendment traces
+- **What it would show:** how faithfully the chain carries exceptions, and how often the trustee adds information of its own.
+- **Risk:** the scope of each statement must keep deciding what is comparable.
 
-For each ISIN with any sign of a change (a waiver, a revised level, a cited amendment deed), collect the issuer's regulation 59 intimations, trustee letters and holders' meeting outcomes. Record each version as a provision that amends the last, with dates only where the source states them.
+### 2. Covenant versions with legal stages
 
-- **What it would show:** whether an outsider can tell which version applied at each test date, which matters more to a holder than the original deed.
-- **Risks:** approvals in principle are not executed amendments. Exchange letters annexed to issuer filings carry the exchange's own terms of reuse.
+For each ISIN with a sign of change, collect regulation 59 intimations, exchange approvals, holders' resolutions and trustees' letters. Record each as a clause at its stage. For each test date, report whether the operative term is established by executed text, consistently described, or undetermined.
 
-### 3. A comparison sample from trustees' census tables
+### 3. The comparison sample
 
-Draw a random sample of ISINs from the same trustees' Table 3 for the same quarter, excluding those in Table 5, and apply the same protocol.
+Apply the observability protocol to the 20 sampled ISINs, then to samples from other trustees' censuses.
 
-- **What it would show:** whether covenants of unreported instruments are as observable as those of reported ones. This is the first measure here that is not conditioned on a breach.
-- **What it would not show:** how common breaches are. Table 3 covers only monitored issues of reviewed trustees.
+- **What it would show:** whether covenants of unreported instruments are as visible as those of reported ones.
+- **What it would not show:** how common breaches are.
 
 ### 4. Longitudinal capture
 
-Capture each trustee's and issuer's disclosure pages every quarter. Hash every file, record removals and replacements, and never overwrite. Where archives such as the Internet Archive hold earlier captures and their terms allow, use them to look backwards.
+Catalyst's archive of eight earlier quarters makes a backward look possible now. Capture every disclosure page each quarter after that, hash every file, and record removals. The eight-quarter archive may also show whether past listings persist or are revised.
 
-- **What it would show:** how often disclosures are silently revised (one Axis report already shows a waiver appearing between versions) and how long they stay available.
+### 5. The semantics of trustee reports
 
-### 5. A note on the semantics of Table 5
+Document how every trustee with a public report defines its date columns, carried-over rows, "no information" and further action. Two trustees' definitions already show the dates are certificate dates. SEBI's expert working group invited suggestions until 15 July 2026 (`expert-working-group-suggestions`), so this would be a public research note.
 
-Extend the date-column analysis to every trustee with a public report. Document how each uses "date of actual breach", carried-over rows and "further action". SEBI constituted an expert working group to review the trustee framework in June 2026, and invited suggestions until 15 July 2026 (`expert-working-group-suggestions`). That window has closed, so this would be a public research note, not a submission.
+### 6. Later: an evaluation set
 
-### 6. Later: an evaluation set for document understanding
+Only after independent double annotation with measured agreement, excluding sources that reserve AI-training rights. Real tasks from this corpus include:
 
-Only after two people have annotated the same records independently and agreement has been measured. Candidate tasks follow from real difficulties in this corpus:
-
-- recovering tables from files whose text is drawn as outlines or scanned;
-- extracting exception lines from issuers' covenant statements;
-- detecting when two statements of one covenant disagree.
-
-Rows from sources that reserve AI-training rights must be excluded, and quotation rights reviewed.
+- recovering tables from outlined or scanned files;
+- extracting exception lines;
+- telling transmission from divergence;
+- separating a clause's stage from its wording.
 
 ## What not to do
 
-- Do not assemble a contract corpus by getting around exchanges' controls. The finding that contracts are browser-public but closed to declared programs is itself the result, and it would be invalidated by working around it.
-- Do not estimate breach prevalence, or rank issuers or trustees. Nothing in the sampling supports it.
-- Do not build a bond directory, price feed or rating tracker. Those exist.
-- Do not publish a single transparency score.
-- Do not put model-generated readings of legal text into the dataset as if they were sources.
+- Do not count publications by different parties as independent confirmations.
+- Do not treat an approval, a proposal or a description as the operative contract.
+- Do not get around access controls to build a contract corpus; the closure is itself a finding.
+- Do not estimate breach prevalence, or rank issuers or trustees.
+- Do not republish whole tables or documents because their content is factual. The census is measured and sampled, not reproduced.
+- Do not collect personal data that documents happen to contain. A test now fails if the published records contain e-mail addresses, depository participant IDs, PANs or phone numbers in common written forms.
 
 ## What a recognisable contribution would look like
 
-- **A data descriptor:** the dataset, its datasheet, the hash-verifiable evidence and the access log, published with a citable release.
-- **A methods paper on measuring the observability of mandated disclosures:** India's corporate bond market as the case, with channels kept separate and absence never read as compliance.
-- **A research note on trustee report semantics**, aimed at regulators and trustees.
-- **Later, an evaluation set**, if annotation quality and rights allow.
+- **A data descriptor** for the evidence graph, with a datasheet, hashes and the access log.
+- **A methods paper on auditing mandated disclosure chains,** treating visibility, dependence, fidelity and closure as separate measurements. India's corporate bond market is the case.
+- **A research note on what trustee report fields mean,** for regulators and trustees.
+- **Later, an evaluation set.**
 
 Novelty has been assessed only against logged searches. The project should keep claiming no firsts.
 
 ## Connections to existing work
 
-- **Covenants as contracts, and how researchers have measured them.** Smith and Warner (1979, *Journal of Financial Economics*) set out the theory of bond covenants. Most empirical work since has relied on purpose-built infrastructure. Dichev and Skinner (2002, *Journal of Accounting Research*) used a loan database. Billett, King and Mauer (2007, *Journal of Finance*) and Reisel (2014, *Journal of Corporate Finance*) used a bond-issue database with covenant fields. Chava and Roberts (2008, *Journal of Finance*), Roberts and Sufi (2009, *Journal of Finance*) and Nini, Smith and Sufi (2012, *Review of Financial Studies*) found covenant violations by searching regulatory filings. The Indian channels described above are the nearest public analogue of that infrastructure, and this project measures how far they go.
-- **What summaries lose.** Ivashina and Vallée (2020, NBER Working Paper 27316) show that the carve-outs in loan contracts can matter as much as the headline covenant. A trustee's one-line description of a breach is a summary of exactly this kind.
-- **Public is not the same as accessible.** Blankespoor, deHaan and Marinovic (2020, *Journal of Accounting and Economics*) review evidence that the cost of processing disclosures shapes who uses them. The access log here measures one such cost directly.
-- **Data stewardship.** The FAIR principles (Wilkinson et al., 2016, *Scientific Data*) and datasheets for datasets (Gebru et al., 2021, *Communications of the ACM*) give a vocabulary for the dataset's own documentation.
-- **Contract datasets in machine learning.** CUAD (Hendrycks et al., 2021), LEDGAR (Tuggener et al., 2020) and ContractNLI (Koreeda and Manning, 2021) are built from contracts filed with the US SEC. EDGAR publishes a policy for declared programmatic access, so the absence of comparable Indian resources may owe as much to access regimes as to the documents themselves.
-- **Disclosure infrastructure elsewhere.** The EU's European single access point (Regulation (EU) 2023/2859) is designed to give centralised, machine-readable access to public financial disclosures. It is a policy contrast for the access findings here, not a model this project can adopt.
+- **Covenants and their measurement.** Smith and Warner (1979, *Journal of Financial Economics*) set out the theory of bond covenants. Later work relied on purpose-built data:
+  - Dichev and Skinner (2002, *Journal of Accounting Research*) used a loan database;
+  - Billett, King and Mauer (2007, *Journal of Finance*) and Reisel (2014, *Journal of Corporate Finance*) used a bond-issue database with covenant fields;
+  - Chava and Roberts (2008, *Journal of Finance*), Roberts and Sufi (2009, *Journal of Finance*) and Nini, Smith and Sufi (2012, *Review of Financial Studies*) found violations by searching regulatory filings;
+  - Bradley and Roberts (2015, *Quarterly Journal of Finance*) studied how covenants are priced.
+
+  The Indian chain described here is the nearest public analogue of that infrastructure, and the project measures how much of it an outsider can use.
+- **What summaries lose.** Ivashina and Vallée (2020, NBER Working Paper 27316) show that carve-outs in loan contracts matter as much as headline covenants. A trustee's one-line description of a breach is exactly such a summary.
+- **Public is not the same as usable.** Blankespoor, deHaan and Marinovic (2020, *Journal of Accounting and Economics*) review evidence that the cost of processing disclosures shapes who uses them.
+- **Dependence and provenance.** Bovens and Hartmann (2003, *Bayesian Epistemology*, Oxford University Press) show how far agreement between reports supports a conclusion depends on whether the reports are independent. The W3C PROV data model (2013) gives a standard vocabulary for recording which statement was derived from which. The lineage fields here are a small, domain-specific version of that idea.
+- **Assurance.** The international standard for assurance engagements other than audits, ISAE 3000 (Revised), separates reasonable from limited assurance. Satya's certificate follows an ICAI guidance note and draws the same distinction.
+- **Data stewardship.** The FAIR principles (Wilkinson et al., 2016, *Scientific Data*) and datasheets for datasets (Gebru et al., 2021, *Communications of the ACM*).
+- **Contract datasets in machine learning.** CUAD (Hendrycks et al., 2021), LEDGAR (Tuggener et al., 2020) and ContractNLI (Koreeda and Manning, 2021) are built from contracts filed with the US SEC. EDGAR publishes a policy for declared programmatic access, so the absence of comparable Indian resources may owe as much to access regimes as to the documents.
+- **Disclosure infrastructure elsewhere.** The EU's European single access point (Regulation (EU) 2023/2859) is designed to give centralised, machine-readable access to public disclosures. It is a policy contrast, not a model this project can adopt.
