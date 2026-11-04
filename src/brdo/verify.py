@@ -115,6 +115,9 @@ def check_anchor(label: str, evidence: Evidence, pages: list[str]) -> AnchorResu
     if found and evidence.page is None:
         method = match_on_page(pages[found[0] - 1], evidence.quote)
         return AnchorResult(status=AnchorStatus.VERIFIED, method=method, found_on=tuple(found), **base)
+    if found and evidence.visual_fallback and evidence.page is not None and not pages[evidence.page - 1].strip():
+        detail = f"the cited page has no text layer; the words are also printed on pages {found}"
+        return AnchorResult(status=AnchorStatus.VISUAL_ONLY, detail=detail, **base)
     if found:
         return AnchorResult(status=AnchorStatus.WRONG_PAGE, found_on=tuple(found), **base)
     if evidence.visual_fallback:

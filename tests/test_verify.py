@@ -101,6 +101,12 @@ def test_a_wrong_page_is_not_excused_by_a_visual_fallback():
     assert result.status is AnchorStatus.WRONG_PAGE
 
 
+def test_words_read_from_a_page_without_any_text_layer_are_not_contradicted_by_other_pages():
+    result = check_anchor("x", anchor("hello there", page=1, visual_fallback=True), ["  ", "hello there"])
+    assert result.status is AnchorStatus.VISUAL_ONLY
+    assert "no text layer" in result.detail
+
+
 def _dataset_with_pdf(
     dataset,
     tmp_path: Path,
