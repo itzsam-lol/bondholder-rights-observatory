@@ -1,6 +1,6 @@
 import pytest
 
-from brdo.identifiers import is_valid_cin, is_valid_isin, is_valid_lei, isin_issuer_code
+from brdo.identifiers import is_valid_cin, is_valid_isin, is_valid_lei, isin_issuer_code, printed_isins
 
 
 @pytest.mark.parametrize("isin", ["INE501X07588", "INE0INX07015", "INE906B07HP8", "INE01W207017", "US0378331005"])
@@ -39,3 +39,8 @@ def test_cin_accepts_private_and_public_company_forms():
 def test_lei_check_digits():
     assert is_valid_lei("335800Q6CHM9LTEPY552")
     assert not is_valid_lei("335800Q6CHM9LTEPY553")
+
+
+def test_printed_isins_keeps_only_identifiers_that_pass_the_check_digit():
+    text = "0995 Infinity INE00VD07016 147.00 Secured, then a misprint INE296A07RDI and INE501X07588."
+    assert printed_isins(text) == {"INE00VD07016", "INE501X07588"}

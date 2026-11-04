@@ -1,0 +1,83 @@
+{
+  "$defs": {
+    "ReportedDate": {
+      "additionalProperties": false,
+      "description": "A date exactly as printed, with the project's reading of it.",
+      "properties": {
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Required when the value is not a direct parse of raw",
+          "title": "Note"
+        },
+        "raw": {
+          "title": "Raw",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "raw"
+      ],
+      "title": "ReportedDate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One row of a trustee's census that the analysis relies on, quoted as printed.",
+  "properties": {
+    "isin": {
+      "title": "Isin",
+      "type": "string"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "received": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ReportedDate"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When the trustee records receiving the issuer's quarterly compliance report"
+    },
+    "row_as_reported": {
+      "maxLength": 800,
+      "minLength": 3,
+      "title": "Row As Reported",
+      "type": "string"
+    }
+  },
+  "required": [
+    "isin",
+    "page",
+    "row_as_reported"
+  ],
+  "title": "CensusEntry",
+  "type": "object"
+}

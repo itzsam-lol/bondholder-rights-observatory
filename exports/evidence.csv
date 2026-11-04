@@ -393,6 +393,23 @@ breach notice ctl-notice-satya-2026-08-p17,ctl-notice-satya-2026-08,17,,870crore
 breach notice ctl-notice-satya-2026-08-p17,ctl-notice-satya-2026-08,17,,"As per Clause 9.3 of the DTD: b) Capital Adequacy Ratio (CAR) of atleast 17% or as per applicable RBI regulation, whichever is higher, of the above CAR, TIER 1",false
 breach notice ctl-notice-satya-2026-08-p17,ctl-notice-satya-2026-08,17,,"Debenture Trust Deed (“DTD”) dated 09th February 2024, 22nd February 2024, 27th March 2024, 30th May 2024, and 21 st June 2024",false
 breach notice ctl-notice-satya-2026-08-p17,ctl-notice-satya-2026-08,17,,received intimation from the issuer on 14th August 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,14,,INE179P07332 360.33 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,14,,INE179P07464 73.14 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,14,,INE179P07530 73.50 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,14,,INE179P07548 150.00 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,14,,INE179P08082 127.50 UnSecured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,15,,INE179P07597 45.00 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,15,,INE179P07605 206.88 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,15,,INE179P07613 90.00 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,15,,INE179P07621 75.00 Secured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,15,,INE179P08074 66.00 UnSecured Yes 31 Jul 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,25,,INE00VD07016 147.00 Secured Yes 12-Aug-26,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,25,,INE00VD07032 135.00 Secured Yes 12-Aug-26,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,47,,INE982X08091 75.00 UnSecured Yes 14 Aug 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,47,,INE982X08109 75.00 UnSecured Yes 14 Aug 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,48,,INE982X07176 240.00 Secured Yes 14 Aug 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,48,,INE982X07432 622.50 Secured Yes 14 Aug 2026,false
+monitoring census ctl-qcr-2026-06,ctl-qcr-2026-06,48,,INE982X07457 85.50 Secured Yes 14 Aug 2026,false
 breach report ctl-t5-2026-06 row 1,ctl-t5-2026-06,,,INE501X07588,false
 breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,,INE514Q07304,false
 breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,,INE514Q07353,false
@@ -1124,7 +1141,9 @@ instrument INE650D08013 claim debenture_trustee,mitcon-t5-2026-06,1,,INE650D0801
 discrepancy satya-ine982x08042-not-in-trustee-report,satya-qcr-2026-06,1,,"INE982X08042 (Full redemptions were made on July 08, 2026)",false
 instrument INE982X08042 claim debenture_trustee,satya-qcr-2026-06,1,,Catalyst Trusteeship Limited,false
 instrument INE982X08042 claim debenture_trustee,satya-qcr-2026-06,1,,"INE982X08042 (Full redemptions were made on July 08, 2026)",false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,18,,Guidance Note on Reports or Certificates for Special Purposes (Revised 2016),false
 compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,18,,has not complied with the financial covenants as per the terms of the Debenture Trust Deeds,false
+compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,18,,is substantially lower than the assurance that would have been obtained,false
 compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,01-Aug-19,false
 compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,08-Jul-19,false
 compliance statement satya-2026-06-financial-covenants,satya-qcr-2026-06,20,,"09-Feb-24 executed for issuance of Rs. 25 crores, 22-Feb-24 executed for re-issuance of Rs. 15 crores, 27-Mar-24 executed for re-issuance of Rs. 15 crores",false

@@ -49,3 +49,11 @@ def is_valid_lei(value: str) -> bool:
     if not _LEI_RE.match(value):
         return False
     return int("".join(str(int(char, 36)) for char in value)) % 97 == 1
+
+
+_ISIN_TOKEN = re.compile(r"\bIN[A-Z0-9]{10}\b")
+
+
+def printed_isins(text: str) -> frozenset[str]:
+    """Indian ISINs printed in ``text`` that pass the check digit."""
+    return frozenset(token for token in _ISIN_TOKEN.findall(text) if is_valid_isin(token))

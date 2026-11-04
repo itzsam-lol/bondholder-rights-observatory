@@ -13,6 +13,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
+from brdo.census import listed_in_breach_reports
 from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports
 from brdo.models import Evidence
 from brdo.status import derive_all
@@ -184,6 +185,7 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "instruments": p.instruments,
             "amends": p.amends,
             "effective_from": p.effective_from,
+            "stage": p.stage,
             "text": p.text,
             "explanation": p.explanation,
             "annotation_reviewed": p.annotation_reviewed,
@@ -346,8 +348,30 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "agreement": c.agreement,
             "basis": c.basis,
             "levels_only_in_statement": list(c.levels_only_in_statement),
+            "statement_dated": c.statement_dated,
+            "trustee_received_report": c.trustee_received_report,
+            "trustee_detected": c.trustee_detected,
+            "trustee_cites_certificate": c.trustee_cites_certificate,
+            "trustee_could_rely_on_issuer": c.trustee_could_rely_on_issuer,
         }
         for c in compare_statements_with_reports(dataset)
+    ]
+
+    out["monitoring_censuses"] = [
+        {
+            "id": c.id,
+            "document": c.document,
+            "trustee": c.trustee,
+            "period_start": c.period.start,
+            "period_end": c.period.end,
+            "isins_printed": c.isins_printed,
+            "listed_in_breach_report": len(listed_in_breach_reports(dataset, c)),
+            "listed_not_printed": c.listed_not_printed,
+            "sample": c.sample,
+            "rows_cited": len(c.entries),
+            "ai_training_reserved": _reserved(dataset, c.document),
+        }
+        for c in sorted(dataset.monitoring_censuses.values(), key=lambda c: c.id)
     ]
 
     out["regulatory_references"] = [

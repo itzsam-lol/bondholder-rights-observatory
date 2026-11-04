@@ -8,11 +8,11 @@ import re
 from dataclasses import dataclass
 from datetime import date
 
-from brdo.models import BreachItem, BreachNotice, BreachReport, BreachRow, ComplianceStatement
+from brdo.models import BreachItem, BreachNotice, BreachReport, BreachRow, ComplianceStatement, Document
 from brdo.pdftext import normalize
 from brdo.status import addresses, current_versions, trustees_claimed
 from brdo.store import Dataset
-from brdo.vocab import Agreement, NoticeKind, StatementMaker, StatementScope
+from brdo.vocab import Agreement, DocumentDateKind, NoticeKind, StatementMaker, StatementScope
 
 _THRESHOLD = re.compile(r"\d+(?:[.,]\d+)*\s*(?:%|x\b|times\b|crores?\b|cr\b)", re.IGNORECASE)
 
@@ -157,7 +157,19 @@ class StatementComparison:
     agreement: Agreement
     basis: str
     levels_only_in_statement: tuple[str, ...]
+    statement_dated: date | None
+    trustee_received_report: date | None
+    trustee_detected: date | None
+    trustee_cites_certificate: bool
 
+    @property
+    def trustee_could_rely_on_issuer(self) -> bool:
+        """Whether the trustee dated its detection on or after the issuer's statement or report reached it."""
+        sources = [day for day in (self.statement_dated, self.trustee_received_report) if day is not None]
+        return self.trustee_detected is not None and any(self.trustee_detected >= day for day in sources)
+
+
+_CITES_CERTIFICATE = re.compile(r"certifi|auditor", re.IGNORECASE)
 
 _LEVEL = re.compile(r"(\d+(?:\.\d+)?)\s*(%|x|times|crores?|cr)", re.IGNORECASE)
 
@@ -168,6 +180,17 @@ def _level_key(text: str) -> tuple[float, str] | None:
         return None
     unit = {"times": "x", "crore": "cr", "crores": "cr"}.get(match.group(2).lower(), match.group(2).lower())
     return float(match.group(1)), unit
+
+
+def _dated(document: Document) -> date | None:
+    return next((day.value for day in document.dates if day.kind is DocumentDateKind.DATED), None)
+
+
+def _row_text(row: BreachRow) -> str:
+    printed = [item.covenant_as_reported for item in row.items]
+    printed += [row.security_enforcement_as_reported, row.further_action_as_reported]
+    printed += list(row.other_columns_as_reported.values())
+    return " ".join(text for text in printed if text)
 
 
 def _judge(statement: ComplianceStatement, items: list[BreachItem], reviewed: bool) -> tuple[Agreement, str]:
@@ -206,6 +229,15 @@ def compare_statements_with_reports(dataset: Dataset) -> list[StatementCompariso
             only_stated = (
                 tuple(sorted({level for level in stated if _level_key(level) not in reported})) if items else ()
             )
+            rows = [row for report in own for row in report.rows if isin in row.isins]
+            detected = [row.detected.value for row in rows if row.detected and row.detected.value]
+            received = [
+                entry.received.value
+                for census in dataset.monitoring_censuses.values()
+                if census.trustee in {report.trustee for report in own} and census.period.end == period_end
+                for entry in census.entries
+                if entry.isin == isin and entry.received and entry.received.value
+            ]
             comparisons.append(
                 StatementComparison(
                     statement=statement.id,
@@ -219,6 +251,10 @@ def compare_statements_with_reports(dataset: Dataset) -> list[StatementCompariso
                     agreement=agreement,
                     basis=basis,
                     levels_only_in_statement=only_stated,
+                    statement_dated=_dated(dataset.documents[statement.document]),
+                    trustee_received_report=min(received, default=None),
+                    trustee_detected=min(detected, default=None),
+                    trustee_cites_certificate=any(_CITES_CERTIFICATE.search(_row_text(row)) for row in rows),
                 )
             )
     return comparisons

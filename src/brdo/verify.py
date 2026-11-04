@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
+from brdo.census import check_census
 from brdo.fetch import Cache, Fetcher, RetrievalFailed, RetrievalRefused, file_sha256
 from brdo.models import Document, Evidence
 from brdo.pdftext import audit_text_layer, normalize, page_texts
@@ -189,6 +190,16 @@ def verify_dataset(dataset: Dataset, cache: Cache, fetcher: Fetcher | None) -> l
             else:
                 results.append(check_anchor(label, evidence, text.pages))
     return results
+
+
+def census_problems(dataset: Dataset, cache: Cache, fetcher: Fetcher | None) -> list[tuple[str, str]]:
+    """Censuses whose recorded count or sample the file itself does not reproduce."""
+    problems: list[tuple[str, str]] = []
+    for census in sorted(dataset.monitoring_censuses.values(), key=lambda c: c.id):
+        text = load_document_text(dataset.documents[census.document], cache, fetcher)
+        if text.pages is not None:
+            problems.extend((census.id, problem) for problem in check_census(dataset, census, text.pages))
+    return problems
 
 
 def untranscribed_isins(dataset: Dataset, cache: Cache, fetcher: Fetcher | None) -> list[tuple[str, str]]:

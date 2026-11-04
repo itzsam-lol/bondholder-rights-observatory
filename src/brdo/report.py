@@ -9,8 +9,9 @@ from collections import Counter, defaultdict
 from datetime import date
 from statistics import median
 
+from brdo.census import listed_in_breach_reports
 from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports, revisions
-from brdo.status import derive_all
+from brdo.status import current_versions, derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
     CONTRACT_DOCUMENT_TYPES,
@@ -21,6 +22,7 @@ from brdo.vocab import (
     DocumentType,
     InstrumentProperty,
     NoticeKind,
+    ProvisionStage,
     SearchOutcome,
     SearchPurpose,
     SourceKind,
@@ -318,6 +320,9 @@ def _statements_section(dataset: Dataset) -> str:
     )
     comparisons = [c for c in compare_statements_with_reports(dataset) if c.trustee_lists is not None]
     tally = Counter(c.agreement for c in comparisons)
+    agreeing = [c for c in comparisons if c.agreement is Agreement.CONSISTENT]
+    could_rely = [c for c in agreeing if c.trustee_could_rely_on_issuer]
+    citing = [c for c in agreeing if c.trustee_cites_certificate]
     rows = [
         [
             c.isin,
@@ -325,9 +330,12 @@ def _statements_section(dataset: Dataset) -> str:
             c.made_by,
             c.scope,
             "breach" if c.statement_reports_breach else "compliance",
-            c.trustee_report,
             "yes" if c.trustee_lists else "no",
             c.agreement,
+            c.statement_dated,
+            c.trustee_received_report,
+            c.trustee_detected,
+            "yes" if c.trustee_cites_certificate else "",
             ", ".join(c.levels_only_in_statement),
         ]
         for c in sorted(comparisons, key=lambda c: (c.agreement, c.isin, c.statement))
@@ -337,16 +345,23 @@ def _statements_section(dataset: Dataset) -> str:
         "Issuers must give their trustee an auditor-certified statement of financial covenant compliance "
         "every quarter, "
         "and must keep the compliance reports they file on their own website (regulation 62(1)(g) of the LODR "
-        "Regulations). These statements are the issuer's or its auditor's, so they are a check on the trustee's report "
-        "that does not come from the trustee.\n\n"
+        "Regulations). The statement is made by a different party from the trustee, but it is not independent of the "
+        "trustee's report: the trustee receives it, and two trustees' printed definitions date the breach and its "
+        "detection by the issuer's certificate (see What the date columns mean).\n\n"
         f"For the quarter ended {period}, logged searches covered {len(searched)} issuers: a statement was found for "
         f"{best[SearchOutcome.FOUND]}, located but not retrievable by the pipeline for "
         f"{best[SearchOutcome.LOCATED_NOT_RETRIEVED]}, and not found for {best[SearchOutcome.NOT_FOUND]}.\n\n"
         f"Set beside the trustee's report for the same quarter, {tally[Agreement.CONSISTENT]} ISIN-level comparisons "
         f"agree, {tally[Agreement.DIFFERS]} differ and {tally[Agreement.NOT_COMPARABLE]} cannot be compared because "
-        "the statement's stated scope does not reach the listed covenant. A statement limited to financial covenants "
-        "says nothing about other undertakings. The last column lists required levels the statement prints that the "
-        "trustee's report does not print for that ISIN.\n\n"
+        "the statement's stated scope does not reach the listed covenant. In "
+        f"{len(could_rely)} of the {len(agreeing)} agreements the trustee dates its detection on or after the date of "
+        "the issuer's statement or of the issuer's compliance report reaching it, and in "
+        f"{len(citing)} the trustee's row names the certificate as its basis. Agreement of this kind shows that the "
+        "issuer's statement was carried into the trustee's report. It does not confirm the statement independently. "
+        "The disagreements are where one party's record contains something the other's does not.\n\n"
+        "The receipt dates come from the trustee's own table of compliance reports received, where one has been "
+        "measured. The last column lists required levels that the statement prints and the trustee's report does not "
+        "print for that ISIN.\n\n"
         + _table(
             [
                 "ISIN",
@@ -354,13 +369,94 @@ def _statements_section(dataset: Dataset) -> str:
                 "made by",
                 "covers",
                 "says",
-                "trustee report",
-                "lists ISIN",
+                "listed by trustee",
                 "agreement",
+                "statement dated",
+                "report received by trustee",
+                "trustee detected",
+                "trustee cites certificate",
                 "levels only in statement",
             ],
             rows,
         )
+    )
+
+
+def _census_section(dataset: Dataset) -> str:
+    if not dataset.monitoring_censuses:
+        return ""
+    paragraphs = []
+    for census in sorted(dataset.monitoring_censuses.values(), key=lambda c: c.id):
+        listed = listed_in_breach_reports(dataset, census)
+        absent = sorted(census.listed_not_printed)
+        paragraphs.append(
+            f"{census.trustee}'s table of quarterly compliance reports received for the quarter ended "
+            f"{census.period.end} prints {census.isins_printed} distinct ISINs that pass the check digit. Its breach "
+            f"report for the same quarter lists {len(listed)} ISINs, {len(listed) / census.isins_printed:.1%} of that "
+            f"number. {len(listed) - len(absent)} of them are printed in the census; "
+            f"{', '.join(absent) or 'none'} {'is' if len(absent) == 1 else 'are'} not. A comparison sample of "
+            f"{len(census.sample)} ISINs that the breach report does not list is drawn from the census by a fixed "
+            "rule, "
+            f"so anyone holding the same file can reproduce it: {', '.join(census.sample)}."
+        )
+    return (
+        "## The monitored population behind a breach report\n\n"
+        "A trustee's breach report is selected on a breach having been reported. Its tables of compliance reports "
+        "received (Annex-VIIA, Table 3) list the issues it monitors, which gives a denominator for the same "
+        "trustee and "
+        "quarter. The tables are not republished here. The dataset keeps each file's hash, the count of ISINs it "
+        "prints, the sample, and the few rows the analysis cites, and `brdo verify` recomputes the count and the "
+        "sample from the file. A listing is a trustee's report of a breach, so the share listed is not a "
+        "breach rate.\n\n" + "\n\n".join(paragraphs)
+    )
+
+
+_AWAITING = "only awaiting instructions or continuing"
+_NOTHING = "no follow-up reported"
+_OUTCOMES = [
+    (
+        "a waiver, cure, enforcement step or holders' instruction is reported",
+        {
+            ActionKind.WAIVER_REPORTED,
+            ActionKind.CURE_REPORTED,
+            ActionKind.ENFORCEMENT,
+            ActionKind.NOMINEE_DIRECTOR,
+            ActionKind.NO_ACTION_INSTRUCTED,
+        },
+    ),
+    ("a holders' meeting is reported as held or adjourned", {ActionKind.HOLDERS_MEETING_HELD}),
+    ("a holders' meeting is reported as scheduled", {ActionKind.HOLDERS_MEETING_SCHEDULED}),
+]
+
+
+def _outcomes_section(dataset: Dataset) -> str:
+    period = main_period(dataset)
+    reports = current_versions([r for r in dataset.breach_reports.values() if r.period.end == period], dataset)
+    kinds: dict[tuple[str, str], set[ActionKind]] = defaultdict(set)
+    for report in reports:
+        for row in report.rows:
+            for isin in row.isins:
+                kinds[(report.trustee, isin)].update(action.kind for action in row.actions)
+    for notice in dataset.breach_notices.values():
+        for key in [key for key in kinds if key[1] in notice.isins and key[0] == notice.trustee]:
+            if notice.adjourned_for_lack_of_quorum:
+                kinds[key].add(ActionKind.HOLDERS_MEETING_HELD)
+            if notice.meeting_proposed_for:
+                kinds[key].add(ActionKind.HOLDERS_MEETING_SCHEDULED)
+    labels = [label for label, _ in _OUTCOMES] + [_AWAITING, _NOTHING]
+    counts: dict[str, Counter] = defaultdict(Counter)
+    for (trustee, _), found in kinds.items():
+        label = next((label for label, wanted in _OUTCOMES if found & wanted), _AWAITING if found else _NOTHING)
+        counts[trustee][label] += 1
+    trustees = sorted(counts)
+    rows = [[label] + [counts[trustee].get(label, 0) for trustee in trustees] for label in labels]
+    return (
+        "## Where the published follow-up stops\n\n"
+        f"For each ISIN listed in a current report for the quarter ended {period}, the furthest follow-up that the "
+        "trustee's transcribed reports and letters publish, by trustee. This measures the public record, not what "
+        "trustees or holders did: steps taken but not published are invisible here. The categories are the project's "
+        "reading of each report's action cells, and what counts as a cure differs by covenant: a late filing that is "
+        "later made is reported as cured.\n\n" + _table(["furthest follow-up published"] + trustees, rows)
     )
 
 
@@ -405,18 +501,25 @@ def _evolution_section(dataset: Dataset) -> str:
             seen.add(isin)
             rows.append([isin, ", ".join(str(d) for d in notice.deed_dates), notice.document])
     amended = [
-        [p.instruments[0], p.amends, p.id, p.document]
+        [p.instruments[0], p.amends, p.id, p.stage, p.document]
         for p in sorted(dataset.provisions.values(), key=lambda p: p.id)
         if p.amends
     ]
+    stages = Counter(p.stage for p in dataset.provisions.values())
     section = (
         "## Contractual evolution\n\nInstruments for which a trustee cites more than one deed date; the notices do not "
         "always say which deed amends which.\n\n" + _table(["ISIN", "deed dates cited", "notice"], rows)
     )
     if amended:
         section += "\n\nClauses recorded with both their earlier and later text:\n\n" + _table(
-            ["ISIN", "earlier clause", "later clause", "source"], amended
+            ["ISIN", "earlier clause", "later clause", "later clause is", "source"], amended
         )
+    section += (
+        "\n\nWhat each clause record is evidence of: "
+        + ", ".join(f"{stages.get(stage, 0)} {stage}" for stage in ProvisionStage)
+        + ". Only executed text establishes an operative term; a description, a proposal or an approval in principle "
+        "does not."
+    )
     return section
 
 
@@ -497,6 +600,8 @@ def render_report(dataset: Dataset) -> str:
         _actions_section(dataset),
         _consistency_section(dataset),
         _statements_section(dataset),
+        _census_section(dataset),
+        _outcomes_section(dataset),
         _status_section(dataset),
         _funnel_section(dataset),
         _evolution_section(dataset),

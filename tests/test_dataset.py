@@ -2,6 +2,7 @@
 
 import csv
 import json
+import re
 from datetime import date
 from pathlib import Path
 
@@ -9,12 +10,13 @@ import pytest
 
 from brdo import models
 from brdo.build import tables
+from brdo.census import check_census
 from brdo.fetch import Cache, Fetcher, default_cache_dir
 from brdo.identifiers import is_valid_isin
 from brdo.report import render_report
 from brdo.status import StatusBasis, derive_all
 from brdo.store import check_integrity, load_dataset
-from brdo.verify import AnchorStatus, verify_dataset
+from brdo.verify import AnchorStatus, load_document_text, verify_dataset
 from brdo.vocab import CoverageStatus, RedistributionPolicy, RetrievalPolicy, SourceKind
 
 REPOSITORY = Path(__file__).parent.parent
@@ -169,6 +171,36 @@ def test_every_anchor_verifies_against_the_cached_sources(data):
     results = verify_dataset(data, cache, None)
     failures = [r for r in results if not r.ok and r.status is not AnchorStatus.DOCUMENT_UNAVAILABLE]
     assert not failures, failures[:5]
+
+
+def test_every_census_reproduces_from_its_cached_file(data):
+    cache = Cache(REPOSITORY / default_cache_dir())
+    checked = 0
+    for census in data.monitoring_censuses.values():
+        text = load_document_text(data.documents[census.document], cache, None)
+        if text.pages is None:
+            continue
+        assert check_census(data, census, text.pages) == [], census.id
+        checked += 1
+    if not checked:
+        pytest.skip("no census file is in the local cache; run `brdo fetch`")
+
+
+_PERSONAL_DATA = {
+    "e-mail address": re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+"),
+    "depository participant id": re.compile(r"\bIN\d{6}\b"),
+    "PAN": re.compile(r"\b[A-Z]{3}[ABCFGHLJPT][A-Z]\d{4}[A-Z]\b"),
+    "phone number": re.compile(r"\+91[\s-]?[6-9]\d{4}[\s-]?\d{5}\b|\b[6-9]\d{4}\s\d{5}\b"),
+}
+
+
+def test_published_records_hold_no_personal_identifiers():
+    """Bare ten-digit numbers are not checked: they cannot be told apart from rupee amounts."""
+    paths = [*(REPOSITORY / "data").rglob("*.yaml"), *(REPOSITORY / "exports").glob("*.csv")]
+    for path in paths:
+        text = path.read_text(encoding="utf-8")
+        for kind, pattern in _PERSONAL_DATA.items():
+            assert not pattern.search(text), f"{path.name} contains what looks like a {kind}"
 
 
 @pytest.mark.network

@@ -296,6 +296,19 @@ class SearchOutcome(StrEnum):
     ACCESS_ERROR = "access_error"
 
 
+class ProvisionStage(StrEnum):
+    """What a provision record is evidence of. Only the executed document itself establishes the operative term."""
+
+    EXECUTED_TEXT = "executed_text"
+    """Quoted from the executed trust deed, supplemental deed or offer document."""
+    DESCRIBED_IN_FORCE = "described_in_force"
+    """A party's description of a term it treats as in force, such as a trustee's quotation or an issuer's level."""
+    PROPOSED = "proposed"
+    """A change put forward for approval."""
+    APPROVED_IN_PRINCIPLE = "approved_in_principle"
+    """A proposed change approved in principle, for example by an exchange under regulation 59, not shown executed."""
+
+
 class StatementMaker(StrEnum):
     """Who made a compliance statement, which is not always who published it."""
 

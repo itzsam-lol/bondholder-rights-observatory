@@ -6,8 +6,8 @@ from brdo.consistency import (
     revisions,
     stated_thresholds,
 )
-from brdo.models import BreachNotice, StatedException
-from brdo.vocab import Agreement, CovenantCategory, StatementScope
+from brdo.models import BreachNotice, DocumentDate, StatedException
+from brdo.vocab import Agreement, CovenantCategory, DateBasis, DocumentDateKind, StatementScope
 from tests.conftest import (
     ISIN_LISTED,
     ISIN_UNLISTED,
@@ -149,3 +149,24 @@ def test_without_a_complete_report_absence_is_not_compared(dataset):
     dataset.breach_reports["report-q1"] = make_report(extraction_complete=False, visually_reviewed=False)
     [result] = _compare(dataset, make_statement(breach=True, isin=ISIN_UNLISTED))
     assert (result.agreement, result.trustee_lists) == (Agreement.NOT_COMPARABLE, None)
+
+
+def test_a_trustee_detection_after_the_statement_is_marked_as_possibly_derived(dataset):
+    dataset.documents["report-q1"] = make_document(
+        dates=[DocumentDate(kind=DocumentDateKind.DATED, value=date(2026, 8, 10), basis=DateBasis.STATED_IN_DOCUMENT)]
+    )
+    [result] = _compare(dataset, make_statement(breach=True))
+    assert result.statement_dated == date(2026, 8, 10)
+    assert result.trustee_detected == date(2026, 8, 14)
+    assert result.trustee_could_rely_on_issuer
+    assert not result.trustee_cites_certificate
+
+
+def test_a_trustee_row_naming_the_certificate_is_recognised(dataset):
+    row = make_row()
+    item = row.items[0].model_copy(
+        update={"covenant_as_reported": "basis the security cover certificate by the auditor"}
+    )
+    dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+    [result] = _compare(dataset, make_statement(breach=True))
+    assert result.trustee_cites_certificate

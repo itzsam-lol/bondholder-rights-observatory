@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "CensusEntry": {
+      "additionalProperties": false,
+      "description": "One row of a trustee's census that the analysis relies on, quoted as printed.",
+      "properties": {
+        "isin": {
+          "title": "Isin",
+          "type": "string"
+        },
+        "page": {
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "received": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportedDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "When the trustee records receiving the issuer's quarterly compliance report"
+        },
+        "row_as_reported": {
+          "maxLength": 800,
+          "minLength": 3,
+          "title": "Row As Reported",
+          "type": "string"
+        }
+      },
+      "required": [
+        "isin",
+        "page",
+        "row_as_reported"
+      ],
+      "title": "CensusEntry",
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "format": "date",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Period",
+      "type": "object"
+    },
+    "ReportedDate": {
+      "additionalProperties": false,
+      "description": "A date exactly as printed, with the project's reading of it.",
+      "properties": {
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Required when the value is not a direct parse of raw",
+          "title": "Note"
+        },
+        "raw": {
+          "title": "Raw",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "raw"
+      ],
+      "title": "ReportedDate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A trustee's published table of the issues it monitors for a period, measured rather than republished.\n\n``isins_printed`` and ``sample`` can be recomputed from the hashed file. The sample is drawn from the printed\nISINs that the trustee's breach report for the period does not list, as those whose SHA-256 of the file's hash,\na colon and the ISIN sorts first.",
+  "properties": {
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
+    },
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/CensusEntry"
+      },
+      "title": "Entries",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "isins_printed": {
+      "description": "Distinct ISINs printed in the file that pass the check digit",
+      "minimum": 0,
+      "title": "Isins Printed",
+      "type": "integer"
+    },
+    "listed_not_printed": {
+      "description": "ISINs in the trustee's breach report for the period that the file omits",
+      "items": {
+        "type": "string"
+      },
+      "title": "Listed Not Printed",
+      "type": "array"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "period": {
+      "$ref": "#/$defs/Period"
+    },
+    "sample": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Sample",
+      "type": "array"
+    },
+    "trustee": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Trustee",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "document",
+    "trustee",
+    "period",
+    "isins_printed"
+  ],
+  "title": "MonitoringCensus",
+  "type": "object"
+}

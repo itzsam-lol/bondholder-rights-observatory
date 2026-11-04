@@ -25,6 +25,7 @@ from brdo.vocab import (
     DiscrepancyStatus,
     DocumentType,
     InstrumentProperty,
+    ProvisionStage,
     Recipient,
     SearchChannel,
     SearchOutcome,
@@ -221,3 +222,16 @@ def test_every_exception_field_becomes_a_checkable_anchor():
     )
     quotes = {anchor.quote for anchor in make_statement(breach=True, exceptions=[line]).anchors()}
     assert {ISIN_LISTED, "Cost to Income Ratio", "<=85%"} <= quotes
+
+
+def test_a_clause_record_is_a_description_unless_said_otherwise():
+    provision = Provision(
+        id="p",
+        document="d",
+        clause="1",
+        page=1,
+        text="maintain a ratio",
+        instruments=[ISIN_LISTED],
+        category="financial",
+    )
+    assert provision.stage is ProvisionStage.DESCRIBED_IN_FORCE

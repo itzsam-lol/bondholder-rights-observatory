@@ -35,6 +35,7 @@ from brdo.models import (
     Evidence,
     Instrument,
     Issuer,
+    MonitoringCensus,
     Provision,
     RegulatoryReference,
     SearchRecord,
@@ -86,6 +87,7 @@ class Dataset:
     breach_reports: dict[str, BreachReport] = field(default_factory=dict)
     breach_notices: dict[str, BreachNotice] = field(default_factory=dict)
     compliance_statements: dict[str, ComplianceStatement] = field(default_factory=dict)
+    monitoring_censuses: dict[str, MonitoringCensus] = field(default_factory=dict)
     regulatory_references: dict[str, RegulatoryReference] = field(default_factory=dict)
     searches: dict[str, SearchRecord] = field(default_factory=dict)
     discrepancies: dict[str, Discrepancy] = field(default_factory=dict)
@@ -129,6 +131,9 @@ class Dataset:
         for statement in self.compliance_statements.values():
             for anchor in statement.anchors():
                 yield f"compliance statement {statement.id}", anchor
+        for census in self.monitoring_censuses.values():
+            for anchor in census.anchors():
+                yield f"monitoring census {census.id}", anchor
         for reference in self.regulatory_references.values():
             yield f"regulatory reference {reference.id}", reference.anchor()
         for discrepancy in self.discrepancies.values():
@@ -199,6 +204,12 @@ def load_dataset(root: Path) -> Dataset:
         _load_list(root / "compliance-statements.yaml", ComplianceStatement, problems),
         "id",
         "compliance statements",
+        problems,
+    )
+    dataset.monitoring_censuses = _index(
+        _load_list(root / "monitoring-censuses.yaml", MonitoringCensus, problems),
+        "id",
+        "monitoring censuses",
         problems,
     )
 
@@ -378,6 +389,14 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         for isin in statement.instruments:
             if isin not in dataset.instruments:
                 error(where, f"unknown instrument {isin}")
+
+    for census in dataset.monitoring_censuses.values():
+        where = f"monitoring census {census.id}"
+        if census.document not in dataset.documents:
+            error(where, f"unknown document {census.document}")
+        trustee = dataset.sources.get(census.trustee)
+        if trustee is None or trustee.kind is not SourceKind.DEBENTURE_TRUSTEE:
+            error(where, f"{census.trustee} is not a registered debenture trustee")
 
     for search in dataset.searches.values():
         for document_id in search.documents:

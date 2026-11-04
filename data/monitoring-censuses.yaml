@@ -1,0 +1,139 @@
+# Trustees' published tables of the issues they monitor, measured rather than republished. `brdo verify`
+# recomputes the count and the sample from the hashed file. See docs/methods.md.
+
+- id: ctl-qcr-2026-06
+  document: ctl-qcr-2026-06
+  trustee: catalyst-trusteeship
+  period:
+    start: '2026-04-01'
+    end: '2026-06-30'
+  isins_printed: 1832
+  listed_not_printed:
+  - INE982X08034
+  sample:
+  - INE003L07077
+  - INE02KN07071
+  - INE02Y107057
+  - INE0IX207239
+  - INE115A07PY3
+  - INE125T07311
+  - INE134E08IL6
+  - INE134E08JH2
+  - INE235P07548
+  - INE296A08870
+  - INE348L07316
+  - INE432R07265
+  - INE448U07273
+  - INE477L07BC0
+  - INE519Q08186
+  - INE721A07RQ0
+  - INE787H08063
+  - INE814O07592
+  - INE866I07750
+  - INE918K07PU7
+  entries:
+  - isin: INE179P07464
+    page: 14
+    row_as_reported: INE179P07464 73.14 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07530
+    page: 14
+    row_as_reported: INE179P07530 73.50 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P08082
+    page: 14
+    row_as_reported: INE179P08082 127.50 UnSecured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07332
+    page: 14
+    row_as_reported: INE179P07332 360.33 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07605
+    page: 15
+    row_as_reported: INE179P07605 206.88 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P08074
+    page: 15
+    row_as_reported: INE179P08074 66.00 UnSecured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07548
+    page: 14
+    row_as_reported: INE179P07548 150.00 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07597
+    page: 15
+    row_as_reported: INE179P07597 45.00 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07613
+    page: 15
+    row_as_reported: INE179P07613 90.00 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE179P07621
+    page: 15
+    row_as_reported: INE179P07621 75.00 Secured Yes 31 Jul 2026
+    received:
+      raw: 31 Jul 2026
+      value: 2026-07-31
+  - isin: INE00VD07016
+    page: 25
+    row_as_reported: INE00VD07016 147.00 Secured Yes 12-Aug-26
+    received:
+      raw: 12-Aug-26
+      value: 2026-08-12
+  - isin: INE00VD07032
+    page: 25
+    row_as_reported: INE00VD07032 135.00 Secured Yes 12-Aug-26
+    received:
+      raw: 12-Aug-26
+      value: 2026-08-12
+  - isin: INE982X07432
+    page: 48
+    row_as_reported: INE982X07432 622.50 Secured Yes 14 Aug 2026
+    received:
+      raw: 14 Aug 2026
+      value: 2026-08-14
+  - isin: INE982X07176
+    page: 48
+    row_as_reported: INE982X07176 240.00 Secured Yes 14 Aug 2026
+    received:
+      raw: 14 Aug 2026
+      value: 2026-08-14
+  - isin: INE982X07457
+    page: 48
+    row_as_reported: INE982X07457 85.50 Secured Yes 14 Aug 2026
+    received:
+      raw: 14 Aug 2026
+      value: 2026-08-14
+  - isin: INE982X08091
+    page: 47
+    row_as_reported: INE982X08091 75.00 UnSecured Yes 14 Aug 2026
+    received:
+      raw: 14 Aug 2026
+      value: 2026-08-14
+  - isin: INE982X08109
+    page: 47
+    row_as_reported: INE982X08109 75.00 UnSecured Yes 14 Aug 2026
+    received:
+      raw: 14 Aug 2026
+      value: 2026-08-14
+  note: The trustee's table of quarterly compliance reports, financial statements and performance reports received
+    for the quarter. The rows quoted are those of ISINs whose issuer's own covenant statement is compared with the
+    trustee's breach report. One printed identifier, INE296A07RDI, fails the check digit and is not counted.

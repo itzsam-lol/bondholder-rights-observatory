@@ -150,6 +150,8 @@
   evidence:
     - {document: satya-qcr-2026-06, page: 18, quote: has not complied with the financial covenants as per the terms of the Debenture Trust Deeds, visual_fallback: true}
     - {document: satya-qcr-2026-06, page: 20, quote: The Company is in the process of seeking waiver from NCD/Bond holder., visual_fallback: true}
+    - {document: satya-qcr-2026-06, page: 18, quote: Guidance Note on Reports or Certificates for Special Purposes (Revised 2016), visual_fallback: true}
+    - {document: satya-qcr-2026-06, page: 18, quote: is substantially lower than the assurance that would have been obtained, visual_fallback: true}
   note: >-
     The statutory auditor's certificate of 14 August 2026 (Annexure F) gives limited assurance in negative form that the
     company has not complied with the financial covenants except as stated in its annexure, which marks each ISIN "N" and

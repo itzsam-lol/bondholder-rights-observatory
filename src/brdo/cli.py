@@ -19,6 +19,7 @@ from brdo.status import derive_all
 from brdo.store import DatasetError, Severity, check_integrity, load_dataset
 from brdo.verify import (
     AnchorStatus,
+    census_problems,
     load_document_text,
     summarize,
     text_layer_warnings,
@@ -68,6 +69,9 @@ def cmd_verify(args: argparse.Namespace) -> int:
     untranscribed = untranscribed_isins(dataset, cache, fetcher)
     for document_id, isin in untranscribed:
         print(f"untranscribed: {document_id} prints {isin}, which its transcription does not list")
+    censuses = census_problems(dataset, cache, fetcher)
+    for census_id, problem in censuses:
+        print(f"census: {census_id}: {problem}")
     for result in failures:
         where = f"p{result.page}" if result.page else "-"
         found = f" (found on {list(result.found_on)})" if result.found_on else ""
@@ -77,7 +81,7 @@ def cmd_verify(args: argparse.Namespace) -> int:
     hard_failures = [
         result for result in failures if not (args.offline and result.status is AnchorStatus.DOCUMENT_UNAVAILABLE)
     ]
-    return 1 if hard_failures or untranscribed else 0
+    return 1 if hard_failures or untranscribed or censuses else 0
 
 
 def cmd_fetch(args: argparse.Namespace) -> int:

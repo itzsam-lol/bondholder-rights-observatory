@@ -24,6 +24,17 @@
       "title": "CovenantCategory",
       "type": "string"
     },
+    "ProvisionStage": {
+      "description": "What a provision record is evidence of. Only the executed document itself establishes the operative term.",
+      "enum": [
+        "executed_text",
+        "described_in_force",
+        "proposed",
+        "approved_in_principle"
+      ],
+      "title": "ProvisionStage",
+      "type": "string"
+    },
     "TestBasis": {
       "enum": [
         "standalone",
@@ -217,6 +228,10 @@
       "minimum": 1,
       "title": "Page",
       "type": "integer"
+    },
+    "stage": {
+      "$ref": "#/$defs/ProvisionStage",
+      "default": "described_in_force"
     },
     "test_basis": {
       "items": {

@@ -37,6 +37,7 @@
     - {comparator: "<=", value: 80, unit: percent, applies_to: 2026-09-30}
     - {comparator: "<=", value: 70, unit: percent}
   amends: dvara-ine179p08082-cost-to-income-existing-2026-06
+  stage: approved_in_principle
   visual_fallback: true
   explanation: >-
     A proposal, approved in principle by BSE, to waive the breach and replace the 70% limit with 85% until 31 March 2026,

@@ -35,6 +35,7 @@ from brdo.vocab import (
     LinkBasis,
     NoticeKind,
     ProvisionLinkBasis,
+    ProvisionStage,
     Recipient,
     RedistributionPolicy,
     RetrievalPolicy,
@@ -279,6 +280,7 @@ class Provision(Record):
     annotation_reviewed: bool = False
     amends: RecordId | None = None
     effective_from: date | None = None
+    stage: ProvisionStage = ProvisionStage.DESCRIBED_IN_FORCE
     visual_fallback: bool = Field(
         default=False, description="Read from the rendered page; the text layer is unreliable"
     )
@@ -598,6 +600,42 @@ class ComplianceStatement(Record):
                 if text and len(text) >= MIN_ANCHOR_CHARS:
                     yield anchor(text, line.page)
         yield from self.evidence
+
+
+class CensusEntry(Record):
+    """One row of a trustee's census that the analysis relies on, quoted as printed."""
+
+    isin: Isin
+    page: int = Field(ge=1)
+    row_as_reported: Quote
+    received: ReportedDate | None = Field(
+        default=None, description="When the trustee records receiving the issuer's quarterly compliance report"
+    )
+
+
+class MonitoringCensus(Record):
+    """A trustee's published table of the issues it monitors for a period, measured rather than republished.
+
+    ``isins_printed`` and ``sample`` can be recomputed from the hashed file. The sample is drawn from the printed
+    ISINs that the trustee's breach report for the period does not list, as those whose SHA-256 of the file's hash,
+    a colon and the ISIN sorts first.
+    """
+
+    id: RecordId
+    document: RecordId
+    trustee: RecordId
+    period: Period
+    isins_printed: int = Field(ge=0, description="Distinct ISINs printed in the file that pass the check digit")
+    listed_not_printed: list[Isin] = Field(
+        default_factory=list, description="ISINs in the trustee's breach report for the period that the file omits"
+    )
+    sample: list[Isin] = Field(default_factory=list)
+    entries: list[CensusEntry] = Field(default_factory=list)
+    note: str | None = None
+
+    def anchors(self) -> Iterator[Evidence]:
+        for entry in self.entries:
+            yield Evidence(document=self.document, page=entry.page, quote=entry.row_as_reported)
 
 
 class RegulatoryReference(Record):
