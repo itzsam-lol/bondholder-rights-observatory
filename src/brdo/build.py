@@ -14,14 +14,23 @@ from pathlib import Path
 from typing import Any
 
 from brdo.census import listed_in_breach_reports
-from brdo.consistency import compare_notices_with_reports, compare_statements_with_reports
+from brdo.consistency import (
+    OUTCOME_STATES,
+    compare_notices_with_reports,
+    compare_statements_with_reports,
+    field_flows,
+    follow_up_states,
+)
+from brdo.dictionary import datapackage
 from brdo.models import Evidence
 from brdo.pit import availability
 from brdo.status import derive_all
 from brdo.store import Dataset
-from brdo.vocab import CONTRACT_DOCUMENT_TYPES, AiTrainingSignal, InstrumentProperty
+from brdo.vocab import CONTRACT_DOCUMENT_TYPES, AiTrainingSignal, InstrumentProperty, RedistributionPolicy
 
 Row = dict[str, Any]
+
+NO_FOLLOW_UP_PUBLISHED = "no follow-up published"
 
 
 def _cell(value: Any) -> Any:
@@ -60,10 +69,13 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "retrieval": s.retrieval,
             "redistribution": s.redistribution,
             "excerpts": s.excerpts,
+            "quote_limit": s.quote_limit,
+            "domains": [] if s.redistribution is RedistributionPolicy.NO_LINKS else s.domains,
             "ai_training": s.ai_training,
             "sebi_registration": s.sebi_registration,
             "terms_reviewed_on": s.terms.reviewed_on if s.terms else None,
             "terms_summary": s.terms.summary if s.terms else None,
+            "notes": s.notes,
         }
         for s in sorted(dataset.sources.values(), key=lambda s: s.id)
     ]
@@ -368,6 +380,52 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
         for c in compare_statements_with_reports(dataset)
     ]
 
+    out["field_flows"] = [
+        {
+            "statement": f.statement,
+            "isin": f.isin,
+            "period_end": f.period_end,
+            "trustee_report": f.trustee_report,
+            "field": f.field,
+            "issuer_prints": f.issuer,
+            "trustee_prints": f.trustee,
+            "issuer_basis": f.issuer_basis,
+            "trustee_basis": f.trustee_basis,
+            "ai_training_reserved": _reserved(dataset, dataset.compliance_statements[f.statement].document)
+            or (f.trustee_report is not None and _reserved(dataset, f.trustee_report)),
+        }
+        for f in field_flows(dataset)
+    ]
+
+    out["follow_up_states"] = []
+    for period_end in sorted({report.period.end for report in dataset.breach_reports.values()}):
+        published, listed = follow_up_states(dataset, period_end)
+        with_state = {(state.trustee, state.isin) for state in published}
+        rows = [
+            {
+                "trustee": s.trustee,
+                "isin": s.isin,
+                "period_end": period_end,
+                "state": s.state,
+                "is_outcome": s.state in OUTCOME_STATES,
+                "basis": s.basis,
+            }
+            for s in published
+        ]
+        rows += [
+            {
+                "trustee": trustee,
+                "isin": isin,
+                "period_end": period_end,
+                "state": NO_FOLLOW_UP_PUBLISHED,
+                "is_outcome": False,
+                "basis": "",
+            }
+            for trustee, isin in listed
+            if (trustee, isin) not in with_state
+        ]
+        out["follow_up_states"] += sorted(rows, key=lambda r: (r["trustee"], r["isin"]))
+
     out["monitoring_censuses"] = [
         {
             "id": c.id,
@@ -379,6 +437,7 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "listed_in_breach_report": len(listed_in_breach_reports(dataset, c)),
             "listed_not_printed": c.listed_not_printed,
             "sample": c.sample,
+            "report_not_received": c.report_not_received,
             "rows_cited": len(c.entries),
             "ai_training_reserved": _reserved(dataset, c.document),
         }
@@ -441,6 +500,7 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "page": item.page,
                 "locator": item.locator,
                 "quote": item.quote,
+                "read_from_rendering": item.visual_fallback,
                 "ai_training_reserved": _reserved(dataset, item.document),
             }
             for label, item in dataset.evidence()
@@ -462,6 +522,13 @@ def write_csv(all_tables: dict[str, list[Row]], directory: Path) -> list[Path]:
                 writer.writerows(rows)
         written.append(path)
     return written
+
+
+def write_datapackage(all_tables: dict[str, list[Row]], directory: Path) -> Path:
+    """Describe the CSV files in ``directory`` as a Frictionless Data Package, column by column."""
+    path = directory / "datapackage.json"
+    path.write_text(json.dumps(datapackage(all_tables), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return path
 
 
 def write_sqlite(all_tables: dict[str, list[Row]], path: Path) -> Path:

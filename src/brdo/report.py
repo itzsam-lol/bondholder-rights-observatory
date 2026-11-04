@@ -12,19 +12,21 @@ from statistics import median
 from brdo.census import listed_in_breach_reports
 from brdo.consistency import (
     FLOW_FIELDS,
+    FOLLOW_UP_STATES,
+    OUTCOME_STATES,
     compare_notices_with_reports,
     compare_statements_with_reports,
     field_flows,
+    follow_up_states,
     revisions,
 )
 from brdo.pit import availability
-from brdo.status import current_versions, derive_all
+from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
     CONTRACT_DOCUMENT_TYPES,
     ActionKind,
     Agreement,
-    CovenantCategory,
     CovenantSpecificity,
     CoverageStatus,
     DocumentType,
@@ -41,6 +43,15 @@ def _table(header: list[str], rows: list[list[object]]) -> str:
     lines = ["| " + " | ".join(header) + " |", "|" + "|".join("---" for _ in header) + "|"]
     lines += ["| " + " | ".join("" if cell is None else str(cell) for cell in row) + " |" for row in rows]
     return "\n".join(lines)
+
+
+def _issuer_count(dataset: Dataset, isins: set[str]) -> int:
+    return len({dataset.instruments[isin].issuer for isin in isins})
+
+
+def _clustered(dataset: Dataset, isins: set[str]) -> str:
+    """A count of ISINs with the number of issuers behind them, since one issuer's ISINs share one history."""
+    return f"{len(isins)} ({_issuer_count(dataset, isins)})" if isins else "0"
 
 
 def _spread(values: list[int]) -> str:
@@ -371,7 +382,10 @@ def _statements_section(dataset: Dataset) -> str:
         "the issuer's statement or of the issuer's compliance report reaching it, and in "
         f"{len(citing)} the trustee's row names the certificate as its basis. Agreement of this kind shows that the "
         "issuer's statement was carried into the trustee's report. It does not confirm the statement independently. "
-        "The disagreements are where one party's record contains something the other's does not.\n\n"
+        "The disagreements are where one party's record contains something the other's does not. "
+        f"The {len(comparisons)} comparisons concern {_issuer_count(dataset, {c.isin for c in comparisons})} issuers, "
+        f"and the {len(agreeing)} agreements {_issuer_count(dataset, {c.isin for c in agreeing})}, so a count of ISINs "
+        "here is not a count of independent cases.\n\n"
         "The receipt dates come from the trustee's own table of compliance reports received, where one has been "
         "measured. The last column lists required levels that the statement prints and the trustee's report does not "
         "print for that ISIN.\n\n"
@@ -442,64 +456,23 @@ def _sample_pilot(dataset: Dataset, census) -> str:
     )
 
 
-_CLOSURE_STATES = [
-    ("enforcement step or nominee director reported", {ActionKind.ENFORCEMENT, ActionKind.NOMINEE_DIRECTOR}),
-    ("waiver reported", {ActionKind.WAIVER_REPORTED}),
-    ("holders instructed no action", {ActionKind.NO_ACTION_INSTRUCTED}),
-    ("cure reported for a financial covenant", set()),
-    ("cure reported for another obligation, such as a late filing", set()),
-    ("meeting reported as held", {ActionKind.HOLDERS_MEETING_HELD}),
-    ("meeting adjourned for lack of quorum", set()),
-    ("meeting reported as scheduled", {ActionKind.HOLDERS_MEETING_SCHEDULED}),
-    (
-        "awaiting instructions, following up or continuing",
-        {
-            ActionKind.AWAITING_INSTRUCTIONS,
-            ActionKind.FOLLOW_UP_WITH_ISSUER,
-            ActionKind.REPORTED_AS_CONTINUING,
-            ActionKind.OTHER,
-        },
-    ),
-]
-_OUTCOME_STATES = {state for state, _ in _CLOSURE_STATES[:5]}
-
-
-def _closure_states(dataset: Dataset, period: date | None) -> dict[tuple[str, str], set[str]]:
-    """Every published follow-up state per trustee and listed ISIN. A state is never merged into another."""
-    reports = current_versions([r for r in dataset.breach_reports.values() if r.period.end == period], dataset)
-    states: dict[tuple[str, str], set[str]] = defaultdict(set)
-    for report in reports:
-        for row in report.rows:
-            for isin in row.isins:
-                kinds = {action.kind for action in row.actions}
-                for state, wanted in _CLOSURE_STATES:
-                    if kinds & wanted:
-                        states[(report.trustee, isin)].add(state)
-                if ActionKind.CURE_REPORTED in kinds:
-                    financial = any(
-                        item.category is CovenantCategory.FINANCIAL for item in row.items if isin in item.isins
-                    )
-                    states[(report.trustee, isin)].add(_CLOSURE_STATES[3 if financial else 4][0])
-                states.setdefault((report.trustee, isin), set())
-    for notice in dataset.breach_notices.values():
-        for key in [key for key in states if key[0] == notice.trustee and key[1] in notice.isins]:
-            if notice.adjourned_for_lack_of_quorum:
-                states[key].add(_CLOSURE_STATES[6][0])
-            if notice.meeting_proposed_for:
-                states[key].add(_CLOSURE_STATES[7][0])
-    return states
-
-
 def _outcomes_section(dataset: Dataset) -> str:
     period = main_period(dataset)
-    states = _closure_states(dataset, period)
+    if period is None:
+        return ""
+    published, listed = follow_up_states(dataset, period)
+    states: dict[tuple[str, str], set[str]] = {key: set() for key in listed}
+    for state in published:
+        states[(state.trustee, state.isin)].add(state.state)
     trustees = sorted({trustee for trustee, _ in states})
-    counts = {trustee: Counter() for trustee in trustees}
-    for (trustee, _), found in states.items():
-        counts[trustee].update(found)
-        counts[trustee]["no outcome published"] += not (found & _OUTCOME_STATES)
-    labels = [state for state, _ in _CLOSURE_STATES] + ["no outcome published"]
-    rows = [[label] + [counts[trustee].get(label, 0) for trustee in trustees] for label in labels]
+    holding: dict[tuple[str, str], set[str]] = defaultdict(set)
+    for (trustee, isin), found in states.items():
+        for state in found:
+            holding[(trustee, state)].add(isin)
+        if not found & OUTCOME_STATES:
+            holding[(trustee, "no outcome published")].add(isin)
+    labels = [state for state, _ in FOLLOW_UP_STATES] + ["no outcome published"]
+    rows = [[label] + [_clustered(dataset, holding[(trustee, label)]) for trustee in trustees] for label in labels]
     return (
         "## What the published follow-up shows\n\n"
         f"For each ISIN listed in a current report for the quarter ended {period}, every follow-up state that the "
@@ -507,8 +480,10 @@ def _outcomes_section(dataset: Dataset) -> str:
         "states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed "
         "meeting are different things. The last row counts ISINs for which none of the first five states, the "
         "outcomes, is published. This measures the public record, not what trustees or holders did. The states are the "
-        "project's reading of each report's action cells, and a cure is typed by the covenant category of its row.\n\n"
-        + _table(["published follow-up"] + trustees, rows)
+        "project's reading of each report's action cells, and a cure is typed by the covenant category of its row. A "
+        "letter that names another quarter is not counted. Each cell gives ISINs, with the number of issuers behind "
+        "them in brackets: one issuer's many ISINs share one history. Every state, with the row or letter that shows "
+        "it, is in `exports/follow_up_states.csv`.\n\n" + _table(["published follow-up"] + trustees, rows)
     )
 
 
@@ -516,20 +491,30 @@ def _flows_section(dataset: Dataset) -> str:
     flows = field_flows(dataset)
     if not flows:
         return ""
-    tally: dict[str, Counter] = defaultdict(Counter)
+    tally: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
     for flow in flows:
         side = "both" if flow.issuer and flow.trustee else "issuer only" if flow.issuer else "trustee only"
-        tally[flow.field][side if flow.issuer or flow.trustee else "neither"] += 1
+        tally[flow.field][side if flow.issuer or flow.trustee else "neither"].add(flow.isin)
     sides = ["both", "issuer only", "trustee only", "neither"]
-    pairs = len({(flow.statement, flow.isin) for flow in flows})
+    isins = {flow.isin for flow in flows}
+    trustees = {
+        report.trustee
+        for flow in flows
+        if flow.trustee_report
+        for report in [dataset.breach_reports[flow.trustee_report]]
+    }
     return (
         "## What each party adds when both report a breach\n\n"
-        f"For the {pairs} ISIN-level agreements between an issuer's statement and the trustee's report, which party "
-        "prints each kind of information. The issuer's measured level counts for the trustee only if the trustee "
+        f"For the {len(isins)} ISIN-level agreements between an issuer's statement and the trustee's report, which "
+        "party prints each kind of information. The issuer's measured level counts for the trustee only if the trustee "
         "prints the same number, and the trustee's deed dates come from its letters for the quarter. Agreement on the "
-        "breach is transmission; the fields show what each party contributes from what it alone holds.\n\n"
+        "breach is transmission; the fields show what each party contributes from what it alone holds. "
+        f"The {len(isins)} ISINs come from {_issuer_count(dataset, isins)} issuers and {len(trustees)} trustees, so "
+        "they are not independent observations: each cell gives ISINs, with the number of issuers behind them in "
+        "brackets. Every decision, with the text that satisfied its rule, is in `exports/field_flows.csv`.\n\n"
         + _table(
-            ["information", *sides], [[field, *(tally[field].get(side, 0) for side in sides)] for field in FLOW_FIELDS]
+            ["information", *sides],
+            [[field, *(_clustered(dataset, tally[field][side]) for side in sides)] for field in FLOW_FIELDS],
         )
     )
 

@@ -13,7 +13,9 @@ from brdo.pdftext import normalize
 from brdo.status import addresses, current_versions, trustees_claimed
 from brdo.store import Dataset
 from brdo.vocab import (
+    ActionKind,
     Agreement,
+    CovenantCategory,
     CovenantSpecificity,
     DocumentDateKind,
     NoticeKind,
@@ -268,27 +270,50 @@ def compare_statements_with_reports(dataset: Dataset) -> list[StatementCompariso
 
 
 FLOW_FIELDS = ("clause reference", "obligation wording", "required level", "issuer's measured level", "deed dates")
-_CLAUSE_REFERENCE = re.compile(r"\bclause\b|\bschedule\b|\b\d+\.\d+(?:\.\d+)*\b", re.IGNORECASE)
+_CLAUSE_REFERENCE = re.compile(
+    r"\b(?:clauses?|schedules?|para(?:graph)?s?|sections?|articles?)\b"
+    r"|^\W*\d+(?:\.\d+)+(?![\d.]*\s*(?:%|x\b|times\b|crores?\b|cr\b))",
+    re.IGNORECASE,
+)
+"""A named reference (clause, schedule, paragraph, section, article) or a numbered paragraph opening the text.
+
+A bare decimal elsewhere is not a reference: "-1.02%" is a measured level. Before this was fixed the rule read such a
+number as a clause reference.
+"""
 _OBLIGATION_WORDING = re.compile(r"\b(?:shall|maintain|ensure|not exceed|at least)\b", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
 class FieldFlow:
-    """Whether the issuer's statement and the trustee's publications carry one kind of information about a breach."""
+    """Whether the issuer's statement and the trustee's publications carry one kind of information about a breach.
+
+    ``issuer_basis`` and ``trustee_basis`` give the text or value that satisfied the rule, so each decision can be
+    checked by eye; they are empty where the rule found nothing.
+    """
 
     statement: str
     isin: str
     field: str
     issuer: bool
     trustee: bool
+    issuer_basis: str = ""
+    trustee_basis: str = ""
+    period_end: date | None = None
+    trustee_report: str | None = None
+
+
+def _first(found: list[str]) -> str:
+    return found[0] if found else ""
 
 
 def field_flows(dataset: Dataset) -> list[FieldFlow]:
     """For each breach both parties report, which of them prints each kind of information.
 
-    The rules are mechanical: a clause reference is a clause, schedule or numbered paragraph; wording states the
-    obligation with a verb such as "shall" or "maintain"; the issuer's measured level counts for the trustee only if
-    the trustee prints the same number. Deed dates on the trustee's side come from its letters for the quarter.
+    The rules are mechanical: a clause reference is a named clause, schedule, paragraph, section or article, or a
+    numbered paragraph opening the text, and on the trustee's side also a clause reference transcribed from the row;
+    wording states the obligation with a verb such as "shall" or "maintain", and on the trustee's side must be in an
+    item marked as clause text; the issuer's measured level counts for the trustee only if the trustee prints the same
+    number. Deed dates on the trustee's side come from its letters for the quarter.
     """
     flows = []
     for comparison in compare_statements_with_reports(dataset):
@@ -304,33 +329,134 @@ def field_flows(dataset: Dataset) -> list[FieldFlow]:
             for n in dataset.breach_notices.values()
             if comparison.isin in n.isins and n.period_end == comparison.period_end
         ]
-        measured = {_level_key(line.actual_as_reported) for line in lines if line.actual_as_reported} - {None}
-        printed = {_level_key(level) for item in items for level in item.levels_stated}
+        measured = {
+            key: line.actual_as_reported
+            for line in lines
+            if line.actual_as_reported and (key := _level_key(line.actual_as_reported)) is not None
+        }
+        printed = {_level_key(level): level for item in items for level in item.levels_stated}
         issuer = {
-            "clause reference": any(_CLAUSE_REFERENCE.search(line.covenant_as_reported) for line in lines),
-            "obligation wording": any(_OBLIGATION_WORDING.search(line.covenant_as_reported) for line in lines),
-            "required level": any(
-                line.required_as_reported and _level_key(line.required_as_reported) for line in lines
-            ),
-            "issuer's measured level": bool(measured),
-            "deed dates": any(line.deed_dates_as_reported for line in lines),
+            "clause reference": [
+                line.covenant_as_reported for line in lines if _CLAUSE_REFERENCE.search(line.covenant_as_reported)
+            ],
+            "obligation wording": [
+                line.covenant_as_reported for line in lines if _OBLIGATION_WORDING.search(line.covenant_as_reported)
+            ],
+            "required level": [
+                line.required_as_reported
+                for line in lines
+                if line.required_as_reported and _level_key(line.required_as_reported)
+            ],
+            "issuer's measured level": list(measured.values()),
+            "deed dates": [line.deed_dates_as_reported for line in lines if line.deed_dates_as_reported],
         }
         trustee = {
-            "clause reference": any(
-                item.clause_reference_as_reported or _CLAUSE_REFERENCE.search(item.covenant_as_reported)
+            "clause reference": [
+                item.clause_reference_as_reported or item.covenant_as_reported
                 for item in items
-            ),
-            "obligation wording": any(
-                item.specificity is CovenantSpecificity.CLAUSE_TEXT
+                if item.clause_reference_as_reported or _CLAUSE_REFERENCE.search(item.covenant_as_reported)
+            ],
+            "obligation wording": [
+                item.covenant_as_reported
+                for item in items
+                if item.specificity is CovenantSpecificity.CLAUSE_TEXT
                 and _OBLIGATION_WORDING.search(item.covenant_as_reported)
-                for item in items
-            ),
-            "required level": any(item.levels_stated for item in items),
-            "issuer's measured level": bool(measured & printed),
-            "deed dates": any(n.deed_dates for n in notices),
+            ],
+            "required level": ["; ".join(item.levels_stated) for item in items if item.levels_stated],
+            "issuer's measured level": [printed[key] for key in measured if key in printed],
+            "deed dates": [f"{n.id}: {', '.join(str(day) for day in n.deed_dates)}" for n in notices if n.deed_dates],
         }
         flows.extend(
-            FieldFlow(comparison.statement, comparison.isin, field, issuer[field], trustee[field])
+            FieldFlow(
+                comparison.statement,
+                comparison.isin,
+                field,
+                bool(issuer[field]),
+                bool(trustee[field]),
+                _first(issuer[field]),
+                _first(trustee[field]),
+                comparison.period_end,
+                comparison.trustee_report,
+            )
             for field in FLOW_FIELDS
         )
     return flows
+
+
+FOLLOW_UP_STATES = (
+    ("enforcement step or nominee director reported", frozenset({ActionKind.ENFORCEMENT, ActionKind.NOMINEE_DIRECTOR})),
+    ("waiver reported", frozenset({ActionKind.WAIVER_REPORTED})),
+    ("holders instructed no action", frozenset({ActionKind.NO_ACTION_INSTRUCTED})),
+    ("cure reported for a financial covenant", frozenset()),
+    ("cure reported for another obligation, such as a late filing", frozenset()),
+    ("meeting reported as held", frozenset({ActionKind.HOLDERS_MEETING_HELD})),
+    ("meeting adjourned for lack of quorum", frozenset()),
+    ("meeting reported as scheduled", frozenset({ActionKind.HOLDERS_MEETING_SCHEDULED})),
+    (
+        "awaiting instructions, following up or continuing",
+        frozenset(
+            {
+                ActionKind.AWAITING_INSTRUCTIONS,
+                ActionKind.FOLLOW_UP_WITH_ISSUER,
+                ActionKind.REPORTED_AS_CONTINUING,
+                ActionKind.OTHER,
+            }
+        ),
+    ),
+)
+"""Published follow-up states, in the report's order. The first five are outcomes; none is ranked above another."""
+OUTCOME_STATES = frozenset(state for state, _ in FOLLOW_UP_STATES[:5])
+_CURE_FINANCIAL, _CURE_OTHER = FOLLOW_UP_STATES[3][0], FOLLOW_UP_STATES[4][0]
+_ADJOURNED, _SCHEDULED = FOLLOW_UP_STATES[6][0], FOLLOW_UP_STATES[7][0]
+
+
+@dataclass(frozen=True)
+class FollowUpState:
+    """One follow-up state a trustee publishes for an ISIN it lists for a period, with where the record shows it."""
+
+    trustee: str
+    isin: str
+    period_end: date
+    state: str
+    basis: str
+
+
+def follow_up_states(dataset: Dataset, period_end: date) -> tuple[list[FollowUpState], list[tuple[str, str]]]:
+    """Every follow-up state published for the ISINs listed in the current reports for a period, and those ISINs.
+
+    States come from the project's reading of each report's action cells, and from the trustee's letters naming the
+    ISIN. A cure is typed by the covenant category of its row, so a late filing made good is never a financial
+    covenant restored. A letter that names another quarter is not counted; a letter continuing an adjourned meeting
+    names none and is counted for the ISIN it names.
+    """
+    reports = current_versions([r for r in dataset.breach_reports.values() if r.period.end == period_end], dataset)
+    listed: set[tuple[str, str]] = set()
+    found: set[FollowUpState] = set()
+    for report in reports:
+        for row in report.rows:
+            kinds = {action.kind for action in row.actions}
+            where = f"{report.document} row {row.row}"
+            for isin in row.isins:
+                listed.add((report.trustee, isin))
+                for state, wanted in FOLLOW_UP_STATES:
+                    if hit := sorted(kind.value for kind in kinds & wanted):
+                        found.add(FollowUpState(report.trustee, isin, period_end, state, f"{where}: {', '.join(hit)}"))
+                if ActionKind.CURE_REPORTED in kinds:
+                    categories = sorted({item.category.value for item in row.items if isin in item.isins})
+                    state = _CURE_FINANCIAL if CovenantCategory.FINANCIAL.value in categories else _CURE_OTHER
+                    basis = f"{where}: cure_reported, covenant category {', '.join(categories)}"
+                    found.add(FollowUpState(report.trustee, isin, period_end, state, basis))
+    for notice in dataset.breach_notices.values():
+        if notice.period_end is not None and notice.period_end != period_end:
+            continue
+        for isin in notice.isins:
+            if (notice.trustee, isin) not in listed:
+                continue
+            if notice.adjourned_for_lack_of_quorum:
+                found.add(FollowUpState(notice.trustee, isin, period_end, _ADJOURNED, f"letter {notice.id}"))
+            if notice.meeting_proposed_for:
+                basis = f"letter {notice.id}: meeting proposed for {notice.meeting_proposed_for}"
+                found.add(FollowUpState(notice.trustee, isin, period_end, _SCHEDULED, basis))
+    order = {state: index for index, (state, _) in enumerate(FOLLOW_UP_STATES)}
+    states = sorted(found, key=lambda s: (s.trustee, s.isin, order[s.state], s.basis))
+    return states, sorted(listed)

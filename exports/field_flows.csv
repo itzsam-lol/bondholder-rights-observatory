@@ -1,0 +1,86 @@
+statement,isin,period_end,trustee_report,field,issuer_prints,trustee_prints,issuer_basis,trustee_basis,ai_training_reserved
+dvara-2026-06-exceptions,INE179P07464,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,2.6,false
+dvara-2026-06-exceptions,INE179P07464,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"2.6 (ii) The Company shall at all times until the Final Settlement Date, maintain a ratio of the sum of (x) Portfolio at Risk over 90 (Ninety) days plus",false
+dvara-2026-06-exceptions,INE179P07464,2026-06-30,ctl-t5-2026-06,required level,true,true,<=10%,0%; 10%,false
+dvara-2026-06-exceptions,INE179P07464,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,22.43%,,false
+dvara-2026-06-exceptions,INE179P07464,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p1: 2024-09-18,false
+dvara-2026-06-exceptions,INE179P07530,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,2.6,false
+dvara-2026-06-exceptions,INE179P07530,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"2.6 (ii) The Company shall at all times until the Final Settlement Date, maintain a ratio of the sum of (x) Portfolio at Risk over 90 (Ninety) days plus",false
+dvara-2026-06-exceptions,INE179P07530,2026-06-30,ctl-t5-2026-06,required level,true,true,<=10%,0%; 10%,false
+dvara-2026-06-exceptions,INE179P07530,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,22.43%,,false
+dvara-2026-06-exceptions,INE179P07530,2026-06-30,ctl-t5-2026-06,deed dates,false,false,,,false
+dvara-2026-06-exceptions,INE179P08082,2026-06-30,ctl-t5-2026-06,clause reference,false,false,,,false
+dvara-2026-06-exceptions,INE179P08082,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"(iii) commencing from the Effective Date (DTD) until the Final Settlement Date, maintain the Cost to Income Ratio of less than 80% (Eighty percent)",false
+dvara-2026-06-exceptions,INE179P08082,2026-06-30,ctl-t5-2026-06,required level,true,true,<=85%,80%,false
+dvara-2026-06-exceptions,INE179P08082,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,92.74%,,false
+dvara-2026-06-exceptions,INE179P08082,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,"ctl-notice-dvara-2026-08-p11: 2025-05-06, 2026-07-29",false
+dvara-2026-06-exceptions,INE179P07332,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,Schedule 3 Clause 2 of the Debenture Trust Deed,false
+dvara-2026-06-exceptions,INE179P07332,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,As per Schedule 3 Clause 2 of the Debenture Trust Deed (a) Portfolio Quality: (i) The Company shall maintain a 30 Day Portfolio at Risk Ratio of (A) not more,false
+dvara-2026-06-exceptions,INE179P07332,2026-06-30,ctl-t5-2026-06,required level,true,true,<=4%,100%; 3%; 4%; 5%; 50%; 80%,false
+dvara-2026-06-exceptions,INE179P07332,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,6.86%,,false
+dvara-2026-06-exceptions,INE179P07332,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p16: 2024-02-20,false
+dvara-2026-06-exceptions,INE179P07605,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,Schedule 3 Clause 2 of the Debenture Trust Deed,false
+dvara-2026-06-exceptions,INE179P07605,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,As per Schedule 3 Clause 2 of the Debenture Trust Deed (a) Portfolio Quality: ii) The Company shall maintain a 90 Day Portfolio at Risk on Asset Under,false
+dvara-2026-06-exceptions,INE179P07605,2026-06-30,ctl-t5-2026-06,required level,true,true,<=5%,100%; 3%; 5%; 6%; 7.0%; 80%; 95%,false
+dvara-2026-06-exceptions,INE179P07605,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,5.67%,,false
+dvara-2026-06-exceptions,INE179P07605,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p19: 2025-08-20,false
+dvara-2026-06-exceptions,INE179P08074,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,"Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust Deed",false
+dvara-2026-06-exceptions,INE179P08074,2026-06-30,ctl-t5-2026-06,obligation wording,true,true,Company shall not report any losses during the quarter,"(viii) commencing from the Effective Date until the Final Settlement Date, ensure that the Company does not report any losses in any financial quarter;",false
+dvara-2026-06-exceptions,INE179P08074,2026-06-30,ctl-t5-2026-06,required level,true,true,<=1.5%,1.5%,false
+dvara-2026-06-exceptions,INE179P08074,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,6.90%,,false
+dvara-2026-06-exceptions,INE179P08074,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p27: 2024-04-22,false
+dvara-2026-06-exceptions,INE179P07548,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,Schedule VIII of the Debenture Trust Deed,false
+dvara-2026-06-exceptions,INE179P07548,2026-06-30,ctl-t5-2026-06,obligation wording,false,false,,,false
+dvara-2026-06-exceptions,INE179P07548,2026-06-30,ctl-t5-2026-06,required level,true,true,<=6%,0.75%; 6%,false
+dvara-2026-06-exceptions,INE179P07548,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,7.47%,,false
+dvara-2026-06-exceptions,INE179P07548,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p22: 2024-09-26,false
+dvara-2026-06-exceptions,INE179P07597,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,Clause 10.3 (a) (vii) of the Debenture Trust Deed,false
+dvara-2026-06-exceptions,INE179P07597,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"As per Clause 10.3 (a) (vii) of the Debenture Trust Deed: (vii) ensure that the profit after tax (PAT) of the Company, as determined in accordance with",false
+dvara-2026-06-exceptions,INE179P07597,2026-06-30,ctl-t5-2026-06,required level,false,false,,,false
+dvara-2026-06-exceptions,INE179P07597,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+dvara-2026-06-exceptions,INE179P07597,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p32: 2025-07-17,false
+dvara-2026-06-exceptions,INE179P07613,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,Clause 10.3 (a) (vii) of the Debenture Trust Deed,false
+dvara-2026-06-exceptions,INE179P07613,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"As per Clause 10.3 (a) (vii) of the Debenture Trust Deed: (vii) ensure that the profit after tax (PAT) of the Company, as determined in accordance with",false
+dvara-2026-06-exceptions,INE179P07613,2026-06-30,ctl-t5-2026-06,required level,false,false,,,false
+dvara-2026-06-exceptions,INE179P07613,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+dvara-2026-06-exceptions,INE179P07613,2026-06-30,ctl-t5-2026-06,deed dates,false,false,,,false
+dvara-2026-06-exceptions,INE179P07589,2026-06-30,idbi-t5-2026-06,clause reference,false,false,,,false
+dvara-2026-06-exceptions,INE179P07589,2026-06-30,idbi-t5-2026-06,obligation wording,false,false,,,false
+dvara-2026-06-exceptions,INE179P07589,2026-06-30,idbi-t5-2026-06,required level,true,true,>=1%,1%; 1.02%,false
+dvara-2026-06-exceptions,INE179P07589,2026-06-30,idbi-t5-2026-06,issuer's measured level,true,true,-1.02%,1.02%,false
+dvara-2026-06-exceptions,INE179P07589,2026-06-30,idbi-t5-2026-06,deed dates,false,true,,idbi-notice-dvara-2026-08-p1: 2025-03-25,false
+dvara-2026-06-exceptions,INE179P07621,2026-06-30,ctl-t5-2026-06,clause reference,false,true,,Clause 10.2A (a) (i) of the Debenture Trust Deed,false
+dvara-2026-06-exceptions,INE179P07621,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,As per Clause 10.2A (a) (i) of the Debenture Trust Deed: (i) maintain a Capital Adequacy Ratio of more than 20% (twenty percent) or such other higher threshold,false
+dvara-2026-06-exceptions,INE179P07621,2026-06-30,ctl-t5-2026-06,required level,true,true,>=18%,18%; 20%,false
+dvara-2026-06-exceptions,INE179P07621,2026-06-30,ctl-t5-2026-06,issuer's measured level,true,false,17.67%,,false
+dvara-2026-06-exceptions,INE179P07621,2026-06-30,ctl-t5-2026-06,deed dates,false,true,,ctl-notice-dvara-2026-08-p37: 2026-01-28,false
+satya-2026-06-financial-covenants,INE982X08034,2026-06-30,ctl-t5-2026-06,clause reference,true,false,Clause 3.3 (a) of Debenture Trust Deed,,false
+satya-2026-06-financial-covenants,INE982X08034,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"(a) Until the Final Settlement Date, the GNPA shall not exceed 3% (three percent) of the Assets under Management of the Issuer.",false
+satya-2026-06-financial-covenants,INE982X08034,2026-06-30,ctl-t5-2026-06,required level,false,true,,3%,false
+satya-2026-06-financial-covenants,INE982X08034,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X08034,2026-06-30,ctl-t5-2026-06,deed dates,true,true,08-Jul-19,ctl-notice-satya-2026-08-p11: 2019-07-08,false
+satya-2026-06-financial-covenants,INE982X07432,2026-06-30,ctl-t5-2026-06,clause reference,true,true,"Clause 17.4 (a)(i), (v), (ix), (x) & (xiii) of Debenture Trust Deed","Clause 17.4 (a) (i), (v), (ix), (x) and (xiii) of the Debenture Trust Deed",false
+satya-2026-06-financial-covenants,INE982X07432,2026-06-30,ctl-t5-2026-06,obligation wording,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07432,2026-06-30,ctl-t5-2026-06,required level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07432,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07432,2026-06-30,ctl-t5-2026-06,deed dates,true,true,23-Jul-2024 and Amendment to Trust Deed dated 30-May-2025,ctl-notice-satya-2026-08-p5: 2024-07-23,false
+satya-2026-06-financial-covenants,INE982X07176,2026-06-30,ctl-t5-2026-06,clause reference,true,true,Clause 2.5.3 (b) & (d) of Debenture Trust Deed,Clause 2.5.3 of the DTD,false
+satya-2026-06-financial-covenants,INE982X07176,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,"""(b)The Company shall, on and from the Deemed Date of Allotment and until September 30, 2021, maintain a Portfolio Quality 30 (Thirty) Days of below 10% (Ten",false
+satya-2026-06-financial-covenants,INE982X07176,2026-06-30,ctl-t5-2026-06,required level,false,true,,10%; 18%; 5%; 7.5%,false
+satya-2026-06-financial-covenants,INE982X07176,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07176,2026-06-30,ctl-t5-2026-06,deed dates,true,true,10-Aug-21,ctl-notice-satya-2026-08-p1: 2021-08-10,false
+satya-2026-06-financial-covenants,INE982X07457,2026-06-30,ctl-t5-2026-06,clause reference,true,true,"Clause 10.3 (c), (d) & (e) of Debenture Trust Deed","Clause 10.3 (c), (d) and (e) of the Debenture Trust Deed",false
+satya-2026-06-financial-covenants,INE982X07457,2026-06-30,ctl-t5-2026-06,obligation wording,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07457,2026-06-30,ctl-t5-2026-06,required level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07457,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X07457,2026-06-30,ctl-t5-2026-06,deed dates,true,true,"20-Aug-19, Amendment to Trust Deed dated 25-Aug-21 and again Amendment to Trust Deed dated 16-Dec-24",ctl-notice-satya-2026-08-p8: 2021-08-25,false
+satya-2026-06-financial-covenants,INE982X08091,2026-06-30,ctl-t5-2026-06,clause reference,true,true,"Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed",Clause 9.3 of the DTD,false
+satya-2026-06-financial-covenants,INE982X08091,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,h)Company to maintain minimum liquidity amount equivalent to next 1.5 month liabilities after including Put Options/interest reset on liabilities (assuming,false
+satya-2026-06-financial-covenants,INE982X08091,2026-06-30,ctl-t5-2026-06,required level,false,true,,15%; 17%; 3%; 5.00%; 870crores,false
+satya-2026-06-financial-covenants,INE982X08091,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X08091,2026-06-30,ctl-t5-2026-06,deed dates,true,true,30-Nov-23 executed for issuance of Rs. 25 crores & 20-Dec-23 executed for re-issuance of Rs. 24 crores,"ctl-notice-satya-2026-08-p14: 2023-11-30, 2023-12-20",false
+satya-2026-06-financial-covenants,INE982X08109,2026-06-30,ctl-t5-2026-06,clause reference,true,true,"Clause 9.3 (b), (c), (e), (f), (g), (h) & (i) of Debenture Trust Deed",Clause 9.3 of the DTD,false
+satya-2026-06-financial-covenants,INE982X08109,2026-06-30,ctl-t5-2026-06,obligation wording,false,true,,h)Company to maintain minimum liquidity amount equivalent to next 1.5 month liabilities after including Put Options/interest reset on liabilities (assuming,false
+satya-2026-06-financial-covenants,INE982X08109,2026-06-30,ctl-t5-2026-06,required level,false,true,,15%; 17%; 3%; 5.00%; 870crores,false
+satya-2026-06-financial-covenants,INE982X08109,2026-06-30,ctl-t5-2026-06,issuer's measured level,false,false,,,false
+satya-2026-06-financial-covenants,INE982X08109,2026-06-30,ctl-t5-2026-06,deed dates,true,true,"09-Feb-24 executed for issuance of Rs. 25 crores, 22-Feb-24 executed for re-issuance of Rs. 15 crores, 27-Mar-24 executed for re-issuance of Rs. 15 crores","ctl-notice-satya-2026-08-p17: 2024-02-09, 2024-02-22, 2024-03-27, 2024-05-30, 2024-06-21",false

@@ -11,6 +11,7 @@ import pytest
 from brdo import models
 from brdo.build import tables
 from brdo.census import check_census
+from brdo.dictionary import datapackage, render_markdown, undocumented
 from brdo.fetch import Cache, Fetcher, default_cache_dir
 from brdo.identifiers import is_valid_isin
 from brdo.pit import as_of, availability
@@ -48,12 +49,10 @@ def test_nothing_from_nse_is_cited_or_linked(data):
     nse = data.sources["nse"]
     assert nse.retrieval is RetrievalPolicy.EXCLUDED and nse.redistribution is RedistributionPolicy.NO_LINKS
     assert not [d.id for d in data.documents.values() if d.source == "nse"]
-    text = "\n".join(
-        path.read_text(encoding="utf-8")
-        for path in (REPOSITORY / "data").rglob("*.yaml")
-        if path.name != "sources.yaml"
-    )
-    assert "nseindia" not in text.lower()
+    published = [path for path in (REPOSITORY / "data").rglob("*.yaml") if path.name != "sources.yaml"]
+    published += [*(REPOSITORY / "exports").iterdir(), *(REPOSITORY / "docs").glob("*.md")]
+    for path in published:
+        assert "nseindia" not in path.read_text(encoding="utf-8").lower(), path.name
 
 
 def test_nothing_from_depositories_or_platforms_was_retrieved_by_the_pipeline(data):
@@ -204,6 +203,35 @@ def test_committed_exports_match_the_records(data):
             on_disk = list(csv.DictReader(handle))
         expected = [{key: str(value) for key, value in row.items()} for row in rows]
         assert on_disk == expected, f"{path} is stale; run `brdo build`"
+
+
+def test_every_exported_column_is_documented(data):
+    assert undocumented(tables(data)) == []
+
+
+def test_the_committed_data_package_matches_the_exports(data):
+    on_disk = json.loads((REPOSITORY / "exports" / "datapackage.json").read_text(encoding="utf-8"))
+    assert on_disk == datapackage(tables(data)), "exports/datapackage.json is stale; run `brdo build`"
+
+
+def test_the_committed_data_dictionary_matches_the_code():
+    on_disk = (REPOSITORY / "docs" / "data-dictionary.md").read_text(encoding="utf-8")
+    assert on_disk == render_markdown(), "docs/data-dictionary.md is stale; run `brdo dictionary`"
+
+
+def test_quotations_are_marked_as_such_in_the_data_package(data):
+    """A reader of the flat files must be able to tell every quoted column from the project's own work."""
+    package = datapackage(tables(data))
+    kinds = {
+        (resource["path"], field["name"]): field["brdo:kind"]
+        for resource in package["resources"]
+        for field in resource["schema"]["fields"]
+    }
+    quoted = {key for key, kind in kinds.items() if kind == "source_text"}
+    assert ("breach_report_items.csv", "covenant_as_reported") in quoted
+    assert ("evidence.csv", "quote") in quoted
+    assert all(name.endswith("_as_reported") or name in {"text", "quote", "heading"} for _, name in quoted)
+    assert {key for key in kinds if key[1].endswith("_as_reported")} <= quoted
 
 
 def test_the_committed_report_matches_the_records(data):

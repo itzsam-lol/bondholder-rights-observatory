@@ -186,3 +186,43 @@ def test_each_party_is_credited_only_with_the_information_it_prints(dataset):
     assert flows["required level"] == (True, True)
     assert flows["issuer's measured level"] == (True, False)
     assert flows["obligation wording"] == (False, True)
+
+
+def test_a_measured_level_is_not_mistaken_for_a_clause_reference(dataset):
+    """The rule once read the "1.02" in a printed ROA of "-1.02%" as a numbered clause."""
+    row = make_row()
+    item = row.items[0].model_copy(
+        update={
+            "covenant_as_reported": "Issuer has not complied with the prescribed Return on Assets ratio. "
+            "Return on Assets maintained is '-1.02%'",
+            "levels_stated": ["1%", "1.02%"],
+            "clause_reference_as_reported": None,
+        }
+    )
+    dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+    line = StatedException(
+        isins=[ISIN_LISTED], page=1, covenant_as_reported="Return on Assets 6.5", actual_as_reported="-1.02%"
+    )
+    dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=[line])
+    flows = {flow.field: flow for flow in field_flows(dataset)}
+    assert (flows["clause reference"].issuer, flows["clause reference"].trustee) == (False, False)
+    assert flows["issuer's measured level"].trustee_basis == "1.02%"
+
+
+def test_named_and_numbered_references_still_count(dataset):
+    for text, expected in [
+        ("As per Schedule 3 Clause 2 of the Debenture Trust Deed", True),
+        ("2.6 (ii) The Company shall at all times maintain", True),
+        ("Clause no. 10.3 (a) (ii) (B)", True),
+        ("Schedule 4 Paragraph 2.1", True),
+        ("6.5% (Six Decimal Point Five Percent) write-off ratio", False),
+        ("a Write-Off Ratio may not at any time increase above 6.5%", False),
+        ("Net worth of Rs. 870 crores and 1.5 month liabilities", False),
+    ]:
+        row = make_row()
+        item = row.items[0].model_copy(update={"covenant_as_reported": text, "clause_reference_as_reported": None})
+        dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+        dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=[])
+        flow = next(f for f in field_flows(dataset) if f.field == "clause reference")
+        assert flow.trustee is expected, text
+        assert (flow.trustee_basis == text) is expected, text

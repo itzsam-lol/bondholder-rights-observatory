@@ -1,0 +1,2012 @@
+{
+  "profile": "tabular-data-package",
+  "name": "bondholder-rights-observatory",
+  "title": "Bondholder Rights & Disclosure Observatory",
+  "description": "Source-linked, instrument-level records of contractual protections and public disclosures for Indian listed non-convertible debentures. Every field is labelled `brdo:kind`: `identifier`: A key: an ISIN or the id of a record in this dataset.; `source_text`: Verbatim text from a source. Not covered by the dataset's licence, and cut to the source's quotation limit.; `read_from_source`: A fact the source states, transcribed or parsed by the project.; `annotation`: The project's classification or reading. Single-pass; not yet independently reviewed.; `derived`: Computed by code in this repository from other fields.; `provenance`: Where, when and how something was obtained, or the policy governing its use. `brdo:origin` says where a fact originates when that differs from the party that published it. Multi-valued cells are joined with `; `. The sample is selected on reported breaches and describes no market. Absence of a record is never evidence of compliance.",
+  "homepage": "https://github.com/itzsam-lol/bondholder-rights-observatory",
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "path": "https://creativecommons.org/licenses/by/4.0/",
+      "title": "Creative Commons Attribution 4.0, for the project's own work. Columns of kind source_text are quotations that remain their owners' and are not licensed; see LICENSE-DATA.md."
+    }
+  ],
+  "resources": [
+    {
+      "name": "sources",
+      "path": "sources.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per publisher, with the project's access and reuse policy for it. See docs/source-policy.md.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the source.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The publisher's name.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "kind",
+            "type": "string",
+            "description": "What kind of publisher it is: regulator, exchange, trustee, issuer and so on.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "retrieval",
+            "type": "string",
+            "description": "Whether the project's pipeline may retrieve from it: `allowed`, `manual_only` (a person downloads in a browser and the file is ingested by hash) or `excluded` (not used, not even linked).",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "redistribution",
+            "type": "string",
+            "description": "What the project publishes about the source's documents: `link_only` (links, hashes, short quotations) or `no_links` (not even a link).",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "excerpts",
+            "type": "string",
+            "description": "Whether any quotation is published from the source.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "quote_limit",
+            "type": "integer",
+            "description": "Longest quotation, in characters, that the project allows itself from the source outside contract clauses. A self-imposed restraint, not a legal threshold or safe harbour.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "domains",
+            "type": "string",
+            "description": "Hosts that belong to the source. Left empty for sources whose policy forbids links.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "ai_training",
+            "type": "string",
+            "description": "The source's published AI-training signal, if any.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "sebi_registration",
+            "type": "string",
+            "description": "SEBI registration number, as SEBI's register prints it.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "terms_reviewed_on",
+            "type": "date",
+            "description": "When the project last read the source's terms and robots.txt.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "terms_summary",
+            "type": "string",
+            "description": "The project's summary of the source's terms as reviewed. Not legal advice.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "documents",
+      "path": "documents.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per exact file, identified by its SHA-256. A revised file at the same address is a new row. Source documents are not distributed; the URL and hash let anyone obtain and confirm the same file.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the document.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Id of the publisher in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "description": "What kind of document it is, from a closed list.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "description": "The title the file prints, or a descriptive title where it has none.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "description": "Address the file was retrieved from.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "landing_page",
+            "type": "string",
+            "description": "Page that lists or links the file, where known.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "retrieved_at",
+            "type": "datetime",
+            "description": "When the project retrieved the file (UTC).",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "retrieved_manually",
+            "type": "boolean",
+            "description": "True if a person downloaded the file in a browser and it was ingested by hash; false if the project's identified pipeline retrieved it.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "source_retrieval_policy",
+            "type": "string",
+            "description": "The publisher's current retrieval policy (`sources.csv`).",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "sha256",
+            "type": "string",
+            "description": "SHA-256 of the exact file. Evidence is verified against this file only.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "size_bytes",
+            "type": "integer",
+            "description": "Size of the file in bytes.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "media_type",
+            "type": "string",
+            "description": "Media type the server gave.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "pages",
+            "type": "integer",
+            "description": "Number of pages in the file.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "dated",
+            "type": "date",
+            "description": "The date the document gives itself.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "dated_basis",
+            "type": "string",
+            "description": "How the date was established.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "signed",
+            "type": "date",
+            "description": "The date the document says it was signed.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "published",
+            "type": "date",
+            "description": "The date the publisher says the file was made public, for example on its listing page. Empty for most files: a server's Last-Modified header is never recorded here.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "published_basis",
+            "type": "string",
+            "description": "Where the publication date was read.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "last_modified",
+            "type": "date",
+            "description": "The server's Last-Modified header for the exact file held. It dates that version on the server, not its first publication; an earlier version may have been public sooner.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "available_not_before",
+            "type": "date",
+            "description": "Lower bound on availability: the latest of the file's own date, its signature, its \"as on\" date and the dates of letters transcribed from it. The file cannot have been public earlier.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "available_from",
+            "type": "date",
+            "description": "Estimated day this exact file became public: the later of the publisher's date and Last-Modified, never before `available_not_before`; failing both, the file's own date (a lower bound only); failing that, `available_observed`. Used by `brdo status --as-of` and `brdo show --as-of`.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "available_basis",
+            "type": "string",
+            "description": "Which date `available_from` rests on.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "available_observed",
+            "type": "date",
+            "description": "The day the project observed the file in public, which is when it retrieved it. The only availability date the record proves. Used by `--availability observed`.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "period_start",
+            "type": "date",
+            "description": "First day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "The \"status as on\" date a report prints.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "supersedes",
+            "type": "string",
+            "description": "Earlier documents this file replaces, as identified by the project.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "regulatory_basis",
+            "type": "string",
+            "description": "The rule under which the document is published.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "issuers",
+      "path": "issuers.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per legal entity that issued an instrument in the sample.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the issuer.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "The name the project uses for the issuer, taken from a source.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "cin",
+            "type": "string",
+            "description": "Corporate Identity Number, where a source prints one.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "lei",
+            "type": "string",
+            "description": "Legal Entity Identifier, where a source prints one.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "sector",
+            "type": "string",
+            "description": "Sector, where classified. Empty in this release.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "name_variants",
+            "type": "string",
+            "description": "Other names under which sources print the issuer.",
+            "brdo:kind": "read_from_source"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "instruments",
+      "path": "instruments.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per ISIN in the sample, summarising what the other tables hold about it.",
+      "schema": {
+        "fields": [
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "issuer",
+            "type": "string",
+            "description": "Id of the issuer in `issuers.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "issuer_name",
+            "type": "string",
+            "description": "The issuer's name from `issuers.csv`.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "trustees_claimed",
+            "type": "string",
+            "description": "Every trustee a claim names for the ISIN. More than one means sources disagree.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "trustee_claims_conflict",
+            "type": "boolean",
+            "description": "True when claims name more than one trustee.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "contract_documents",
+            "type": "string",
+            "description": "Linked offer documents or trust deeds that have been retrieved. None in this release.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "provisions",
+            "type": "integer",
+            "description": "Number of clause records attached to the ISIN.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "trust_deed_dates",
+            "type": "string",
+            "description": "Every deed date that trustees' letters cite for the ISIN.",
+            "brdo:kind": "derived",
+            "brdo:origin": "The executed deeds, as the trustee describes them. No deed has been retrieved.",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "claims",
+      "path": "claims.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per attributed statement about one attribute of an instrument. Claims are never overwritten: where sources disagree, both rows stay and a discrepancy explains the disagreement.",
+      "schema": {
+        "fields": [
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "property",
+            "type": "string",
+            "description": "Which attribute the claim is about.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": "The value the source asserts. For `debenture_trustee`, the id of the trustee in `sources.csv`.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "asserted_by",
+            "type": "string",
+            "description": "The source making the claim, in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "as_of",
+            "type": "string",
+            "description": "The date the source gives for the value, where it gives one.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "evidence",
+            "type": "string",
+            "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "observed_at_urls",
+            "type": "string",
+            "description": "Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "document-links",
+      "path": "document_links.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per document tied to an ISIN, with the reason the link holds.",
+      "schema": {
+        "fields": [
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "description": "What the document is for, relative to the ISIN.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "basis",
+            "type": "string",
+            "description": "Why the link holds, for example because the ISIN is printed in it.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "confidence",
+            "type": "string",
+            "description": "The project's confidence in the link.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "evidence",
+            "type": "string",
+            "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "provisions",
+      "path": "provisions.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per contractual undertaking as quoted by some document. Only `stage = executed_text` is the contract's own wording, and no such record exists in this release.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the clause record.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document_type",
+            "type": "string",
+            "description": "Type of the quoting document, from `documents.csv`.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "clause",
+            "type": "string",
+            "description": "Clause number as printed, or a note that none is given.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "heading",
+            "type": "string",
+            "description": "The heading the clause sits under in the quoting document.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file, not the printed page number, on which the item is printed.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "description": "Covenant category of SEBI's guidance note (Annex-VIA), or `other`.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "metric",
+            "type": "string",
+            "description": "What the limit measures, in plain words.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "thresholds",
+            "type": "string",
+            "description": "Parsed limits as JSON: comparator, value, unit and any dates they apply between. Parsed only where the wording is unambiguous.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "test_frequency",
+            "type": "string",
+            "description": "How often the clause is tested, where stated.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "test_basis",
+            "type": "string",
+            "description": "Standalone or consolidated, where stated.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "instruments",
+            "type": "string",
+            "description": "ISINs the clause record is attached to.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "amends",
+            "type": "string",
+            "description": "The earlier clause record this one replaces.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "effective_from",
+            "type": "string",
+            "description": "When the clause takes effect, where stated.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "What the record is evidence of: `executed_text`, `described_in_force`, `proposed` or `approved_in_principle`.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "description": "The clause as the quoting document prints it, up to 800 characters.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The contract, as quoted or described by the publishing party; only executed text is the contract's own.",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "explanation",
+            "type": "string",
+            "description": "A plain-English gloss written from the quoted text. Not legal advice.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "annotation_reviewed",
+            "type": "boolean",
+            "description": "Whether a second person has reviewed the record's annotations. False throughout.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "breach-report-items",
+      "path": "breach_report_items.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per trustee breach report, printed row, ISIN and covenant cell (Annex-VIIA, Table 5).",
+      "schema": {
+        "fields": [
+          {
+            "name": "report",
+            "type": "string",
+            "description": "Id of the trustee's breach report, a document in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "trustee",
+            "type": "string",
+            "description": "Id of the debenture trustee in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "as_of",
+            "type": "date",
+            "description": "The report's printed \"status as on\" date.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "supersedes",
+            "type": "string",
+            "description": "Earlier versions of the report that this one replaces.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "row",
+            "type": "string",
+            "description": "Serial number as printed. A printed row split into several records keeps its number.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "issuer",
+            "type": "string",
+            "description": "Issuer record the row is assigned to.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "issuer_name_as_reported",
+            "type": "string",
+            "description": "The issuer's name as the row prints it.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "assignment_uncertain",
+            "type": "boolean",
+            "description": "True when which row the ISIN belongs to depends on reading merged table cells.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "description": "Covenant category of SEBI's guidance note (Annex-VIA), or `other`.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "specificity",
+            "type": "string",
+            "description": "How much of the term the cell prints: `clause_text`, `requirement_and_actual`, `clause_number_only` or `description_only`.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "clause_reference_as_reported",
+            "type": "string",
+            "description": "Clause reference as printed.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The deed's numbering, as the trustee cites it."
+          },
+          {
+            "name": "covenant_as_reported",
+            "type": "string",
+            "description": "The covenant cell as printed, cut to the source's quotation limit.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The deed's wording where the trustee quotes it (`specificity = clause_text`); otherwise the trustee's own description.",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "covenant_truncated",
+            "type": "boolean",
+            "description": "True when the printed cell continues beyond the quotation.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "levels_stated",
+            "type": "string",
+            "description": "Every percentage, multiple and crore amount printed anywhere in the cell, including the part not quoted.",
+            "brdo:kind": "read_from_source",
+            "brdo:origin": "Mixed: required levels come from the deed and actual levels from the issuer's measurement; the column does not say which is which.",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file, not the printed page number, on which the item is printed.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "actual_breach_as_reported",
+            "type": "string",
+            "description": "Date of actual breach as printed.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "Published by the trustee. Two trustees define the date of actual breach by the issuer's or auditor's certificate (see their printed notes in the observability report), so for them it originates with the issuer."
+          },
+          {
+            "name": "actual_breach",
+            "type": "date",
+            "description": "Date of actual breach as read. Meaning differs by trustee; do not compare across.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "detected_as_reported",
+            "type": "string",
+            "description": "Date of detection as printed.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The trustee's own record. IDBI defines it as the day it received the issuer's certificate."
+          },
+          {
+            "name": "detected",
+            "type": "date",
+            "description": "Date of detection as read.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "first_intimation",
+            "type": "date",
+            "description": "Earliest date of intimation read from the row.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "intimation_as_reported",
+            "type": "string",
+            "description": "Dates of intimation, and to whom, as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "delay_in_detection_as_reported",
+            "type": "string",
+            "description": "The report's own delay column, as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "delay_in_intimation_as_reported",
+            "type": "string",
+            "description": "The report's own delay column, as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "delay_reasons_as_reported",
+            "type": "string",
+            "description": "Reasons for delay, as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "further_action_as_reported",
+            "type": "string",
+            "description": "Action taken or proposed, as printed.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The trustee's account of what it, the holders or the issuer did."
+          },
+          {
+            "name": "truncated_fields",
+            "type": "string",
+            "description": "Fields whose printed cell continues beyond the quotation.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "other_columns_as_reported",
+            "type": "string",
+            "description": "Columns the trustee prints beyond the prescribed format, as JSON keyed by heading.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "actions",
+            "type": "string",
+            "description": "The project's reading of the action cells, from a closed list.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "transcribed_from_rendering",
+            "type": "boolean",
+            "description": "True when some cells are absent from the file's text layer and were read from the page.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "linked_provisions",
+            "type": "string",
+            "description": "Clause records the project links to the cell.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "provision_agreement",
+            "type": "string",
+            "description": "Whether each linked clause agrees with the cell.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "no-information-entries",
+      "path": "no_information_entries.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per issuer that a trustee's report says it has received no information about.",
+      "schema": {
+        "fields": [
+          {
+            "name": "report",
+            "type": "string",
+            "description": "Id of the trustee's breach report, a document in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "trustee",
+            "type": "string",
+            "description": "Id of the debenture trustee in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "issuer_name_as_reported",
+            "type": "string",
+            "description": "The issuer's name as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "issuer",
+            "type": "string",
+            "description": "Issuer record matched to the name, where one exists.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file, not the printed page number, on which the item is printed.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "breach-notices",
+      "path": "breach_notices.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per trustee letter to the holders of an instrument about a breach, or continuing an adjourned meeting.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the letter record.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file, not the printed page number, on which the item is printed.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "trustee",
+            "type": "string",
+            "description": "Id of the debenture trustee in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "kind",
+            "type": "string",
+            "description": "`breach` or `meeting_continuation`.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "isins",
+            "type": "string",
+            "description": "ISINs the letter concerns.",
+            "brdo:kind": "read_from_source",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "isins_printed",
+            "type": "boolean",
+            "description": "False when the letter prints no ISIN and the link comes from elsewhere (see notes).",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "issued_on",
+            "type": "date",
+            "description": "The letter's date.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Quarter-end the letter concerns, where stated or evident.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "deed_dates",
+            "type": "string",
+            "description": "Dates of the trust deeds the letter cites.",
+            "brdo:kind": "read_from_source",
+            "brdo:origin": "The executed deeds, as the trustee describes them.",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "deed_as_reported",
+            "type": "string",
+            "description": "The sentence citing the deeds.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "issuer_intimation",
+            "type": "date",
+            "description": "When the trustee says the issuer informed it.",
+            "brdo:kind": "read_from_source",
+            "brdo:origin": "The trustee's record of receipt."
+          },
+          {
+            "name": "meeting_proposed_for",
+            "type": "date",
+            "description": "Date proposed for a meeting of holders.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "clause_reference_as_reported",
+            "type": "string",
+            "description": "Clause reference as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "covenant_as_reported",
+            "type": "string",
+            "description": "The covenant passage as printed, cut to the quotation limit.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The deed's wording, as the trustee quotes or describes it.",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "covenant_truncated",
+            "type": "boolean",
+            "description": "True when the passage continues beyond the quotation.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "levels_stated",
+            "type": "string",
+            "description": "Every percentage, multiple and crore amount printed in the whole passage.",
+            "brdo:kind": "read_from_source",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "adjourned_for_lack_of_quorum",
+            "type": "boolean",
+            "description": "True when the letter says a meeting was adjourned for lack of quorum.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "read_from_rendering",
+            "type": "boolean",
+            "description": "True when the file has no usable text layer for the letter.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "notice-report-comparisons",
+      "path": "notice_report_comparisons.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per ISIN for which a trustee's report row and the same trustee's letter for the same quarter can be compared. Both come from the trustee, so agreement is not independent corroboration.",
+      "schema": {
+        "fields": [
+          {
+            "name": "notice",
+            "type": "string",
+            "description": "Id of the letter in `breach_notices.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "report",
+            "type": "string",
+            "description": "Id of the trustee's breach report, a document in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "row",
+            "type": "string",
+            "description": "Serial number of the report row compared.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "issuer_intimation_per_notice",
+            "type": "date",
+            "description": "When the letter says the issuer told it.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "detected_per_report",
+            "type": "date",
+            "description": "Detection date the report prints.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "days_from_intimation_to_detection",
+            "type": "integer",
+            "description": "Detection minus intimation, in days.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "thresholds_in_notice",
+            "type": "string",
+            "description": "Levels printed in the letter.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "thresholds_in_report",
+            "type": "string",
+            "description": "Levels printed in the report row for the ISIN.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "thresholds_agree",
+            "type": "boolean",
+            "description": "Whether the two sets of numbers match. Empty when the letter prints none to compare.",
+            "brdo:kind": "derived"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "compliance-statements",
+      "path": "compliance_statements.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per explicit statement about covenant compliance, for stated instruments and a period. The statement belongs to whoever made it; the project does not adopt it.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the statement.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "instruments",
+            "type": "string",
+            "description": "ISINs the statement covers, by printing them or by a general sentence.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "period_start",
+            "type": "date",
+            "description": "First day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "stated_by",
+            "type": "string",
+            "description": "The source that published the statement: the carrier.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "made_by",
+            "type": "string",
+            "description": "Who made the statement: `issuer` or `statutory_auditor`.",
+            "brdo:kind": "read_from_source",
+            "brdo:origin": "The conclusion originates with this party, whoever publishes it."
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "What the statement says it covers: all covenants or financial only.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "breach_stated",
+            "type": "boolean",
+            "description": "True when the statement says some covenant was not met.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "isins_printed",
+            "type": "boolean",
+            "description": "False when the statement reaches an ISIN only by a general sentence or by omission.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "exceptions",
+            "type": "integer",
+            "description": "Number of exception lines in `compliance_statement_exceptions.csv`.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "evidence",
+            "type": "string",
+            "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "compliance-statement-exceptions",
+      "path": "compliance_statement_exceptions.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per line a compliance statement lists as not met.",
+      "schema": {
+        "fields": [
+          {
+            "name": "statement",
+            "type": "string",
+            "description": "Id of the compliance statement in `compliance_statements.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file, not the printed page number, on which the item is printed.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "isins",
+            "type": "string",
+            "description": "ISINs the line names.",
+            "brdo:kind": "read_from_source",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "covenant_as_reported",
+            "type": "string",
+            "description": "The covenant as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "required_as_reported",
+            "type": "string",
+            "description": "The required level as printed.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The deed, as the issuer states it."
+          },
+          {
+            "name": "actual_as_reported",
+            "type": "string",
+            "description": "The measured level as printed.",
+            "brdo:kind": "source_text",
+            "brdo:origin": "The issuer's measurement from its own books."
+          },
+          {
+            "name": "deed_dates_as_reported",
+            "type": "string",
+            "description": "Deed dates as printed.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "read_from_rendering",
+            "type": "boolean",
+            "description": "True when the line was read from the rendered page.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "statement-report-comparisons",
+      "path": "statement_report_comparisons.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per statement and ISIN, set beside the current trustee report for the same quarter. Agreement shows that the statement was carried into the report, not that it was confirmed.",
+      "schema": {
+        "fields": [
+          {
+            "name": "statement",
+            "type": "string",
+            "description": "Id of the compliance statement in `compliance_statements.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "made_by",
+            "type": "string",
+            "description": "Who made the statement.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "What the statement says it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "statement_reports_breach",
+            "type": "boolean",
+            "description": "True when the statement reports a breach.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "trustee_report",
+            "type": "string",
+            "description": "The trustee report compared, if one exists.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "trustee_lists",
+            "type": "boolean",
+            "description": "Whether that report lists the ISIN. Empty when no fully transcribed report exists.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "agreement",
+            "type": "string",
+            "description": "`consistent`, `differs` or `not_comparable`, by rules in docs/data-model.md.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "basis",
+            "type": "string",
+            "description": "Which rule decided the agreement.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "levels_only_in_statement",
+            "type": "string",
+            "description": "Required levels the statement prints and the trustee's report does not print for the ISIN.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "statement_dated",
+            "type": "date",
+            "description": "The statement document's own date.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "trustee_received_report",
+            "type": "date",
+            "description": "When the trustee records receiving the issuer's quarterly compliance report, from its census table.",
+            "brdo:kind": "read_from_source",
+            "brdo:origin": "The trustee's record of receipt."
+          },
+          {
+            "name": "trustee_detected",
+            "type": "date",
+            "description": "The trustee's earliest printed detection date for the ISIN.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "trustee_cites_certificate",
+            "type": "boolean",
+            "description": "True when the trustee's row mentions a certificate or auditor (a mechanical text match).",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "trustee_could_rely_on_issuer",
+            "type": "boolean",
+            "description": "True when the trustee's detection falls on or after the statement's date or the trustee's receipt of the issuer's report, so the trustee may simply be passing the issuer's information on.",
+            "brdo:kind": "derived"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "field-flows",
+      "path": "field_flows.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "For each agreement between an issuer's statement and a trustee's report on a breach, one row per kind of information, saying which party prints it. Mechanical rules (see docs/methods.md); the basis columns give the text that satisfied each rule so a decision can be checked by eye.",
+      "schema": {
+        "fields": [
+          {
+            "name": "statement",
+            "type": "string",
+            "description": "Id of the compliance statement in `compliance_statements.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "trustee_report",
+            "type": "string",
+            "description": "Id of the trustee's breach report, a document in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "field",
+            "type": "string",
+            "description": "Kind of information: clause reference, obligation wording, required level, issuer's measured level, deed dates.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "issuer_prints",
+            "type": "boolean",
+            "description": "Whether the issuer's statement prints it for the ISIN.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "trustee_prints",
+            "type": "boolean",
+            "description": "Whether the trustee's report, or for deed dates its letters for the quarter, print it. The issuer's measured level counts only if the trustee prints the same number.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "issuer_basis",
+            "type": "string",
+            "description": "The issuer's text or value that satisfied the rule; empty if none.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "trustee_basis",
+            "type": "string",
+            "description": "The trustee's text or value that satisfied the rule; empty if none.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "follow-up-states",
+      "path": "follow_up_states.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "For each ISIN listed in a current trustee report for a period, one row per follow-up state that the trustee's reports and letters publish, with where the record shows it. A listed ISIN with none has one row reading `no follow-up published`. States are never ranked or merged.",
+      "schema": {
+        "fields": [
+          {
+            "name": "trustee",
+            "type": "string",
+            "description": "Id of the debenture trustee in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "description": "The state, from the project's reading of action cells and letters. A cure is typed by the covenant category of its row.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "is_outcome",
+            "type": "boolean",
+            "description": "True for the five outcome states: enforcement or nominee director, waiver, holders instructing no action, and the two kinds of cure.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "basis",
+            "type": "string",
+            "description": "The report row and action kinds, or the letter, that show the state.",
+            "brdo:kind": "derived"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "monitoring-censuses",
+      "path": "monitoring_censuses.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per trustee table of the issues it monitors (Annex-VIIA, Table 3), measured rather than republished. `brdo verify` recomputes every measure from the hashed file.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the census record.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "trustee",
+            "type": "string",
+            "description": "Id of the debenture trustee in `sources.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_start",
+            "type": "date",
+            "description": "First day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "Last day of the reporting period the document states it covers.",
+            "brdo:kind": "read_from_source"
+          },
+          {
+            "name": "isins_printed",
+            "type": "integer",
+            "description": "Distinct ISINs printed in the file that pass the check digit.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "listed_in_breach_report",
+            "type": "integer",
+            "description": "ISINs the same trustee's breach report for the period lists.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "listed_not_printed",
+            "type": "string",
+            "description": "Listed ISINs the census omits.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "sample",
+            "type": "string",
+            "description": "ISINs outside the breach report whose SHA-256 of the file's hash, a colon and the ISIN sorts first.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "report_not_received",
+            "type": "string",
+            "description": "ISINs whose census row marks the issuer's quarterly compliance report as not received. Whether that breaches an instrument's terms depends on its deed.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "rows_cited",
+            "type": "integer",
+            "description": "Number of census rows the dataset quotes.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "regulatory-references",
+      "path": "regulatory_references.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per checked passage of a regulation or circular that the design relies on.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the passage.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file, not the printed page number, on which the item is printed.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "quote",
+            "type": "string",
+            "description": "The passage, verbatim.",
+            "brdo:kind": "source_text"
+          },
+          {
+            "name": "relevance",
+            "type": "string",
+            "description": "Why the project relies on it.",
+            "brdo:kind": "annotation"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "instrument-status",
+      "path": "instrument_status.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per ISIN and reporting period: what the reviewed record says about breaches, and on what basis. `no_report_found` is never evidence of compliance, and no status implies another.",
+      "schema": {
+        "fields": [
+          {
+            "name": "isin",
+            "type": "string",
+            "description": "ISIN of the instrument, validated by its check digit.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "End of the reporting period.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "Status from a closed list; see docs/data-model.md.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "basis",
+            "type": "string",
+            "description": "The rule that produced the status, including which kind of absence it is.",
+            "brdo:kind": "derived"
+          },
+          {
+            "name": "documents",
+            "type": "string",
+            "description": "Documents the status rests on.",
+            "brdo:kind": "derived",
+            "brdo:separator": "; "
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "searches",
+      "path": "searches.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per documented attempt to find something, successful or not. A `not_found` means not found by the logged step on that date.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the search.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "performed_on",
+            "type": "date",
+            "description": "When the search was made.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "description": "ISIN, issuer id or source id the search was about.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "purpose",
+            "type": "string",
+            "description": "What was sought.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "channel",
+            "type": "string",
+            "description": "Web search, a source's listing page, or a direct address.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query, for web searches. Results can differ when re-run.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "Sites or pages searched.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "description": "End of the reporting period sought, where one was.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "outcome",
+            "type": "string",
+            "description": "The project's classification of the result.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "documents",
+            "type": "string",
+            "description": "Documents found and registered.",
+            "brdo:kind": "identifier",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "urls_seen",
+            "type": "string",
+            "description": "Candidates seen but not retrieved, such as manual-only sources.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "description": "The project's remark.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "discrepancies",
+      "path": "discrepancies.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per disagreement or oddity in the public record, kept open until resolved. Nothing here is a finding about anyone's conduct.",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Id of the discrepancy.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "kind",
+            "type": "string",
+            "description": "What kind of disagreement it is.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "description": "ISINs, issuer or source concerned.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "`open` or `resolved`.",
+            "brdo:kind": "annotation"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "The project's neutral description.",
+            "brdo:kind": "annotation",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "evidence",
+            "type": "string",
+            "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "observed_at_urls",
+            "type": "string",
+            "description": "Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine.",
+            "brdo:kind": "provenance",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "resolution",
+            "type": "string",
+            "description": "How it was resolved, if it was.",
+            "brdo:kind": "annotation"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "evidence",
+      "path": "evidence.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per evidence anchor: a document, a page and the words relied on. `brdo verify` re-tests each against the hashed file.",
+      "schema": {
+        "fields": [
+          {
+            "name": "used_by",
+            "type": "string",
+            "description": "Which record relies on the anchor.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "Id of the cited file in `documents.csv`.",
+            "brdo:kind": "identifier"
+          },
+          {
+            "name": "page",
+            "type": "integer",
+            "description": "1-based page of the file; empty when the anchor may be on any page.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "locator",
+            "type": "string",
+            "description": "A human-readable position, where given.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "quote",
+            "type": "string",
+            "description": "The words relied on, verbatim.",
+            "brdo:kind": "source_text",
+            "brdo:separator": "; "
+          },
+          {
+            "name": "read_from_rendering",
+            "type": "boolean",
+            "description": "True when the words were read from the rendered page because the text layer may lack them. Such an anchor is machine-verified only if the words are found in the text layer anyway.",
+            "brdo:kind": "provenance"
+          },
+          {
+            "name": "ai_training_reserved",
+            "type": "boolean",
+            "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
+            "brdo:kind": "provenance"
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    }
+  ]
+}

@@ -111,7 +111,7 @@ Issuers must give their trustee an auditor-certified statement of financial cove
 
 For the quarter ended 2026-06-30, logged searches covered 11 issuers: a statement was found for 3, located but not retrievable by the pipeline for 1, and not found for 7.
 
-Set beside the trustee's report for the same quarter, 17 ISIN-level comparisons agree, 3 differ and 2 cannot be compared because the statement's stated scope does not reach the listed covenant. In 17 of the 17 agreements the trustee dates its detection on or after the date of the issuer's statement or of the issuer's compliance report reaching it, and in 6 the trustee's row names the certificate as its basis. Agreement of this kind shows that the issuer's statement was carried into the trustee's report. It does not confirm the statement independently. The disagreements are where one party's record contains something the other's does not.
+Set beside the trustee's report for the same quarter, 17 ISIN-level comparisons agree, 3 differ and 2 cannot be compared because the statement's stated scope does not reach the listed covenant. In 17 of the 17 agreements the trustee dates its detection on or after the date of the issuer's statement or of the issuer's compliance report reaching it, and in 6 the trustee's row names the certificate as its basis. Agreement of this kind shows that the issuer's statement was carried into the trustee's report. It does not confirm the statement independently. The disagreements are where one party's record contains something the other's does not. The 22 comparisons concern 3 issuers, and the 17 agreements 2, so a count of ISINs here is not a count of independent cases.
 
 The receipt dates come from the trustee's own table of compliance reports received, where one has been measured. The last column lists required levels that the statement prints and the trustee's report does not print for that ISIN.
 
@@ -142,15 +142,15 @@ The receipt dates come from the trustee's own table of compliance reports receiv
 
 ## What each party adds when both report a breach
 
-For the 17 ISIN-level agreements between an issuer's statement and the trustee's report, which party prints each kind of information. The issuer's measured level counts for the trustee only if the trustee prints the same number, and the trustee's deed dates come from its letters for the quarter. Agreement on the breach is transmission; the fields show what each party contributes from what it alone holds.
+For the 17 ISIN-level agreements between an issuer's statement and the trustee's report, which party prints each kind of information. The issuer's measured level counts for the trustee only if the trustee prints the same number, and the trustee's deed dates come from its letters for the quarter. Agreement on the breach is transmission; the fields show what each party contributes from what it alone holds. The 17 ISINs come from 2 issuers and 2 trustees, so they are not independent observations: each cell gives ISINs, with the number of issuers behind them in brackets. Every decision, with the text that satisfied its rule, is in `exports/field_flows.csv`.
 
 | information | both | issuer only | trustee only | neither |
 |---|---|---|---|---|
-| clause reference | 5 | 1 | 10 | 1 |
-| obligation wording | 1 | 0 | 12 | 4 |
-| required level | 9 | 0 | 4 | 4 |
-| issuer's measured level | 1 | 8 | 0 | 8 |
-| deed dates | 6 | 0 | 9 | 2 |
+| clause reference | 5 (1) | 1 (1) | 9 (1) | 2 (1) |
+| obligation wording | 1 (1) | 0 | 12 (2) | 4 (2) |
+| required level | 9 (1) | 0 | 4 (1) | 4 (2) |
+| issuer's measured level | 1 (1) | 8 (1) | 0 | 8 (2) |
+| deed dates | 6 (1) | 0 | 9 (1) | 2 (1) |
 
 ## The monitored population behind a breach report
 
@@ -160,20 +160,20 @@ catalyst-trusteeship's table of quarterly compliance reports received for the qu
 
 ## What the published follow-up shows
 
-For each ISIN listed in a current report for the quarter ended 2026-06-30, every follow-up state that the trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed meeting are different things. The last row counts ISINs for which none of the first five states, the outcomes, is published. This measures the public record, not what trustees or holders did. The states are the project's reading of each report's action cells, and a cure is typed by the covenant category of its row.
+For each ISIN listed in a current report for the quarter ended 2026-06-30, every follow-up state that the trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed meeting are different things. The last row counts ISINs for which none of the first five states, the outcomes, is published. This measures the public record, not what trustees or holders did. The states are the project's reading of each report's action cells, and a cure is typed by the covenant category of its row. A letter that names another quarter is not counted. Each cell gives ISINs, with the number of issuers behind them in brackets: one issuer's many ISINs share one history. Every state, with the row or letter that shows it, is in `exports/follow_up_states.csv`.
 
 | published follow-up | axis-trustee | catalyst-trusteeship | idbi-trusteeship | mitcon-credentia | vistra-itcl |
 |---|---|---|---|---|---|
-| enforcement step or nominee director reported | 0 | 0 | 0 | 1 | 0 |
-| waiver reported | 1 | 0 | 0 | 0 | 1 |
-| holders instructed no action | 0 | 0 | 0 | 0 | 6 |
+| enforcement step or nominee director reported | 0 | 0 | 0 | 1 (1) | 0 |
+| waiver reported | 1 (1) | 0 | 0 | 0 | 1 (1) |
+| holders instructed no action | 0 | 0 | 0 | 0 | 6 (3) |
 | cure reported for a financial covenant | 0 | 0 | 0 | 0 | 0 |
-| cure reported for another obligation, such as a late filing | 0 | 0 | 24 | 0 | 0 |
-| meeting reported as held | 1 | 0 | 3 | 1 | 7 |
-| meeting adjourned for lack of quorum | 0 | 15 | 0 | 0 | 0 |
-| meeting reported as scheduled | 0 | 39 | 22 | 0 | 3 |
-| awaiting instructions, following up or continuing | 0 | 44 | 4 | 0 | 0 |
-| no outcome published | 0 | 44 | 14 | 0 | 0 |
+| cure reported for another obligation, such as a late filing | 0 | 0 | 24 (3) | 0 | 0 |
+| meeting reported as held | 1 (1) | 0 | 3 (3) | 1 (1) | 7 (4) |
+| meeting adjourned for lack of quorum | 0 | 15 (3) | 0 | 0 | 0 |
+| meeting reported as scheduled | 0 | 39 (12) | 20 (7) | 0 | 3 (1) |
+| awaiting instructions, following up or continuing | 0 | 44 (14) | 4 (3) | 0 | 0 |
+| no outcome published | 0 | 44 (14) | 14 (7) | 0 | 0 |
 
 ## What was public when
 

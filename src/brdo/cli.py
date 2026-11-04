@@ -11,7 +11,8 @@ import yaml
 from pypdf import PdfReader
 
 from brdo import models
-from brdo.build import tables, write_csv, write_sqlite
+from brdo.build import tables, write_csv, write_datapackage, write_sqlite
+from brdo.dictionary import render_markdown, undocumented
 from brdo.fetch import Cache, Fetcher, RetrievalFailed, RetrievalRefused, Retrieved, default_cache_dir, source_for_url
 from brdo.pdftext import normalize
 from brdo.pit import as_of
@@ -267,6 +268,7 @@ def cmd_build(args: argparse.Namespace) -> int:
     all_tables = tables(dataset)
     for path in write_csv(all_tables, args.out):
         print(f"wrote {path}")
+    print(f"wrote {write_datapackage(all_tables, args.out)}")
     if args.sqlite:
         print(f"wrote {write_sqlite(all_tables, args.sqlite)}")
     return 0
@@ -330,6 +332,18 @@ def cmd_show(args: argparse.Namespace) -> int:
     for status in derive_all(dataset):
         if status.isin == instrument.isin:
             print(f"  status {status.period_end}: {status.status} ({status.basis})")
+    return 0
+
+
+def cmd_dictionary(args: argparse.Namespace) -> int:
+    """Write the data dictionary, after checking that every exported column is described."""
+    problems = undocumented(tables(_load(args)))
+    for problem in problems:
+        print(problem, file=sys.stderr)
+    if problems:
+        return 1
+    args.out.write_text(render_markdown(), encoding="utf-8")
+    print(f"wrote {args.out}")
     return 0
 
 
@@ -409,6 +423,10 @@ def build_parser() -> argparse.ArgumentParser:
     report = commands.add_parser("report", help="observability report in Markdown")
     report.add_argument("--out", type=Path)
     report.set_defaults(func=cmd_report)
+
+    dictionary = commands.add_parser("dictionary", help="write the data dictionary of the CSV exports")
+    dictionary.add_argument("--out", type=Path, default=Path("docs/data-dictionary.md"))
+    dictionary.set_defaults(func=cmd_dictionary)
 
     schema = commands.add_parser("schema", help="write JSON Schemas for the record types")
     schema.add_argument("--out", type=Path, default=Path("schema"))
