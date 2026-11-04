@@ -1,0 +1,11 @@
+isin: INE01W207017
+issuer: convenient-hospitals
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 3
+    quote: INE01W207017
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

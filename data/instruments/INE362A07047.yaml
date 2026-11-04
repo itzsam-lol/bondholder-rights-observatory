@@ -1,0 +1,11 @@
+isin: INE362A07047
+issuer: pvp-ventures
+claims:
+- property: debenture_trustee
+  value: idbi-trusteeship
+  asserted_by: idbi-trusteeship
+  evidence:
+  - document: idbi-t5-2026-06
+    page: 1
+    quote: INE362A07047
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

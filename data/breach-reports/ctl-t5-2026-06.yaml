@@ -1,0 +1,1097 @@
+document: ctl-t5-2026-06
+trustee: catalyst-trusteeship
+period:
+  start: 2026-04-01
+  end: 2026-06-30
+extraction_complete: true
+visually_reviewed: true
+printed_notes:
+- page: 1
+  text: The said information has been updated for information of Debenture Holders, Other Intermediaries and General
+    Public
+- page: 5
+  text: Date of Actual Breach is considered as Quarter for which covenant certiticate has been submitted
+notes: Printed row 6 is split into three records because its ISINs carry different intimation dates and issuer identifiers.
+  Printed row 8 runs from page 2 to page 3 and printed rows 10 and 12 run across a page break; their action cells
+  are repeated on each page.
+rows:
+- row: '1'
+  page: 1
+  issuer_name_as_reported: Aye Finance Private Limited
+  issuer: aye-finance
+  items:
+  - isins:
+    - INE501X07588
+    page: 1
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: aye-ine501x07588-clause-10-3-a
+      basis: text_match
+      agreement: consistent
+    covenant_as_reported: (a) maintain the ratio of A:B of less than 5% (five percent), where A is the aggregate
+      of Portfolio At Risk Over 90 Days and [the write-offs in respect of the
+    levels_stated:
+    - 5%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 22-07-26
+    value: 2026-07-22
+  detected:
+    raw: 22-07-26
+    value: 2026-07-22
+  intimation_as_reported: Intimation to Debenture Holders 24-07-2026, CRA & SEBI vide email dt. 29-07-2026 and Stock
+    Intimation dated 10-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    dated: 2026-07-24
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-07-29
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-10
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '2'
+  page: 1
+  issuer_name_as_reported: Neogrowth Credit Private Limited
+  issuer: neogrowth-credit
+  items:
+  - isins:
+    - INE814O07543
+    page: 1
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: neogrowth-ine814o07543-clause-2-5-3-e
+      basis: text_match
+      agreement: consistent
+    covenant_as_reported: (e) a Write-Off Ratio may not at any time increase above 6.5% (Six Decimal Point Five
+      Percent).
+    levels_stated:
+    - 6.5%
+  - isins:
+    - INE814O07550
+    page: 1
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: neogrowth-ine814o07550-clause-2-5-3-d
+      basis: text_match
+      agreement: consistent
+    covenant_as_reported: (d) on and from the Deemed Date of Allotment until and including March 31, 2025, a Write-Off
+      Ratio may not at any time increase above 10% (Ten Percent). On and
+    levels_stated:
+    - 10%
+    - 6.5%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 06-08-26
+    value: 2026-08-06
+  detected:
+    raw: 06-08-26
+    value: 2026-08-06
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.08-08-2026 and Stock Intimation
+    dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-08
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '3'
+  page: 1
+  issuer_name_as_reported: CASABLANCA INDUSTRIES PRIVATE LIMITED
+  issuer: casablanca-industries
+  items:
+  - isins:
+    - INE834U07019
+    - INE834U07027
+    page: 1
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: casablanca-schedule-4-2-1-a-iii
+      basis: clause_reference
+      agreement: consistent
+    - provision: casablanca-schedule-4-2-1-b
+      basis: clause_reference
+      agreement: consistent
+    - provision: casablanca-schedule-4-2-1-c
+      basis: clause_reference
+      agreement: consistent
+    clause_reference_as_reported: Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD)
+    covenant_as_reported: 'As per Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD): (a) The Total Debt/EBITDA
+      should be less than: (iii) 2.85x from 1 April 2026 until 31 March'
+    levels_stated:
+    - 1.2x
+    - 2.85x
+    - 2x
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 12-08-26
+    value: 2026-08-12
+  detected:
+    raw: 12-08-26
+    value: 2026-08-12
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.14-08-2026 and Stock Intimation
+    dated 10-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-14
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-10
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '4'
+  page: 1
+  issuer_name_as_reported: Light Microfinance Private Limited
+  issuer: light-microfinance
+  items:
+  - isins:
+    - INE366T07154
+    page: 1
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (c) maintain a Portfolio at Risk Ratio of less than 5% (Five percent); (h) maintain a
+      Last 12 Months’ Return on Average Assets Ratio in excess of 0.0% (Zero
+    levels_stated:
+    - 0.0%
+    - 5%
+    truncated: true
+  - isins:
+    - INE366T07162
+    page: 1
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (i) at all times maintain a ratio of the sum of (x) Portfolio at Risk over 30 days (own
+      book) + Restructured Loans (excluding loans restructured under the
+    levels_stated:
+    - 0%
+    - 10%
+    truncated: true
+  - isins:
+    - INE366T07188
+    page: 1
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (d) on and from the Deemed Date of Allotment until and including December 31, 2025, a
+      Portfolio Quality 30 (Thirty) Days Ratio of less than or equal to 15%
+    levels_stated:
+    - 10%
+    - 15%
+    - 7.5%
+    truncated: true
+  - isins:
+    - INE366T07188
+    page: 1
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (e) On and from April 1, 2026, and until December 31, 2026, the Company shall maintain
+      a Return on Assets of at least 0% (Zero Percent). On and from January 1,
+    levels_stated:
+    - 0%
+    - 0.5%
+    truncated: true
+  - isins:
+    - INE366T08020
+    page: 1
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (c) Gross NPA not to exceed 3% of Gross Loan Portfolio (e) Issuer to maintain a minimum
+      Net-worth of Rs. 355 crores
+    levels_stated:
+    - 3%
+    - 355crores
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-06-26
+    value: 2026-06-30
+  detected:
+    raw: 12-08-26
+    value: 2026-08-12
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.14-08-2026 and Stock Exchange
+    Intimated dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-14
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '5'
+  page: 1
+  issuer_name_as_reported: Infinity Fincorp Solutions Private Limited
+  issuer: infinity-fincorp-solutions
+  items:
+  - isins:
+    - INE00VD07016
+    - INE00VD07032
+    page: 1
+    category: affirmative
+    specificity: clause_text
+    covenant_as_reported: (i) comply with any corporate governance requirements applicable to the Company (as may
+      be prescribed by the RBI, or any other Governmental Authority) and the
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-Jun-26
+    value: 2026-06-30
+  detected:
+    raw: 13-Aug-26
+    value: 2026-08-13
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.14-08-2026 and Stock Exchange
+    Intimated dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-14
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '6'
+  page: 1
+  issuer_name_as_reported: Samunnati Finance Private Limited
+  issuer: samunnati-finance-2014
+  items:
+  - isins:
+    - INE551U07324
+    page: 1
+    category: affirmative
+    specificity: clause_text
+    provisions:
+    - provision: samunnati-ine551u07324-clause-6-1-b
+      basis: clause_reference
+      agreement: consistent
+    clause_reference_as_reported: Clause no. 6.1 (b)
+    covenant_as_reported: Clause no. 6.1 (b) The charge over the Hypothecated Assets shall be at least 1.0 (one
+      decimal zero)times the value of the Outstanding Amounts (the "Security
+    truncated: true
+  - isins:
+    - INE551U07324
+    page: 1
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 9.3 (c)
+    covenant_as_reported: Clause 9.3 (c) commencing from the Effective Date until the Final Settlement Date, maintain
+      a ratio of A:B of less than 15% (fifteen percent), where A is the
+    levels_stated:
+    - 15%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 12-08-26
+    value: 2026-08-12
+  detected:
+    raw: 12-08-26
+    value: 2026-08-12
+  intimation_as_reported: Intimation to Debenture Holders vide email dt.14-08-2026 and to CRA & SEBI vide email
+    dt.15-08-2026 and Stock Exchange Intimated dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-14
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-15
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '6'
+  page: 2
+  issuer_name_as_reported: Samunnati Finance Private Limited
+  issuer: samunnati-finance-2021
+  items:
+  - isins:
+    - INE0N5S07052
+    page: 2
+    category: affirmative
+    specificity: clause_text
+    provisions:
+    - provision: samunnati-ine0n5s07052-part-b-schedule-i
+      basis: text_match
+      agreement: consistent
+    clause_reference_as_reported: Part B Schedule I
+    covenant_as_reported: 'Part B Schedule I: Security Cover Ratio - 1.10x (One Decimal Point One Zero Times) the
+      value of the Outstanding Principal Amount plus accrued'
+    levels_stated:
+    - 1.10x
+    truncated: true
+  - isins:
+    - INE0N5S07052
+    page: 2
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule IX
+    covenant_as_reported: 'Schedule IX: "i. Shall at all times maintain the Capital Adequacy Ratio calculated as
+      per the applicable RBI regulations for non-banking financial companies of'
+    levels_stated:
+    - 150cr
+    - 20%
+    - 4%
+    - 6.5%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 12-08-26
+    value: 2026-08-12
+  detected:
+    raw: 12-08-26
+    value: 2026-08-12
+  intimation_as_reported: Intimation to Debenture Holders vide email dt.14-08-2026 and to CRA & SEBI vide email
+    dt.15-08-2026 and Stock Exchange Intimated dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-14
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-15
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+  ambiguities:
+  - The report groups this ISIN with INE551U ISINs in one row under one name, but its ISIN carries a different issuer
+    code and CDSL's public database shows a different CIN. Recorded against a separate issuer; see discrepancy samunnati-two-cins.
+- row: '6'
+  page: 2
+  issuer_name_as_reported: Samunnati Finance Private Limited
+  issuer: samunnati-finance-2014
+  items:
+  - isins:
+    - INE551U07266
+    page: 2
+    category: affirmative
+    specificity: clause_text
+    provisions:
+    - provision: samunnati-ine551u07266-part-b-schedule-i
+      basis: text_match
+      agreement: consistent
+    clause_reference_as_reported: Part B Schedule I
+    covenant_as_reported: 'Part B Schedule I: Security Cover Ratio - 1.10x (One Decimal Point One Zero Times) the
+      value of the Outstanding Principal Amount plus accrued'
+    levels_stated:
+    - 1.10x
+    truncated: true
+  - isins:
+    - INE551U07266
+    page: 2
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: SCHEDULE 3 Clause 2
+    covenant_as_reported: 'SCHEDULE 3 Clause 2 "(a) Portfolio Quality: (i) The Company shall maintain a 90 Day Portfolio
+      at Risk Ratio of (A) not more than 6% (six percent) until March'
+    levels_stated:
+    - 5%
+    - 50%
+    - 6%
+    - 8%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 12-08-26
+    value: 2026-08-12
+  detected:
+    raw: 12-08-26
+    value: 2026-08-12
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.15-08-2026 Stock Exchange Intimated
+    dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-15
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '7'
+  page: 2
+  issuer_name_as_reported: Akara Capital Advisors Private Limited
+  issuer: akara-capital-advisors
+  items:
+  - isins:
+    - INE08XP07365
+    - INE08XP07357
+    page: 2
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: akara-schedule-3-4-a
+      basis: clause_reference
+      agreement: consistent
+      note: The report and the trustee's notice word this clause differently; the limits are the same.
+    - provision: akara-schedule-3-4-b
+      basis: clause_reference
+      agreement: consistent
+      note: The report and the trustee's notice word this clause differently; the limits are the same.
+    - provision: akara-schedule-3-4-c
+      basis: clause_reference
+      agreement: consistent
+      note: The report and the trustee's notice word this clause differently; the limits are the same.
+    clause_reference_as_reported: Schedule III Clause 4 of the Debenture Trust Deed (DTD)
+    covenant_as_reported: 'As per Schedule III Clause 4 of the Debenture Trust Deed (DTD): (a) The Company shall
+      maintain the debt-to-equity ratio of less than 3 (Three) for on-book'
+    levels_stated:
+    - 22%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 13-08-26
+    value: 2026-08-13
+  detected:
+    raw: 13-08-26
+    value: 2026-08-13
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.15-08-2026 Stock Exchange Intimated
+    dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-15
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '8'
+  page: 2
+  issuer_name_as_reported: Satya Microcapital Limited
+  issuer: satya-microcapital
+  items:
+  - isins:
+    - INE982X07176
+    page: 2
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 2.5.3 of the DTD
+    covenant_as_reported: '"(b)The Company shall, on and from the Deemed Date of Allotment and until September 30,
+      2021, maintain a Portfolio Quality 30 (Thirty) Days of below 10% (Ten'
+    levels_stated:
+    - 10%
+    - 18%
+    - 5%
+    - 7.5%
+    truncated: true
+  - isins:
+    - INE982X07176
+    page: 2
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Further, basis the security cover certificate by the statutory auditor, the issuer has
+      not maintained the required security coverage as stipulated in the DTD.
+  - isins:
+    - INE982X07432
+    page: 2
+    category: other
+    specificity: clause_number_only
+    clause_reference_as_reported: Clause 17.4 (a) (i), (v), (ix), (x) and (xiii) of the Debenture Trust Deed
+    covenant_as_reported: Clause 17.4 (a) (i), (v), (ix), (x) and (xiii) of the Debenture Trust Deed
+  - isins:
+    - INE982X07432
+    page: 2
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Further, basis the security cover certificate by the statutory auditor, the issuer has
+      not maintained the required security coverage as stipulated in DTD.
+  - isins:
+    - INE982X07457
+    page: 2
+    category: other
+    specificity: clause_number_only
+    clause_reference_as_reported: Clause 10.3 (c), (d) and (e) of the Debenture Trust Deed
+    covenant_as_reported: Clause 10.3 (c), (d) and (e) of the Debenture Trust Deed
+  - isins:
+    - INE982X07457
+    page: 2
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Further, basis the security cover certificate by the statutory auditor, the issuer has
+      not maintained the required security coverage as stipulated in the DTD.
+  - isins:
+    - INE982X08034
+    page: 2
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (a) Until the Final Settlement Date, the GNPA shall not exceed 3% (three percent) of the
+      Assets under Management of the Issuer.
+    levels_stated:
+    - 3%
+  - isins:
+    - INE982X08091
+    - INE982X08109
+    page: 2
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: satya-ine982x08091-clause-9-3-b
+      basis: clause_reference
+      agreement: consistent
+    - provision: satya-ine982x08091-clause-9-3-e
+      basis: clause_reference
+      agreement: consistent
+    clause_reference_as_reported: Clause 9.3 of the DTD
+    covenant_as_reported: 'As per Clause 9.3 of the DTD: b)Capital Adequacy Ratio (CAR) of atleast 17% or as per
+      applicable RBI regulation, whichever is higher, of the above CAR, TIER 1'
+    levels_stated:
+    - 15%
+    - 17%
+    - 3%
+    - 5.00%
+    - 870crores
+    truncated: true
+  - isins:
+    - INE982X08091
+    - INE982X08109
+    page: 2
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 9.3 of the DTD
+    covenant_as_reported: h)Company to maintain minimum liquidity amount equivalent to next 1.5 month liabilities
+      after including Put Options/interest reset on liabilities (assuming
+    levels_stated:
+    - 100%
+    - 95%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-06-26
+    value: 2026-06-30
+  detected:
+    raw: 14-08-26
+    value: 2026-08-14
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.16-08-2026 and Stock Exchange
+    Intimation dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-16
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+  ambiguities:
+  - For INE982X07432 and INE982X07457 the report cites clause numbers without quoting them, so their category cannot
+    be read from the report.
+- row: '9'
+  page: 3
+  issuer_name_as_reported: Convenient Hospitals Limited
+  issuer: convenient-hospitals
+  items:
+  - isins:
+    - INE01W207017
+    page: 3
+    category: other
+    specificity: clause_text
+    provisions:
+    - provision: convenient-schedule-6-a-10-d
+      basis: text_match
+      agreement: consistent
+    - provision: convenient-schedule-6-a-10-e
+      basis: text_match
+      agreement: consistent
+    covenant_as_reported: (d) A copy of the Issuer Pledge Agreement, Issuer Pledge Powers of Attorney duly executed
+      by the parties to it and notarised and stamped (as required in
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-06-26
+    value: 2026-06-30
+  detected:
+    raw: 14-08-26
+    value: 2026-08-14
+  intimation_as_reported: Intimation to Debenture Holders, CRA & SEBI vide email dt.17-08-2026 and Stock Exchange
+    Intimation dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-17
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '10'
+  page: 3
+  issuer_name_as_reported: Pahal Financial Services Private Limited
+  issuer: pahal-financial-services
+  items:
+  - isins:
+    - INE514Q07395
+    page: 3
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule IX of the Debenture Trust Deed
+    covenant_as_reported: As per Schedule IX of the Debenture Trust Deed (c) maintain a maximum permissible ratio
+      of PAR>90 (net off Loan Loss Provisions on the Company's entire
+    levels_stated:
+    - 25%
+    truncated: true
+  - isins:
+    - INE514Q07304
+    page: 3
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 2.5.3 of the Debenture Trust Deed
+    covenant_as_reported: As per Clause 2.5.3 of the Debenture Trust Deed (c) a Portfolio Quality 30 (Thirty) Days
+      Ratio of less than or equal to 5% (Five Percent); (d) an Open Loan
+    levels_stated:
+    - 0.5%
+    - 20%
+    - 5%
+    truncated: true
+  - isins:
+    - INE514Q07361
+    page: 3
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 2.6 of the Debenture Trust Deed
+    covenant_as_reported: (i)“The Company shall at all times until the Final Settlement Date, maintain a ratio of
+      the sum of (x) Portfolio at Risk over 30 (Thirty) days plus (y)
+    levels_stated:
+    - 0%
+    - 12%
+    truncated: true
+  - isins:
+    - INE514Q07353
+    page: 3
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 2.3.4 of the Debenture Trust Deed
+    covenant_as_reported: As per Clause 2.3.4 of the Debenture Trust Deed (c) maintain a portfolio at risk ratio
+      of less than 6% (Six Percent) (h) maintain a Last 12 Months’ Return on
+    levels_stated:
+    - 0.0%
+    - 6%
+    truncated: true
+  - isins:
+    - INE514Q07379
+    page: 3
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: clause 9.3 of the Debenture Trust Deed
+    covenant_as_reported: As per clause 9.3 of the Debenture Trust Deed (e) The Company shall, at all times, commencing
+      from Effective Date until the Final Settlement Date, maintain a
+    levels_stated:
+    - 15%
+    truncated: true
+  - isins:
+    - INE514Q07387
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 17.2 of the Debenture Trust Deed
+    covenant_as_reported: As per Clause 17.2 of the Debenture Trust Deed (c) commencing from January 1, 2026 until
+      the Final Settlement Date, the PAR Ratio Over 30 Days of not more than
+    levels_stated:
+    - 5%
+    - 75%
+    - 8%
+    truncated: true
+  - isins:
+    - INE514Q07403
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule 3 Para 2 of the Debenture Trust Deed
+    covenant_as_reported: As per Schedule 3 Para 2 of the Debenture Trust Deed "(a)(i) The Company shall also maintain
+      an Off-Book Portfolio on Assets Under Management of (A) less than
+    levels_stated:
+    - 40%
+    - 45%
+    - 55%
+    - 65%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-06-26
+    value: 2026-06-30
+  detected:
+    raw: 14-08-26
+    value: 2026-08-14
+  intimation_as_reported: Intimation to Debenture Holders vide email dt.16-08-2026 & 17-08-2026, CRA & SEBI vide
+    email dt.17-08-2026 and Stock Exchange Intimation dated 10-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-16
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-17
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-17
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-10
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '11'
+  page: 4
+  issuer_name_as_reported: Satya Microcapital Limited
+  issuer: satya-microcapital
+  items:
+  - isins:
+    - INE982X08091
+    - INE982X08109
+    page: 4
+    category: credit_rating
+    specificity: clause_text
+    clause_reference_as_reported: Clasue 9.8 (ii), (iii) of the Debenture Trust Deed
+    covenant_as_reported: 'As per Clasue 9.8 (ii), (iii) of the Debenture Trust Deed: ii. The Issuer shall ensure
+      that it shall maintain the current credit rating/outlook of the'
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 21-08-26
+    value: 2026-08-21
+  detected:
+    raw: 21-08-26
+    value: 2026-08-21
+  intimation_as_reported: Intimation to Debenture Holders 24-08-2026, SEBI vide email dt. 26-08-2026 and Stock Exchange
+    Intimation dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-24
+  - recipients:
+    - sebi
+    dated: 2026-08-26
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '12'
+  page: 4
+  issuer_name_as_reported: Dvara Kshetriya Gramin Financial Services Private Limited
+  issuer: dvara-kgfs
+  items:
+  - isins:
+    - INE179P07464
+    - INE179P07530
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: '2.6'
+    covenant_as_reported: 2.6 (ii) The Company shall at all times until the Final Settlement Date, maintain a ratio
+      of the sum of (x) Portfolio at Risk over 90 (Ninety) days plus
+    levels_stated:
+    - 0%
+    - 10%
+    truncated: true
+  - isins:
+    - INE179P08082
+    page: 4
+    category: financial
+    specificity: clause_text
+    provisions:
+    - provision: dvara-ine179p08082-cost-to-income-2026
+      basis: metric_match
+      agreement: differs
+      note: The report says "commencing from the Effective Date (DTD) until the Final Settlement Date" and "less
+        than 80%"; the notice says "until September 30, 2026" and "less than or equal to 80%".
+    covenant_as_reported: (iii) commencing from the Effective Date (DTD) until the Final Settlement Date, maintain
+      the Cost to Income Ratio of less than 80% (Eighty percent)
+    levels_stated:
+    - 80%
+  - isins:
+    - INE179P07332
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule 3 Clause 2 of the Debenture Trust Deed
+    covenant_as_reported: 'As per Schedule 3 Clause 2 of the Debenture Trust Deed (a) Portfolio Quality: (i) The
+      Company shall maintain a 30 Day Portfolio at Risk Ratio of (A) not more'
+    levels_stated:
+    - 100%
+    - 3%
+    - 4%
+    - 5%
+    - 50%
+    - 80%
+    truncated: true
+  - isins:
+    - INE179P07605
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule 3 Clause 2 of the Debenture Trust Deed
+    covenant_as_reported: 'As per Schedule 3 Clause 2 of the Debenture Trust Deed (a) Portfolio Quality: ii) The
+      Company shall maintain a 90 Day Portfolio at Risk on Asset Under'
+    levels_stated:
+    - 100%
+    - 3%
+    - 5%
+    - 6%
+    - 7.0%
+    - 80%
+    - 95%
+    truncated: true
+  - isins:
+    - INE179P07605
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule 3 Clause 2 of the Debenture Trust Deed
+    covenant_as_reported: (d) The Company shall maintain a 90 Day Loan Loss Reserve Ratio of at least 55% from the
+      Deemed Date of Allotment until the final settlement date.
+    levels_stated:
+    - 55%
+  - isins:
+    - INE179P07548
+    page: 4
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Schedule VIII of the Debenture Trust Deed
+    covenant_as_reported: As per Schedule VIII of the Debenture Trust Deed (a) (PAR 90+ + Trailing 12 Months Write
+      off) / Total AUM <= 6% (e) Return on Assets (RoA) of >= 0.75%, to be
+    levels_stated:
+    - 0.75%
+    - 6%
+    truncated: true
+  - isins:
+    - INE179P08074
+    page: 5
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust
+      Deed
+    covenant_as_reported: 'As per Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust
+      Deed: (a) (ii) (B) for the period commencing on October 1, 2024 until'
+    levels_stated:
+    - 1.5%
+    truncated: true
+  - isins:
+    - INE179P08074
+    page: 5
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust
+      Deed
+    covenant_as_reported: (iii) (B) for the period commencing on October 1, 2024 until the Final Settlement Date,
+      not more than 1.5% (one decimal five percent), where A is the Portfolio
+    levels_stated:
+    - 1.5%
+    - 3.5%
+    truncated: true
+  - isins:
+    - INE179P08074
+    page: 5
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust
+      Deed
+    covenant_as_reported: (viii) commencing from the Effective Date until the Final Settlement Date, ensure that
+      the Company does not report any losses in any financial quarter;
+  - isins:
+    - INE179P07597
+    - INE179P07613
+    page: 5
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 10.3 (a) (vii) of the Debenture Trust Deed
+    covenant_as_reported: 'As per Clause 10.3 (a) (vii) of the Debenture Trust Deed: (vii) ensure that the profit
+      after tax (PAT) of the Company, as determined in accordance with'
+    truncated: true
+  - isins:
+    - INE179P07621
+    page: 5
+    category: financial
+    specificity: clause_text
+    clause_reference_as_reported: Clause 10.2A (a) (i) of the Debenture Trust Deed
+    covenant_as_reported: 'As per Clause 10.2A (a) (i) of the Debenture Trust Deed: (i) maintain a Capital Adequacy
+      Ratio of more than 20% (twenty percent) or such other higher threshold'
+    levels_stated:
+    - 18%
+    - 20%
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-06-26
+    value: 2026-06-30
+  detected:
+    raw: 24-08-26
+    value: 2026-08-24
+  intimation_as_reported: Intimation to Debenture Holders 27-08-2026, CRA & SEBI vide email dt. 27-08-2026 and Stock
+    Exchange Intimation dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-27
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '13'
+  page: 5
+  issuer_name_as_reported: ARUGN TECHNOLOGIES PRIVATE LIMITED
+  issuer: arugn-technologies
+  items:
+  - isins:
+    - INE2GLH07012
+    - INE2GLH07020
+    page: 5
+    category: affirmative
+    specificity: clause_text
+    clause_reference_as_reported: 6.1 (c) (v)
+    covenant_as_reported: 6.1 (c) (v) Within 30 (thirty) days from the Planetcast Conversion Date, a first ranking
+      pari passu charge by way of mortgage by Planetcast over the Immovable
+    truncated: true
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-06-26
+    value: 2026-06-30
+  detected:
+    raw: 04-09-26
+    value: 2026-09-04
+  intimation_as_reported: Intimation to Debenture Holders 07-09-2026, CRA & SEBI vide email dt. 07-09-2026 and Stock
+    Exchange Intimation dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-09-07
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions
+- row: '14'
+  page: 5
+  issuer_name_as_reported: Valencia and Mishal Ventures Private Limited
+  issuer: valencia-and-mishal-ventures
+  items:
+  - isins:
+    - INE02HF07016
+    - INE02HF07024
+    page: 5
+    category: financial
+    specificity: clause_text
+    covenant_as_reported: (b) The Company shall ensure that at all times the Net-worth of the Company is Positive.
+  security_enforcement_as_reported: Awaiting instructions from Debenture Holders
+  actual_breach:
+    raw: 30-Jun-26
+    value: 2026-06-30
+  detected:
+    raw: 07-Sep-26
+    value: 2026-09-07
+  intimation_as_reported: Intimation to Debenture Holders 09-09-2026, CRA & SEBI vide email dt. 09-09-2026 and Stock
+    Exchange Intimation dated 11-09-2026
+  intimations:
+  - recipients:
+    - debenture_holders
+    - credit_rating_agency
+    - sebi
+    dated: 2026-09-09
+  - recipients:
+    - stock_exchange
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Awaiting instructions from Debenture Holders
+  actions:
+  - kind: awaiting_instructions

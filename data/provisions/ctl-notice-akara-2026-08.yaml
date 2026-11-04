@@ -1,0 +1,36 @@
+- id: akara-schedule-3-4-a
+  document: ctl-notice-akara-2026-08
+  clause: Schedule III Clause 4 a)
+  page: 1
+  text: a) On a standalone basis, the Company shall maintain the debt-equity ratio of less than 3 (three) for on-book items;
+  instruments: [INE08XP07365, INE08XP07357]
+  category: financial
+  metric: Debt / equity, on-book items
+  thresholds:
+    - {comparator: "<", value: 3, unit: times}
+  test_basis: [standalone]
+  explanation: The issuer's own borrowings must be less than three times its equity.
+  notes: The trustee quotes this from the trust deed dated 11 September 2025. The deed has not been retrieved.
+- id: akara-schedule-3-4-b
+  document: ctl-notice-akara-2026-08
+  clause: Schedule III Clause 4 b)
+  page: 1
+  text: b) The Company shall ensure that the debt-to-equity ratio of the Parent on a consolidated basis shall be less than 2.5 (Two point five);
+  instruments: [INE08XP07365, INE08XP07357]
+  category: financial
+  metric: Debt / equity of the parent
+  thresholds:
+    - {comparator: "<", value: 2.5, unit: times}
+  test_basis: [consolidated]
+  explanation: The issuer must ensure its parent's group-wide borrowings are less than 2.5 times equity.
+- id: akara-schedule-3-4-c
+  document: ctl-notice-akara-2026-08
+  clause: Schedule III Clause 4 c)
+  page: 1
+  text: c) The Company shall maintain the Capital to Risk (Weighted) Assets Ratio of greater than 22% (Twenty-Two percent);
+  instruments: [INE08XP07365, INE08XP07357]
+  category: financial
+  metric: Capital to risk-weighted assets
+  thresholds:
+    - {comparator: ">", value: 22, unit: percent}
+  explanation: Regulatory capital must stay above 22% of risk-weighted assets.

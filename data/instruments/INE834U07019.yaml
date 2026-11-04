@@ -1,0 +1,11 @@
+isin: INE834U07019
+issuer: casablanca-industries
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 1
+    quote: INE834U07019
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

@@ -1,0 +1,12 @@
+isin: INE07J407014
+issuer: watermarke-estates
+claims:
+- property: debenture_trustee
+  value: vistra-itcl
+  asserted_by: vistra-itcl
+  evidence:
+  - document: vistra-t5-2026-06
+    page: 1
+    quote: INE07J407014
+    visual_fallback: true
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

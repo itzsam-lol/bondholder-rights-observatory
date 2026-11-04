@@ -1,0 +1,213 @@
+document: vistra-t5-2026-06
+trustee: vistra-itcl
+period:
+  start: 2026-04-01
+  end: 2026-06-30
+extraction_complete: true
+visually_reviewed: true
+notes: 'This file draws some rows as vector outlines rather than text (page 1 has about 13,000 curve segments),
+  so the header and most of rows 1 and 3 are absent from its text layer and were read from the rendered page at
+  500 dpi. ISINs read this way passed the ISIN check digit. Several printed cells are clipped by the table''s row
+  height, and the clipped text is unavailable; that is noted row by row. The report lists items dated before the
+  June 2026 quarter. It prints two columns beyond the prescribed Table 5: "Action to be taken by DT" and "Date of
+  sending notice".'
+rows:
+- row: '1'
+  page: 1
+  transcribed_from_rendering: true
+  issuer_name_as_reported: ATS Heights Private Limited
+  issuer: ats-heights
+  items:
+  - isins:
+    - INE679U07026
+    - INE679U08024
+    - INE679U08040
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Initiation of CIRP
+  - isins:
+    - INE679U07026
+    - INE679U08024
+    - INE679U08040
+    page: 1
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Non-Maintainance of Security cover
+  security_enforcement_as_reported: A Debenture Holder has informed the Debenture Trustee not to initiate any action
+    in respect of any of the agenda items discussed at the meeting.
+  actual_breach:
+    raw: 26-07-2024
+    value: 2024-07-26
+  detected:
+    raw: 26-07-2024
+    value: 2024-07-26
+  intimation_as_reported: 26-07-2024
+  intimations:
+  - recipients:
+    - unspecified
+    dated: 2024-07-26
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: 1) The same was informed to the CRA, Stock Exchnage and updated on our website. 2)
+    The Debenture Trustee has conducted the various meeting of the debenrture
+  other_columns_as_reported:
+    Action to be taken by DT in case of breach of covenants/ terms of issue: 1) The same was informed to the CRA,
+      Stock Exchnage and uploaded on our website. 2) The Debenture Trustee has conducted the meeting of the debenrture
+      holders,
+    Date of sending notice to the debenture holders and mode of dispatch: 26-07-2024
+  actions:
+  - kind: holders_meeting_held
+  - kind: no_action_instructed
+  - kind: holders_meeting_scheduled
+    dated: 2026-03-20
+  ambiguities:
+  - The further-action cell is clipped at the row height after a fourth item that begins "Company is in CIRP". The
+    action-to-be-taken cell is clipped after "aganda".
+  truncated_fields:
+  - further_action_as_reported
+  - 'other_columns_as_reported: Action to be taken by DT in case of breach of covenants/ terms of issue'
+- row: '2'
+  page: 1
+  issuer_name_as_reported: Steelco Gujarat Limited
+  issuer: steelco-gujarat
+  items:
+  - isins:
+    - INE629B07013
+    page: 1
+    category: default
+    specificity: description_only
+    covenant_as_reported: Delay in Listed
+  security_enforcement_as_reported: The Debenture Holders, in the said meeting, have waived the breach.
+  actual_breach:
+    raw: 5-01-2026
+    value: 2026-01-05
+  detected:
+    raw: 5-01-2026
+    value: 2026-01-05
+  intimation_as_reported: 9-01-2026
+  intimations:
+  - recipients:
+    - unspecified
+    dated: 2026-01-09
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: 1) The Debenture Trustee has reported the delay in servicing the listed debentures
+    to the Stock Exchange, Credit Rating Agency (CRA), and SEBI. 2) DH has
+  other_columns_as_reported:
+    Action to be taken by DT in case of breach of covenants/ terms of issue: 1) The Debenture Trustee has reported
+      the delay in servicing the listed debentures to the Stock Exchange, Credit Rating Agency (CRA), and SEBI.
+      2) DH has
+    Date of sending notice to the debenture holders and mode of dispatch: 7-01-2026
+  actions:
+  - kind: holders_meeting_held
+    dated: 2026-01-08
+  - kind: waiver_reported
+    dated: 2026-01-08
+  ambiguities:
+  - The covenant cell is clipped by the row height and shows only "Delay in Listed"; the action cells describe a
+    delay in servicing the listed debentures, which is why the item is read as a payment default.
+  truncated_fields:
+  - further_action_as_reported
+  - 'other_columns_as_reported: Action to be taken by DT in case of breach of covenants/ terms of issue'
+- row: '3'
+  page: 1
+  transcribed_from_rendering: true
+  issuer_name_as_reported: WATERMARKE ESTATES PRIVATE LIMITED
+  issuer: watermarke-estates
+  items:
+  - isins:
+    - INE07J407014
+    page: 1
+    category: affirmative
+    specificity: description_only
+    truncated: true
+    covenant_as_reported: 1)Covenant of acquisition of Property 2 Part A (on which security is to be created) has
+      not been met by the Issuer, which was due on 20th July,2024 thereby
+  security_enforcement_as_reported: A Debenture Holder has informed the Debenture Trustee not to initiate any action.
+  actual_breach:
+    raw: 20th July 2024 and 20th October 2024
+    value: 2024-07-20
+    note: Two dates are printed; the earlier is taken as the value.
+  detected:
+    raw: 20th July 2024 & 20th October 2024
+    value: 2024-07-20
+    note: Two dates are printed; the earlier is taken as the value.
+  intimation_as_reported: 1)23rd July,2024 2) 21st October,2024 3) 19th Sept 2025
+  intimations:
+  - recipients:
+    - unspecified
+    dated: 2024-07-23
+  - recipients:
+    - unspecified
+    dated: 2024-10-21
+  - recipients:
+    - unspecified
+    dated: 2025-09-19
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: The Debenture Trustee has also communicated these issues to the Stock Exchange and
+    SEBI via emails dated 30th January 2024 and 28th March 2024. Further the
+  other_columns_as_reported:
+    Action to be taken by DT in case of breach of covenants/ terms of issue: 1) The same was informed to the CRA,
+      Stock Exchnage and updated on our website. 2) The Debenture Trustee has conducted the meeting of the debenture
+      holders,
+    Date of sending notice to the debenture holders and mode of dispatch: 1)23rd July,2024 2)21st October,2024 3)16th
+      Sept 2025
+  actions:
+  - kind: holders_meeting_held
+    dated: 2025-09-19
+  - kind: no_action_instructed
+  ambiguities:
+  - The covenant cell is clipped by the row height after "not been met by the".
+  - The further-action cell cites emails of 30 January and 28 March 2024, which precede the printed breach dates
+    of 20 July and 20 October 2024. The dates are recorded as printed.
+  truncated_fields:
+  - further_action_as_reported
+  - 'other_columns_as_reported: Action to be taken by DT in case of breach of covenants/ terms of issue'
+- row: '4'
+  page: 1
+  transcribed_from_rendering: true
+  issuer_name_as_reported: PARSVNATH RAIL LAND PROJECT PRIVATE LIMITED
+  issuer: parsvnath-rail-land-project
+  items:
+  - isins:
+    - INE187O07031
+    - INE187O07049
+    page: 1
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Breach of Security cover
+  security_enforcement_as_reported: Debenture Holders has instructed DT to not to take any action
+  actual_breach:
+    raw: 17-06-2025
+    value: 2025-06-17
+  detected:
+    raw: 17-06-2025
+    value: 2025-06-17
+  intimation_as_reported: Intimation mail send via email dated 06-06 2025
+  intimations:
+  - recipients:
+    - unspecified
+    dated: 2025-06-06
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Debenture holders instructed us not to take any action regarding breach of covenant.
+  other_columns_as_reported:
+    Action to be taken by DT in case of breach of covenants/ terms of issue: 1) The same was informed to the CRA,
+      Stock Exchange and updated on our website. 2) Basis our letter for inistructions regarding breach of covenant
+      dagted 16th
+    Date of sending notice to the debenture holders and mode of dispatch: NA
+  actions:
+  - kind: holders_meeting_held
+    dated: 2025-05-13
+  - kind: no_action_instructed
+  ambiguities:
+  - The printed intimation date, 6 June 2025, precedes the printed detection date, 17 June 2025. Both are recorded
+    as printed.
+  truncated_fields:
+  - 'other_columns_as_reported: Action to be taken by DT in case of breach of covenants/ terms of issue'

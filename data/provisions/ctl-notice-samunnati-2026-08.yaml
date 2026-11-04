@@ -1,0 +1,43 @@
+- id: samunnati-ine551u07324-clause-6-1-b
+  document: ctl-notice-samunnati-2026-08
+  clause: Clause no. 6.1 (b)
+  page: 1
+  text: >-
+    The charge over the Hypothecated Assets shall be at least 1.0 (one decimal zero)times the value of the Outstanding
+    Amounts (the "Security Cover") and shall be maintained at all times until the Final Settlement Date.
+  instruments: [INE551U07324]
+  category: affirmative
+  metric: Security cover
+  thresholds:
+    - {comparator: ">=", value: 1, unit: times}
+  test_frequency: continuous
+  explanation: Assets charged to the trustee, valued as the deed says, must at all times at least equal the amount outstanding.
+  notes: The trustee quotes this from the trust deed dated 16 September 2024. The deed has not been retrieved.
+- id: samunnati-ine551u07266-part-b-schedule-i
+  document: ctl-notice-samunnati-2026-08
+  clause: Part B Schedule I
+  page: 4
+  text: >-
+    Part B Schedule I: Security Cover Ratio - 1.10x (One Decimal Point One Zero Times) the value of the Outstanding
+    Principal Amount plus accrued interest/obligations, if any due from the Company.
+  instruments: [INE551U07266]
+  category: affirmative
+  metric: Security cover
+  thresholds:
+    - {comparator: ">=", value: 1.1, unit: times}
+  explanation: Assets charged to the trustee must be worth at least 1.10 times principal plus accrued amounts.
+  notes: The trustee quotes this from the trust deed dated 15 February 2024. The deed has not been retrieved.
+- id: samunnati-ine0n5s07052-part-b-schedule-i
+  document: ctl-notice-samunnati-2026-08
+  clause: Part B Schedule I
+  page: 7
+  text: >-
+    Part B Schedule I: Security Cover Ratio - 1.10x (One Decimal Point One Zero Times) the value of the Outstanding
+    Principal Amount plus accrued interest/obligations, if any due from the Company.
+  instruments: [INE0N5S07052]
+  category: affirmative
+  metric: Security cover
+  thresholds:
+    - {comparator: ">=", value: 1.1, unit: times}
+  explanation: Assets charged to the trustee must be worth at least 1.10 times principal plus accrued amounts.
+  notes: The trustee quotes this from the trust deed dated 18 September 2025. The deed has not been retrieved.

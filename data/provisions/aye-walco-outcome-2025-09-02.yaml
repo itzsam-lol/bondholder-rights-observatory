@@ -1,0 +1,38 @@
+- id: aye-ine501x07620-par90-existing
+  document: aye-walco-outcome-2025-09-02
+  clause: Not given in the filing
+  heading: Existing Covenant
+  page: 1
+  text: >-
+    maintain a ratio of A:B of not more than 8% (eight percent), where A is the aggregate of the Company's PAR>90 and
+    write-offs for the trailing 12 (twelve) months, and B is the Gross Loan Portfolio of the Company, multiplied by 100,
+    and followed by the "%" symbol.
+  instruments: [INE501X07620]
+  category: financial
+  metric: (Portfolio at risk over 90 days + trailing 12-month write-offs) / gross loan portfolio
+  thresholds:
+    - {comparator: "<=", value: 8, unit: percent}
+  explanation: >-
+    Loans more than 90 days overdue, together with write-offs over the past year, must not exceed 8% of the loan book.
+- id: aye-ine501x07620-par90-revised
+  document: aye-walco-outcome-2025-09-02
+  clause: Not given in the filing
+  heading: Revised Covenant
+  page: 1
+  text: >-
+    maintain a ratio of A:B of: A) until March 31, 2026, not more than 12% (twelve percent); and B) commencing from April
+    1, 2026 until the Final Settlement Date, not more than 10% (ten percent), where A is the aggregate of the Company's
+    PAR>90 and write-offs for the trailing 12 (twelve) months, and B is the Gross Loan Portfolio of the Company,
+    multiplied by 100, and followed by the "%" symbol.
+  instruments: [INE501X07620]
+  category: financial
+  metric: (Portfolio at risk over 90 days + trailing 12-month write-offs) / gross loan portfolio
+  thresholds:
+    - {comparator: "<=", value: 12, unit: percent, applies_to: 2026-03-31}
+    - {comparator: "<=", value: 10, unit: percent, applies_from: 2026-04-01}
+  amends: aye-ine501x07620-par90-existing
+  explanation: >-
+    The same measure with a relaxed limit: 12% until 31 March 2026 and 10% after that.
+  notes: >-
+    The filing says a committee of the issuer's board approved the amendment on 2 September 2025. It does not say when the
+    amendment took effect or how debenture holders consented.

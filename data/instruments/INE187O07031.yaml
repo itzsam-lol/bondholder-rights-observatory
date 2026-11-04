@@ -1,0 +1,19 @@
+isin: INE187O07031
+issuer: parsvnath-rail-land-project
+claims:
+- property: debenture_trustee
+  value: vistra-itcl
+  asserted_by: vistra-itcl
+  evidence:
+  - document: vistra-t5-2026-06
+    page: 1
+    quote: INE187O07031
+  note: Inferred from the trustee listing this ISIN in its own breach status report.
+- property: debenture_trustee
+  value: bank-of-maharashtra
+  asserted_by: cdsl
+  observations:
+  - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031
+    observed_on: 2026-11-03
+    value_seen: BANK OF MAHARASHTRA
+  note: Printed under Debenture Trustee Details.

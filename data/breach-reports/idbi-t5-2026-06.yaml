@@ -1,0 +1,532 @@
+document: idbi-t5-2026-06
+trustee: idbi-trusteeship
+period:
+  start: 2026-04-01
+  end: 2026-06-30
+extraction_complete: true
+visually_reviewed: true
+printed_notes:
+- page: 1
+  text: The status of covenant breach is for the quarter ended on 30.06.2026
+- page: 1
+  text: '# Date of actual breach shall mean and include the date of the certificate of Statutory Auditor or the
+    due date for submission, as the case may be.'
+- page: 1
+  text: Please note that DT may receive certificate on a later date than the date mentioned in the auditor certificate.
+- page: 1
+  text: '* Date of detecting the breach by the debenture trustee shall mean and include the date of the receipt
+    of the certificate from the issuer company.'
+notes: Serial numbers run from 1 to 12 and then 14; no serial 13 is printed and the rendered page shows no blank
+  row between them. The page is an export of a spreadsheet, with its column letters and row numbers visible.
+rows:
+- row: '1'
+  page: 1
+  issuer_name_as_reported: Belstar Microfinance Limited
+  issuer: belstar-microfinance
+  items:
+  - isins:
+    - INE443L08131
+    page: 1
+    category: financial
+    specificity: description_only
+    covenant_as_reported: The maximum permissible ratio of the sum of PAR > 30 and write-offs (on the Issuer’s entire
+      portfolio including receivables sold or discounted on a
+    truncated: true
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 24-Jul-26
+    value: 2026-07-24
+  detected:
+    raw: 27-Jul-26
+    value: 2026-07-27
+  intimation_as_reported: CRAs & SEBI - 27-Jul-26 DHs - 28-Jul-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-07-27
+  - recipients:
+    - debenture_holders
+    dated: 2026-07-28
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Meeting with the Debenture Holders was originally held on Aug 19, 2026 & which was
+    susequently adjourned & held on Aug 26, 2026. In both the meetings no
+  actions:
+  - kind: holders_meeting_held
+    dated: 2026-08-19
+  - kind: holders_meeting_held
+    dated: 2026-08-26
+  truncated_fields:
+  - further_action_as_reported
+- row: '2'
+  page: 1
+  issuer_name_as_reported: Dvara Kshetriya Gramin Financial Services Private Ltd
+  issuer: dvara-kgfs
+  items:
+  - isins:
+    - INE179P07589
+    page: 1
+    category: financial
+    specificity: requirement_and_actual
+    covenant_as_reported: Issuer has not complied with the prescribed Return on Assets ratio. Return on Assets maintained
+      is '-1.02%' and the same is prescribed according to the
+    levels_stated:
+    - 1%
+    - 1.02%
+    truncated: true
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 12-Aug-26
+    value: 2026-08-12
+  detected:
+    raw: 13-Aug-26
+    value: 2026-08-13
+  intimation_as_reported: CRAs & SEBI - 13-Aug-26 DHs - 14-Aug-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-13
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-14
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Meeting with the Debenture Holders was held on Aug 18, 2026.
+  actions:
+  - kind: holders_meeting_held
+    dated: 2026-08-18
+- row: '3'
+  page: 1
+  issuer_name_as_reported: Konkan Railway Corporation
+  issuer: konkan-railway-corporation
+  items:
+  - isins:
+    - INE139F07105
+    page: 1
+    category: financial
+    specificity: requirement_and_actual
+    provisions:
+    - provision: krcl-dscr-per-icra
+      basis: metric_match
+      agreement: consistent
+      note: The report prints a required level of 1.25 and an actual level of 0.34; the rating rationale states
+        the required level as 1.25 times.
+    covenant_as_reported: Issuer has not complied with the prescribed Debt service coverage ratio (DSCR). DSCR maintained
+      is 0.34 whereas prescibed DSCR as per the transaction document
+    truncated: true
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 13-Aug-26
+    value: 2026-08-13
+  detected:
+    raw: 14-Aug-26
+    value: 2026-08-14
+  intimation_as_reported: CRAs & SEBI - 14-Aug-26 DHs - 14-Aug-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    - debenture_holders
+    dated: 2026-08-14
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Meeting with the Debenture Holders was held on Sept 09, 2026. However, due to lack
+    of quorum the same was adjourned to Sept 16, 2026.
+  actions:
+  - kind: holders_meeting_held
+    dated: 2026-09-09
+  - kind: holders_meeting_scheduled
+    dated: 2026-09-16
+- row: '4'
+  page: 1
+  issuer_name_as_reported: Aliens Developers Private Ltd
+  issuer: aliens-developers
+  items:
+  - isins:
+    - INE223Y07017
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of financial results and security cover certificate (SCC)
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 14-Aug-26
+    value: 2026-08-14
+  detected:
+    raw: 20-Aug-26
+    value: 2026-08-20
+  intimation_as_reported: CRAs & SEBI - 21-Aug-26 DHs - 21-Aug-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    - debenture_holders
+    dated: 2026-08-21
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Unaudited Financial Results was submitted on Sept 10, 2026. Thus, the breach was cured
+    before the scheduled meeting date of Debenture Holder i.e. Sept 11,
+  actions:
+  - kind: cure_reported
+    dated: 2026-09-10
+  truncated_fields:
+  - further_action_as_reported
+- row: '5'
+  page: 1
+  issuer_name_as_reported: Punjab Infrastructure Development Board
+  issuer: punjab-infrastructure-development-board
+  items:
+  - isins:
+    - INE091D11097
+    - INE091D11105
+    - INE091D11139
+    - INE091D11147
+    - INE091D11162
+    - INE091D11170
+    - INE091D11204
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of financial results
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 14-Aug-26
+    value: 2026-08-14
+  detected:
+    raw: 20-Aug-26
+    value: 2026-08-20
+  intimation_as_reported: CRAs & SEBI - 21-Aug-26 DHs - 21-Aug-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    - debenture_holders
+    dated: 2026-08-21
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Meeting with the Debenture Holders is scheduled to be held on Sept 18, 2026.
+  actions:
+  - kind: holders_meeting_scheduled
+    dated: 2026-09-18
+- row: '6'
+  page: 1
+  issuer_name_as_reported: Meghalaya Energy Corporation Limited
+  issuer: meghalaya-energy-corporation
+  items:
+  - isins:
+    - INE760I07011
+    - INE760I07029
+    - INE760I07037
+    - INE760I07045
+    - INE760I07052
+    - INE760I07060
+    - INE760I07078
+    - INE760I07086
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of financial results
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 14-Aug-26
+    value: 2026-08-14
+  detected:
+    raw: 21-Aug-26
+    value: 2026-08-21
+  intimation_as_reported: CRAs & SEBI - 21-Aug-26 DHs - 24-Aug-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-21
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-24
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Unaudited Financial Results was submitted on August 29, 2026. Thus, the breach was
+    cured before the scheduled meeting date of Debenture Holder i.e. Sept 16,
+  actions:
+  - kind: cure_reported
+    dated: 2026-08-29
+  truncated_fields:
+  - further_action_as_reported
+- row: '7'
+  page: 1
+  issuer_name_as_reported: VR Dakshin Private Limited (formerly known as Sugam Vanijya Holdings Private Limited)
+  issuer: vr-dakshin
+  items:
+  - isins:
+    - INE084S08013
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of financial results
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 14-Aug-26
+    value: 2026-08-14
+  detected:
+    raw: 20-Aug-26
+    value: 2026-08-20
+  intimation_as_reported: CRAs & SEBI - 21-Aug-26 DHs - 21-Aug-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    - debenture_holders
+    dated: 2026-08-21
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Meeting with the Debenture Holders is scheduled to be held on Sept 17, 2026
+  actions:
+  - kind: holders_meeting_scheduled
+    dated: 2026-09-17
+- row: '8'
+  page: 1
+  issuer_name_as_reported: National Highways Authority of India (NHAI)
+  issuer: national-highways-authority-of-india
+  items:
+  - isins:
+    - INE906B07HP8
+    - INE906B07IC4
+    - INE906B07ID2
+    - INE906B07IE0
+    - INE906B07IF7
+    - INE906B07IG5
+    - INE906B07IH3
+    - INE906B07II1
+    - INE906B07IJ9
+    - INE906B07IK7
+    - INE906B07IL5
+    - INE906B07IY8
+    - INE906B07IZ5
+    - INE906B07JA6
+    - INE906B07JB4
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of financial results
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 14-Aug-26
+    value: 2026-08-14
+  detected:
+    raw: 24-Aug-26
+    value: 2026-08-24
+  intimation_as_reported: CRAs & SEBI - 24-Aug-26 DHs - N.A.
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-24
+  - recipients:
+    - debenture_holders
+    dated: 2026-08-25
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Unaudited Financial Results was submitted on August 17, 2026 (i.e., delayed submission).
+    Thus, the breach was cured before the timeline for sending noticeof
+  actions:
+  - kind: cure_reported
+    dated: 2026-08-17
+  evidence:
+  - document: idbi-t5-2026-06
+    page: 1
+    quote: intimation has been sent to the DHs on August 25, 2026
+  ambiguities:
+  - The intimation column prints "DHs - N.A." while the further-action column says an intimation was sent to the
+    DHs on August 25, 2026; both are kept, and the debenture-holder intimation date is taken from the latter.
+  truncated_fields:
+  - further_action_as_reported
+- row: '9'
+  page: 1
+  issuer_name_as_reported: Aliens Developers Private Ltd
+  issuer: aliens-developers
+  items:
+  - isins:
+    - INE223Y07017
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of statement of value of pledged securities
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 29-Aug-26
+    value: 2026-08-29
+  detected:
+    raw: 31-Aug-26
+    value: 2026-08-31
+  intimation_as_reported: CRAs & SEBI - 31-Aug-26 DHs - 01-Sep-26
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-08-31
+  - recipients:
+    - debenture_holders
+    dated: 2026-09-01
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Statement of Value of PledgedSecurities was submitted September 10, 2026. Thus, the
+    breach was cured before the scheduled meeting date of Debenture Holder i.e.
+  actions:
+  - kind: cure_reported
+    dated: 2026-09-10
+  truncated_fields:
+  - further_action_as_reported
+- row: '10'
+  page: 1
+  issuer_name_as_reported: Aliens Developers Private Ltd
+  issuer: aliens-developers
+  items:
+  - isins:
+    - INE223Y07017
+    page: 1
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Breach of the following covenants - 1. Non Completion of Construction Project as per the
+      Compulsory Construction Milestones 2. Non compliance of applicable
+    truncated: true
+  - isins:
+    - INE223Y07017
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: 9. Non compliance w.r.t. Information Covenants
+  - isins:
+    - INE223Y07017
+    page: 1
+    category: negative
+    specificity: clause_number_only
+    covenant_as_reported: 10. Non compliance w.r.t. clause 1.4.1(vi) of Negative Covenants 11. Non compliance w.r.t.
+      clause 1.4.1(vii) of Negative Covenants 12. Non compliance w.r.t.
+    truncated: true
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 09-Sep-26
+    value: 2026-09-09
+  detected:
+    raw: 10-Sep-26
+    value: 2026-09-10
+  intimation_as_reported: CRAs & SEBI - 10-Sep-2026 DHs - 11-Sep-2026
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-09-10
+  - recipients:
+    - debenture_holders
+    dated: 2026-09-11
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: Meeting with the Debenture Holders is scheduled to be held on October 05, 2026
+  actions:
+  - kind: holders_meeting_scheduled
+    dated: 2026-10-05
+- row: '11'
+  page: 1
+  issuer_name_as_reported: Emami Frankross Limited
+  issuer: emami-frankross
+  items:
+  - isins:
+    - INE711X07062
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of Financial Covenant Certificate
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 13-Sep-26
+    value: 2026-09-13
+  detected:
+    raw: 15-Sep-26
+    value: 2026-09-15
+  intimation_as_reported: CRA & SEBI - 15-Sep-2026 DHs - will be intimated within T+3 days
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-09-15
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: We are in the process of intimating about the non compliance to Debenture Holders
+  actions:
+  - kind: other
+- row: '12'
+  page: 1
+  issuer_name_as_reported: VR Dakshin Private Limited (Formerly known as Sugam Vanijya Holdings Private Limited)
+  issuer: vr-dakshin
+  items:
+  - isins:
+    - INE084S08013
+    page: 1
+    category: other
+    specificity: description_only
+    covenant_as_reported: Non submission of Financial Covenant Certificate
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 13-Sep-26
+    value: 2026-09-13
+  detected:
+    raw: 15-Sep-26
+    value: 2026-09-15
+  intimation_as_reported: CRA & SEBI - 15-Sep-2026 DHs - will be intimated within T+3 days
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-09-15
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: We are in the process of intimating about the non compliance to Debenture Holders
+  actions:
+  - kind: other
+- row: '14'
+  page: 1
+  issuer_name_as_reported: PVP Ventures Limited
+  issuer: pvp-ventures
+  items:
+  - isins:
+    - INE362A07054
+    - INE362A07047
+    page: 1
+    category: affirmative
+    specificity: description_only
+    covenant_as_reported: Non execution of pledge agreement.
+  security_enforcement_as_reported: NIL
+  actual_breach:
+    raw: 12-Jun-26
+    value: 2026-06-12
+  detected:
+    raw: 12-Jun-26
+    value: 2026-06-12
+  intimation_as_reported: CRA & SEBI - 15-Jun-2026 DHs - 16-Jun-2026
+  intimations:
+  - recipients:
+    - credit_rating_agency
+    - sebi
+    dated: 2026-06-15
+  - recipients:
+    - debenture_holders
+    dated: 2026-06-16
+  delay_in_detection_as_reported: NIL
+  delay_in_intimation_as_reported: NIL
+  delay_reasons_as_reported: Not Applicable
+  further_action_as_reported: This is a continuing breach and the same has not yet been cured.
+  actions:
+  - kind: reported_as_continuing

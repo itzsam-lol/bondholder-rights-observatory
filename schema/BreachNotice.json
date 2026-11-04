@@ -1,0 +1,233 @@
+{
+  "$defs": {
+    "NoticeKind": {
+      "enum": [
+        "breach",
+        "meeting_continuation"
+      ],
+      "title": "NoticeKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A debenture trustee's published letter to the holders of one instrument about a breach.\n\nNotices tie an ISIN to the trust deeds that govern it and to the clause\nconcerned, which often makes them the most specific public statement of the\ncontractual position when the deed itself cannot be retrieved.",
+  "properties": {
+    "adjourned_for_lack_of_quorum": {
+      "default": false,
+      "title": "Adjourned For Lack Of Quorum",
+      "type": "boolean"
+    },
+    "clause_reference_as_reported": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clause Reference As Reported"
+    },
+    "covenant_as_reported": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Covenant As Reported"
+    },
+    "covenant_page": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Set when the covenant is on another page",
+      "title": "Covenant Page"
+    },
+    "covenant_truncated": {
+      "default": false,
+      "description": "The passage continues beyond this quotation",
+      "title": "Covenant Truncated",
+      "type": "boolean"
+    },
+    "deed_as_reported": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Deed As Reported"
+    },
+    "deed_dates": {
+      "description": "Dates of the trust deeds the notice cites",
+      "items": {
+        "format": "date",
+        "type": "string"
+      },
+      "title": "Deed Dates",
+      "type": "array"
+    },
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "isins": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Isins",
+      "type": "array"
+    },
+    "isins_printed": {
+      "default": true,
+      "description": "False when the notice prints no ISIN and the link comes from elsewhere, see notes",
+      "title": "Isins Printed",
+      "type": "boolean"
+    },
+    "issued_on": {
+      "format": "date",
+      "title": "Issued On",
+      "type": "string"
+    },
+    "issuer_intimation": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When the trustee says the issuer informed it",
+      "title": "Issuer Intimation"
+    },
+    "issuer_intimation_as_reported": {
+      "anyOf": [
+        {
+          "maxLength": 800,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Issuer Intimation As Reported"
+    },
+    "kind": {
+      "$ref": "#/$defs/NoticeKind",
+      "default": "breach"
+    },
+    "levels_complete": {
+      "default": true,
+      "description": "False when part of the passage was not read, so levels_stated may be partial",
+      "title": "Levels Complete",
+      "type": "boolean"
+    },
+    "levels_stated": {
+      "description": "Every percentage, multiple and crore amount printed in the whole passage",
+      "items": {
+        "type": "string"
+      },
+      "title": "Levels Stated",
+      "type": "array"
+    },
+    "meeting_proposed_for": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Meeting Proposed For"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "period_end": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Quarter-end the certificate relates to, where stated",
+      "title": "Period End"
+    },
+    "trustee": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Trustee",
+      "type": "string"
+    },
+    "visual_fallback": {
+      "default": false,
+      "description": "Read from the rendered page; the file has no text layer",
+      "title": "Visual Fallback",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "document",
+    "page",
+    "trustee",
+    "isins",
+    "issued_on"
+  ],
+  "title": "BreachNotice",
+  "type": "object"
+}

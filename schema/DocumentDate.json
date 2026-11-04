@@ -1,0 +1,45 @@
+{
+  "$defs": {
+    "DateBasis": {
+      "description": "How a document date was established.",
+      "enum": [
+        "stated_in_document",
+        "listing_page",
+        "http_last_modified",
+        "file_metadata"
+      ],
+      "title": "DateBasis",
+      "type": "string"
+    },
+    "DocumentDateKind": {
+      "enum": [
+        "dated",
+        "signed",
+        "published"
+      ],
+      "title": "DocumentDateKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/DateBasis"
+    },
+    "kind": {
+      "$ref": "#/$defs/DocumentDateKind"
+    },
+    "value": {
+      "format": "date",
+      "title": "Value",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "value",
+    "basis"
+  ],
+  "title": "DocumentDate",
+  "type": "object"
+}

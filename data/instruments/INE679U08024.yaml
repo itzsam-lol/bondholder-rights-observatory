@@ -1,0 +1,12 @@
+isin: INE679U08024
+issuer: ats-heights
+claims:
+- property: debenture_trustee
+  value: vistra-itcl
+  asserted_by: vistra-itcl
+  evidence:
+  - document: vistra-t5-2026-06
+    page: 1
+    quote: INE679U08024
+    visual_fallback: true
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

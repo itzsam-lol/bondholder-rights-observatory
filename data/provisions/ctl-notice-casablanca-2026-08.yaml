@@ -1,0 +1,36 @@
+- id: casablanca-schedule-4-2-1-a-iii
+  document: ctl-notice-casablanca-2026-08
+  clause: Schedule 4 Paragraph 2.1 (a) (iii)
+  page: 1
+  text: "(a) The Total Debt/EBITDA should be less than: (iii) 2.85x from 1 April 2026 until 31 March 2027"
+  instruments: [INE834U07019, INE834U07027]
+  category: financial
+  metric: Total debt / EBITDA
+  thresholds:
+    - {comparator: "<", value: 2.85, unit: times, applies_from: 2026-04-01, applies_to: 2027-03-31}
+  explanation: >-
+    Total debt must be less than 2.85 times annual operating earnings during this period. The numbering suggests other
+    periods have other limits, which the notice does not quote.
+  notes: The trustee quotes this from the trust deed dated 25 October 2024. The deed has not been retrieved.
+- id: casablanca-schedule-4-2-1-b
+  document: ctl-notice-casablanca-2026-08
+  clause: Schedule 4 Paragraph 2.1 (b)
+  page: 1
+  text: (b) ISCR should not fall below 2x
+  instruments: [INE834U07019, INE834U07027]
+  category: financial
+  metric: Interest service coverage ratio
+  thresholds:
+    - {comparator: ">=", value: 2, unit: times}
+  explanation: Earnings must cover interest payments at least twice over.
+- id: casablanca-schedule-4-2-1-c
+  document: ctl-notice-casablanca-2026-08
+  clause: Schedule 4 Paragraph 2.1 (c)
+  page: 1
+  text: (c) The Debt Service Coverage Ratio should not fall below 1.2x
+  instruments: [INE834U07019, INE834U07027]
+  category: financial
+  metric: Debt service coverage ratio
+  thresholds:
+    - {comparator: ">=", value: 1.2, unit: times}
+  explanation: Earnings must cover interest and principal falling due at least 1.2 times over.

@@ -1,0 +1,605 @@
+# Every file the dataset cites. Each record identifies one exact file by its SHA-256.
+
+- id: sebi-mc-dt-2026-09-28
+  source: sebi
+  type: regulatory_circular
+  title: Master Circular for Debenture Trustees (HO/17/11/12(2)2026-DDHS-POD1/I/22420/2026, September 28, 2026)
+  url: https://www.sebi.gov.in/sebi_data/attachdocs/sep-2026/1790593347737.pdf
+  retrieved_at: 2026-11-03 07:53:40+00:00
+  sha256: 4a8ce13addf1c5f9fb4dba3c7ab3e3a3e82660f2ae2906477b121b60b7e308f9
+  size_bytes: 1683472
+  media_type: application/pdf
+  pages: 126
+  dates:
+  - kind: published
+    value: 2026-09-28
+    basis: http_last_modified
+  - kind: dated
+    value: 2026-09-28
+    basis: stated_in_document
+- id: sebi-circ-dt-sbu-2026-10-27
+  source: sebi
+  type: regulatory_circular
+  title: Extension of timeline for compliance with terms and conditions by Debenture Trustees for carrying out activities
+    outside the purview of SEBI (October 27, 2026)
+  url: https://www.sebi.gov.in/sebi_data/attachdocs/oct-2026/1793167964839.pdf
+  landing_page: https://www.sebi.gov.in/legal/circulars/oct-2026/extension-of-timeline-for-compliance-with-terms-and-conditions-by-debenture-trustees-dts-for-carrying-out-activities-outside-the-purview-of-sebi_105454.html
+  retrieved_at: 2026-11-03 07:53:46+00:00
+  sha256: 2e89e8d6d2ad4017e06808259d8a5f8c5cb192c39130af05c26de711b6394e6b
+  size_bytes: 384214
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-10-28
+    basis: http_last_modified
+  - kind: dated
+    value: 2026-10-27
+    basis: stated_in_document
+- id: sebi-pr-bond-central-2025-02-27
+  source: sebi
+  type: other
+  title: 'Press release: Launch of ''Bond Central'' - A Centralised Database Portal for Corporate Bonds (February
+    27, 2025)'
+  url: https://www.sebi.gov.in/sebi_data/attachdocs/feb-2025/1740725985493.pdf
+  landing_page: https://www.sebi.gov.in/media-and-notifications/press-releases/feb-2025/launch-of-bond-central-a-centralised-database-portal-for-corporate-bonds_92306.html
+  retrieved_at: 2026-11-03 07:53:51+00:00
+  sha256: d9a42b093479792c3429525ee87ae75149931641bfd413538ffdcbc8be14e239
+  size_bytes: 260702
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2025-02-28
+    basis: http_last_modified
+  - kind: dated
+    value: 2025-02-27
+    basis: stated_in_document
+- id: ctl-t5-2026-06
+  source: catalyst-trusteeship
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants/terms of the issue, if any action taken by debenture
+    trustee for Quarter ended 30-June-2026
+  url: https://catalysttrustee.com/wp-content/uploads/2026/09/Breach-of-covenant-SEBI-_June-2026.pdf
+  landing_page: https://catalysttrustee.com/status-of-information-regarding-breach-of-covenants-terms-of-the-issue/
+  retrieved_at: 2026-11-03 07:54:09+00:00
+  sha256: 0c3f251a93d606f993f198476fad1b50edcd407b0fe9a575688cf8ca7d0d20aa
+  size_bytes: 114377
+  media_type: application/pdf
+  pages: 5
+  dates:
+  - kind: published
+    value: 2026-09-13
+    basis: http_last_modified
+  period: &id001
+    start: 2026-04-01
+    end: 2026-06-30
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: axis-t5-2026-06-v20260814
+  source: axis-trustee
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants/terms of the issue as on 14th August, 2026 for quarter
+    ending June 30, 2026
+  url: https://www.axistrustee.in/images/pdf/investor/Status%20of%20breach%20of%20covenants%20or%20terms%20of%20the%20issue%20if%20any%20action%20taken%20by%20DT_Q1%20FY%2026-27_14.08.2026.pdf
+  landing_page: https://www.axistrustee.in/investor-info
+  retrieved_at: 2026-11-03 07:54:15+00:00
+  sha256: 4dca1f6248f4de19a5e4552b37dbed9a9e781812feaf286efa90632e4bf82b00
+  size_bytes: 301858
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-09-10
+    basis: http_last_modified
+  period: *id001
+  as_of: 2026-08-14
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: axis-t5-2026-06-v20260916
+  source: axis-trustee
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants/terms of the issue as on 16th September, 2026 for quarter
+    ending June 30, 2026
+  url: https://www.axistrustee.in/images/pdf/investor/Status%20of%20breach%20of%20covenants%20or%20terms%20of%20the%20issue%20if%20any%20action%20taken%20by%20DT%20Q1%20FY%2026-27_16.09.2026.pdf
+  landing_page: https://www.axistrustee.in/investor-info
+  retrieved_at: 2026-11-03 07:54:20+00:00
+  sha256: ddccdfd412d630a18fc3434a3a1c5e25be2e6fe64b972115bd91236991a57dde
+  size_bytes: 304637
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-09-30
+    basis: http_last_modified
+  period: *id001
+  as_of: 2026-09-16
+  supersedes:
+  - axis-t5-2026-06-v20260814
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: axis-t5-2026-09-v20261029
+  source: axis-trustee
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants/terms of the issue as of 29th October, 2026
+  url: https://www.axistrustee.in/images/pdf/investor/Status%20of%20breach%20of%20covenants%20or%20terms%20of%20the%20issue%20if%20any%20action%20taken%20by%20DT_Q2_FY26_27_29.10.2026.pdf
+  landing_page: https://www.axistrustee.in/investor-info
+  retrieved_at: 2026-11-03 07:54:25+00:00
+  sha256: ef2f698afde51daffcef0eeb8b2b56b56f623c07f4170e911e688824e617e172
+  size_bytes: 203935
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-10-29
+    basis: http_last_modified
+  period:
+    start: 2026-07-01
+    end: 2026-09-30
+  as_of: 2026-10-29
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: mitcon-t5-2026-06
+  source: mitcon-credentia
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants/terms of the issue, if any action taken by debenture
+    trustee as on 30th June, 2026
+  url: https://mitconcredentia.in/assets/doc/Breach-of-Covenants-as-on-30-June-2026.pdf
+  landing_page: https://mitconcredentia.in/SEBI_compliance_by_debenture_trustee.php
+  retrieved_at: 2026-11-03 07:54:33+00:00
+  sha256: 19a86c6b6095c0227ed9a8920467f96f2373a0e1a257464f6fc473285e22a625
+  size_bytes: 529910
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-10-19
+    basis: http_last_modified
+  - kind: signed
+    value: 2026-09-12
+    basis: stated_in_document
+  period: *id001
+  as_of: 2026-06-30
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: vistra-t5-2026-06
+  source: vistra-itcl
+  type: trustee_breach_status_report
+  title: Breach of Covenants - June 2026
+  url: https://www.vistraitcl.com/sites/default/files/Final%20Breach%20of%20Covenants__Jun%202026.pdf
+  landing_page: https://www.vistraitcl.com/regulatory-disclosures
+  retrieved_at: 2026-11-03 07:54:43+00:00
+  sha256: 9a714dfb5f67f9b5ebcb5ca9f52386cf2f0ebaa7936669ae2b78851edfacfaaf
+  size_bytes: 552589
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-09-11
+    basis: http_last_modified
+  period: *id001
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: idbi-t5-2026-06
+  source: idbi-trusteeship
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants if any action taken by debenture trustee 30 June, 2026
+  url: https://idbitrustee.com/wp-content/uploads/2026/09/Status%20of%20information%20regarding%20breach%20of%20covenants%20if%20any%20action%20taken%20by%20debenture%20trustee%2030%20June%2C%202026.pdf
+  landing_page: https://idbitrustee.com/status-of-information-regarding-breach-of-covenants/
+  retrieved_at: 2026-11-03 07:54:50+00:00
+  sha256: c56ea81b8e810a27c982330de35b985c8db48a516be73d70377c3520030896df
+  size_bytes: 522868
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-09-15
+    basis: http_last_modified
+  period: *id001
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: icra-krcl-139196
+  source: icra
+  type: rating_rationale
+  title: 'ICRA rating rationale: Konkan Railway Corporation Limited (document id 139196)'
+  url: https://www.icra.in/Rating/GetRationalReportFilePdf?id=139196
+  retrieved_at: 2026-11-04 12:29:37+00:00
+  sha256: dc868c02cd1f2d31a6811119491a4774f7100fb7a6ac4c7f09cf858877d017b7
+  size_bytes: 532017
+  media_type: application/pdf
+  pages: 7
+- id: aye-walco-outcome-2025-09-02
+  source: aye-finance-web
+  type: issuer_filing
+  title: 'Aye Finance: Outcome of WALCO meeting, 2 September 2025'
+  url: https://dlryl1dmmgapd.cloudfront.net/documents/disclosures/material-events-disclosures/AYE_Outcome-of-WALCO_02.09.2025.pdf
+  retrieved_at: 2026-11-04 12:29:49+00:00
+  sha256: 6a6d21d3ada6164ac6c582b665f4592d3e1565b73066bd282487071e69d148b3
+  size_bytes: 994840
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2025-11-28
+    basis: http_last_modified
+- id: ctl-notice-aye-ine501x07588-2026-09
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notice and agenda: breach of covenant, Aye Finance, INE501X07588'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/09/Notice-and-Agenda_Breach-of-covenant_INE501X07588.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:34:18+00:00
+  sha256: 252ac7b573d6b3bd9fa4aa9a804fe82b2a482794312a2c8a714808fc1273bf58
+  size_bytes: 625030
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-09-30
+    basis: http_last_modified
+- id: ctl-notice-aye-ine501x07570-2026-05
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notice and agenda: breach of covenants, Aye Finance, INE501X07570'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/05/Notice-and-Agenda_Breach-of-Covenants_INE501X07570.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:34:25+00:00
+  sha256: c1faed432d8c7217091ce3a949bdb33d9223f31f1a5ab6cc8a573729ebd0b941
+  size_bytes: 134074
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-05-06
+    basis: http_last_modified
+- id: ctl-notice-aye-2026-10
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notice: Aye Finance Limited (October 2026)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/10/Aye-Finance-Limited.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:34:33+00:00
+  sha256: 3ad9d61c2317fd1ad1a1e33fbfbd21fc3bfbfc7a223ae18c0504f7453af32a17
+  size_bytes: 625098
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-10-26
+    basis: http_last_modified
+- id: ctl-notice-casablanca-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Casablanca Industries Private Limited (August 2026)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/ilovepdf_merged-13.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:34:41+00:00
+  sha256: e2dabbbd21d0b75013a1338fd5724587b1b5c194518df06a3d317c4283b2542d
+  size_bytes: 543350
+  media_type: application/pdf
+  pages: 6
+  dates:
+  - kind: published
+    value: 2026-08-24
+    basis: http_last_modified
+- id: ctl-notice-convenient-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notice and agenda: breach of covenant, Convenient Hospitals, INE01W207017'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/Notice-and-Agenda_Breach-of-covenant_INE01W207017.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:34:48+00:00
+  sha256: 28c62264c812e00374a98016ae494ce1e30f30d6c86d0fb2b762ad89087e0c3e
+  size_bytes: 672219
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-08-24
+    basis: http_last_modified
+- id: ctl-notice-akara-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Akara Capital Advisors Private Limited (August 2026)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/ilovepdf_merged-15.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:34:56+00:00
+  sha256: 55f8b36a838f1634bacb2c060a82972fcdfae00df67b13be099aca746a0b2b43
+  size_bytes: 616961
+  media_type: application/pdf
+  pages: 6
+  dates:
+  - kind: published
+    value: 2026-08-24
+    basis: http_last_modified
+- id: idbi-notice-konkan-2026-09
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: breach of covenant, Konkan Railway Corporation Limited, INE139F07105'
+  url: https://idbitrustee.com/wp-content/uploads/2026/08/Press%20Release%20of%20Konkan%2009092026.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:35:04+00:00
+  sha256: 6cf15eeff982470b6d96d279e6569da2566b6c34467902810350847216e33261
+  size_bytes: 1082437
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-08-14
+    basis: http_last_modified
+- id: idbi-notice-konkan-2026-05
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: breach of covenant, Konkan Railway Corporation Limited (May
+    2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/05/Press%20Release%20%26%20Notice%20-%20Breach%20of%20Covenant%20-Konkan%20Railway%20Corporation%20Limited%20-%20May%20%2C%202026.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:35:11+00:00
+  sha256: 59a0b1294de1ed3f7eb5650aaa05b4318b1fdaa584ff7ae95f0df697e2eb4a39
+  size_bytes: 787204
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-05-27
+    basis: http_last_modified
+- id: idbi-notice-belstar-2026-07
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: breach of covenant, Belstar Microfinance Limited, INE443L08131
+    (July 2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/07/Press%20release_.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:35:18+00:00
+  sha256: 0fa1949e4b10e30f99dacc9f49c903a322dc898d4fb097b9d9f06fc609ea565c
+  size_bytes: 686531
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-07-28
+    basis: http_last_modified
+- id: idbi-notice-dvara-2026-08
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship notice: breach of covenant, Dvara Kshetriya Gramin Financial Services (August 2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/08/Dvara%20Covenant%20breach%20notice.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:35:26+00:00
+  sha256: 8cedff899c8735fe492a4ac4349582235e2d3a75f23f763d2a3cc695b1f512d9
+  size_bytes: 1140632
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-08-14
+    basis: http_last_modified
+- id: ctl-notice-pahal-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Pahal Financial Services Private Limited (June 2026 quarter)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/09/BOC_PFSL_June-2026.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:37:10+00:00
+  sha256: 4ac886d3612b9545d71b2f650874d92fc952809d0a81a82dadf869dc322d5793
+  size_bytes: 4400374
+  media_type: application/pdf
+  pages: 35
+  dates:
+  - kind: published
+    value: 2026-09-29
+    basis: http_last_modified
+- id: ctl-notice-satya-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Satya Microcapital Limited (August 2026)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/ilovepdf_merged-15-1.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:37:18+00:00
+  sha256: 95c6de32580c20f463dbf0a2f99df9ff1547efef88f245841ca4c1f59a8d1403
+  size_bytes: 1660444
+  media_type: application/pdf
+  pages: 19
+  dates:
+  - kind: published
+    value: 2026-08-24
+    basis: http_last_modified
+- id: ctl-notice-samunnati-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Samunnati Finance Private Limited (August 2026)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/ilovepdf_merged-13-1.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:37:25+00:00
+  sha256: 055dcd72794bfc54fd3cf5099e9c916085961f3c060f1a0d1c64f8690028f5c3
+  size_bytes: 745073
+  media_type: application/pdf
+  pages: 9
+  dates:
+  - kind: published
+    value: 2026-08-24
+    basis: http_last_modified
+- id: ctl-notice-light-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Light Microfinance Private Limited (June 2026 quarter)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/Light-Microfinance-Pvt-Ltd_June-2026.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:37:34+00:00
+  sha256: a1eb991b36a578fde753fbb34cd0d273b47a59ce04fe08ab4a6d4944167d87c5
+  size_bytes: 1485162
+  media_type: application/pdf
+  pages: 12
+  dates:
+  - kind: published
+    value: 2026-08-25
+    basis: http_last_modified
+- id: ctl-notice-neogrowth-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Neogrowth Credit Private Limited (June 2026 quarter)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/08/Neogrowth-Credit-Private-Limited_June-2026.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:37:41+00:00
+  sha256: 86e9f7d4c8d02a8b44c44eab10360df3bf106db73b4ff8f2f65270527b3c01c5
+  size_bytes: 551801
+  media_type: application/pdf
+  pages: 6
+  dates:
+  - kind: published
+    value: 2026-08-25
+    basis: http_last_modified
+- id: ctl-notice-dvara-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Dvara Kshetriya Gramin Financial Services Private Limited (June 2026 quarter)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/09/BOC_Dvara-Shetriya.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:37:55+00:00
+  sha256: d172f28c880e2f1f3e5efe63d9faf85d47e95a281d985f278293fbc7be793d3f
+  size_bytes: 7057489
+  media_type: application/pdf
+  pages: 41
+  dates:
+  - kind: published
+    value: 2026-09-29
+    basis: http_last_modified
+- id: ctl-notice-infinity-2026-08
+  source: catalyst-trusteeship
+  type: trustee_press_release
+  title: 'Catalyst notices: Infinity Fincorp Solutions Private Limited (June 2026 quarter)'
+  url: https://catalysttrustee.com/wp-content/uploads/2026/09/BOC_Infinty-2.pdf
+  landing_page: https://catalysttrustee.com/breach-of-covenants/
+  retrieved_at: 2026-11-04 12:38:02+00:00
+  sha256: f87669110fce5a0fe297ea43d10e5c5d9a3d2d64ab83559efc5ff817ffae33f3
+  size_bytes: 905592
+  media_type: application/pdf
+  pages: 8
+  dates:
+  - kind: published
+    value: 2026-09-29
+    basis: http_last_modified
+- id: idbi-notice-aliens-2026-09b
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: breach of covenant, Aliens Developers Private Limited (September
+    2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/09/Press%20release__.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:38:10+00:00
+  sha256: 1743b38e44777f57bbb17657b747111321ba6810bc77ca4701339cf66e4ce631
+  size_bytes: 683611
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-09-01
+    basis: http_last_modified
+- id: idbi-notice-mecl-2026-08
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship notice to debenture holders: Meghalaya Energy Corporation Limited (August 2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/08/Notice%20to%20DH%20MECL.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:38:17+00:00
+  sha256: f66dda077ca4ff1013748585e963c5031948e69f2779f9bf5433c91710ee03f7
+  size_bytes: 835853
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-08-24
+    basis: http_last_modified
+- id: idbi-notice-pidb-2026-08
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: Punjab Infrastructure Development Board (August 2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/08/Press%20Release%20%26%20Notice%20PIDB.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:38:24+00:00
+  sha256: c54a9fe3d32a41ac3c9c8d4054676bf505ec5df15d7a900cdad70449446117e0
+  size_bytes: 617593
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-08-21
+    basis: http_last_modified
+- id: idbi-notice-emami-2026-09
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: Emami Frank Ross Limited, INE711X07062 (September 2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/09/Press%20release_.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:38:31+00:00
+  sha256: 6538635cc11c5b601b389de0ce46254e1b7d0a0611001164cb71404f4f904fa9
+  size_bytes: 685619
+  media_type: application/pdf
+  pages: 2
+  dates:
+  - kind: published
+    value: 2026-09-16
+    basis: http_last_modified
+- id: idbi-notice-pvp-2026-06
+  source: idbi-trusteeship
+  type: trustee_press_release
+  title: 'IDBI Trusteeship press release and notice: PVP Ventures Limited (June 2026)'
+  url: https://idbitrustee.com/wp-content/uploads/2026/06/Press%20Release%20and%20Notice%20-%20PVP%20Ventures.pdf
+  landing_page: https://idbitrustee.com/media/breach-of-covenant/
+  retrieved_at: 2026-11-04 12:38:38+00:00
+  sha256: 7551b7532126b081cd143f2176bfc6ca5e2045763f6167077aa6abe3b7488029
+  size_bytes: 671499
+  media_type: application/pdf
+  pages: 3
+  dates:
+  - kind: published
+    value: 2026-06-17
+    basis: http_last_modified
+- id: mitcon-press-ramasigns-2026-08-14
+  source: mitcon-credentia
+  type: trustee_press_release
+  title: 'MITCON Credentia press release: Ramasigns Industries Limited (14 August 2026)'
+  url: https://www.mitconcredentia.in/assets/doc/Press-Release-Ramasings-Industries-Limited-14-Aug-2026.pdf
+  landing_page: https://mitconcredentia.in/Default-Cases.php
+  retrieved_at: 2026-11-04 12:39:09+00:00
+  sha256: 74271e98f20f045109212c10d66d7ec46e0f2a6d5d3faf703faf8af80030c6e4
+  size_bytes: 1021985
+  media_type: application/pdf
+  pages: 23
+  dates:
+  - kind: published
+    value: 2026-08-14
+    basis: http_last_modified
+- id: beacon-t5-2026-06
+  source: beacon-trusteeship
+  type: trustee_breach_status_report
+  title: Status of information regarding breach of covenants/terms of the issue, if any action taken by debenture
+    trustee (Q1 FY 2026-27)
+  url: https://beacontrustee.co.in/wp-content/uploads/2026/09/8508_20260913195119_tab05_20260630a.pdf
+  landing_page: https://beacontrustee.co.in/disclosure
+  retrieved_at: 2026-11-04 12:46:26+00:00
+  sha256: 94521524a1ff42513c3784ffba8eb00a33d317141adb1883d660c6aa288d3788
+  size_bytes: 182868
+  media_type: application/pdf
+  pages: 1
+  dates:
+  - kind: published
+    value: 2026-09-13
+    basis: http_last_modified
+  - kind: published
+    value: 2026-09-13
+    basis: listing_page
+  period:
+    start: 2026-04-01
+    end: 2026-06-30
+  as_of: 2026-06-30
+  regulatory_basis: SEBI Master Circular for Debenture Trustees, Chapter VII, Annex-VIIA Table 5
+- id: dvara-reg54-2026-02-11
+  source: dvara-kgfs-web
+  type: issuer_filing
+  title: 'Dvara KGFS: disclosure under Regulation 54 with auditor''s report and statement of covenant compliance,
+    period ended 31 December 2025'
+  url: https://www.dvarakgfs.com/uploads/investors/pdf/pdf_177131597711.pdf
+  landing_page: https://www.dvarakgfs.com/disclosures-under-regulation-62
+  retrieved_at: 2026-11-04 12:57:07+00:00
+  sha256: 43f296e095aababd6a64dce31ee9d18477804d3b0dc17a82ca1df6e1bcda67ca
+  size_bytes: 7590139
+  media_type: application/pdf
+  pages: 8
+  dates:
+  - kind: published
+    value: 2026-02-17
+    basis: http_last_modified

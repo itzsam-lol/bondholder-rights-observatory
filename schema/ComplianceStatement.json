@@ -1,0 +1,150 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A verifiable pointer into a document the pipeline has retrieved and hashed.",
+      "properties": {
+        "document": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Document",
+          "type": "string"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-readable position, e.g. \"Table 5, Sr. No. 4\"",
+          "title": "Locator"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based page of the file, not the printed folio",
+          "title": "Page"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "visual_fallback": {
+          "default": false,
+          "description": "The words are visible on the rendered page but may be absent from the file's text layer",
+          "title": "Visual Fallback",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "format": "date",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Period",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "An explicit statement, for stated instruments and a stated period, about covenant compliance.",
+  "properties": {
+    "breach_stated": {
+      "title": "Breach Stated",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "instruments": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Instruments",
+      "type": "array"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "period": {
+      "$ref": "#/$defs/Period"
+    },
+    "stated_by": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Stated By",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "instruments",
+    "period",
+    "stated_by",
+    "breach_stated",
+    "evidence"
+  ],
+  "title": "ComplianceStatement",
+  "type": "object"
+}

@@ -1,0 +1,149 @@
+{
+  "$defs": {
+    "Confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "DocumentRole": {
+      "description": "What a document is for, relative to one instrument.",
+      "enum": [
+        "offer_document",
+        "trust_deed",
+        "amendment",
+        "listing",
+        "monitoring",
+        "other"
+      ],
+      "title": "DocumentRole",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A verifiable pointer into a document the pipeline has retrieved and hashed.",
+      "properties": {
+        "document": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Document",
+          "type": "string"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-readable position, e.g. \"Table 5, Sr. No. 4\"",
+          "title": "Locator"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based page of the file, not the printed folio",
+          "title": "Page"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "visual_fallback": {
+          "default": false,
+          "description": "The words are visible on the rendered page but may be absent from the file's text layer",
+          "title": "Visual Fallback",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "LinkBasis": {
+      "description": "Why a document or statement is attached to a particular ISIN.",
+      "enum": [
+        "isin_in_document",
+        "exchange_notice",
+        "trustee_report",
+        "attribute_match"
+      ],
+      "title": "LinkBasis",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Attaches a document to an instrument, stating why the link holds.",
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/LinkBasis"
+    },
+    "confidence": {
+      "$ref": "#/$defs/Confidence"
+    },
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "role": {
+      "$ref": "#/$defs/DocumentRole"
+    }
+  },
+  "required": [
+    "document",
+    "role",
+    "basis",
+    "confidence",
+    "evidence"
+  ],
+  "title": "DocumentLink",
+  "type": "object"
+}

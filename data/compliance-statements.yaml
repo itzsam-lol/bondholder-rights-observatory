@@ -1,0 +1,33 @@
+# Explicit statements about covenant compliance for stated instruments and a stated period.
+# A statement belongs to whoever made it; the project does not adopt it.
+
+- id: dvara-2025-12-exceptions
+  instruments: [INE179P07464, INE179P07530, INE179P07332, INE179P07605, INE179P08082, INE179P08074, INE179P07548]
+  period: {start: 2025-10-01, end: 2025-12-31}
+  stated_by: dvara-kgfs-web
+  breach_stated: true
+  evidence:
+    - document: dvara-reg54-2026-02-11
+      page: 8
+      quote: The company has complied with all the covenants in respect of listed non-convertible debentures
+      locator: Annexure II
+      visual_fallback: true
+  note: >-
+    The issuer's annexure lists these ISINs as exceptions, each with the covenant, its required level and the level at 31
+    December 2025. The filing also lists three identifiers beginning INIFD, which are outside this dataset.
+
+- id: dvara-2025-12-complied
+  instruments: [INE179P07597, INE179P07589]
+  period: {start: 2025-10-01, end: 2025-12-31}
+  stated_by: dvara-kgfs-web
+  breach_stated: false
+  evidence:
+    - document: dvara-reg54-2026-02-11
+      page: 8
+      quote: The company has complied with all the covenants in respect of listed non-convertible debentures
+      locator: Annexure II
+      visual_fallback: true
+  note: >-
+    Covered by exclusion: the annexure says all covenants of listed debentures were complied with except those it lists, and
+    these ISINs are not listed. They are included because their trust deeds pre-date the period. This is the issuer's
+    statement, and for INE179P07589 see discrepancy dvara-roa-exception-list.

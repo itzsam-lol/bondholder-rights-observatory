@@ -1,0 +1,14 @@
+isin: INE501X07620
+issuer: aye-finance
+documents:
+  - document: aye-walco-outcome-2025-09-02
+    role: amendment
+    basis: isin_in_document
+    confidence: high
+    evidence:
+      - document: aye-walco-outcome-2025-09-02
+        page: 1
+        quote: having ISIN INE501X07620
+notes: >-
+  Included because the issuer's filing states the existing and revised text of one covenant. No document reviewed names
+  this ISIN's debenture trustee, so whether any trustee report covers it has not been assessed.

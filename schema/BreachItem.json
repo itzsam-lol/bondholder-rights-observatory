@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "Agreement": {
+      "description": "Whether a covenant as reported agrees with the contractual text.",
+      "enum": [
+        "consistent",
+        "differs",
+        "not_comparable"
+      ],
+      "title": "Agreement",
+      "type": "string"
+    },
+    "CovenantCategory": {
+      "description": "Covenant categories of the SEBI guidance note on covenants.\n\nSource: Master Circular for Debenture Trustees (28 September 2026),\nChapter VI, Annex-VIA \"Guidance note on list of Covenants\". ``OTHER`` is used\nfor undertakings outside that list, such as reporting obligations or\nconditions subsequent; the document's own heading is kept separately.",
+      "enum": [
+        "accounts_funds_reserves",
+        "financial",
+        "affirmative",
+        "credit_rating",
+        "negative",
+        "default",
+        "other"
+      ],
+      "title": "CovenantCategory",
+      "type": "string"
+    },
+    "CovenantSpecificity": {
+      "description": "How much of the contractual term a breach report itself prints.",
+      "enum": [
+        "clause_text",
+        "requirement_and_actual",
+        "clause_number_only",
+        "description_only"
+      ],
+      "title": "CovenantSpecificity",
+      "type": "string"
+    },
+    "ProvisionLink": {
+      "additionalProperties": false,
+      "description": "Connects a reported breach to the contract clause it concerns (project analysis).",
+      "properties": {
+        "agreement": {
+          "$ref": "#/$defs/Agreement"
+        },
+        "basis": {
+          "$ref": "#/$defs/ProvisionLinkBasis"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "provision": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Provision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provision",
+        "basis",
+        "agreement"
+      ],
+      "title": "ProvisionLink",
+      "type": "object"
+    },
+    "ProvisionLinkBasis": {
+      "description": "How a reported breach was connected to a contractual provision.",
+      "enum": [
+        "clause_reference",
+        "text_match",
+        "metric_match"
+      ],
+      "title": "ProvisionLinkBasis",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One covenant cell of a breach report row, with the ISINs printed beside it.",
+  "properties": {
+    "assignment_uncertain": {
+      "default": false,
+      "description": "Which issuer or row these ISINs belong to depends on reading merged table cells",
+      "title": "Assignment Uncertain",
+      "type": "boolean"
+    },
+    "category": {
+      "$ref": "#/$defs/CovenantCategory"
+    },
+    "clause_reference_as_reported": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clause Reference As Reported"
+    },
+    "covenant_as_reported": {
+      "maxLength": 800,
+      "minLength": 3,
+      "title": "Covenant As Reported",
+      "type": "string"
+    },
+    "isins": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Isins",
+      "type": "array"
+    },
+    "levels_stated": {
+      "description": "Every percentage, multiple and crore amount printed in the whole cell",
+      "items": {
+        "type": "string"
+      },
+      "title": "Levels Stated",
+      "type": "array"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "provisions": {
+      "items": {
+        "$ref": "#/$defs/ProvisionLink"
+      },
+      "title": "Provisions",
+      "type": "array"
+    },
+    "specificity": {
+      "$ref": "#/$defs/CovenantSpecificity"
+    },
+    "truncated": {
+      "default": false,
+      "description": "The cell continues in the source beyond this quotation",
+      "title": "Truncated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "isins",
+    "covenant_as_reported",
+    "page",
+    "category",
+    "specificity"
+  ],
+  "title": "BreachItem",
+  "type": "object"
+}

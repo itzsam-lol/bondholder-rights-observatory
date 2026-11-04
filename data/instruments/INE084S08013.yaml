@@ -1,0 +1,11 @@
+isin: INE084S08013
+issuer: vr-dakshin
+claims:
+- property: debenture_trustee
+  value: idbi-trusteeship
+  asserted_by: idbi-trusteeship
+  evidence:
+  - document: idbi-t5-2026-06
+    page: 1
+    quote: INE084S08013
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

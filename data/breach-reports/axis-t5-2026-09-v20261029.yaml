@@ -1,0 +1,149 @@
+document: axis-t5-2026-09-v20261029
+trustee: axis-trustee
+period:
+  start: 2026-07-01
+  end: 2026-09-30
+extraction_complete: true
+visually_reviewed: true
+printed_notes:
+- page: 1
+  text: there is ongoing default/insolvency/liquidation/litigation matters. Thus, no information/confirmation is
+    received from the Issuer companies.
+notes: The report is dated as of 29 October 2026 and its file name labels it Q2 FY26-27, but it prints no reporting
+  period of its own. Its rows are labelled [Q1 FY 26-27] and [Q2 FY 26-27], the latter on a breach dated 26 October
+  2026, after the September quarter closed. On 3 November 2026 the listing pages of the other four trustees reviewed
+  showed no September 2026 quarter report.
+rows:
+- row: '1'
+  page: 1
+  issuer_name_as_reported: Akara Capital Advisors Private Limited
+  issuer: akara-capital-advisors
+  items:
+  - isins:
+    - INE08XP07274
+    page: 1
+    category: financial
+    specificity: description_only
+    covenant_as_reported: 1. Breach of maximum permissible ratio of "Total Financial Indebtness:Tangible Net worth"
+      as prescribed in the Key Information Document 2. Breach of maximum
+    truncated: true
+  security_enforcement_as_reported: Secured Assets
+  actual_breach:
+    raw: 13-08-2026 [Q1 FY 26-27]
+    value: 2026-08-13
+    note: Printed with a label assigning the breach to the June 2026 quarter.
+  detected:
+    raw: 14-08-2026
+    value: 2026-08-14
+  intimation_as_reported: First Intimation on 14-08-26
+  intimations:
+  - recipients:
+    - unspecified
+    dated: 2026-08-14
+  delay_in_detection_as_reported: Nil
+  delay_in_intimation_as_reported: Nil
+  delay_reasons_as_reported: Nil
+  further_action_as_reported: Waiver has been received pursuant to the Debenture Holders’ Meeting held on September
+    16, 2026.
+  actions:
+  - kind: holders_meeting_held
+    dated: 2026-09-16
+  - kind: waiver_reported
+    dated: 2026-09-16
+  carried_over_from: 2026-06-30
+- row: '2'
+  page: 1
+  issuer_name_as_reported: Aegis Vopak Terminals Limited
+  issuer: aegis-vopak-terminals
+  items:
+  - isins:
+    - INE0INX07015
+    - INE0INX07023
+    page: 1
+    category: negative
+    specificity: description_only
+    covenant_as_reported: 1. Restricted Payments, comprising payment of final dividend and repayment of unsecured
+      shareholder loan (ECB). 2. Borrowings of approximately ₹420 crore
+    levels_stated:
+    - 420crore
+    truncated: true
+  security_enforcement_as_reported: Secured Assets
+  actual_breach:
+    raw: 26-10-2026 [Q2 FY 26-27]
+    value: 2026-10-26
+    note: Printed with a label assigning the breach to the September 2026 quarter, though the date falls after it.
+  detected:
+    raw: 26-10-2026
+    value: 2026-10-26
+  intimation_as_reported: To Debenture Holders - 28.10.2026 To SEBI, CRA, SE - 29.10.2026 (Intimation of breach
+    of covenant and waiver received from all the Debenture Holders)
+  intimations:
+  - recipients:
+    - debenture_holders
+    dated: 2026-10-28
+  - recipients:
+    - sebi
+    - credit_rating_agency
+    - stock_exchange
+    dated: 2026-10-29
+  delay_in_detection_as_reported: Nil
+  delay_in_intimation_as_reported: Nil
+  delay_reasons_as_reported: Nil
+  further_action_as_reported: Waiver has been received pursuant to email communication from all debenture holders
+    on October 28, 2026.
+  actions:
+  - kind: waiver_reported
+    dated: 2026-10-28
+no_information:
+- page: 1
+  issuer_name_as_reported: ABG Shipyard Limited
+- page: 1
+  issuer_name_as_reported: Aviom India Housing Finance Private Limited
+- page: 1
+  issuer_name_as_reported: Beeta Infocom Private Limited
+- page: 1
+  issuer_name_as_reported: Coxs & Kings Limited
+- page: 1
+  issuer_name_as_reported: Core Education and Technologies Limited
+- page: 1
+  issuer_name_as_reported: Educomp Solutions Limited
+- page: 1
+  issuer_name_as_reported: Elder Pharmaceuticals Limited
+- page: 1
+  issuer_name_as_reported: Era Infra Engineering Limited
+- page: 1
+  issuer_name_as_reported: First Leasing Company Of India Limited
+- page: 1
+  issuer_name_as_reported: Fortis Healthcare Holdings Private Limited
+- page: 1
+  issuer_name_as_reported: Future Enterprises Limited
+- page: 1
+  issuer_name_as_reported: Gammon India Limited
+- page: 1
+  issuer_name_as_reported: Gitanjali Gems Limited
+- page: 1
+  issuer_name_as_reported: Gujarat NRE Coke Limited
+- page: 1
+  issuer_name_as_reported: Jaiprakash Associates Limited
+- page: 1
+  issuer_name_as_reported: Jaypee Infratech Limited
+- page: 1
+  issuer_name_as_reported: Lavasa Corporation Limited
+- page: 1
+  issuer_name_as_reported: Parsvnath Landmark Developers Private Limited
+- page: 1
+  issuer_name_as_reported: Reliance Communications Limited
+- page: 1
+  issuer_name_as_reported: Rajesh Estates and Niman Private Limited
+- page: 1
+  issuer_name_as_reported: Saha Estate Developers Private Limited
+- page: 1
+  issuer_name_as_reported: Shree Ganesh Jewellery House Limited
+- page: 1
+  issuer_name_as_reported: Talwalkars Better Value Fitness Limited
+- page: 1
+  issuer_name_as_reported: Talwalkars Healthclubs Limited
+- page: 1
+  issuer_name_as_reported: Tulip Telecom Limited
+- page: 1
+  issuer_name_as_reported: Viceroy Hotels Limited

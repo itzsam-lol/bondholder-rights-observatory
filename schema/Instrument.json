@@ -1,0 +1,331 @@
+{
+  "$defs": {
+    "Claim": {
+      "additionalProperties": false,
+      "description": "An attributed statement about one attribute of an instrument.\n\nClaims are never overwritten: if two sources disagree, both claims stay and\na discrepancy record explains the disagreement.",
+      "properties": {
+        "as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Of"
+        },
+        "asserted_by": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Asserted By",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "title": "Observations",
+          "type": "array"
+        },
+        "property": {
+          "$ref": "#/$defs/InstrumentProperty"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "property",
+        "value",
+        "asserted_by"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "Confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "DocumentLink": {
+      "additionalProperties": false,
+      "description": "Attaches a document to an instrument, stating why the link holds.",
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/LinkBasis"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "document": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Document",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "role": {
+          "$ref": "#/$defs/DocumentRole"
+        }
+      },
+      "required": [
+        "document",
+        "role",
+        "basis",
+        "confidence",
+        "evidence"
+      ],
+      "title": "DocumentLink",
+      "type": "object"
+    },
+    "DocumentRole": {
+      "description": "What a document is for, relative to one instrument.",
+      "enum": [
+        "offer_document",
+        "trust_deed",
+        "amendment",
+        "listing",
+        "monitoring",
+        "other"
+      ],
+      "title": "DocumentRole",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A verifiable pointer into a document the pipeline has retrieved and hashed.",
+      "properties": {
+        "document": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Document",
+          "type": "string"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-readable position, e.g. \"Table 5, Sr. No. 4\"",
+          "title": "Locator"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based page of the file, not the printed folio",
+          "title": "Page"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "visual_fallback": {
+          "default": false,
+          "description": "The words are visible on the rendered page but may be absent from the file's text layer",
+          "title": "Visual Fallback",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "InstrumentProperty": {
+      "enum": [
+        "debenture_trustee",
+        "allotment_date",
+        "maturity_date",
+        "coupon_rate",
+        "secured",
+        "face_value",
+        "issue_size",
+        "mode_of_issue",
+        "listing_exchange",
+        "series",
+        "credit_rating"
+      ],
+      "title": "InstrumentProperty",
+      "type": "string"
+    },
+    "LinkBasis": {
+      "description": "Why a document or statement is attached to a particular ISIN.",
+      "enum": [
+        "isin_in_document",
+        "exchange_notice",
+        "trustee_report",
+        "attribute_match"
+      ],
+      "title": "LinkBasis",
+      "type": "string"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "description": "A value seen on a page the project may cite but not store.\n\nUsed for link-only sources such as depository databases whose terms forbid\nstoring their content. Observations cannot be re-verified automatically.",
+      "properties": {
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "observed_on": {
+          "format": "date",
+          "title": "Observed On",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "value_seen": {
+          "maxLength": 300,
+          "title": "Value Seen",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "observed_on",
+        "value_seen"
+      ],
+      "title": "Observation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/Claim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "documents": {
+      "items": {
+        "$ref": "#/$defs/DocumentLink"
+      },
+      "title": "Documents",
+      "type": "array"
+    },
+    "isin": {
+      "title": "Isin",
+      "type": "string"
+    },
+    "issuer": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Issuer",
+      "type": "string"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "isin",
+    "issuer"
+  ],
+  "title": "Instrument",
+  "type": "object"
+}

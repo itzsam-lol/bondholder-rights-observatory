@@ -1,0 +1,271 @@
+{
+  "$defs": {
+    "DateBasis": {
+      "description": "How a document date was established.",
+      "enum": [
+        "stated_in_document",
+        "listing_page",
+        "http_last_modified",
+        "file_metadata"
+      ],
+      "title": "DateBasis",
+      "type": "string"
+    },
+    "DocumentDate": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/DateBasis"
+        },
+        "kind": {
+          "$ref": "#/$defs/DocumentDateKind"
+        },
+        "value": {
+          "format": "date",
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "value",
+        "basis"
+      ],
+      "title": "DocumentDate",
+      "type": "object"
+    },
+    "DocumentDateKind": {
+      "enum": [
+        "dated",
+        "signed",
+        "published"
+      ],
+      "title": "DocumentDateKind",
+      "type": "string"
+    },
+    "DocumentType": {
+      "enum": [
+        "regulatory_circular",
+        "debenture_trust_deed",
+        "supplemental_trust_deed",
+        "general_information_document",
+        "key_information_document",
+        "placement_memorandum",
+        "trustee_breach_status_report",
+        "trustee_security_cover_report",
+        "trustee_default_status_report",
+        "trustee_press_release",
+        "exchange_notice",
+        "issuer_filing",
+        "rating_rationale",
+        "other"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "format": "date",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Period",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One specific file. A revised file at the same address is a new document.",
+  "properties": {
+    "as_of": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "\"Status as on\" date printed in a report",
+      "title": "As Of"
+    },
+    "dates": {
+      "items": {
+        "$ref": "#/$defs/DocumentDate"
+      },
+      "title": "Dates",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "landing_page": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Landing Page"
+    },
+    "media_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Media Type"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "pages": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pages"
+    },
+    "period": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Period"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "regulatory_basis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Regulatory Basis"
+    },
+    "retrieved_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Retrieved At"
+    },
+    "retrieved_manually": {
+      "default": false,
+      "description": "Downloaded in a browser, outside the pipeline; see `brdo add-document --from-file`",
+      "title": "Retrieved Manually",
+      "type": "boolean"
+    },
+    "sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sha256"
+    },
+    "size_bytes": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Size Bytes"
+    },
+    "source": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Source",
+      "type": "string"
+    },
+    "supersedes": {
+      "items": {
+        "maxLength": 120,
+        "pattern": "^[a-z0-9][a-z0-9._-]*$",
+        "type": "string"
+      },
+      "title": "Supersedes",
+      "type": "array"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/DocumentType"
+    },
+    "url": {
+      "title": "Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "source",
+    "type",
+    "title",
+    "url"
+  ],
+  "title": "Document",
+  "type": "object"
+}

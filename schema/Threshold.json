@@ -1,0 +1,69 @@
+{
+  "$defs": {
+    "Comparator": {
+      "enum": [
+        "<",
+        "<=",
+        ">",
+        ">="
+      ],
+      "title": "Comparator",
+      "type": "string"
+    },
+    "ThresholdUnit": {
+      "enum": [
+        "percent",
+        "times",
+        "inr"
+      ],
+      "title": "ThresholdUnit",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "applies_from": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Applies From"
+    },
+    "applies_to": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Applies To"
+    },
+    "comparator": {
+      "$ref": "#/$defs/Comparator"
+    },
+    "unit": {
+      "$ref": "#/$defs/ThresholdUnit"
+    },
+    "value": {
+      "title": "Value",
+      "type": "number"
+    }
+  },
+  "required": [
+    "comparator",
+    "value",
+    "unit"
+  ],
+  "title": "Threshold",
+  "type": "object"
+}

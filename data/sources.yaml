@@ -1,0 +1,337 @@
+# Publishers and the project's access and reuse policy for each. See docs/source-policy.md.
+
+- id: sebi
+  name: Securities and Exchange Board of India
+  kind: regulator
+  domains:
+  - sebi.gov.in
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  terms:
+    reviewed_on: 2026-11-03
+    urls:
+    - https://www.sebi.gov.in/website-policy.html
+    - https://www.sebi.gov.in/robots.txt
+    summary: Website policy allows reproduction free of charge only after permission is requested by email, accurately
+      and not in a misleading context. robots.txt disallows only script and style paths. Circulars are cited by
+      link with short quotations; no permission has been sought, so no circular is redistributed.
+- id: bse
+  name: BSE Limited
+  kind: exchange
+  domains:
+  - bseindia.com
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: short_quotation
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://www.bseindia.com/rgess/disclaimer.htm
+    summary: 'BSE''s published disclaimer states that reproduction, redistribution or transmission of information
+      on the website is prohibited. No clause on automated access was found and neither bseindia.com nor bond.bseindia.com
+      serves a robots.txt, but on 2026-11-04 both hosts refused the project''s identified client (an error page
+      on bond.bseindia.com, HTTP 406 on www.bseindia.com) while serving the same files to browsers. The project
+      treats that as an access restriction and does not disguise its client: exchange-hosted documents are downloaded
+      in a browser and ingested by hash with `brdo add-document --from-file`.'
+- id: nse
+  name: National Stock Exchange of India Limited
+  kind: exchange
+  domains:
+  - nseindia.com
+  retrieval: excluded
+  redistribution: no_links
+  excerpts: none
+  terms:
+    reviewed_on: 2026-11-03
+    urls:
+    - https://www.nseindia.com/static/nse-terms-of-use
+    - https://www.nseindia.com/static/hyperlinking-policy
+    summary: Terms of use prohibit "any systematic or automated data collection activities (including scraping,
+      data mining, data extraction and data harvesting)" and storing or republishing content without prior written
+      permission. The hyperlinking policy requires prior written permission before third-party sites link to NSE.
+      The project therefore neither retrieves from nor links to NSE; documents found only on NSE are logged as excluded
+      by policy.
+- id: cdsl
+  name: Central Depository Services (India) Limited
+  kind: depository
+  domains:
+  - cdslindia.com
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: none
+  terms:
+    reviewed_on: 2026-11-03
+    urls:
+    - https://www.cdslindia.com/Footer/CopyRightPolicy.html
+    - https://www.cdslindia.com/Footer/terms-and-condition.html
+    summary: Copyright policy states that no one may copy, download or store the site's content without prior written
+      permission; CDSL does not object to direct links. Its public Corporate Bond Database pages (SEBI's centralised
+      database for corporate bonds) are consulted one page at a time outside the pipeline and cited by link with
+      the single value observed; nothing is stored.
+- id: nsdl
+  name: National Securities Depository Limited
+  kind: depository
+  domains:
+  - nsdl.com
+  - nsdl.co.in
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: none
+  terms:
+    reviewed_on: 2026-11-03
+    urls:
+    - https://nsdl.com/issuer-security-covenant-monitoring
+    summary: Hosts the Security and Covenant Monitoring System, which is accessible only to registered issuers,
+      debenture trustees and credit rating agencies; NSDL's page describes no public view of it. The public India
+      Bond Info portal is a single-page application and is treated as a link-only source consulted outside the pipeline.
+- id: bond-central
+  name: Bond Central (Online Bond Platform Providers Association, with stock exchanges and depositories)
+  kind: market_portal
+  domains:
+  - bondcentral.in
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: none
+  notes: Connections to bondcentral.in (35.207.224.245, ports 80 and 443) were refused from the project's network
+    on 2026-11-03 and 2026-11-04, and from an independent fetching service on 2026-11-03. Its contents and terms
+    have therefore not been assessed; its scope is described only from SEBI's launch press release of 27 February
+    2025.
+- id: catalyst-trusteeship
+  name: Catalyst Trusteeship Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000034
+  domains:
+  - catalysttrustee.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://catalysttrustee.com/robots.txt
+    summary: robots.txt restricts only /wp-admin/. The site prints an all-rights-reserved notice and no terms of
+      use were found; nothing found addresses automated access. The breach status reports state that they are published
+      "for information of Debenture Holders, Other Intermediaries and General Public". Quotations are kept short
+      as a matter of policy.
+- id: axis-trustee
+  name: Axis Trustee Services Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000494
+  domains:
+  - axistrustee.in
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://www.axistrustee.in/copyright.html
+    - https://www.axistrustee.in/robots.txt
+    summary: robots.txt restricts administrative and query paths only, and nothing found addresses automated access.
+      The copyright notice says site materials "may not be reproduced, distributed, transmitted, displayed, or otherwise
+      used without the prior written permission" of the company. The project publishes facts and short identifying
+      quotations with links, relying on fair dealing for research and review; it has not sought permission.
+- id: idbi-trusteeship
+  name: IDBI Trusteeship Services Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000460
+  domains:
+  - idbitrustee.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://idbitrustee.com/disclaimer/
+    - https://idbitrustee.com/robots.txt
+    summary: robots.txt restricts only /wp-admin/, and nothing found addresses automated access. The disclaimer
+      says content "shall not be distributed, modified, transmitted, reused, reported or used for public or commercial
+      purposes" without prior written permission. The project publishes facts and short identifying quotations with
+      links, relying on fair dealing for research and review; it has not sought permission.
+- id: vistra-itcl
+  name: Vistra ITCL (India) Limited
+  kind: debenture_trustee
+  domains:
+  - vistraitcl.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://www.vistraitcl.com/legal-notice
+    - https://www.vistraitcl.com/robots.txt
+    summary: robots.txt sets a crawl delay of 10 seconds, which the fetcher honours. The legal notice allows downloads
+      for non-commercial, private use and says the contents may not be distributed, reused, reported or used "for
+      public or commercial purposes" without written permission. The project publishes facts and short identifying
+      quotations with links, relying on fair dealing for research and review; it has not sought permission.
+  notes: The SEBI register page listing 25 of 26 debenture trustees did not include this entity; the registration
+    number is not recorded because the register's second page could not be retrieved.
+- id: mitcon-credentia
+  name: MITCON Credentia Trusteeship Services Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000596
+  domains:
+  - mitconcredentia.in
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://mitconcredentia.in/disclaimer.php
+    - https://mitconcredentia.in/robots.txt
+    summary: robots.txt restricts only /cgi-bin/, and nothing found addresses automated access. The disclaimer says
+      the data may not be reproduced or distributed "for any public or commercial purposes". The project publishes
+      facts and short identifying quotations with links, relying on fair dealing for research and review; it has
+      not sought permission.
+- id: beacon-trusteeship
+  name: Beacon Trusteeship Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000569
+  domains:
+  - beacontrustee.co.in
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  ai_training: reserved
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://beacontrustee.co.in/robots.txt
+    summary: 'robots.txt publishes "Content-Signal: search=yes,ai-train=no,use=reference" and blocks named AI crawlers.
+      Anything derived from this source is flagged ai_training_reserved in every export. No terms of use page was
+      found on the homepage.'
+- id: sbicap-trustee
+  name: SBICAP Trustee Company Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000536
+  domains:
+  - sbicaptrustee.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-03
+    urls:
+    - https://sbicaptrustee.com/robots.txt
+    summary: robots.txt allows all paths.
+- id: orbis-trusteeship
+  name: Orbis Trusteeship Services Private Limited
+  kind: debenture_trustee
+  sebi_registration: IND000000602
+  domains:
+  - orbisfinancial.in
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  ai_training: reserved
+  terms:
+    reviewed_on: 2026-11-03
+    urls:
+    - https://orbisfinancial.in/robots.txt
+    summary: 'robots.txt publishes "Content-Signal: search=yes,ai-train=no,use=reference" and blocks named AI crawlers.
+      Anything derived from this source is flagged ai_training_reserved in every export.'
+- id: central-bank-of-india
+  name: Central Bank of India (registered debenture trustee)
+  kind: debenture_trustee
+  sebi_registration: IND000000012
+  domains:
+  - centralbankofindia.co.in
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: none
+  notes: Registered so that claims naming it as a trustee can refer to it; nothing is retrieved from it.
+- id: bank-of-maharashtra
+  name: Bank of Maharashtra (registered debenture trustee)
+  kind: debenture_trustee
+  sebi_registration: IND000000010
+  domains: []
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: none
+  notes: Registered so that claims naming it as a trustee can refer to it; nothing is retrieved from it.
+- id: aye-finance-web
+  name: Aye Finance Limited (issuer website and document host)
+  kind: issuer
+  domains:
+  - ayefin.com
+  - dlryl1dmmgapd.cloudfront.net
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://ayefin.com/
+    summary: Issuer's own regulatory filings published for investors; the filing cited was addressed to BSE. No
+      terms of use page was found on the homepage. The cloudfront host was reached from a search result for the
+      issuer's material-event disclosures, and the filing itself is on the issuer's letterhead.
+- id: dvara-kgfs-web
+  name: Dvara Kshetriya Gramin Financial Services Private Limited (issuer website)
+  kind: issuer
+  domains:
+  - dvarakgfs.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  quote_limit: 160
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://www.dvarakgfs.com/disclaimer
+    - https://www.dvarakgfs.com/terms_of_use
+    summary: Issuer's disclosures published under regulation 62 of the SEBI LODR Regulations. The disclaimer restricts
+      reproduction without prior written permission and allows downloads for personal non-commercial use. Only a
+      filing the issuer made to the exchange is cited, with minimal quotation.
+- id: konkan-railway-web
+  name: Konkan Railway Corporation Limited (issuer website)
+  kind: issuer
+  domains:
+  - konkanrailway.com
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  notes: The www host did not resolve from the project's network on 2026-11-04.
+- id: icra
+  name: ICRA Limited
+  kind: credit_rating_agency
+  domains:
+  - icra.in
+  retrieval: allowed
+  redistribution: link_only
+  excerpts: short_quotation
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://www.icra.in/Rating/GetRationalReportFilePdf?id=139196
+    summary: The rationale itself says "Contents may be used freely with due acknowledgement to ICRA". The site's
+      robots.txt path answers with a bot-mitigation page rather than a robots file, so no robots rules could be
+      read. If the fetcher is refused, the document is logged as inaccessible; the challenge is never worked around.
+- id: indiabonds
+  name: IndiaBonds (online bond platform)
+  kind: market_portal
+  domains:
+  - indiabonds.com
+  retrieval: manual_only
+  redistribution: link_only
+  excerpts: none
+  terms:
+    reviewed_on: 2026-11-04
+    urls:
+    - https://www.indiabonds.com/terms-and-conditions/
+    - https://www.indiabonds.com/robots.txt
+    summary: robots.txt permits crawling, but the terms exclude "any use of data mining, robots, or similar data
+      gathering and extraction tools to extract (whether once or many times) any parts of Platform", systematic
+      downloading, and derivative databases. Per-ISIN pages link issue documents, which can be consulted in a browser;
+      the pipeline does not retrieve from this platform.

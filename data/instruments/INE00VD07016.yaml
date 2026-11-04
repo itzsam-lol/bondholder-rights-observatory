@@ -1,0 +1,11 @@
+isin: INE00VD07016
+issuer: infinity-fincorp-solutions
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 1
+    quote: INE00VD07016
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

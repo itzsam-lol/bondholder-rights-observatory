@@ -1,0 +1,37 @@
+{
+  "$defs": {
+    "Recipient": {
+      "enum": [
+        "debenture_holders",
+        "stock_exchange",
+        "sebi",
+        "credit_rating_agency",
+        "unspecified"
+      ],
+      "title": "Recipient",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dated": {
+      "format": "date",
+      "title": "Dated",
+      "type": "string"
+    },
+    "recipients": {
+      "items": {
+        "$ref": "#/$defs/Recipient"
+      },
+      "minItems": 1,
+      "title": "Recipients",
+      "type": "array"
+    }
+  },
+  "required": [
+    "recipients",
+    "dated"
+  ],
+  "title": "Intimation",
+  "type": "object"
+}

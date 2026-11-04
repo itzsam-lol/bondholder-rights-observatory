@@ -1,0 +1,11 @@
+isin: INE814O07550
+issuer: neogrowth-credit
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 1
+    quote: INE814O07550
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

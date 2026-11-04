@@ -1,0 +1,35 @@
+{
+  "additionalProperties": false,
+  "description": "An issuer the reporting trustee says it has received no information about.",
+  "properties": {
+    "issuer": {
+      "anyOf": [
+        {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Issuer"
+    },
+    "issuer_name_as_reported": {
+      "title": "Issuer Name As Reported",
+      "type": "string"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "issuer_name_as_reported",
+    "page"
+  ],
+  "title": "NoInformationEntry",
+  "type": "object"
+}

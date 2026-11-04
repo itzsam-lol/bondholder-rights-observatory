@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "description": "A note or footnote printed in a report, such as a definition of what a date column means.",
+  "properties": {
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "text": {
+      "maxLength": 800,
+      "minLength": 3,
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "page",
+    "text"
+  ],
+  "title": "PrintedNote",
+  "type": "object"
+}

@@ -1,0 +1,19 @@
+- id: aye-ine501x07570-clause-9-3-a-viii
+  document: ctl-notice-aye-ine501x07570-2026-05
+  clause: Clause 9.3 (a) (viii)
+  page: 1
+  text: >-
+    (viii) The company shall maintain the ratio of A: B of not more than 8% (Eight Percent) where A is the aggregate of
+    Gross NPA and the write- off during the preceding 12 (twelve) months and B is the Gross Loan Portfolio, multiplied by
+    100 and followed by the % symbol.
+  instruments: [INE501X07570]
+  category: financial
+  metric: (Gross NPA + write-offs in the preceding 12 months) / gross loan portfolio
+  thresholds:
+    - {comparator: "<=", value: 8, unit: percent}
+  explanation: >-
+    Non-performing loans, together with loans written off over the past year, must not exceed 8% of the issuer's total
+    loan book.
+  notes: >-
+    The trustee quotes this from the trust deeds dated 29 April 2024 and 12 June 2024. Same issuer as INE501X07588, but a
+    different clause, measure and limit.

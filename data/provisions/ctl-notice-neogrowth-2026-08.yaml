@@ -1,0 +1,30 @@
+- id: neogrowth-ine814o07543-clause-2-5-3-e
+  document: ctl-notice-neogrowth-2026-08
+  clause: Clause 2.5.3 (e)
+  page: 1
+  text: (e) a Write-Off Ratio may not at any time increase above 6.5% (Six Decimal Point Five Percent).
+  instruments: [INE814O07543]
+  category: financial
+  metric: Write-off ratio
+  thresholds:
+    - {comparator: "<=", value: 6.5, unit: percent}
+  test_frequency: continuous
+  explanation: Loans written off must never exceed 6.5% on the measure the trust deed defines; the notice does not quote the definition.
+  notes: The trustee quotes this from the trust deed dated 19 August 2024. The deed has not been retrieved.
+- id: neogrowth-ine814o07550-clause-2-5-3-d
+  document: ctl-notice-neogrowth-2026-08
+  clause: clause 2.5.3 (d)
+  page: 4
+  text: >-
+    (d) on and from the Deemed Date of Allotment until and including March 31, 2025, a Write-Off Ratio may not at any time
+    increase above 10% (Ten Percent). On and from April 1, 2025 until and including the Final Settlement Date, a Write-Off
+    Ratio may not at any time increase above 6.5% (Six Decimal Point Five Percent).
+  instruments: [INE814O07550]
+  category: financial
+  metric: Write-off ratio
+  thresholds:
+    - {comparator: "<=", value: 10, unit: percent, applies_to: 2025-03-31}
+    - {comparator: "<=", value: 6.5, unit: percent, applies_from: 2025-04-01}
+  test_frequency: continuous
+  explanation: The same measure with a limit that tightens over time, from 10% to 6.5% on 1 April 2025.
+  notes: The trustee quotes this from the trust deed dated 27 November 2024. The deed has not been retrieved.

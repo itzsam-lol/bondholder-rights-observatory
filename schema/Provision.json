@@ -1,0 +1,270 @@
+{
+  "$defs": {
+    "Comparator": {
+      "enum": [
+        "<",
+        "<=",
+        ">",
+        ">="
+      ],
+      "title": "Comparator",
+      "type": "string"
+    },
+    "CovenantCategory": {
+      "description": "Covenant categories of the SEBI guidance note on covenants.\n\nSource: Master Circular for Debenture Trustees (28 September 2026),\nChapter VI, Annex-VIA \"Guidance note on list of Covenants\". ``OTHER`` is used\nfor undertakings outside that list, such as reporting obligations or\nconditions subsequent; the document's own heading is kept separately.",
+      "enum": [
+        "accounts_funds_reserves",
+        "financial",
+        "affirmative",
+        "credit_rating",
+        "negative",
+        "default",
+        "other"
+      ],
+      "title": "CovenantCategory",
+      "type": "string"
+    },
+    "TestBasis": {
+      "enum": [
+        "standalone",
+        "consolidated"
+      ],
+      "title": "TestBasis",
+      "type": "string"
+    },
+    "TestFrequency": {
+      "enum": [
+        "continuous",
+        "quarterly",
+        "half_yearly",
+        "annual"
+      ],
+      "title": "TestFrequency",
+      "type": "string"
+    },
+    "Threshold": {
+      "additionalProperties": false,
+      "properties": {
+        "applies_from": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applies From"
+        },
+        "applies_to": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applies To"
+        },
+        "comparator": {
+          "$ref": "#/$defs/Comparator"
+        },
+        "unit": {
+          "$ref": "#/$defs/ThresholdUnit"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "comparator",
+        "value",
+        "unit"
+      ],
+      "title": "Threshold",
+      "type": "object"
+    },
+    "ThresholdUnit": {
+      "enum": [
+        "percent",
+        "times",
+        "inr"
+      ],
+      "title": "ThresholdUnit",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One contractual undertaking, quoted from the document that creates it.\n\n``text`` is verbatim. ``category``, ``metric``, ``thresholds`` and\n``explanation`` are project annotations and are only filled where the text\nmakes them unambiguous.",
+  "properties": {
+    "amends": {
+      "anyOf": [
+        {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amends"
+    },
+    "annotation_reviewed": {
+      "default": false,
+      "title": "Annotation Reviewed",
+      "type": "boolean"
+    },
+    "category": {
+      "$ref": "#/$defs/CovenantCategory"
+    },
+    "clause": {
+      "description": "Clause number exactly as printed, e.g. 6.2.2(a)(iii)",
+      "title": "Clause",
+      "type": "string"
+    },
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
+    },
+    "effective_from": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Effective From"
+    },
+    "explanation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Plain-English annotation; not legal advice",
+      "title": "Explanation"
+    },
+    "heading": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Document heading the clause sits under, verbatim",
+      "title": "Heading"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "instruments": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Instruments",
+      "type": "array"
+    },
+    "metric": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Metric"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "test_basis": {
+      "items": {
+        "$ref": "#/$defs/TestBasis"
+      },
+      "title": "Test Basis",
+      "type": "array"
+    },
+    "test_frequency": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TestFrequency"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "text": {
+      "maxLength": 800,
+      "minLength": 3,
+      "title": "Text",
+      "type": "string"
+    },
+    "thresholds": {
+      "items": {
+        "$ref": "#/$defs/Threshold"
+      },
+      "title": "Thresholds",
+      "type": "array"
+    },
+    "visual_fallback": {
+      "default": false,
+      "description": "Read from the rendered page; the text layer is unreliable",
+      "title": "Visual Fallback",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "document",
+    "clause",
+    "page",
+    "text",
+    "instruments",
+    "category"
+  ],
+  "title": "Provision",
+  "type": "object"
+}

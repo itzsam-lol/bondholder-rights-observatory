@@ -1,0 +1,184 @@
+{
+  "$defs": {
+    "DiscrepancyKind": {
+      "enum": [
+        "identity",
+        "value",
+        "naming",
+        "version_change",
+        "layout"
+      ],
+      "title": "DiscrepancyKind",
+      "type": "string"
+    },
+    "DiscrepancyStatus": {
+      "enum": [
+        "open",
+        "resolved"
+      ],
+      "title": "DiscrepancyStatus",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A verifiable pointer into a document the pipeline has retrieved and hashed.",
+      "properties": {
+        "document": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Document",
+          "type": "string"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-readable position, e.g. \"Table 5, Sr. No. 4\"",
+          "title": "Locator"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based page of the file, not the printed folio",
+          "title": "Page"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "visual_fallback": {
+          "default": false,
+          "description": "The words are visible on the rendered page but may be absent from the file's text layer",
+          "title": "Visual Fallback",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "description": "A value seen on a page the project may cite but not store.\n\nUsed for link-only sources such as depository databases whose terms forbid\nstoring their content. Observations cannot be re-verified automatically.",
+      "properties": {
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "observed_on": {
+          "format": "date",
+          "title": "Observed On",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "value_seen": {
+          "maxLength": 300,
+          "title": "Value Seen",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "observed_on",
+        "value_seen"
+      ],
+      "title": "Observation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/DiscrepancyKind"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/Observation"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "resolution": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Resolution"
+    },
+    "status": {
+      "$ref": "#/$defs/DiscrepancyStatus",
+      "default": "open"
+    },
+    "subject": {
+      "title": "Subject",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "subject",
+    "description"
+  ],
+  "title": "Discrepancy",
+  "type": "object"
+}

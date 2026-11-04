@@ -1,0 +1,94 @@
+# Issuers. Names are as printed in the reviewed documents unless an observation says otherwise.
+
+- id: aegis-vopak-terminals
+  name: Aegis Vopak Terminals Limited
+- id: akara-capital-advisors
+  name: Akara Capital Advisors Private Limited
+- id: aliens-developers
+  name: Aliens Developers Private Ltd
+- id: arugn-technologies
+  name: ARUGN Technologies Private Limited
+- id: ats-heights
+  name: ATS Heights Private Limited
+- id: aye-finance
+  name: Aye Finance Limited
+  cin: U65921DL1993PLC283660
+  lei: 335800Q6CHM9LTEPY552
+  name_variants:
+    - name: Aye Finance Private Limited
+      evidence:
+        - {document: ctl-t5-2026-06, page: 1, quote: Aye Finance Private Limited}
+        - {document: aye-walco-outcome-2025-09-02, page: 1, quote: formerly known as AYE FINANCE PRIVATE LIMITED}
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588
+      observed_on: 2026-11-03
+      value_seen: AYE FINANCE LIMITED; CIN U65921DL1993PTC283660; LEI 335800Q6CHM9LTEPY552
+- id: belstar-microfinance
+  name: Belstar Microfinance Limited
+- id: casablanca-industries
+  name: Casablanca Industries Private Limited
+- id: convenient-hospitals
+  name: Convenient Hospitals Limited
+- id: dvara-kgfs
+  name: Dvara Kshetriya Gramin Financial Services Private Limited
+- id: emami-frankross
+  name: Emami Frankross Limited
+  name_variants:
+    - name: Emami Frank Ross Limited
+      evidence:
+        - {document: idbi-notice-emami-2026-09, page: 1, quote: Emami Frank Ross Limited}
+- id: infinity-fincorp-solutions
+  name: Infinity Fincorp Solutions Private Limited
+- id: konkan-railway-corporation
+  name: Konkan Railway Corporation
+- id: light-microfinance
+  name: Light Microfinance Private Limited
+- id: meghalaya-energy-corporation
+  name: Meghalaya Energy Corporation Limited
+- id: national-highways-authority-of-india
+  name: National Highways Authority of India
+- id: neogrowth-credit
+  name: Neogrowth Credit Private Limited
+- id: pahal-financial-services
+  name: Pahal Financial Services Private Limited
+- id: parsvnath-rail-land-project
+  name: Parsvnath Rail Land Project Private Limited
+  cin: U45203DL2011PTC227343
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031
+      observed_on: 2026-11-03
+      value_seen: PARSVNATH RAIL LAND PROJECT PRIVATE LIMITED; CIN U45203DL2011PTC227343
+- id: punjab-infrastructure-development-board
+  name: Punjab Infrastructure Development Board
+- id: pvp-ventures
+  name: PVP Ventures Limited
+- id: ramasigns-industries
+  name: Ramasigns Industries Limited
+- id: samunnati-finance-2014
+  name: Samunnati Finance Private Limited
+  cin: U65990TN2014PTC096252
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE551U07324
+      observed_on: 2026-11-03
+      value_seen: SAMUNNATI FINANCE PRIVATE LIMITED; CIN U65990TN2014PTC096252
+- id: samunnati-finance-2021
+  name: Samunnati Finance Private Limited
+  cin: U65990TN2021PTC146392
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE0N5S07052
+      observed_on: 2026-11-03
+      value_seen: SAMUNNATI FINANCE PRIVATE LIMITED; CIN U65990TN2021PTC146392
+- id: satya-microcapital
+  name: Satya Microcapital Limited
+- id: steelco-gujarat
+  name: Steelco Gujarat Limited
+- id: valencia-and-mishal-ventures
+  name: Valencia and Mishal Ventures Private Limited
+- id: vr-dakshin
+  name: VR Dakshin Private Limited
+  name_variants:
+    - name: Sugam Vanijya Holdings Private Limited
+      evidence:
+        - {document: idbi-t5-2026-06, page: 1, quote: formerly known as Sugam Vanijya Holdings}
+- id: watermarke-estates
+  name: Watermarke Estates Private Limited

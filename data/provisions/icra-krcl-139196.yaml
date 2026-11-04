@@ -1,0 +1,32 @@
+- id: krcl-dscr-per-icra
+  document: icra-krcl-139196
+  clause: Not given in the rationale
+  heading: Salient covenants of the rated facility
+  page: 1
+  text: >-
+    ICRA has taken note of the debt service coverage ratio (DSCR) covenant breach, which is to be maintained at 1.25 times.
+  instruments: [INE139F07105]
+  category: financial
+  metric: Debt service coverage ratio
+  thresholds:
+    - {comparator: ">=", value: 1.25, unit: times}
+  explanation: Earnings must cover interest and principal falling due at least 1.25 times over.
+  notes: >-
+    Stated by a rating agency, not quoted from the contract. The trustee cites a trust deed dated 20 December 2016, which has
+    not been retrieved.
+- id: krcl-asset-cover-per-icra
+  document: icra-krcl-139196
+  clause: Not given in the rationale
+  heading: Salient covenants of the rated facility
+  page: 1
+  text: >-
+    The bonds are secured by way of first pari -passu charge on the specific assets, except the debt on the company's book,
+    with minimum asset coverage of 1.25 times of the aggregate face value of the bonds outstanding at all times .
+  instruments: [INE139F07105]
+  category: affirmative
+  metric: Asset coverage
+  thresholds:
+    - {comparator: ">=", value: 1.25, unit: times}
+  test_frequency: continuous
+  explanation: The assets charged must at all times be worth at least 1.25 times the face value of the bonds outstanding.
+  notes: Stated by a rating agency, not quoted from the contract.

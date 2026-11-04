@@ -1,0 +1,11 @@
+isin: INE08XP07274
+issuer: akara-capital-advisors
+claims:
+- property: debenture_trustee
+  value: axis-trustee
+  asserted_by: axis-trustee
+  evidence:
+  - document: axis-t5-2026-06-v20260814
+    page: 1
+    quote: INE08XP07274
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

@@ -1,0 +1,11 @@
+isin: INE514Q07387
+issuer: pahal-financial-services
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 4
+    quote: INE514Q07387
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

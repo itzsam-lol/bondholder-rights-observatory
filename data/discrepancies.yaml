@@ -1,0 +1,181 @@
+# Disagreements and oddities in the public record. Nothing here is a finding about any issuer's or trustee's conduct.
+
+- id: trustee-of-ine501x07588
+  kind: identity
+  subject: INE501X07588
+  description: >-
+    Catalyst Trusteeship lists this ISIN in its own breach report and sends notices to its holders as trustee, while the
+    CDSL corporate bond database page prints Central Bank of India under Debenture Trustee Details, beside a due date of
+    30-Dec-1999 that looks like a placeholder.
+  evidence:
+    - {document: ctl-t5-2026-06, page: 1, quote: INE501X07588}
+    - {document: ctl-notice-aye-ine501x07588-2026-09, page: 1, quote: being the debenture trustee in respect of the said NCDs}
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588
+      observed_on: 2026-11-04
+      value_seen: CENTRAL BANK OF INDIA
+
+- id: trustee-of-ine187o07031
+  kind: identity
+  subject: INE187O07031
+  description: >-
+    Vistra ITCL lists this ISIN in its breach report, while the CDSL corporate bond database page prints Bank of Maharashtra
+    under Debenture Trustee Details.
+  evidence:
+    - {document: vistra-t5-2026-06, page: 1, quote: INE187O07031}
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031
+      observed_on: 2026-11-03
+      value_seen: BANK OF MAHARASHTRA
+
+- id: samunnati-two-cins
+  kind: identity
+  subject: samunnati-finance-2014
+  description: >-
+    Catalyst Trusteeship's report prints one row for "Samunnati Finance Private Limited" covering INE551U ISINs and
+    INE0N5S07052. The CDSL pages for those ISINs show the same name with different CINs (U65990TN2014PTC096252 and
+    U65990TN2021PTC146392), and the ISINs carry different issuer codes. The dataset keeps two issuer records until the
+    relationship between the two entities is established from a primary source.
+  evidence:
+    - {document: ctl-t5-2026-06, page: 1, quote: Samunnati Finance Private Limited}
+    - {document: ctl-t5-2026-06, page: 2, quote: INE0N5S07052}
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE551U07324
+      observed_on: 2026-11-03
+      value_seen: SAMUNNATI FINANCE PRIVATE LIMITED; CIN U65990TN2014PTC096252
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE0N5S07052
+      observed_on: 2026-11-03
+      value_seen: SAMUNNATI FINANCE PRIVATE LIMITED; CIN U65990TN2021PTC146392
+
+- id: aye-cin-form
+  kind: naming
+  subject: aye-finance
+  description: >-
+    The issuer's own filing prints CIN U65921DL1993PLC283660, while CDSL's page prints U65921DL1993PTC283660. The difference
+    is consistent with conversion from a private to a public company, and trustee reports still use the private-company name.
+  evidence:
+    - {document: aye-walco-outcome-2025-09-02, page: 1, quote: "CIN: U65921DL1993PLC283660"}
+    - {document: ctl-t5-2026-06, page: 1, quote: Aye Finance Private Limited}
+  observations:
+    - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588
+      observed_on: 2026-11-03
+      value_seen: U65921DL1993PTC283660
+
+- id: konkan-covenants-named
+  kind: value
+  subject: INE139F07105
+  description: >-
+    IDBI Trusteeship's June 2026 report names only the debt service coverage ratio for this ISIN, while its notice to holders
+    of 14 August 2026 says the meeting is about a breach in "Debt Service Coverage Ratio and Debt Equity Ratio".
+  evidence:
+    - {document: idbi-t5-2026-06, page: 1, quote: Issuer has not complied with the prescribed Debt service coverage ratio (DSCR)}
+    - {document: idbi-notice-konkan-2026-09, page: 2, quote: breach of covenant in Debt Service Coverage Rat io and Debt Equity Ratio}
+
+- id: pvp-breaches-named
+  kind: value
+  subject: INE362A07054
+  description: >-
+    IDBI Trusteeship's June 2026 report names only non-execution of a pledge agreement, while its press release of 16 June
+    2026 also cites non-submission of the corporate guarantor's audited financial statement. The press release concerns the
+    March 2026 quarter according to its accompanying notice, and the report row carries a June 2026 date.
+  evidence:
+    - {document: idbi-t5-2026-06, page: 1, quote: Non execution of pledge agreement.}
+    - document: idbi-notice-pvp-2026-06
+      page: 1
+      quote: Pursuant to non submission of audited financial statement of Corporate Guarantor
+      visual_fallback: true
+
+- id: dvara-isin-in-notice
+  kind: identity
+  subject: INE179P07530
+  description: >-
+    In Catalyst Trusteeship's file of notices, the second notice dated 27 August 2026 prints INE179P07464, the same ISIN as
+    the first, while the follow-up letter and agenda that continue it print INE179P07530. No notice in the file introduces
+    INE179P07530 by name, though the trustee's report lists it.
+  evidence:
+    - {document: ctl-notice-dvara-2026-08, page: 6, quote: INE179P07464}
+    - {document: ctl-notice-dvara-2026-08, page: 10, quote: INE179P07530}
+    - {document: ctl-t5-2026-06, page: 4, quote: INE179P07530}
+
+- id: akara-waiver-versions
+  kind: version_change
+  subject: INE08XP07274
+  description: >-
+    Two versions of Axis Trustee's June 2026 quarter report differ in the action column: the version as on 14 August says the
+    trustee is seeking instructions, and the version as on 16 September reports a waiver at a meeting that day. Only a
+    reader who kept both can see when the position changed.
+  evidence:
+    - {document: axis-t5-2026-06-v20260814, page: 1, quote: We continue to follow up with the Issuer}
+    - {document: axis-t5-2026-06-v20260916, page: 1, quote: Waiver has been received pursuant to the Debenture Holders}
+
+- id: axis-no-information-list
+  kind: version_change
+  subject: axis-trustee
+  description: >-
+    Axis Trustee's list of issuers from which it says it has received no information has 27 names in its June 2026 quarter
+    reports and 26 in its report as of 29 October 2026; Incredible Realcon Private Limited is no longer printed. The report
+    does not say why.
+  evidence:
+    - {document: axis-t5-2026-06-v20260916, page: 1, quote: Incredible Realcon Private Limited}
+
+- id: catalyst-actual-breach-meaning
+  kind: value
+  subject: ctl-t5-2026-06
+  description: >-
+    The report's note says the date of actual breach is taken as the quarter for which the covenant certificate was
+    submitted, and eight of its printed serial numbers print the quarter-end, 30 June 2026. The other six print a later date
+    equal to the detection date. Intervals computed from this column therefore do not all mean the same thing.
+  evidence:
+    - {document: ctl-t5-2026-06, page: 5, quote: Date of Actual Breach is considered as Quarter for which covenant certiticate has been submitted}
+
+- id: vistra-text-layer
+  kind: layout
+  subject: vistra-t5-2026-06
+  description: >-
+    The file draws much of its text as vector outlines, so text extraction returns rows 2 and 4 in part and rows 1 and 3 not
+    at all, and no header. Read from text alone the report seems to lack a header, a first row and an issuer name; the
+    rendered page has all of them. Anything built on extracted text alone would misread or miss this trustee's disclosures.
+  evidence:
+    - {document: vistra-t5-2026-06, page: 1, quote: INE629B07013}
+
+- id: vistra-dates-precede-breach
+  kind: value
+  subject: INE07J407014
+  description: >-
+    For this ISIN the further-action cell cites emails of 30 January and 28 March 2024, before the printed breach dates of 20
+    July and 20 October 2024. For INE187O07031 the printed intimation date, 6 June 2025, precedes the printed detection date,
+    17 June 2025. All dates are recorded as printed.
+  evidence:
+    - {document: vistra-t5-2026-06, page: 1, quote: 17-06-2025}
+
+- id: dvara-roa-exception-list
+  kind: value
+  subject: INE179P07589
+  description: >-
+    The issuer's annexure for 31 December 2025 says all covenants were complied with except those listed, and does not list
+    this ISIN. It prints a return on assets of -1.02% against another ISIN. IDBI Trusteeship's June 2026 report prints, for
+    this ISIN, return on assets maintained of -1.02% against a requirement of 1% or more. The documents do not say whether
+    this covenant was tested at December 2025 or how each computes the ratio.
+  evidence:
+    - document: dvara-reg54-2026-02-11
+      page: 8
+      quote: The company has complied with all the covenants in respect of listed non-convertible debentures
+      visual_fallback: true
+    - {document: idbi-t5-2026-06, page: 1, quote: Issuer has not complied with the prescribed Return on Assets ratio}
+
+- id: dvara-cost-to-income-limit
+  kind: version_change
+  subject: INE179P08082
+  description: >-
+    Three public statements of one covenant differ. The issuer's annexure for 31 December 2025 prints <=70%. The trustee's
+    June 2026 quarter report quotes "less than 80%" from the Effective Date until the Final Settlement Date. The trustee's
+    notice for the same quarter quotes "less than or equal to 80%" until September 30, 2026, and cites an Amendment Deed dated
+    29 July 2026. The deed itself has not been retrieved.
+  evidence:
+    - document: dvara-reg54-2026-02-11
+      page: 8
+      quote: Cost to Income Ratio
+      visual_fallback: true
+    - {document: ctl-t5-2026-06, page: 4, quote: maintain the Cost to Income Ratio of less than 80%}
+    - {document: ctl-notice-dvara-2026-08, page: 11, quote: Amendment Deed to the Debenture Trust Deed dated 29th July 2026}
+    - {document: ctl-notice-dvara-2026-08, page: 11, quote: "until September 30, 2026 , maintain the Cost to Income Ratio of less than or equal to 80%"}

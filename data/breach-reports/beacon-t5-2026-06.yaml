@@ -1,0 +1,14 @@
+document: beacon-t5-2026-06
+trustee: beacon-trusteeship
+period:
+  start: 2026-04-01
+  end: 2026-06-30
+extraction_complete: true
+visually_reviewed: true
+nil_report: true
+printed_notes:
+- page: 1
+  text: Status of information regarding breach of covenants / terms of the issue, if any action taken by debenture
+    trustee as on June 30, 2026
+notes: The table prints a single row of dashes. It is not worded as a statement that no breach occurred, so instruments
+  under this trustee are recorded as no_report_found rather than reported_no_breach.

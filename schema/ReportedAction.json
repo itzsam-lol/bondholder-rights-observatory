@@ -1,0 +1,46 @@
+{
+  "$defs": {
+    "ActionKind": {
+      "description": "Kinds of follow-up reported by a debenture trustee for a breach.",
+      "enum": [
+        "awaiting_instructions",
+        "follow_up_with_issuer",
+        "holders_meeting_held",
+        "holders_meeting_scheduled",
+        "waiver_reported",
+        "no_action_instructed",
+        "cure_reported",
+        "reported_as_continuing",
+        "nominee_director",
+        "enforcement",
+        "other"
+      ],
+      "title": "ActionKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dated": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dated"
+    },
+    "kind": {
+      "$ref": "#/$defs/ActionKind"
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "title": "ReportedAction",
+  "type": "object"
+}

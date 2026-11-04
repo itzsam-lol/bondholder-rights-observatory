@@ -1,0 +1,11 @@
+isin: INE650D08013
+issuer: ramasigns-industries
+claims:
+- property: debenture_trustee
+  value: mitcon-credentia
+  asserted_by: mitcon-credentia
+  evidence:
+  - document: mitcon-t5-2026-06
+    page: 1
+    quote: INE650D08013
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

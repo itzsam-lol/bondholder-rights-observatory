@@ -1,0 +1,39 @@
+{
+  "additionalProperties": false,
+  "description": "A value seen on a page the project may cite but not store.\n\nUsed for link-only sources such as depository databases whose terms forbid\nstoring their content. Observations cannot be re-verified automatically.",
+  "properties": {
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "observed_on": {
+      "format": "date",
+      "title": "Observed On",
+      "type": "string"
+    },
+    "url": {
+      "title": "Url",
+      "type": "string"
+    },
+    "value_seen": {
+      "maxLength": 300,
+      "title": "Value Seen",
+      "type": "string"
+    }
+  },
+  "required": [
+    "url",
+    "observed_on",
+    "value_seen"
+  ],
+  "title": "Observation",
+  "type": "object"
+}

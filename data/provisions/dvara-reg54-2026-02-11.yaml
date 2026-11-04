@@ -1,0 +1,14 @@
+- id: dvara-ine179p08082-cost-to-income-2025-12
+  document: dvara-reg54-2026-02-11
+  clause: Not given in the filing
+  heading: Annexure II
+  page: 8
+  text: Cost to Income Ratio
+  instruments: [INE179P08082]
+  category: financial
+  metric: Cost to income ratio
+  thresholds:
+    - {comparator: "<=", value: 70, unit: percent}
+  visual_fallback: true
+  explanation: Operating costs may not exceed 70% of income. The filing prints the limit in a table beside the ratio's name.
+  notes: The issuer's annexure prints "<=70%" as the covenant level and 75.24% as the level at 31 December 2025.

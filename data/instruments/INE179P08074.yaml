@@ -1,0 +1,11 @@
+isin: INE179P08074
+issuer: dvara-kgfs
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 5
+    quote: INE179P08074
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

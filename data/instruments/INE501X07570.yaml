@@ -1,0 +1,14 @@
+isin: INE501X07570
+issuer: aye-finance
+claims:
+  - property: debenture_trustee
+    value: catalyst-trusteeship
+    asserted_by: catalyst-trusteeship
+    evidence:
+      - document: ctl-notice-aye-ine501x07570-2026-05
+        page: 1
+        quote: INE501X07570
+    note: Inferred from the trustee's notice to the holders of this ISIN.
+notes: >-
+  Not listed in the trustee's June 2026 quarter report, though the trustee's notice of 29 April 2026 reports a breach
+  for the March 2026 quarter. Included to keep those two facts visibly separate.

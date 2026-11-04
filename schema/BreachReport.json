@@ -1,0 +1,724 @@
+{
+  "$defs": {
+    "ActionKind": {
+      "description": "Kinds of follow-up reported by a debenture trustee for a breach.",
+      "enum": [
+        "awaiting_instructions",
+        "follow_up_with_issuer",
+        "holders_meeting_held",
+        "holders_meeting_scheduled",
+        "waiver_reported",
+        "no_action_instructed",
+        "cure_reported",
+        "reported_as_continuing",
+        "nominee_director",
+        "enforcement",
+        "other"
+      ],
+      "title": "ActionKind",
+      "type": "string"
+    },
+    "Agreement": {
+      "description": "Whether a covenant as reported agrees with the contractual text.",
+      "enum": [
+        "consistent",
+        "differs",
+        "not_comparable"
+      ],
+      "title": "Agreement",
+      "type": "string"
+    },
+    "BreachItem": {
+      "additionalProperties": false,
+      "description": "One covenant cell of a breach report row, with the ISINs printed beside it.",
+      "properties": {
+        "assignment_uncertain": {
+          "default": false,
+          "description": "Which issuer or row these ISINs belong to depends on reading merged table cells",
+          "title": "Assignment Uncertain",
+          "type": "boolean"
+        },
+        "category": {
+          "$ref": "#/$defs/CovenantCategory"
+        },
+        "clause_reference_as_reported": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Clause Reference As Reported"
+        },
+        "covenant_as_reported": {
+          "maxLength": 800,
+          "minLength": 3,
+          "title": "Covenant As Reported",
+          "type": "string"
+        },
+        "isins": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Isins",
+          "type": "array"
+        },
+        "levels_stated": {
+          "description": "Every percentage, multiple and crore amount printed in the whole cell",
+          "items": {
+            "type": "string"
+          },
+          "title": "Levels Stated",
+          "type": "array"
+        },
+        "page": {
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "provisions": {
+          "items": {
+            "$ref": "#/$defs/ProvisionLink"
+          },
+          "title": "Provisions",
+          "type": "array"
+        },
+        "specificity": {
+          "$ref": "#/$defs/CovenantSpecificity"
+        },
+        "truncated": {
+          "default": false,
+          "description": "The cell continues in the source beyond this quotation",
+          "title": "Truncated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "isins",
+        "covenant_as_reported",
+        "page",
+        "category",
+        "specificity"
+      ],
+      "title": "BreachItem",
+      "type": "object"
+    },
+    "BreachRow": {
+      "additionalProperties": false,
+      "description": "One row of a debenture trustee's covenant breach status report (Annex-VIIA Table 5).",
+      "properties": {
+        "actions": {
+          "description": "Project reading of the action cells",
+          "items": {
+            "$ref": "#/$defs/ReportedAction"
+          },
+          "title": "Actions",
+          "type": "array"
+        },
+        "actual_breach": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportedDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ambiguities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ambiguities",
+          "type": "array"
+        },
+        "carried_over_from": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "End of the earlier quarter this row's own label assigns the breach to",
+          "title": "Carried Over From"
+        },
+        "delay_in_detection_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay In Detection As Reported"
+        },
+        "delay_in_intimation_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay In Intimation As Reported"
+        },
+        "delay_reasons_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Reasons As Reported"
+        },
+        "detected": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportedDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "further_action_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Further Action As Reported"
+        },
+        "intimation_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Intimation As Reported"
+        },
+        "intimations": {
+          "items": {
+            "$ref": "#/$defs/Intimation"
+          },
+          "title": "Intimations",
+          "type": "array"
+        },
+        "issuer": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Issuer",
+          "type": "string"
+        },
+        "issuer_name_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None when no name is printed",
+          "title": "Issuer Name As Reported"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/BreachItem"
+          },
+          "minItems": 1,
+          "title": "Items",
+          "type": "array"
+        },
+        "other_columns_as_reported": {
+          "additionalProperties": {
+            "maxLength": 800,
+            "type": "string"
+          },
+          "description": "Columns the trustee prints beyond the prescribed format, keyed by heading",
+          "title": "Other Columns As Reported",
+          "type": "object"
+        },
+        "page": {
+          "description": "Page on which this row's dates and action cells are printed",
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "row": {
+          "description": "Serial number as printed; one printed row may be split where its cells differ",
+          "title": "Row",
+          "type": "string"
+        },
+        "security_enforcement_as_reported": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Security Enforcement As Reported"
+        },
+        "transcribed_from_rendering": {
+          "default": false,
+          "description": "Some cells of this row are absent from the file's text layer and were read from the rendered page",
+          "title": "Transcribed From Rendering",
+          "type": "boolean"
+        },
+        "truncated_fields": {
+          "description": "Fields whose cells continue in the source beyond the quotation",
+          "items": {
+            "type": "string"
+          },
+          "title": "Truncated Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "row",
+        "page",
+        "issuer",
+        "items"
+      ],
+      "title": "BreachRow",
+      "type": "object"
+    },
+    "CovenantCategory": {
+      "description": "Covenant categories of the SEBI guidance note on covenants.\n\nSource: Master Circular for Debenture Trustees (28 September 2026),\nChapter VI, Annex-VIA \"Guidance note on list of Covenants\". ``OTHER`` is used\nfor undertakings outside that list, such as reporting obligations or\nconditions subsequent; the document's own heading is kept separately.",
+      "enum": [
+        "accounts_funds_reserves",
+        "financial",
+        "affirmative",
+        "credit_rating",
+        "negative",
+        "default",
+        "other"
+      ],
+      "title": "CovenantCategory",
+      "type": "string"
+    },
+    "CovenantSpecificity": {
+      "description": "How much of the contractual term a breach report itself prints.",
+      "enum": [
+        "clause_text",
+        "requirement_and_actual",
+        "clause_number_only",
+        "description_only"
+      ],
+      "title": "CovenantSpecificity",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A verifiable pointer into a document the pipeline has retrieved and hashed.",
+      "properties": {
+        "document": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Document",
+          "type": "string"
+        },
+        "locator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human-readable position, e.g. \"Table 5, Sr. No. 4\"",
+          "title": "Locator"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "1-based page of the file, not the printed folio",
+          "title": "Page"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "maxLength": 800,
+              "minLength": 3,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "visual_fallback": {
+          "default": false,
+          "description": "The words are visible on the rendered page but may be absent from the file's text layer",
+          "title": "Visual Fallback",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Intimation": {
+      "additionalProperties": false,
+      "properties": {
+        "dated": {
+          "format": "date",
+          "title": "Dated",
+          "type": "string"
+        },
+        "recipients": {
+          "items": {
+            "$ref": "#/$defs/Recipient"
+          },
+          "minItems": 1,
+          "title": "Recipients",
+          "type": "array"
+        }
+      },
+      "required": [
+        "recipients",
+        "dated"
+      ],
+      "title": "Intimation",
+      "type": "object"
+    },
+    "NoInformationEntry": {
+      "additionalProperties": false,
+      "description": "An issuer the reporting trustee says it has received no information about.",
+      "properties": {
+        "issuer": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "pattern": "^[a-z0-9][a-z0-9._-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issuer"
+        },
+        "issuer_name_as_reported": {
+          "title": "Issuer Name As Reported",
+          "type": "string"
+        },
+        "page": {
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "issuer_name_as_reported",
+        "page"
+      ],
+      "title": "NoInformationEntry",
+      "type": "object"
+    },
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "format": "date",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Period",
+      "type": "object"
+    },
+    "PrintedNote": {
+      "additionalProperties": false,
+      "description": "A note or footnote printed in a report, such as a definition of what a date column means.",
+      "properties": {
+        "page": {
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "text": {
+          "maxLength": 800,
+          "minLength": 3,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "page",
+        "text"
+      ],
+      "title": "PrintedNote",
+      "type": "object"
+    },
+    "ProvisionLink": {
+      "additionalProperties": false,
+      "description": "Connects a reported breach to the contract clause it concerns (project analysis).",
+      "properties": {
+        "agreement": {
+          "$ref": "#/$defs/Agreement"
+        },
+        "basis": {
+          "$ref": "#/$defs/ProvisionLinkBasis"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "provision": {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Provision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provision",
+        "basis",
+        "agreement"
+      ],
+      "title": "ProvisionLink",
+      "type": "object"
+    },
+    "ProvisionLinkBasis": {
+      "description": "How a reported breach was connected to a contractual provision.",
+      "enum": [
+        "clause_reference",
+        "text_match",
+        "metric_match"
+      ],
+      "title": "ProvisionLinkBasis",
+      "type": "string"
+    },
+    "Recipient": {
+      "enum": [
+        "debenture_holders",
+        "stock_exchange",
+        "sebi",
+        "credit_rating_agency",
+        "unspecified"
+      ],
+      "title": "Recipient",
+      "type": "string"
+    },
+    "ReportedAction": {
+      "additionalProperties": false,
+      "properties": {
+        "dated": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dated"
+        },
+        "kind": {
+          "$ref": "#/$defs/ActionKind"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "ReportedAction",
+      "type": "object"
+    },
+    "ReportedDate": {
+      "additionalProperties": false,
+      "description": "A date exactly as printed, with the project's reading of it.",
+      "properties": {
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Required when the value is not a direct parse of raw",
+          "title": "Note"
+        },
+        "raw": {
+          "title": "Raw",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "raw"
+      ],
+      "title": "ReportedDate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The structured content of one covenant breach status report.",
+  "properties": {
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
+    },
+    "extraction_complete": {
+      "description": "True only if every row of the report has been transcribed; required before absence can be inferred",
+      "title": "Extraction Complete",
+      "type": "boolean"
+    },
+    "nil_report": {
+      "default": false,
+      "title": "Nil Report",
+      "type": "boolean"
+    },
+    "no_information": {
+      "items": {
+        "$ref": "#/$defs/NoInformationEntry"
+      },
+      "title": "No Information",
+      "type": "array"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Project remarks about the report as a whole",
+      "title": "Notes"
+    },
+    "period": {
+      "$ref": "#/$defs/Period"
+    },
+    "printed_notes": {
+      "items": {
+        "$ref": "#/$defs/PrintedNote"
+      },
+      "title": "Printed Notes",
+      "type": "array"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/BreachRow"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "trustee": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Trustee",
+      "type": "string"
+    },
+    "visually_reviewed": {
+      "default": false,
+      "description": "The transcription was compared with the rendered pages; text layers can silently omit content",
+      "title": "Visually Reviewed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "document",
+    "trustee",
+    "period",
+    "extraction_complete"
+  ],
+  "title": "BreachReport",
+  "type": "object"
+}

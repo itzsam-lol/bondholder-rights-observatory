@@ -1,0 +1,11 @@
+isin: INE2GLH07020
+issuer: arugn-technologies
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 5
+    quote: INE2GLH07020
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

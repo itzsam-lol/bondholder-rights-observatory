@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "Period": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "format": "date",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "format": "date",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "Period",
+      "type": "object"
+    },
+    "SearchChannel": {
+      "enum": [
+        "web_search",
+        "source_listing_page",
+        "direct_url"
+      ],
+      "title": "SearchChannel",
+      "type": "string"
+    },
+    "SearchOutcome": {
+      "enum": [
+        "found",
+        "not_found",
+        "located_not_retrieved",
+        "excluded_by_policy",
+        "access_error"
+      ],
+      "title": "SearchOutcome",
+      "type": "string"
+    },
+    "SearchPurpose": {
+      "enum": [
+        "contract_document",
+        "amendment",
+        "trustee_report",
+        "identity",
+        "compliance_statement"
+      ],
+      "title": "SearchPurpose",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One documented attempt to find something, whether or not it succeeded.",
+  "properties": {
+    "channel": {
+      "$ref": "#/$defs/SearchChannel"
+    },
+    "documents": {
+      "items": {
+        "maxLength": 120,
+        "pattern": "^[a-z0-9][a-z0-9._-]*$",
+        "type": "string"
+      },
+      "title": "Documents",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "outcome": {
+      "$ref": "#/$defs/SearchOutcome"
+    },
+    "performed_on": {
+      "format": "date",
+      "title": "Performed On",
+      "type": "string"
+    },
+    "period": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Period"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Reporting period sought, for trustee report searches"
+    },
+    "purpose": {
+      "$ref": "#/$defs/SearchPurpose"
+    },
+    "query": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Query"
+    },
+    "scope": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Scope",
+      "type": "array"
+    },
+    "subject": {
+      "description": "ISIN, issuer id or source id the search was about",
+      "title": "Subject",
+      "type": "string"
+    },
+    "urls_seen": {
+      "description": "Candidates seen but not retrieved",
+      "items": {
+        "type": "string"
+      },
+      "title": "Urls Seen",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "performed_on",
+    "subject",
+    "purpose",
+    "channel",
+    "outcome"
+  ],
+  "title": "SearchRecord",
+  "type": "object"
+}

@@ -1,0 +1,41 @@
+{
+  "additionalProperties": false,
+  "description": "A date exactly as printed, with the project's reading of it.",
+  "properties": {
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Required when the value is not a direct parse of raw",
+      "title": "Note"
+    },
+    "raw": {
+      "title": "Raw",
+      "type": "string"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Value"
+    }
+  },
+  "required": [
+    "raw"
+  ],
+  "title": "ReportedDate",
+  "type": "object"
+}

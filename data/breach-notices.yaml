@@ -1,0 +1,1218 @@
+# Debenture trustees' published letters to holders, reviewed against each source page. See docs/methods.md.
+
+- id: ctl-notice-aye-ine501x07588-2026-09-p1
+  document: ctl-notice-aye-ine501x07588-2026-09
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE501X07588
+  issued_on: 2026-07-24
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-05-16
+  - 2025-07-14
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 16 th May, 2024 and 14 th July, 2025 respectively
+  issuer_intimation: 2026-07-22
+  issuer_intimation_as_reported: received intimation from the issuer on 22 nd July, 2026
+  meeting_proposed_for: 2026-08-18
+  clause_reference_as_reported: As per the Debenture Trust Deed
+  covenant_as_reported: 'As per the Debenture Trust Deed Clause 10.3: (a) maintain the ratio of A:B of less than
+    5% (five percent), where A is the aggregate of Portfolio At Risk Over'
+  covenant_truncated: true
+  levels_stated:
+  - 5%
+- id: ctl-notice-aye-ine501x07570-2026-05-p1
+  document: ctl-notice-aye-ine501x07570-2026-05
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE501X07570
+  issued_on: 2026-04-29
+  period_end: 2026-03-31
+  deed_dates:
+  - 2024-04-29
+  - 2024-06-12
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 29th April, 2024 and 12th June, 2024
+  issuer_intimation: 2026-04-27
+  issuer_intimation_as_reported: received intimation from the Issuer on 27th April, 2026
+  meeting_proposed_for: 2026-05-22
+  clause_reference_as_reported: As per Clause 9.3 (a) (viii) of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per Clause 9.3 (a) (viii) of the Debenture Trust Deed (DTD): (viii) The company shall
+    maintain the ratio of A: B of not more than 8% (Eight Percent) where A'
+  covenant_truncated: true
+  levels_stated:
+  - 8%
+  notes: Concerns the March 2026 quarter. This ISIN is not listed in the trustee's June 2026 quarter report.
+- id: ctl-notice-aye-2026-10-p1
+  document: ctl-notice-aye-2026-10
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE501X07588
+  issued_on: 2026-10-23
+  period_end: 2026-09-30
+  deed_dates:
+  - 2024-05-16
+  - 2025-07-14
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 16 th May 2024 and 14 th July 2025 respectively
+  issuer_intimation: 2026-10-21
+  issuer_intimation_as_reported: received intimation from the issuer on 21 st October 2026
+  meeting_proposed_for: 2026-11-16
+  clause_reference_as_reported: As per the Debenture Trust Deed
+  covenant_as_reported: 'As per the Debenture Trust Deed Clause 10.3.a: (a) maintain the ratio of A:B of less than
+    5% (five percent), where A is the aggregate of Portfolio at Risk Over'
+  covenant_truncated: true
+  levels_stated:
+  - 5%
+  notes: Concerns the September 2026 quarter, for which the trustee's Table 5 report had not been published when
+    reviewed.
+- id: ctl-notice-casablanca-2026-08-p1
+  document: ctl-notice-casablanca-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE834U07019
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-10-25
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 25th October, 2024
+  issuer_intimation: 2026-08-11
+  issuer_intimation_as_reported: received intimation from the Issuer on 11th August, 2026
+  meeting_proposed_for: 2026-09-07
+  clause_reference_as_reported: As per Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD): (a) The Total Debt/EBITDA
+    should be less than: (iii) 2.85x from 1 April 2026 until 31 March'
+  covenant_truncated: true
+  levels_stated:
+  - 1.2x
+  - 2.85x
+  - 2x
+  notes: The quarter is not legible in the notice; assigned by matching ISIN and dates to the June 2026 quarter
+    report.
+- id: ctl-notice-casablanca-2026-08-p4
+  document: ctl-notice-casablanca-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  isins:
+  - INE834U07027
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-10-25
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 25th October, 2024
+  issuer_intimation: 2026-08-11
+  issuer_intimation_as_reported: received intimation from the Issuer on 11th August, 2026
+  meeting_proposed_for: 2026-09-07
+  clause_reference_as_reported: As per Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD): (a) The Total Debt/EBITDA
+    should be less than: (iii) 2.85x from 1 April 2026 until 31 March'
+  covenant_truncated: true
+  levels_stated:
+  - 1.2x
+  - 2.85x
+  - 2x
+  notes: The quarter is not legible in the notice; assigned by matching ISIN and dates to the June 2026 quarter
+    report.
+- id: ctl-notice-convenient-2026-08-p1
+  document: ctl-notice-convenient-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE01W207017
+  issued_on: 2026-08-17
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-09-25
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 25th September, 2025
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14 th August 2026
+  meeting_proposed_for: 2026-09-08
+  clause_reference_as_reported: As per Schedule 6 PART A Clause no. 10 of the Debenture Trust Deed
+  covenant_as_reported: As per Schedule 6 PART A Clause no. 10 of the Debenture Trust Deed WITHIN 15 (FIFTEEN) BUSINESS
+    DAYS OF ACQUISITION OF SHARES IN AN ISSUER ACQUIRED COMP ANY
+  covenant_truncated: true
+- id: ctl-notice-akara-2026-08-p1
+  document: ctl-notice-akara-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE08XP07365
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-09-11
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 11th September 2025
+  issuer_intimation: 2026-08-13
+  issuer_intimation_as_reported: received intimation from the issuer on 13th August 2026
+  meeting_proposed_for: 2026-09-09
+  clause_reference_as_reported: As per Schedule III Clause 4 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per Schedule III Clause 4 of the Debenture Trust Deed (DTD): a) On a standalone basis,
+    the Company shall maintain the debt-equity ratio of less than 3'
+  covenant_truncated: true
+  levels_stated:
+  - 22%
+- id: ctl-notice-akara-2026-08-p4
+  document: ctl-notice-akara-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  isins:
+  - INE08XP07357
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-09-11
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 11th September 2025
+  issuer_intimation: 2026-08-13
+  issuer_intimation_as_reported: received intimation from the issuer on 13th August 2026
+  meeting_proposed_for: 2026-09-09
+  clause_reference_as_reported: As per Schedule III Clause 4 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per Schedule III Clause 4 of the Debenture Trust Deed (DTD): (a) The Company shall maintain
+    the debt-to-equity ratio of less than 3 (Three) for on -book'
+  covenant_truncated: true
+  levels_stated:
+  - 22%
+- id: ctl-notice-pahal-2026-08-p1
+  document: ctl-notice-pahal-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07395
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2026-02-25
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 25th February, 2026
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August, 2026
+  meeting_proposed_for: 2026-09-09
+  clause_reference_as_reported: As per Schedule IX of the Debenture Trust Deed
+  covenant_as_reported: As per Schedule IX of the Debenture Trust Deed (c) maintain a maximum permissible ratio
+    of PAR>90 (net off Loan Loss Provisions on the Company's entire
+  covenant_truncated: true
+  levels_stated:
+  - 25%
+- id: ctl-notice-pahal-2026-08-p4
+  document: ctl-notice-pahal-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07395
+  issued_on: 2026-09-11
+  meeting_proposed_for: 2026-09-16
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-pahal-2026-08-p6
+  document: ctl-notice-pahal-2026-08
+  page: 6
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07304
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2023-11-06
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 6th November , 2023
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-09
+  clause_reference_as_reported: As per Clause 2.5.3 of the Debenture Trust Deed
+  covenant_as_reported: As per Clause 2.5.3 of the Debenture Trust Deed (c) a Portfolio Quality 30 (Thirty) Days
+    Ratio of less than or equal to 5% (Five Percent); (d) an Open Loan
+  covenant_truncated: true
+  levels_stated:
+  - 0.5%
+  - 20%
+  - 5%
+- id: ctl-notice-pahal-2026-08-p9
+  document: ctl-notice-pahal-2026-08
+  page: 9
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07304
+  issued_on: 2026-09-11
+  meeting_proposed_for: 2026-09-16
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-pahal-2026-08-p11
+  document: ctl-notice-pahal-2026-08
+  page: 11
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07361
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-07-30
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 30th July, 2024
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August, 2026
+  meeting_proposed_for: 2026-09-09
+  clause_reference_as_reported: As per Clause 2.6 of the Debenture Trust Deed
+  covenant_as_reported: As per Clause 2.6 of the Debenture Trust Deed (i)“The Company shall at all times until the
+    Final Settlement Date, maintain a ratio of the sum of (x) Portfolio
+  covenant_truncated: true
+  levels_stated:
+  - 0%
+  - 12%
+- id: ctl-notice-pahal-2026-08-p14
+  document: ctl-notice-pahal-2026-08
+  page: 14
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07361
+  issued_on: 2026-09-11
+  meeting_proposed_for: 2026-09-16
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-pahal-2026-08-p16
+  document: ctl-notice-pahal-2026-08
+  page: 16
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07353
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-05-21
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 21st May, 2024
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-09
+  clause_reference_as_reported: As per Clause 2.3.4 of the Debenture Trust Deed
+  covenant_as_reported: As per Clause 2.3.4 of the Debenture Trust Deed (c) maintain a portfolio at risk ratio of
+    less than 6% (Six Percent) (h) maintain a Last 12 Months’ Return on
+  covenant_truncated: true
+  levels_stated:
+  - 0.0%
+  - 6%
+- id: ctl-notice-pahal-2026-08-p19
+  document: ctl-notice-pahal-2026-08
+  page: 19
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07353
+  issued_on: 2026-09-11
+  meeting_proposed_for: 2026-09-16
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-pahal-2026-08-p21
+  document: ctl-notice-pahal-2026-08
+  page: 21
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07379
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-10-21
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 21st October, 2024
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August, 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per clause 9.3 of the Debenture Trust Deed
+  covenant_as_reported: As per clause 9.3 of the Debenture Trust Deed (e) The Company shall, at all times, commencing
+    from Effective Date until the Final Settlement Date, maintain a
+  covenant_truncated: true
+  levels_stated:
+  - 15%
+- id: ctl-notice-pahal-2026-08-p24
+  document: ctl-notice-pahal-2026-08
+  page: 24
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07379
+  issued_on: 2026-09-15
+  meeting_proposed_for: 2026-09-17
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-pahal-2026-08-p26
+  document: ctl-notice-pahal-2026-08
+  page: 26
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07387
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-07-28
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 28th July, 2025
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14thAugust 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per Clause 17.2 of the Debenture Trust Deed
+  covenant_as_reported: As per Clause 17.2 of the Debenture Trust Deed (c) commencing from January 1, 2026 until
+    the Final Settlement Date, the PAR Ratio Over 30 Days of not more than
+  covenant_truncated: true
+  levels_stated:
+  - 5%
+  - 75%
+  - 8%
+- id: ctl-notice-pahal-2026-08-p29
+  document: ctl-notice-pahal-2026-08
+  page: 29
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07387
+  issued_on: 2026-09-15
+  meeting_proposed_for: 2026-09-17
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-pahal-2026-08-p31
+  document: ctl-notice-pahal-2026-08
+  page: 31
+  trustee: catalyst-trusteeship
+  isins:
+  - INE514Q07403
+  issued_on: 2026-08-17
+  period_end: 2026-06-30
+  deed_dates:
+  - 2026-05-18
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 18th May, 2026
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per Schedule 3 Para 2 of the Debenture Trust Deed
+  covenant_as_reported: As per Schedule 3 Para 2 of the Debenture Trust Deed "(a)(i) The Company shall also maintain
+    an Off -Book Portfolio on Assets Under Management of (A) less than
+  covenant_truncated: true
+  levels_stated:
+  - 40%
+  - 45%
+  - 55%
+  - 65%
+- id: ctl-notice-pahal-2026-08-p34
+  document: ctl-notice-pahal-2026-08
+  page: 34
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE514Q07403
+  issued_on: 2026-09-15
+  meeting_proposed_for: 2026-09-17
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-satya-2026-08-p1
+  document: ctl-notice-satya-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE982X07176
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2021-08-10
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 10th August, 2021
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per Clause 2.5.3 of the DTD
+  covenant_as_reported: 'As per Clause 2.5.3 of the DTD: "(b)The Company shall, on and from the Deemed Date of Allotment
+    and until September 30, 2021, maintain a Portfolio Quality 30'
+  covenant_truncated: true
+  levels_stated:
+  - 10%
+  - 5%
+  - 7.5%
+  levels_complete: false
+- id: ctl-notice-satya-2026-08-p5
+  document: ctl-notice-satya-2026-08
+  page: 5
+  trustee: catalyst-trusteeship
+  isins:
+  - INE982X07432
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-07-23
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 23rd July, 2024
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-11
+  covenant_as_reported: Clause 17.4 (a) (i), (v), (ix), (x) and (xiii) of the Debenture Trust Deed Further, basis
+    the security cover certificate by the statutory auditor, the issuer
+  covenant_truncated: true
+- id: ctl-notice-satya-2026-08-p8
+  document: ctl-notice-satya-2026-08
+  page: 8
+  trustee: catalyst-trusteeship
+  isins:
+  - INE982X07457
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2021-08-25
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 25th August, 2021
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-11
+  covenant_as_reported: Clause 10.3 (c), (d) and (e) of the Debenture Trust Deed Further, basis the security cover
+    certificate by the statutory auditor, the issuer has not maintained
+  covenant_truncated: true
+- id: ctl-notice-satya-2026-08-p11
+  document: ctl-notice-satya-2026-08
+  page: 11
+  trustee: catalyst-trusteeship
+  isins:
+  - INE982X08034
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2019-07-08
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 8th July, 2019
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per clause 3.3 of the Debenture Trust Deed
+  covenant_as_reported: As per clause 3.3 of the Debenture Trust Deed (a) Until the Final Settlement Date, the GNPA
+    shall not exceed 3% (three percent) of the Assets under Management
+  covenant_truncated: true
+  levels_stated:
+  - 3%
+- id: ctl-notice-satya-2026-08-p14
+  document: ctl-notice-satya-2026-08
+  page: 14
+  trustee: catalyst-trusteeship
+  isins:
+  - INE982X08091
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2023-11-30
+  - 2023-12-20
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 30th November 2023 and 20th December 2023
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per Clause 9.3 of the DTD
+  covenant_as_reported: 'As per Clause 9.3 of the DTD: b)Capital Adequacy Ratio (CAR) of atleast 17% or as per applicable
+    RBI regulation, whichever is higher, of the above CAR, TIER 1'
+  covenant_truncated: true
+  levels_stated:
+  - 100%
+  - 15%
+  - 17%
+  - 3%
+  - 5.00%
+  - 870crores
+  levels_complete: false
+- id: ctl-notice-satya-2026-08-p17
+  document: ctl-notice-satya-2026-08
+  page: 17
+  trustee: catalyst-trusteeship
+  isins:
+  - INE982X08109
+  issued_on: 2026-08-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-02-09
+  - 2024-02-22
+  - 2024-03-27
+  - 2024-05-30
+  - 2024-06-21
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 09th February 2024, 22nd February 2024, 27th March 2024,
+    30th May 2024, and 21 st June 2024
+  issuer_intimation: 2026-08-14
+  issuer_intimation_as_reported: received intimation from the issuer on 14th August 2026
+  meeting_proposed_for: 2026-09-10
+  clause_reference_as_reported: As per Clause 9.3 of the DTD
+  covenant_as_reported: 'As per Clause 9.3 of the DTD: b) Capital Adequacy Ratio (CAR) of atleast 17% or as per
+    applicable RBI regulation, whichever is higher, of the above CAR, TIER 1'
+  covenant_truncated: true
+  levels_stated:
+  - 100%
+  - 15%
+  - 17%
+  - 3%
+  - 5.00%
+  - 870crores
+  levels_complete: false
+- id: ctl-notice-samunnati-2026-08-p1
+  document: ctl-notice-samunnati-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE551U07324
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-09-16
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 16th September, 2024
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer on 12th August, 2026
+  meeting_proposed_for: 2026-09-08
+  clause_reference_as_reported: As per the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per the Debenture Trust Deed (DTD): Clause no. 6.1 (b) The charge over the Hypothecated
+    Assets shall be at least 1.0 (one decimal zero) times the value of'
+  covenant_truncated: true
+  levels_complete: false
+- id: ctl-notice-samunnati-2026-08-p4
+  document: ctl-notice-samunnati-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  isins:
+  - INE551U07266
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-02-15
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 15th February, 2024
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer on 12th August 2026
+  meeting_proposed_for: 2026-09-08
+  clause_reference_as_reported: As per the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per the Debenture Trust Deed (DTD): Part B Schedule I: Security Cover Ratio - 1.10x
+    (One Decimal Point One Zero Times) the value of the Outstanding'
+  covenant_truncated: true
+  levels_stated:
+  - 1.10x
+  - 5%
+  - 50%
+  - 6%
+  - 8%
+- id: ctl-notice-samunnati-2026-08-p7
+  document: ctl-notice-samunnati-2026-08
+  page: 7
+  trustee: catalyst-trusteeship
+  isins:
+  - INE0N5S07052
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-09-18
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 18th September, 2025
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer on 12th August, 2026
+  meeting_proposed_for: 2026-09-08
+  clause_reference_as_reported: As per the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per the Debenture Trust Deed (DTD): Part B Schedule I: Security Cover Ratio - 1.10x
+    (One Decimal Point One Zero Times) the value of the Outstanding'
+  covenant_truncated: true
+  levels_stated:
+  - 1.10x
+  - 150cr
+  - 20%
+  - 4%
+  - 6.5%
+  levels_complete: false
+- id: ctl-notice-light-2026-08-p1
+  document: ctl-notice-light-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE366T07154
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-05-27
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 27th May 2024
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer on 12th August 2026
+  meeting_proposed_for: 2026-09-07
+  covenant_as_reported: Part B Clause 2.3.4 of the Debenture Trust Deed (c) maintain a Portfolio at Risk Ratio of
+    less than 5% (Five percent); (h) maintain a Last 12 Months’ Return on
+  covenant_truncated: true
+  levels_stated:
+  - 0.0%
+  - 5%
+- id: ctl-notice-light-2026-08-p4
+  document: ctl-notice-light-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  isins:
+  - INE366T07162
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2022-09-19
+  - 2024-06-24
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 19th September 2022 and Amended DTD dated 24th June 2024
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer on 12th August 2026
+  meeting_proposed_for: 2026-09-07
+  clause_reference_as_reported: As per Part B Clause 2.6 of the Debenture Trust Deed
+  covenant_as_reported: As per Part B Clause 2.6 of the Debenture Trust Deed (i) at all times maintain a ratio of
+    the sum of (x) Portfolio at Risk over 30 days (own book) +
+  covenant_truncated: true
+  levels_stated:
+  - 0%
+  - 10%
+- id: ctl-notice-light-2026-08-p7
+  document: ctl-notice-light-2026-08
+  page: 7
+  trustee: catalyst-trusteeship
+  isins:
+  - INE366T07188
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-05-26
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 26th May 2025
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer on 12th August 2026
+  meeting_proposed_for: 2026-09-07
+  clause_reference_as_reported: As per Part B Clause 2.5.3 of the Debenture Trust Deed
+  covenant_as_reported: 'As per Part B Clause 2.5.3 of the Debenture Trust Deed: (d) on and from the Deemed Date
+    of Allotment until and including December 31, 2025, a Portfolio Quality'
+  covenant_truncated: true
+  levels_stated:
+  - 0%
+  - 10%
+  - 15%
+  - 7.5%
+  levels_complete: false
+- id: ctl-notice-light-2026-08-p10
+  document: ctl-notice-light-2026-08
+  page: 10
+  trustee: catalyst-trusteeship
+  isins:
+  - INE366T08020
+  issued_on: 2026-08-15
+  period_end: 2026-06-30
+  deed_dates:
+  - 2023-12-27
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 27th December 2023
+  issuer_intimation: 2026-08-12
+  issuer_intimation_as_reported: received intimation from the issuer 12th August 2026
+  meeting_proposed_for: 2026-09-07
+  clause_reference_as_reported: As per Part B Clause 9.3 of the Debenture Trust Deed
+  covenant_as_reported: As per Part B Clause 9.3 of the Debenture Trust Deed (c) Gross NP A not to exceed 3% of
+    Gross Loan Portfolio (e) Issuer to maintain a minimum Net-worth of Rs.
+  covenant_truncated: true
+  levels_stated:
+  - 3%
+  - 355crores
+- id: ctl-notice-neogrowth-2026-08-p1
+  document: ctl-notice-neogrowth-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE814O07543
+  issued_on: 2026-08-08
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-08-19
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 19th August 2024
+  issuer_intimation: 2026-08-06
+  issuer_intimation_as_reported: received intimation from the issuer on 6th August, 2026
+  meeting_proposed_for: 2026-08-31
+  clause_reference_as_reported: As per Clause 2.5.3 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per Clause 2.5.3 of the Debenture Trust Deed (DTD): (e) a Write-Off Ratio may not at
+    any time increase above 6.5% (Six Decimal Point Five Percent).'
+  levels_stated:
+  - 6.5%
+  notes: The quarter is not legible in the notice; assigned by matching ISIN and dates to the June 2026 quarter
+    report.
+- id: ctl-notice-neogrowth-2026-08-p4
+  document: ctl-notice-neogrowth-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  isins:
+  - INE814O07550
+  issued_on: 2026-08-08
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-11-27
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 27th November 2024
+  issuer_intimation: 2026-08-06
+  issuer_intimation_as_reported: received intimation from the issuer on 6th August, 2026
+  meeting_proposed_for: 2026-08-31
+  clause_reference_as_reported: As per clause 2.5.3 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per clause 2.5.3 of the Debenture Trust Deed (DTD): (d) on and from the Deemed Date
+    of Allotment until and including March 31, 2025, a Write -Off Ratio may'
+  covenant_truncated: true
+  levels_stated:
+  - 10%
+  - 6.5%
+  notes: The quarter is not legible in the notice; assigned by matching ISIN and dates to the June 2026 quarter
+    report.
+- id: ctl-notice-dvara-2026-08-p1
+  document: ctl-notice-dvara-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07464
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-09-18
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 18th September, 2024
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August 2026
+  meeting_proposed_for: 2026-09-18
+  clause_reference_as_reported: As per Part B, Article II, of the Debenture Trustee Deed
+  covenant_as_reported: As per Part B, Article II, of the Debenture Trustee Deed 2.6 (ii) The Company shall at all
+    times until the Final Settlement Date, maintain a ratio of the sum
+  covenant_truncated: true
+  levels_stated:
+  - 0%
+  - 10%
+- id: ctl-notice-dvara-2026-08-p4
+  document: ctl-notice-dvara-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P07464
+  issued_on: 2026-09-23
+  meeting_proposed_for: 2026-09-25
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-dvara-2026-08-p6
+  document: ctl-notice-dvara-2026-08
+  page: 6
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07464
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-09-18
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 18th September, 2024
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August 2026
+  meeting_proposed_for: 2026-09-18
+  clause_reference_as_reported: As per Part B, Article II, of the Debenture Trustee Deed
+  covenant_as_reported: As per Part B, Article II, of the Debenture Trustee Deed 2.6 (ii) The Company shall at all
+    times until the Final Settlement Date, maintain a ratio of the sum
+  covenant_truncated: true
+  levels_stated:
+  - 0%
+  - 10%
+  notes: This notice prints INE179P07464, the ISIN of the notice on page 1, though it carries a different meeting
+    and its follow-up letter and agenda on pages 9 and 10 print INE179P07530. See discrepancy dvara-isin-in-notice.
+- id: ctl-notice-dvara-2026-08-p9
+  document: ctl-notice-dvara-2026-08
+  page: 9
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P07530
+  issued_on: 2026-09-23
+  meeting_proposed_for: 2026-09-25
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-dvara-2026-08-p11
+  document: ctl-notice-dvara-2026-08
+  page: 11
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P08082
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-05-06
+  - 2026-07-29
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 6th May 2025 and Amendment Deed to the Debenture Trust Deed
+    dated 29th July 2026
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August 2026
+  meeting_proposed_for: 2026-09-21
+  clause_reference_as_reported: As per Clause no. 17.4 (a) (iii) of the Debenture Trust Deed
+  covenant_as_reported: 'As per Clause no. 17.4 (a) (iii) of the Debenture Trust Deed Clause 17.4 (a) The company
+    shall: (iii) until September 30, 2026 , maintain the Cost to Income'
+  covenant_truncated: true
+  levels_stated:
+  - 80%
+- id: ctl-notice-dvara-2026-08-p14
+  document: ctl-notice-dvara-2026-08
+  page: 14
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P08082
+  issued_on: 2026-09-24
+  meeting_proposed_for: 2026-09-28
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-dvara-2026-08-p16
+  document: ctl-notice-dvara-2026-08
+  page: 16
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07332
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-02-20
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 20th February, 2024
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August 2026
+  meeting_proposed_for: 2026-09-18
+  clause_reference_as_reported: As per Schedule 3 Clause 2 of the Debenture Trust Deed
+  covenant_as_reported: 'As per Schedule 3 Clause 2 of the Debenture Trust Deed (a) Portfolio Quality: (i) The Company
+    shall maintain a 30 Day Portfolio at Risk Ratio of (A) not more'
+  covenant_truncated: true
+  levels_stated:
+  - 100%
+  - 3%
+  - 4%
+  - 5%
+  - 50%
+  - 80%
+  levels_complete: false
+- id: ctl-notice-dvara-2026-08-p19
+  document: ctl-notice-dvara-2026-08
+  page: 19
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07605
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-08-20
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 20th August, 2025
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August, 2026
+  meeting_proposed_for: 2026-09-21
+  clause_reference_as_reported: As per Schedule 3 Clause 2 of the Debenture Trust Deed
+  covenant_as_reported: 'As per Schedule 3 Clause 2 of the Debenture Trust Deed (a) Portfolio Quality: (ii) The
+    Company shall maintain a 90 Day Portfolio at Risk on Asset Under'
+  covenant_truncated: true
+  levels_stated:
+  - 3%
+  - 5%
+  - 6%
+  - 7.0%
+  - 80%
+  levels_complete: false
+- id: ctl-notice-dvara-2026-08-p22
+  document: ctl-notice-dvara-2026-08
+  page: 22
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07548
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-09-26
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 26th September, 202 4
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August 2026
+  meeting_proposed_for: 2026-09-21
+  clause_reference_as_reported: As per Schedule VIII of the Debenture Trust Deed
+  covenant_as_reported: As per Schedule VIII of the Debenture Trust Deed (a) (PAR 90+ + Trailing 12 Months Write
+    off) / Total AUM <= 6% (e) Return on Assets (RoA) of >= 0.75%, to be
+  covenant_truncated: true
+  levels_stated:
+  - 0.75%
+  - 6%
+- id: ctl-notice-dvara-2026-08-p25
+  document: ctl-notice-dvara-2026-08
+  page: 25
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P07548
+  issued_on: 2026-09-24
+  meeting_proposed_for: 2026-09-28
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-dvara-2026-08-p27
+  document: ctl-notice-dvara-2026-08
+  page: 27
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P08074
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-04-22
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 22nd April, 2024
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August, 2026
+  meeting_proposed_for: 2026-09-22
+  clause_reference_as_reported: As per Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture
+    Trust Deed
+  covenant_as_reported: 'As per Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust
+    Deed: (a) (ii) (B) for the period commencing on October 1, 2024 until'
+  covenant_truncated: true
+  levels_stated:
+  - 1.5%
+  levels_complete: false
+- id: ctl-notice-dvara-2026-08-p30
+  document: ctl-notice-dvara-2026-08
+  page: 30
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P08074
+  issued_on: 2026-09-25
+  meeting_proposed_for: 2026-09-29
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-dvara-2026-08-p32
+  document: ctl-notice-dvara-2026-08
+  page: 32
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07597
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-07-17
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 17th July, 2025
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24 th August, 2026
+  meeting_proposed_for: 2026-09-22
+  clause_reference_as_reported: As per Clause 10.3 (a) (vii) of the Debenture Trust Deed
+  covenant_as_reported: 'As per Clause 10.3 (a) (vii) of the Debenture Trust Deed: (vii) ensure that the profit
+    after tax (P AT) of the Company, as determined in accordance with'
+  covenant_truncated: true
+- id: ctl-notice-dvara-2026-08-p35
+  document: ctl-notice-dvara-2026-08
+  page: 35
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P07597
+  issued_on: 2026-09-25
+  meeting_proposed_for: 2026-09-29
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-dvara-2026-08-p37
+  document: ctl-notice-dvara-2026-08
+  page: 37
+  trustee: catalyst-trusteeship
+  isins:
+  - INE179P07621
+  issued_on: 2026-08-27
+  period_end: 2026-06-30
+  deed_dates:
+  - 2026-01-28
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 28th January 2026
+  issuer_intimation: 2026-08-24
+  issuer_intimation_as_reported: received intimation from the issuer on 24th August, 2026
+  meeting_proposed_for: 2026-09-22
+  clause_reference_as_reported: As per Clause 10.2A (a) (i) of the Debenture Trust Deed
+  covenant_as_reported: 'As per Clause 10.2A (a) (i) of the Debenture Trust Deed: (i) maintain a Capital Adequacy
+    Ratio of more than 20% (twenty percent) or such other higher threshold'
+  covenant_truncated: true
+  levels_stated:
+  - 18%
+  - 20%
+- id: ctl-notice-dvara-2026-08-p40
+  document: ctl-notice-dvara-2026-08
+  page: 40
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE179P07621
+  issued_on: 2026-09-25
+  meeting_proposed_for: 2026-09-29
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-infinity-2026-08-p1
+  document: ctl-notice-infinity-2026-08
+  page: 1
+  trustee: catalyst-trusteeship
+  isins:
+  - INE00VD07032
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-04-01
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 1st April 2025
+  issuer_intimation: 2026-08-13
+  issuer_intimation_as_reported: received intimation from the issuer on 13th August 2026
+  meeting_proposed_for: 2026-09-04
+  clause_reference_as_reported: As per clause 9.3 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per clause 9.3 of the Debenture Trust Deed (DTD): (i) comply with any corporate governance
+    requirements applicable to the Company (as may be prescribed by'
+  covenant_truncated: true
+  notes: The quarter is not legible in the notice; assigned by matching ISIN and dates to the June 2026 quarter
+    report.
+- id: ctl-notice-infinity-2026-08-p4
+  document: ctl-notice-infinity-2026-08
+  page: 4
+  trustee: catalyst-trusteeship
+  kind: meeting_continuation
+  isins:
+  - INE00VD07032
+  issued_on: 2026-09-09
+  meeting_proposed_for: 2026-09-11
+  adjourned_for_lack_of_quorum: true
+- id: ctl-notice-infinity-2026-08-p6
+  document: ctl-notice-infinity-2026-08
+  page: 6
+  trustee: catalyst-trusteeship
+  isins:
+  - INE00VD07016
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2024-09-30
+  deed_as_reported: Debenture Trust Deed (“DTD”) dated 30th September 2024
+  issuer_intimation: 2026-08-13
+  issuer_intimation_as_reported: received intimation from the issuer on 13th August 2026
+  meeting_proposed_for: 2026-09-04
+  clause_reference_as_reported: As per clause 9.3 of the Debenture Trust Deed (DTD)
+  covenant_as_reported: 'As per clause 9.3 of the Debenture Trust Deed (DTD): (i) comply with any corporate governance
+    requirements applicable to the Company (as may be prescribed by'
+  covenant_truncated: true
+  notes: The quarter is not legible in the notice; assigned by matching ISIN and dates to the June 2026 quarter
+    report.
+- id: idbi-notice-konkan-2026-09-p1
+  document: idbi-notice-konkan-2026-09
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE139F07105
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2016-12-20
+  deed_as_reported: debenture trust deed dated December 20, 2016
+  issuer_intimation: 2026-08-13
+  issuer_intimation_as_reported: covenant certificate shared to us vide email dated 13 th August, 2026
+  meeting_proposed_for: 2026-09-09
+  covenant_as_reported: breach of covenant in Debt Service Coverage Rat io and Debt Equity Ratio
+  covenant_page: 2
+  notes: The ISIN and covenant wording are on page 2, the notice to holders; the deed and certificate dates are
+    on page 1, the press release.
+- id: idbi-notice-konkan-2026-05-p1
+  document: idbi-notice-konkan-2026-05
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE139F07105
+  isins_printed: false
+  issued_on: 2026-05-27
+  period_end: 2026-03-31
+  deed_dates:
+  - 2016-12-20
+  deed_as_reported: debenture trust deed dated December 20, 2016
+  issuer_intimation: 2026-05-26
+  issuer_intimation_as_reported: covenant certificate shared to us vide email dated 26th May, 2026
+  notes: Prints neither ISIN nor quarter. The ISIN is taken from the trustee's August 2026 notice under the same
+    trust deed, and the quarter is inferred from the date.
+- id: idbi-notice-belstar-2026-07-p1
+  document: idbi-notice-belstar-2026-07
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE443L08131
+  issued_on: 2026-07-28
+  period_end: 2026-06-30
+  deed_dates:
+  - 2020-09-29
+  deed_as_reported: debenture trust deed dated 29th September, 2020
+  issuer_intimation: 2026-07-24
+  issuer_intimation_as_reported: covenant certificate shared to us vide email dated 24th July, 2026
+  meeting_proposed_for: 2026-08-19
+- id: idbi-notice-aliens-2026-09b-p1
+  document: idbi-notice-aliens-2026-09b
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE223Y07017
+  issued_on: 2026-09-01
+  period_end: 2026-06-30
+  deed_dates:
+  - 2018-03-12
+  deed_as_reported: debenture trust deed dated 12th March, 2018
+  meeting_proposed_for: 2026-09-11
+  covenant_as_reported: the Issuer has not submitted the Statement of Value of Pledged Securities for the quarter
+    ended on 30th June, 2026 within the stipulated timeline of 60 days
+  covenant_truncated: true
+  notes: The ISIN is printed on page 2 of the file.
+- id: idbi-notice-emami-2026-09-p1
+  document: idbi-notice-emami-2026-09
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE711X07062
+  issued_on: 2026-09-16
+  period_end: 2026-06-30
+  deed_dates:
+  - 2022-06-28
+  deed_as_reported: debenture trust deed dated 28th June, 2022
+  meeting_proposed_for: 2026-10-05
+  covenant_as_reported: it has not submitted Financial Covenant Certificate for the quarter ended on 30 June, 2026
+  notes: The ISIN is printed on page 2 of the file. The press release heading leaves the issuer name blank.
+- id: idbi-notice-dvara-2026-08-p1
+  document: idbi-notice-dvara-2026-08
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE179P07589
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  deed_dates:
+  - 2025-03-25
+  deed_as_reported: debenture trust deed dated March 25, 2025
+  covenant_as_reported: Pursuant to breach of financial covenant (Return on Asset) which tantamount to breach of
+    covenant.
+  visual_fallback: true
+  notes: A scanned file with no text layer; read from the rendered page.
+- id: idbi-notice-pvp-2026-06-p1
+  document: idbi-notice-pvp-2026-06
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE362A07054
+  - INE362A07047
+  isins_printed: false
+  issued_on: 2026-06-16
+  period_end: 2026-03-31
+  deed_dates:
+  - 2025-04-07
+  deed_as_reported: debenture trust deed dated April 07, 2025
+  meeting_proposed_for: 2026-07-03
+  covenant_as_reported: Pursuant to non submission of audited financial statement of Corporate Guarantor - M/s Platex
+    Limited and non execution of pledge agreement pursuant to
+  covenant_truncated: true
+  visual_fallback: true
+  notes: A scanned file with no text layer; read from the rendered page. It prints no ISIN; the two ISINs come from
+    the trustee's June 2026 report, which lists this issuer under them. Page 2 says it concerns the quarter ended
+    31 March 2026.
+- id: idbi-notice-pidb-2026-08-p1
+  document: idbi-notice-pidb-2026-08
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE091D11097
+  - INE091D11105
+  - INE091D11139
+  - INE091D11147
+  - INE091D11162
+  - INE091D11170
+  - INE091D11204
+  issued_on: 2026-08-21
+  period_end: 2026-06-30
+  deed_dates:
+  - 2007-10-31
+  - 2008-08-14
+  - 2007-07-19
+  deed_as_reported: debenture trustee Agreement dated 31.10.2007, 14.08.2008 & 19.07.2007
+  meeting_proposed_for: 2026-09-18
+  covenant_as_reported: Pursuant to the Non submission of Financial Results within the prescribed timeline the issuer
+    is in non-compliance in respect of non-submission of Financial
+  covenant_truncated: true
+  visual_fallback: true
+  notes: A scanned file with no text layer; read from the rendered page. It cites a debenture trustee agreement,
+    not a trust deed. ISINs and meeting date are on page 2.
+- id: idbi-notice-mecl-2026-08-p1
+  document: idbi-notice-mecl-2026-08
+  page: 1
+  trustee: idbi-trusteeship
+  isins:
+  - INE760I07011
+  - INE760I07029
+  - INE760I07037
+  - INE760I07045
+  - INE760I07052
+  - INE760I07060
+  - INE760I07078
+  - INE760I07086
+  issued_on: 2026-08-24
+  period_end: 2026-06-30
+  meeting_proposed_for: 2026-09-16
+  covenant_as_reported: Pursuant to the Non submission of Financial Results within the prescribed timeline, the
+    issuer is in breach of terms of issue, due to non-submission of
+  covenant_truncated: true
+  visual_fallback: true
+  notes: A scanned file with no text layer; read from the rendered page. It cites no trust deed. ISINs and meeting
+    date are on page 2.
+- id: mitcon-press-ramasigns-2026-08-14-p1
+  document: mitcon-press-ramasigns-2026-08-14
+  page: 1
+  trustee: mitcon-credentia
+  isins:
+  - INE650D08013
+  issued_on: 2026-08-14
+  period_end: 2026-06-30
+  notes: A 23-page status report listing each due date. The date comes from the file name and the trustee's report,
+    which links to it; the quarter is the one that report covers.

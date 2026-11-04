@@ -1,0 +1,42 @@
+{
+  "additionalProperties": false,
+  "description": "A passage of a regulation or circular that the project's design relies on.",
+  "properties": {
+    "document": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Document",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "page": {
+      "minimum": 1,
+      "title": "Page",
+      "type": "integer"
+    },
+    "quote": {
+      "maxLength": 800,
+      "minLength": 3,
+      "title": "Quote",
+      "type": "string"
+    },
+    "relevance": {
+      "title": "Relevance",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "document",
+    "page",
+    "quote",
+    "relevance"
+  ],
+  "title": "RegulatoryReference",
+  "type": "object"
+}

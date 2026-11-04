@@ -1,0 +1,17 @@
+id,document,page,quote,relevance
+bond-central-documents,sebi-pr-bond-central-2025-02-27,2,"corporate bond documents, and disclosures","Bond Central's stated scope overlaps with document access, so this project does not build a listing portal."
+bond-central-scope,sebi-pr-bond-central-2025-02-27,1,information repository for the public at large,"Bond Central's stated purpose, as announced by SEBI. The portal itself could not be reached for review."
+copy-of-trust-deed,sebi-mc-dt-2026-09-28,92,Providing copy of debenture trust deed to investor,"The investor charter's route to a trust deed runs through the trustee, for investors."
+covenant-guidance-note,sebi-mc-dt-2026-09-28,71,Guidance note on list of Covenants,Source of the covenant categories used in the dataset (Annex-VIA).
+covenants-in-offer-document,sebi-mc-dt-2026-09-28,29,disclosed all covenants proposed to be included in debenture,"Trustee due diligence covers disclosure of covenants in the offer document, which makes offer documents a route to the terms."
+default-at-isin-level,sebi-mc-dt-2026-09-28,99,shall be reckoned at the ISIN level,Why the dataset is keyed on the ISIN rather than the issuer.
+expert-working-group,sebi-circ-dt-sbu-2026-10-27,1,Expert Working group,"SEBI is reviewing the trustee framework, so the rules this dataset is built around may change."
+inspect-trust-deed,sebi-mc-dt-2026-09-28,93,"Inspect debenture trust deed, to obtain copy",The right to a copy is framed as an investor's right.
+isin-many-documents,sebi-mc-dt-2026-09-28,99,a single ISIN which may have been split across multiple offer documents,Why instruments and documents are linked many-to-many.
+minimum-security-cover,sebi-mc-dt-2026-09-28,70,Any breach of the minimum security cover within two working days,"A separate disclosure to the exchange, which this dataset has not collected."
+sbu-extension,sebi-circ-dt-sbu-2026-10-27,2,"upto April 27, 2027",This circular extends a deadline on trustees' non-SEBI business and does not change covenant monitoring.
+scms-covenants-entered,sebi-mc-dt-2026-09-28,38,enter the covenants of the issuance in the system and upload the debenture trust deed,"Covenants and trust deeds are held in that system, which is why an independent public record has to be rebuilt from other sources."
+scms-credentials,sebi-mc-dt-2026-09-28,34,"Provide secure login credentials to Issuers, CRAs, Debenture Trustees",The Security and Covenant Monitoring System is a credentialed stakeholder platform.
+table-5-format,sebi-mc-dt-2026-09-28,78,"Status of information regarding breach of covenants/ terms of the issue, if any action taken by Debenture Trustee","The prescribed format of the trustee reports (Annex-VIIA, Table 5)."
+trustee-public-monitoring,sebi-mc-dt-2026-09-28,69,Independently monitor any breach of covenants,Trustees are themselves expected to monitor public disclosures.
+trustee-status-report,sebi-mc-dt-2026-09-28,69,Furnish a status report on its website and to the Stock Exchange,Basis of the quarterly trustee reports this dataset transcribes.

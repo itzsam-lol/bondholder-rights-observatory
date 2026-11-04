@@ -1,0 +1,11 @@
+isin: INE0INX07023
+issuer: aegis-vopak-terminals
+claims:
+- property: debenture_trustee
+  value: axis-trustee
+  asserted_by: axis-trustee
+  evidence:
+  - document: axis-t5-2026-09-v20261029
+    page: 1
+    quote: INE0INX07023
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

@@ -1,0 +1,82 @@
+# Passages of SEBI documents the project relies on. Each is checked against its page by `brdo verify`.
+
+- id: scms-credentials
+  document: sebi-mc-dt-2026-09-28
+  page: 34
+  quote: Provide secure login credentials to Issuers, CRAs, Debenture Trustees
+  relevance: The Security and Covenant Monitoring System is a credentialed stakeholder platform.
+- id: scms-covenants-entered
+  document: sebi-mc-dt-2026-09-28
+  page: 38
+  quote: enter the covenants of the issuance in the system and upload the debenture trust deed
+  relevance: Covenants and trust deeds are held in that system, which is why an independent public record has to be rebuilt from other sources.
+- id: trustee-status-report
+  document: sebi-mc-dt-2026-09-28
+  page: 69
+  quote: Furnish a status report on its website and to the Stock Exchange
+  relevance: Basis of the quarterly trustee reports this dataset transcribes.
+- id: trustee-public-monitoring
+  document: sebi-mc-dt-2026-09-28
+  page: 69
+  quote: Independently monitor any breach of covenants
+  relevance: Trustees are themselves expected to monitor public disclosures.
+- id: minimum-security-cover
+  document: sebi-mc-dt-2026-09-28
+  page: 70
+  quote: Any breach of the minimum security cover within two working days
+  relevance: A separate disclosure to the exchange, which this dataset has not collected.
+- id: covenant-guidance-note
+  document: sebi-mc-dt-2026-09-28
+  page: 71
+  quote: Guidance note on list of Covenants
+  relevance: Source of the covenant categories used in the dataset (Annex-VIA).
+- id: table-5-format
+  document: sebi-mc-dt-2026-09-28
+  page: 78
+  quote: Status of information regarding breach of covenants/ terms of the issue, if any action taken by Debenture Trustee
+  relevance: The prescribed format of the trustee reports (Annex-VIIA, Table 5).
+- id: copy-of-trust-deed
+  document: sebi-mc-dt-2026-09-28
+  page: 92
+  quote: Providing copy of debenture trust deed to investor
+  relevance: The investor charter's route to a trust deed runs through the trustee, for investors.
+- id: inspect-trust-deed
+  document: sebi-mc-dt-2026-09-28
+  page: 93
+  quote: Inspect debenture trust deed, to obtain copy
+  relevance: The right to a copy is framed as an investor's right.
+- id: default-at-isin-level
+  document: sebi-mc-dt-2026-09-28
+  page: 99
+  quote: shall be reckoned at the ISIN level
+  relevance: Why the dataset is keyed on the ISIN rather than the issuer.
+- id: isin-many-documents
+  document: sebi-mc-dt-2026-09-28
+  page: 99
+  quote: a single ISIN which may have been split across multiple offer documents
+  relevance: Why instruments and documents are linked many-to-many.
+- id: covenants-in-offer-document
+  document: sebi-mc-dt-2026-09-28
+  page: 29
+  quote: disclosed all covenants proposed to be included in debenture
+  relevance: Trustee due diligence covers disclosure of covenants in the offer document, which makes offer documents a route to the terms.
+- id: sbu-extension
+  document: sebi-circ-dt-sbu-2026-10-27
+  page: 2
+  quote: upto April 27, 2027
+  relevance: This circular extends a deadline on trustees' non-SEBI business and does not change covenant monitoring.
+- id: expert-working-group
+  document: sebi-circ-dt-sbu-2026-10-27
+  page: 1
+  quote: Expert Working group
+  relevance: SEBI is reviewing the trustee framework, so the rules this dataset is built around may change.
+- id: bond-central-scope
+  document: sebi-pr-bond-central-2025-02-27
+  page: 1
+  quote: information repository for the public at large
+  relevance: Bond Central's stated purpose, as announced by SEBI. The portal itself could not be reached for review.
+- id: bond-central-documents
+  document: sebi-pr-bond-central-2025-02-27
+  page: 2
+  quote: corporate bond documents, and disclosures
+  relevance: Bond Central's stated scope overlaps with document access, so this project does not build a listing portal.

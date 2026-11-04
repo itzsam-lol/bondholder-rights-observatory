@@ -1,0 +1,16 @@
+- id: aye-ine501x07588-clause-10-3-a
+  document: ctl-notice-aye-ine501x07588-2026-09
+  clause: "Clause 10.3: (a)"
+  page: 1
+  text: >-
+    (a) maintain the ratio of A:B of less than 5% (five percent), where A is the aggregate of Portfolio At Risk Over 90
+    Days and [the write-offs in respect of the Client Loans], and B is the [Gross Loan Portfolio], multiplied by 100, and
+    followed by the "%" symbol;
+  instruments: [INE501X07588]
+  category: financial
+  metric: (Portfolio at risk over 90 days + write-offs) / gross loan portfolio
+  thresholds:
+    - {comparator: "<", value: 5, unit: percent}
+  explanation: >-
+    Loans more than 90 days overdue, together with loans written off, must stay below 5% of the issuer's total loan book.
+  notes: The trustee quotes this from the trust deeds dated 16 May 2024 and 14 July 2025. The deeds have not been retrieved.

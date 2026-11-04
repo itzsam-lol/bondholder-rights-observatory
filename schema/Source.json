@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "AiTrainingSignal": {
+      "description": "Machine-readable reservation of rights published by a source.",
+      "enum": [
+        "unspecified",
+        "reserved"
+      ],
+      "title": "AiTrainingSignal",
+      "type": "string"
+    },
+    "ExcerptPolicy": {
+      "enum": [
+        "none",
+        "short_quotation"
+      ],
+      "title": "ExcerptPolicy",
+      "type": "string"
+    },
+    "RedistributionPolicy": {
+      "enum": [
+        "open",
+        "link_only",
+        "no_links"
+      ],
+      "title": "RedistributionPolicy",
+      "type": "string"
+    },
+    "RetrievalPolicy": {
+      "description": "Whether the project's pipeline may retrieve documents from a source.",
+      "enum": [
+        "allowed",
+        "manual_only",
+        "excluded"
+      ],
+      "title": "RetrievalPolicy",
+      "type": "string"
+    },
+    "SourceKind": {
+      "enum": [
+        "regulator",
+        "exchange",
+        "depository",
+        "debenture_trustee",
+        "issuer",
+        "credit_rating_agency",
+        "market_portal",
+        "other"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    },
+    "TermsReview": {
+      "additionalProperties": false,
+      "properties": {
+        "reviewed_on": {
+          "format": "date",
+          "title": "Reviewed On",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "urls": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Urls",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reviewed_on",
+        "urls",
+        "summary"
+      ],
+      "title": "TermsReview",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A publisher, together with the project's access and reuse policy for it.",
+  "properties": {
+    "ai_training": {
+      "$ref": "#/$defs/AiTrainingSignal",
+      "default": "unspecified"
+    },
+    "domains": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Domains",
+      "type": "array"
+    },
+    "excerpts": {
+      "$ref": "#/$defs/ExcerptPolicy"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/SourceKind"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "quote_limit": {
+      "default": 800,
+      "description": "Longest quotation of this source outside contract clauses",
+      "maximum": 800,
+      "minimum": 0,
+      "title": "Quote Limit",
+      "type": "integer"
+    },
+    "redistribution": {
+      "$ref": "#/$defs/RedistributionPolicy"
+    },
+    "retrieval": {
+      "$ref": "#/$defs/RetrievalPolicy"
+    },
+    "sebi_registration": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sebi Registration"
+    },
+    "terms": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TermsReview"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "kind",
+    "retrieval",
+    "redistribution",
+    "excerpts"
+  ],
+  "title": "Source",
+  "type": "object"
+}

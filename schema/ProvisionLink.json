@@ -1,0 +1,59 @@
+{
+  "$defs": {
+    "Agreement": {
+      "description": "Whether a covenant as reported agrees with the contractual text.",
+      "enum": [
+        "consistent",
+        "differs",
+        "not_comparable"
+      ],
+      "title": "Agreement",
+      "type": "string"
+    },
+    "ProvisionLinkBasis": {
+      "description": "How a reported breach was connected to a contractual provision.",
+      "enum": [
+        "clause_reference",
+        "text_match",
+        "metric_match"
+      ],
+      "title": "ProvisionLinkBasis",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Connects a reported breach to the contract clause it concerns (project analysis).",
+  "properties": {
+    "agreement": {
+      "$ref": "#/$defs/Agreement"
+    },
+    "basis": {
+      "$ref": "#/$defs/ProvisionLinkBasis"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    },
+    "provision": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Provision",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provision",
+    "basis",
+    "agreement"
+  ],
+  "title": "ProvisionLink",
+  "type": "object"
+}

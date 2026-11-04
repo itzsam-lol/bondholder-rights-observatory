@@ -1,0 +1,11 @@
+isin: INE982X08091
+issuer: satya-microcapital
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 2
+    quote: INE982X08091
+  note: Inferred from the trustee listing this ISIN in its own breach status report.

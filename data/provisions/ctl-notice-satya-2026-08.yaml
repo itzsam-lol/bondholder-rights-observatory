@@ -1,0 +1,25 @@
+- id: satya-ine982x08091-clause-9-3-b
+  document: ctl-notice-satya-2026-08
+  clause: Clause 9.3 b)
+  page: 14
+  text: >-
+    b)Capital Adequacy Ratio (CAR) of atleast 17% or as per applicable RBI regulation, whichever is higher, of the above
+    CAR, TIER 1 CAR to remain at minimum 15%.
+  instruments: [INE982X08091]
+  category: financial
+  metric: Capital adequacy ratio
+  thresholds:
+    - {comparator: ">=", value: 17, unit: percent}
+  explanation: Capital must be at least 17% of risk-weighted assets, or more if the RBI requires it, with Tier 1 capital at 15% or more.
+  notes: The trustee quotes this from the trust deeds dated 30 November 2023 and 20 December 2023. The deeds have not been retrieved.
+- id: satya-ine982x08091-clause-9-3-e
+  document: ctl-notice-satya-2026-08
+  clause: Clause 9.3 e)
+  page: 14
+  text: e)The Company to maintain a minimum Net-worth of Rs. 870 crores.
+  instruments: [INE982X08091]
+  category: financial
+  metric: Net worth
+  thresholds:
+    - {comparator: ">=", value: 8700000000, unit: inr}
+  explanation: The issuer's net worth must stay at Rs. 870 crore or more.

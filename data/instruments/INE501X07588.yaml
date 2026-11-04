@@ -1,0 +1,19 @@
+isin: INE501X07588
+issuer: aye-finance
+claims:
+- property: debenture_trustee
+  value: catalyst-trusteeship
+  asserted_by: catalyst-trusteeship
+  evidence:
+  - document: ctl-t5-2026-06
+    page: 1
+    quote: INE501X07588
+  note: Inferred from the trustee listing this ISIN in its own breach status report.
+- property: debenture_trustee
+  value: central-bank-of-india
+  asserted_by: cdsl
+  observations:
+  - url: https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588
+    observed_on: 2026-11-03
+    value_seen: CENTRAL BANK OF INDIA
+  note: Printed under Debenture Trustee Details, beside a due date of 30-Dec-1999 that looks like a placeholder.

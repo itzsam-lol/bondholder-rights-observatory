@@ -1,0 +1,15 @@
+- id: dvara-ine179p08082-cost-to-income-2026
+  document: ctl-notice-dvara-2026-08
+  clause: Clause no. 17.4 (a) (iii)
+  page: 11
+  text: (iii) until September 30, 2026 , maintain the Cost to Income Ratio of less than or equal to 80% (Eighty percent)
+  instruments: [INE179P08082]
+  category: financial
+  metric: Cost to income ratio
+  thresholds:
+    - {comparator: "<=", value: 80, unit: percent, applies_to: 2026-09-30}
+  amends: dvara-ine179p08082-cost-to-income-2025-12
+  explanation: Until 30 September 2026, operating costs may not exceed 80% of income, a higher limit than the 70% the issuer printed for December 2025.
+  notes: >-
+    The trustee cites a trust deed dated 6 May 2025 and an Amendment Deed dated 29 July 2026. Neither document says that deed
+    changed this limit, so reading this as an amendment of the earlier level is the project's inference.

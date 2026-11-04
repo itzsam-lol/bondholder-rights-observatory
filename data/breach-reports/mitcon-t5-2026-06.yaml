@@ -1,0 +1,99 @@
+document: mitcon-t5-2026-06
+trustee: mitcon-credentia
+period:
+  start: 2026-04-01
+  end: 2026-06-30
+extraction_complete: true
+visually_reviewed: true
+notes: The report is headed "as on 30th June, 2026" and is signed by the trustee's compliance officer on 12 September
+  2026.
+rows:
+- row: '1'
+  page: 1
+  issuer_name_as_reported: Ramasigns Industries Limited
+  issuer: ramasigns-industries
+  items:
+  - isins:
+    - INE650D08013
+    page: 1
+    category: default
+    specificity: description_only
+    covenant_as_reported: 'Non Payment of Interest & principal : The Issuer is required to make payment of interest
+      and partial principal on a monthly basis. However, the Company has'
+    truncated: true
+  security_enforcement_as_reported: Unsecured
+  actual_breach:
+    raw: 30th September, 2023 till date
+    value: 2023-09-30
+    note: Continuing default; the printed text gives its start date.
+  detected:
+    raw: 11th October 2023
+    value: 2023-10-11
+  intimation_as_reported: 02-05-2025 03-06-2025 02-07-2025 04-08-2025 03-09-2025 03-10-2025 03-11-2025 01-12-2025
+    01-01-2026 02-02-2026 02-03-2026 02-04-2026 04-05-2026 03-06-2026
+  intimations:
+  - recipients:
+    - unspecified
+    dated: 2025-05-02
+  - recipients:
+    - unspecified
+    dated: 2025-06-03
+  - recipients:
+    - unspecified
+    dated: 2025-07-02
+  - recipients:
+    - unspecified
+    dated: 2025-08-04
+  - recipients:
+    - unspecified
+    dated: 2025-09-03
+  - recipients:
+    - unspecified
+    dated: 2025-10-03
+  - recipients:
+    - unspecified
+    dated: 2025-11-03
+  - recipients:
+    - unspecified
+    dated: 2025-12-01
+  - recipients:
+    - unspecified
+    dated: 2026-01-01
+  - recipients:
+    - unspecified
+    dated: 2026-02-02
+  - recipients:
+    - unspecified
+    dated: 2026-03-02
+  - recipients:
+    - unspecified
+    dated: 2026-04-02
+  - recipients:
+    - unspecified
+    dated: 2026-05-04
+  - recipients:
+    - unspecified
+    dated: 2026-06-03
+  delay_in_detection_as_reported: NA
+  delay_in_intimation_as_reported: NA
+  delay_reasons_as_reported: NA
+  further_action_as_reported: Pursuant to the directions received from the Debenture Holders, the Debenture Trustee
+    took necessary steps towards facilitating the appointment of the proposed
+  actions:
+  - kind: holders_meeting_held
+  - kind: nominee_director
+  evidence:
+  - document: mitcon-t5-2026-06
+    page: 1
+    quote: We have duly intimated the debenture holders, stock exchanges, SEBI, and other applicable regulatory
+      authorities regarding the default in payment of interest
+  - document: mitcon-t5-2026-06
+    page: 1
+    quote: Further, a meeting of the debenture holders has been conducted, and necessary actions are being undertaken
+      in accordance with the applicable laws and
+  ambiguities:
+  - The earliest intimation date printed is 2 May 2025, about nineteen months after the printed detection date.
+    The report does not say whether earlier intimations were made; the first-intimation interval computed from these
+    dates therefore cannot be read as the time taken to intimate.
+  truncated_fields:
+  - further_action_as_reported

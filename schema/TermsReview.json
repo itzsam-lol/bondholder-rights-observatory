@@ -1,0 +1,28 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "reviewed_on": {
+      "format": "date",
+      "title": "Reviewed On",
+      "type": "string"
+    },
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    },
+    "urls": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Urls",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reviewed_on",
+    "urls",
+    "summary"
+  ],
+  "title": "TermsReview",
+  "type": "object"
+}

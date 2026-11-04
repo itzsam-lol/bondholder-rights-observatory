@@ -1,0 +1,11 @@
+isin: INE906B07IF7
+issuer: national-highways-authority-of-india
+claims:
+- property: debenture_trustee
+  value: idbi-trusteeship
+  asserted_by: idbi-trusteeship
+  evidence:
+  - document: idbi-t5-2026-06
+    page: 1
+    quote: INE906B07IF7
+  note: Inferred from the trustee listing this ISIN in its own breach status report.
