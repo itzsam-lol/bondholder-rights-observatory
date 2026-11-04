@@ -150,16 +150,24 @@ class Fetcher:
         self.clock = clock
         self.sleep = sleep
         self._robots: dict[str, urllib.robotparser.RobotFileParser | None] = {}
+        self._robots_unread: dict[str, str] = {}
         self._last_request: dict[str, float] = {}
 
     def check_allowed(self, url: str) -> Source:
-        """Return the source for ``url`` or raise ``RetrievalRefused``."""
+        """Return the source for ``url``, or raise ``RetrievalRefused``, or ``RetrievalFailed`` if robots.txt is unread.
+
+        A robots file that cannot be read stops retrieval just as a refusal does, but it is reported as a failure to
+        read it, so that a search log records an access error rather than a restriction the site never stated.
+        """
         source = source_for_url(url, self.sources)
         if source is None:
             raise RetrievalRefused(f"{url}: host is not a registered source; add it to sources.yaml first")
         if source.retrieval is not RetrievalPolicy.ALLOWED:
             raise RetrievalRefused(f"{url}: retrieval policy for {source.id} is {source.retrieval}")
         robots = self._robots_for(url)
+        unread = self._robots_unread.get(urlsplit(url).hostname or "")
+        if unread is not None:
+            raise RetrievalFailed(f"{url}: robots.txt could not be read ({unread}), so nothing was fetched")
         if robots is not None and not robots.can_fetch(self.user_agent, url):
             raise RetrievalRefused(f"{url}: disallowed by robots.txt")
         return source
@@ -224,13 +232,15 @@ class Fetcher:
         parser = urllib.robotparser.RobotFileParser()
         try:
             response = self._get(f"{parts.scheme}://{parts.netloc}/robots.txt")
-        except RetrievalFailed:
+        except RetrievalFailed as error:
             parser.disallow_all = True
+            self._robots_unread[host] = str(error).removeprefix(f"{parts.scheme}://{parts.netloc}/robots.txt: ")
         else:
             if response.status == 200 and _looks_like_robots(response):
                 parser.parse(response.body.decode("utf-8", errors="replace").splitlines())
             elif response.status >= 500:
                 parser.disallow_all = True
+                self._robots_unread[host] = f"HTTP {response.status}"
             else:
                 parser.allow_all = True
         self._robots[host] = parser

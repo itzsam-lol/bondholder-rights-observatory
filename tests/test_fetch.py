@@ -97,8 +97,17 @@ def test_obeys_robots_disallow(tmp_path):
 
 def test_treats_an_unreachable_robots_file_as_disallowing_everything(tmp_path):
     web = FakeWeb({ROBOTS: HttpResponse(503, {}, b"", ROBOTS), URL: ok(URL)})
-    with pytest.raises(RetrievalRefused, match="robots.txt"):
+    with pytest.raises(RetrievalFailed, match="robots.txt could not be read"):
         fetcher(tmp_path, web).fetch(URL)
+    assert URL not in [url for url, _ in web.requests]
+
+
+def test_a_robots_file_that_cannot_be_reached_is_reported_as_unread_not_as_a_refusal(tmp_path):
+    def unreachable(url: str, headers: dict[str, str]) -> HttpResponse:
+        raise RetrievalFailed(f"{url}: <urlopen error Tunnel connection failed: 403 Forbidden>")
+
+    with pytest.raises(RetrievalFailed, match=r"robots.txt could not be read \(<urlopen error Tunnel"):
+        fetcher(tmp_path, unreachable).check_allowed(URL)
 
 
 def test_a_missing_robots_file_allows_retrieval(tmp_path):
