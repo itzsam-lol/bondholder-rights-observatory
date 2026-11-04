@@ -286,7 +286,8 @@ def _consistency_section(dataset: Dataset) -> str:
         f"informed the trustee in {len(same_day)} of {len(dated)} comparisons. On covenant levels, the percentages, "
         f"multiples and crore amounts printed in the two match exactly in {len(agree)} of {len(threshold_checked)} "
         "comparisons where the notice prints any. This checks numbers only, so it cannot see a change of wording or "
-        "duration around the same number; see discrepancy dvara-cost-to-income-limit. Differences are listed as they are, and may have ordinary "
+        "duration around the same number; see discrepancy dvara-cost-to-income-limit. Differences are listed "
+        "as they are, and may have ordinary "
         "explanations.\n\n"
         "Detection date differs from the stated date of intimation:\n\n"
         + _table(["ISIN", "report", "row", "intimated per notice", "detected per report", "days"], differing)
