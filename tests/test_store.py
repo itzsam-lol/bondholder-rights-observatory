@@ -13,6 +13,7 @@ from brdo.vocab import (
     DocumentType,
     ExcerptPolicy,
     InstrumentProperty,
+    ProvisionStage,
     RedistributionPolicy,
     RetrievalPolicy,
     SearchChannel,
@@ -165,6 +166,28 @@ def test_a_provision_may_be_stated_by_a_report_but_not_by_a_circular(dataset):
     assert errors(dataset) == []
     dataset.documents["report-q1"] = make_document(type=DocumentType.REGULATORY_CIRCULAR)
     assert any("cannot state a contractual term" in e for e in errors(dataset))
+
+
+@pytest.mark.parametrize(
+    ("stage", "document_type", "allowed"),
+    [
+        (ProvisionStage.EXECUTED_TEXT, DocumentType.DEBENTURE_TRUST_DEED, True),
+        (ProvisionStage.EXECUTED_TEXT, DocumentType.SUPPLEMENTAL_TRUST_DEED, True),
+        (ProvisionStage.EXECUTED_TEXT, DocumentType.KEY_INFORMATION_DOCUMENT, False),
+        (ProvisionStage.EXECUTED_TEXT, DocumentType.TRUSTEE_PRESS_RELEASE, False),
+        (ProvisionStage.OFFERED, DocumentType.KEY_INFORMATION_DOCUMENT, True),
+        (ProvisionStage.OFFERED, DocumentType.PLACEMENT_MEMORANDUM, True),
+        (ProvisionStage.OFFERED, DocumentType.DEBENTURE_TRUST_DEED, False),
+        (ProvisionStage.OFFERED, DocumentType.EXCHANGE_NOTICE, False),
+        (ProvisionStage.PROPOSED, DocumentType.ISSUER_FILING, True),
+        (ProvisionStage.APPROVED_IN_PRINCIPLE, DocumentType.EXCHANGE_NOTICE, True),
+    ],
+)
+def test_an_offer_document_is_never_taken_for_the_executed_deed(dataset, stage, document_type, allowed):
+    dataset.provisions["p"] = _provision(stage=stage)
+    dataset.documents["report-q1"] = make_document(type=document_type)
+    stage_errors = [e for e in errors(dataset) if "is marked" in e]
+    assert (stage_errors == []) is allowed, stage_errors
 
 
 def test_an_amendment_must_point_at_an_existing_provision(dataset):

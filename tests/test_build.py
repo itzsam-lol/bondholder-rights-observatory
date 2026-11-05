@@ -51,4 +51,5 @@ def test_the_report_carries_its_disclaimer_and_never_speaks_of_compliance_as_a_f
 def test_the_funnel_counts_only_what_the_records_support(dataset):
     stages = dict(linkage_funnel(dataset))
     assert stages["listed in a reviewed trustee breach report"] == 1
-    assert stages["the contract itself retrieved, hashed and linked"] == 0
+    assert stages["an offer document retrieved, hashed and linked"] == 0
+    assert stages["an executed trust deed retrieved, hashed and linked"] == 0

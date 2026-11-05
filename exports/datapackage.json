@@ -8,7 +8,58 @@
     {
       "name": "CC-BY-4.0",
       "path": "https://creativecommons.org/licenses/by/4.0/",
-      "title": "Creative Commons Attribution 4.0, for the project's own work. Columns of kind source_text are quotations that remain their owners' and are not licensed; see LICENSE-DATA.md."
+      "title": "Creative Commons Attribution 4.0, for the project's own work only; not for fields marked brdo:licensed false, which are third-party quotations"
+    }
+  ],
+  "brdo:rights": "The project's own work (structure, facts it records, annotations, derived values and measurements) is under CC BY 4.0. That licence does not cover any field marked `brdo:licensed: false` (kind `source_text`), which holds third-party quotations, nor any source document, none of which is included. See LICENSE-DATA.md.",
+  "sources": [
+    {
+      "title": "Axis Trustee Services Limited",
+      "path": "https://axistrustee.in"
+    },
+    {
+      "title": "Aye Finance Limited (issuer website and document host)",
+      "path": "https://ayefin.com"
+    },
+    {
+      "title": "Beacon Trusteeship Limited",
+      "path": "https://beacontrustee.co.in"
+    },
+    {
+      "title": "Catalyst Trusteeship Limited",
+      "path": "https://catalysttrustee.com"
+    },
+    {
+      "title": "Dvara Kshetriya Gramin Financial Services Private Limited (issuer website)",
+      "path": "https://dvarakgfs.com"
+    },
+    {
+      "title": "ICRA Limited",
+      "path": "https://icra.in"
+    },
+    {
+      "title": "IDBI Trusteeship Services Limited",
+      "path": "https://idbitrustee.com"
+    },
+    {
+      "title": "Infinity Fincorp Solutions Private Limited (issuer website)",
+      "path": "https://infinityfincorp.com"
+    },
+    {
+      "title": "MITCON Credentia Trusteeship Services Limited",
+      "path": "https://mitconcredentia.in"
+    },
+    {
+      "title": "SATYA MicroCapital Limited (issuer website)",
+      "path": "https://satyamicrocapital.com"
+    },
+    {
+      "title": "Securities and Exchange Board of India",
+      "path": "https://sebi.gov.in"
+    },
+    {
+      "title": "Vistra ITCL (India) Limited",
+      "path": "https://vistraitcl.com"
     }
   ],
   "resources": [
@@ -26,74 +77,88 @@
             "name": "id",
             "type": "string",
             "description": "Id of the source.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "name",
             "type": "string",
             "description": "The publisher's name.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": false,
+            "brdo:rights": "A name of an entity, as a source prints it. Trade names are not licensed by the project (LICENSE-DATA.md)."
           },
           {
             "name": "kind",
             "type": "string",
             "description": "What kind of publisher it is: regulator, exchange, trustee, issuer and so on.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "retrieval",
             "type": "string",
             "description": "Whether the project's pipeline may retrieve from it: `allowed`, `manual_only` (a person downloads in a browser and the file is ingested by hash) or `excluded` (not used, not even linked).",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "redistribution",
             "type": "string",
             "description": "What the project publishes about the source's documents: `link_only` (links, hashes, short quotations) or `no_links` (not even a link).",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "excerpts",
             "type": "string",
             "description": "Whether any quotation is published from the source.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "quote_limit",
             "type": "integer",
             "description": "Longest quotation, in characters, that the project allows itself from the source outside contract clauses. A self-imposed restraint, not a legal threshold or safe harbour.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "domains",
             "type": "string",
             "description": "Hosts that belong to the source. Left empty for sources whose policy forbids links.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "ai_training",
             "type": "string",
             "description": "The source's published AI-training signal, if any.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "sebi_registration",
             "type": "string",
             "description": "SEBI registration number, as SEBI's register prints it.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "terms_reviewed_on",
             "type": "date",
             "description": "When the project last read the source's terms and robots.txt.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "terms_summary",
             "type": "string",
             "description": "The project's summary of the source's terms as reviewed. Not legal advice.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           },
           {
@@ -101,6 +166,8 @@
             "type": "string",
             "description": "The project's remark.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           }
         ],
@@ -123,175 +190,225 @@
             "name": "id",
             "type": "string",
             "description": "Id of the document.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "source",
             "type": "string",
             "description": "Id of the publisher in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "type",
             "type": "string",
             "description": "What kind of document it is, from a closed list.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "title",
             "type": "string",
             "description": "The title the file prints, or a descriptive title where it has none.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": false,
+            "brdo:rights": "A document's title as its publisher gives it, not licensed by the project."
           },
           {
             "name": "url",
             "type": "string",
             "description": "Address the file was retrieved from.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "landing_page",
             "type": "string",
             "description": "Page that lists or links the file, where known.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "retrieved_at",
             "type": "datetime",
             "description": "When the project retrieved the file (UTC).",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "retrieved_manually",
             "type": "boolean",
             "description": "True if a person downloaded the file in a browser and it was ingested by hash; false if the project's identified pipeline retrieved it.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "source_retrieval_policy",
             "type": "string",
             "description": "The publisher's current retrieval policy (`sources.csv`).",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "sha256",
             "type": "string",
             "description": "SHA-256 of the exact file. Evidence is verified against this file only.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "size_bytes",
             "type": "integer",
             "description": "Size of the file in bytes.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "media_type",
             "type": "string",
             "description": "Media type the server gave.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "pages",
             "type": "integer",
             "description": "Number of pages in the file.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "dated",
             "type": "date",
             "description": "The date the document gives itself.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "dated_basis",
             "type": "string",
             "description": "How the date was established.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "signed",
             "type": "date",
             "description": "The date the document says it was signed.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "published",
             "type": "date",
-            "description": "The date the publisher says the file was made public, for example on its listing page. Empty for most files: a server's Last-Modified header is never recorded here.",
-            "brdo:kind": "read_from_source"
+            "description": "The date the publisher says the file was posted, for example on its listing page. A server's Last-Modified header is never recorded here.",
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
+            "brdo:empty": "the publisher states no date for the file, as for all but one file in this release"
           },
           {
             "name": "published_basis",
             "type": "string",
             "description": "Where the publication date was read.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "last_modified",
             "type": "date",
-            "description": "The server's Last-Modified header for the exact file held. It dates that version on the server, not its first publication; an earlier version may have been public sooner.",
-            "brdo:kind": "provenance"
+            "description": "The server's Last-Modified header for the exact file held. It dates that version on the server. It does not establish first publication: a file can be uploaded before it is linked, replaced later, or copied with a misleading date.",
+            "brdo:kind": "provenance",
+            "brdo:licensed": true,
+            "brdo:empty": "the server sent no Last-Modified header"
           },
           {
             "name": "available_not_before",
             "type": "date",
-            "description": "Lower bound on availability: the latest of the file's own date, its signature, its \"as on\" date and the dates of letters transcribed from it. The file cannot have been public earlier.",
-            "brdo:kind": "derived"
+            "description": "Lower bound: the file cannot have been public before this day, if the dates it prints are right. The latest of its own date, its signature or \"as on\" date, the date of a letter in it, and the latest event its rows report.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "no lower bound: the record reads no date from the file"
+          },
+          {
+            "name": "available_not_before_basis",
+            "type": "string",
+            "description": "Which kind of date gives the lower bound.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "available_from",
             "type": "date",
-            "description": "Estimated day this exact file became public: the later of the publisher's date and Last-Modified, never before `available_not_before`; failing both, the file's own date (a lower bound only); failing that, `available_observed`. Used by `brdo status --as-of` and `brdo show --as-of`.",
-            "brdo:kind": "derived"
+            "description": "A conservative estimate of when this exact file was at its address, not a publication date and not confirmed: the later of the publisher's date and Last-Modified, never before the lower bound; failing both, the lower bound; failing that, the confirmation date. It can still be early when a server's date predates the file's appearance. Used by `--as-of` with estimated availability.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "no date of any kind is known for the file"
           },
           {
             "name": "available_basis",
             "type": "string",
             "description": "Which date `available_from` rests on.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
-            "name": "available_observed",
+            "name": "available_confirmed_by",
             "type": "date",
-            "description": "The day the project observed the file in public, which is when it retrieved it. The only availability date the record proves. Used by `--availability observed`.",
-            "brdo:kind": "provenance"
+            "description": "The day the project retrieved the file from its public address, so it was public by then. The only availability date the record proves, and usually much later than first publication. Used by `--as-of` with `--availability observed`.",
+            "brdo:kind": "provenance",
+            "brdo:licensed": true,
+            "brdo:empty": "the project never retrieved the file"
+          },
+          {
+            "name": "available_window_days",
+            "type": "integer",
+            "description": "Days from the lower bound to the confirmation: the interval within which the file first became public.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "the lower bound or the confirmation is unknown, so the interval is open"
           },
           {
             "name": "period_start",
             "type": "date",
             "description": "First day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "as_of",
             "type": "date",
             "description": "The \"status as on\" date a report prints.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "supersedes",
             "type": "string",
             "description": "Earlier documents this file replaces, as identified by the project.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "regulatory_basis",
             "type": "string",
             "description": "The rule under which the document is published.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -313,37 +430,135 @@
             "name": "id",
             "type": "string",
             "description": "Id of the issuer.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "name",
             "type": "string",
             "description": "The name the project uses for the issuer, taken from a source.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": false,
+            "brdo:rights": "A name of an entity, as a source prints it. Trade names are not licensed by the project (LICENSE-DATA.md)."
           },
           {
             "name": "cin",
             "type": "string",
-            "description": "Corporate Identity Number, where a source prints one.",
-            "brdo:kind": "read_from_source"
+            "description": "Corporate Identity Number, where a source prints one; `attribute_support.csv` says which.",
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
+            "brdo:empty": "no record of the dataset prints one"
           },
           {
             "name": "lei",
             "type": "string",
-            "description": "Legal Entity Identifier, where a source prints one.",
-            "brdo:kind": "read_from_source"
+            "description": "Legal Entity Identifier, where a source prints one; `attribute_support.csv` says which.",
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
+            "brdo:empty": "no record of the dataset prints one"
           },
           {
             "name": "sector",
             "type": "string",
             "description": "Sector, where classified. Empty in this release.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "name_variants",
             "type": "string",
             "description": "Other names under which sources print the issuer.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": false,
+            "brdo:rights": "A name of an entity, as a source prints it. Trade names are not licensed by the project (LICENSE-DATA.md)."
+          },
+          {
+            "name": "established_from",
+            "type": "date",
+            "description": "Earliest estimated day on which a record supporting the issuer was public (see `attribute_support.csv`).",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "established_confirmed_by",
+            "type": "date",
+            "description": "Earliest day on which the project itself saw a record supporting the issuer.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          }
+        ],
+        "missingValues": [
+          ""
+        ]
+      }
+    },
+    {
+      "name": "attribute-support",
+      "path": "attribute_support.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per record that establishes an attribute of an instrument or issuer, with when that record was public. An instrument's `identity` is its ISIN with the issuer the dataset assigns it to, established by any record printing the ISIN. An issuer's `name`, `cin` and `lei` are established only by records that print them. Point-in-time views show an attribute only once one of its supports is public.",
+      "schema": {
+        "fields": [
+          {
+            "name": "entity",
+            "type": "string",
+            "description": "`instrument` or `issuer`.",
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The ISIN or the issuer id.",
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
+          },
+          {
+            "name": "attribute",
+            "type": "string",
+            "description": "`identity`, `name`, `cin` or `lei`.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "record",
+            "type": "string",
+            "description": "The record that prints the attribute.",
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "description": "The document the record is in.",
+            "brdo:kind": "identifier",
+            "brdo:licensed": true,
+            "brdo:empty": "the support is an observation, not a document"
+          },
+          {
+            "name": "observed_at_url",
+            "type": "string",
+            "description": "The page of a source whose terms forbid storing it, where the value was seen.",
+            "brdo:kind": "provenance",
+            "brdo:licensed": true,
+            "brdo:empty": "the support is a document"
+          },
+          {
+            "name": "available_from",
+            "type": "date",
+            "description": "Estimated day the supporting document was public, or the day the observation was made.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "available_confirmed_by",
+            "type": "date",
+            "description": "Day the project retrieved the supporting document, or made the observation.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -365,58 +580,93 @@
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "issuer",
             "type": "string",
             "description": "Id of the issuer in `issuers.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "issuer_name",
             "type": "string",
             "description": "The issuer's name from `issuers.csv`.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": false,
+            "brdo:rights": "A name of an entity, as a source prints it. Trade names are not licensed by the project (LICENSE-DATA.md)."
           },
           {
             "name": "trustees_claimed",
             "type": "string",
             "description": "Every trustee a claim names for the ISIN. More than one means sources disagree.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "no record names the ISIN's trustee",
             "brdo:separator": "; "
           },
           {
             "name": "trustee_claims_conflict",
             "type": "boolean",
             "description": "True when claims name more than one trustee.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
-            "name": "contract_documents",
+            "name": "offer_documents",
             "type": "string",
-            "description": "Linked offer documents or trust deeds that have been retrieved. None in this release.",
-            "brdo:kind": "derived"
+            "description": "Linked offer documents (general or key information documents, placement memoranda) that have been retrieved. They give the terms as offered, not the executed deed. None in this release.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "none retrieved; absence is a fact about the project's access, not about the instrument"
+          },
+          {
+            "name": "executed_deeds",
+            "type": "string",
+            "description": "Linked debenture trust deeds and supplemental deeds that have been retrieved. None in this release.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "none retrieved; absence is a fact about the project's access, not about the instrument"
           },
           {
             "name": "provisions",
             "type": "integer",
             "description": "Number of clause records attached to the ISIN.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "trust_deed_dates",
             "type": "string",
             "description": "Every deed date that trustees' letters cite for the ISIN.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
             "brdo:origin": "The executed deeds, as the trustee describes them. No deed has been retrieved.",
             "brdo:separator": "; "
+          },
+          {
+            "name": "established_from",
+            "type": "date",
+            "description": "Earliest estimated day on which a record printing the ISIN was public (`attribute_support.csv`).",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "established_confirmed_by",
+            "type": "date",
+            "description": "Earliest day on which the project itself saw a record printing the ISIN.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "notes",
             "type": "string",
             "description": "The project's remark.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's."
           }
         ],
         "missingValues": [
@@ -438,50 +688,59 @@
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "property",
             "type": "string",
             "description": "Which attribute the claim is about.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "value",
             "type": "string",
             "description": "The value the source asserts. For `debenture_trustee`, the id of the trustee in `sources.csv`.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "asserted_by",
             "type": "string",
             "description": "The source making the claim, in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "as_of",
             "type": "string",
             "description": "The date the source gives for the value, where it gives one.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "evidence",
             "type": "string",
             "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "observed_at_urls",
             "type": "string",
             "description": "Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "note",
             "type": "string",
             "description": "The project's remark.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's."
           }
         ],
         "missingValues": [
@@ -503,43 +762,51 @@
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "role",
             "type": "string",
             "description": "What the document is for, relative to the ISIN.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "basis",
             "type": "string",
             "description": "Why the link holds, for example because the ISIN is printed in it.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "confidence",
             "type": "string",
             "description": "The project's confidence in the link.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "evidence",
             "type": "string",
             "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "note",
             "type": "string",
             "description": "The project's remark.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's."
           }
         ],
         "missingValues": [
@@ -561,98 +828,117 @@
             "name": "id",
             "type": "string",
             "description": "Id of the clause record.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document_type",
             "type": "string",
             "description": "Type of the quoting document, from `documents.csv`.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "clause",
             "type": "string",
             "description": "Clause number as printed, or a note that none is given.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "heading",
             "type": "string",
             "description": "The heading the clause sits under in the quoting document.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file, not the printed page number, on which the item is printed.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "category",
             "type": "string",
             "description": "Covenant category of SEBI's guidance note (Annex-VIA), or `other`.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "metric",
             "type": "string",
             "description": "What the limit measures, in plain words.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "thresholds",
             "type": "string",
             "description": "Parsed limits as JSON: comparator, value, unit and any dates they apply between. Parsed only where the wording is unambiguous.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:empty": "no limit parsed: none is stated, or the wording is not unambiguous"
           },
           {
             "name": "test_frequency",
             "type": "string",
             "description": "How often the clause is tested, where stated.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "test_basis",
             "type": "string",
             "description": "Standalone or consolidated, where stated.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "instruments",
             "type": "string",
             "description": "ISINs the clause record is attached to.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "amends",
             "type": "string",
             "description": "The earlier clause record this one replaces.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "effective_from",
             "type": "string",
             "description": "When the clause takes effect, where stated.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "stage",
             "type": "string",
-            "description": "What the record is evidence of: `executed_text`, `described_in_force`, `proposed` or `approved_in_principle`.",
-            "brdo:kind": "annotation"
+            "description": "What the record is evidence of, one of four legal stages or a party's description: `offered` (quoted from an offer document), `proposed` (a change put forward), `approved_in_principle` (a change approved, not shown executed), `executed_text` (quoted from an executed deed), or `described_in_force` (a party's quotation or description of a term it treats as in force).",
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "text",
             "type": "string",
             "description": "The clause as the quoting document prints it, up to 800 characters.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The contract, as quoted or described by the publishing party; only executed text is the contract's own.",
             "brdo:separator": "; "
           },
@@ -661,19 +947,23 @@
             "type": "string",
             "description": "A plain-English gloss written from the quoted text. Not legal advice.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           },
           {
             "name": "annotation_reviewed",
             "type": "boolean",
             "description": "Whether a second person has reviewed the record's annotations. False throughout.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -695,79 +985,94 @@
             "name": "report",
             "type": "string",
             "description": "Id of the trustee's breach report, a document in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "trustee",
             "type": "string",
             "description": "Id of the debenture trustee in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "as_of",
             "type": "date",
             "description": "The report's printed \"status as on\" date.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "supersedes",
             "type": "string",
             "description": "Earlier versions of the report that this one replaces.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "row",
             "type": "string",
             "description": "Serial number as printed. A printed row split into several records keeps its number.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "issuer",
             "type": "string",
             "description": "Issuer record the row is assigned to.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "issuer_name_as_reported",
             "type": "string",
             "description": "The issuer's name as the row prints it.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "assignment_uncertain",
             "type": "boolean",
             "description": "True when which row the ISIN belongs to depends on reading merged table cells.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "category",
             "type": "string",
             "description": "Covenant category of SEBI's guidance note (Annex-VIA), or `other`.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "specificity",
             "type": "string",
             "description": "How much of the term the cell prints: `clause_text`, `requirement_and_actual`, `clause_number_only` or `description_only`.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "clause_reference_as_reported",
             "type": "string",
             "description": "Clause reference as printed.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The deed's numbering, as the trustee cites it."
           },
           {
@@ -775,6 +1080,8 @@
             "type": "string",
             "description": "The covenant cell as printed, cut to the source's quotation limit.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The deed's wording where the trustee quotes it (`specificity = clause_text`); otherwise the trustee's own description.",
             "brdo:separator": "; "
           },
@@ -782,83 +1089,106 @@
             "name": "covenant_truncated",
             "type": "boolean",
             "description": "True when the printed cell continues beyond the quotation.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "levels_stated",
             "type": "string",
             "description": "Every percentage, multiple and crore amount printed anywhere in the cell, including the part not quoted.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:origin": "Mixed: required levels come from the deed and actual levels from the issuer's measurement; the column does not say which is which.",
+            "brdo:empty": "the cell prints no level",
             "brdo:separator": "; "
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file, not the printed page number, on which the item is printed.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "actual_breach_as_reported",
             "type": "string",
             "description": "Date of actual breach as printed.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "Published by the trustee. Two trustees define the date of actual breach by the issuer's or auditor's certificate (see their printed notes in the observability report), so for them it originates with the issuer."
           },
           {
             "name": "actual_breach",
             "type": "date",
             "description": "Date of actual breach as read. Meaning differs by trustee; do not compare across.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
+            "brdo:empty": "not printed, or the printed text is not one date"
           },
           {
             "name": "detected_as_reported",
             "type": "string",
             "description": "Date of detection as printed.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The trustee's own record. IDBI defines it as the day it received the issuer's certificate."
           },
           {
             "name": "detected",
             "type": "date",
             "description": "Date of detection as read.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
+            "brdo:empty": "not printed, or the printed text is not one date"
           },
           {
             "name": "first_intimation",
             "type": "date",
             "description": "Earliest date of intimation read from the row.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "intimation_as_reported",
             "type": "string",
             "description": "Dates of intimation, and to whom, as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "delay_in_detection_as_reported",
             "type": "string",
             "description": "The report's own delay column, as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "delay_in_intimation_as_reported",
             "type": "string",
             "description": "The report's own delay column, as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "delay_reasons_as_reported",
             "type": "string",
             "description": "Reasons for delay, as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "further_action_as_reported",
             "type": "string",
             "description": "Action taken or proposed, as printed.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The trustee's account of what it, the holders or the issuer did."
           },
           {
@@ -866,32 +1196,38 @@
             "type": "string",
             "description": "Fields whose printed cell continues beyond the quotation.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "other_columns_as_reported",
             "type": "string",
             "description": "Columns the trustee prints beyond the prescribed format, as JSON keyed by heading.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "actions",
             "type": "string",
             "description": "The project's reading of the action cells, from a closed list.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "transcribed_from_rendering",
             "type": "boolean",
             "description": "True when some cells are absent from the file's text layer and were read from the page.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "linked_provisions",
             "type": "string",
             "description": "Clause records the project links to the cell.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -899,13 +1235,15 @@
             "type": "string",
             "description": "Whether each linked clause agrees with the cell.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -927,37 +1265,44 @@
             "name": "report",
             "type": "string",
             "description": "Id of the trustee's breach report, a document in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "trustee",
             "type": "string",
             "description": "Id of the debenture trustee in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "issuer_name_as_reported",
             "type": "string",
             "description": "The issuer's name as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "issuer",
             "type": "string",
             "description": "Issuer record matched to the name, where one exists.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file, not the printed page number, on which the item is printed.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -979,62 +1324,73 @@
             "name": "id",
             "type": "string",
             "description": "Id of the letter record.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file, not the printed page number, on which the item is printed.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "trustee",
             "type": "string",
             "description": "Id of the debenture trustee in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "kind",
             "type": "string",
             "description": "`breach` or `meeting_continuation`.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "isins",
             "type": "string",
             "description": "ISINs the letter concerns.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "isins_printed",
             "type": "boolean",
             "description": "False when the letter prints no ISIN and the link comes from elsewhere (see notes).",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "issued_on",
             "type": "date",
             "description": "The letter's date.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Quarter-end the letter concerns, where stated or evident.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:empty": "the letter names no quarter, as letters continuing an adjourned meeting do"
           },
           {
             "name": "deed_dates",
             "type": "string",
             "description": "Dates of the trust deeds the letter cites.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:origin": "The executed deeds, as the trustee describes them.",
             "brdo:separator": "; "
           },
@@ -1042,32 +1398,40 @@
             "name": "deed_as_reported",
             "type": "string",
             "description": "The sentence citing the deeds.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "issuer_intimation",
             "type": "date",
             "description": "When the trustee says the issuer informed it.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:origin": "The trustee's record of receipt."
           },
           {
             "name": "meeting_proposed_for",
             "type": "date",
             "description": "Date proposed for a meeting of holders.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "clause_reference_as_reported",
             "type": "string",
             "description": "Clause reference as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "covenant_as_reported",
             "type": "string",
             "description": "The covenant passage as printed, cut to the quotation limit.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The deed's wording, as the trustee quotes or describes it.",
             "brdo:separator": "; "
           },
@@ -1075,39 +1439,46 @@
             "name": "covenant_truncated",
             "type": "boolean",
             "description": "True when the passage continues beyond the quotation.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "levels_stated",
             "type": "string",
             "description": "Every percentage, multiple and crore amount printed in the whole passage.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "adjourned_for_lack_of_quorum",
             "type": "boolean",
             "description": "True when the letter says a meeting was adjourned for lack of quorum.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "read_from_rendering",
             "type": "boolean",
             "description": "True when the file has no usable text layer for the letter.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "notes",
             "type": "string",
             "description": "The project's remark.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -1129,49 +1500,57 @@
             "name": "notice",
             "type": "string",
             "description": "Id of the letter in `breach_notices.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "report",
             "type": "string",
             "description": "Id of the trustee's breach report, a document in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "row",
             "type": "string",
             "description": "Serial number of the report row compared.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "issuer_intimation_per_notice",
             "type": "date",
             "description": "When the letter says the issuer told it.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "detected_per_report",
             "type": "date",
             "description": "Detection date the report prints.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "days_from_intimation_to_detection",
             "type": "integer",
             "description": "Detection minus intimation, in days.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "thresholds_in_notice",
             "type": "string",
             "description": "Levels printed in the letter.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -1179,13 +1558,16 @@
             "type": "string",
             "description": "Levels printed in the report row for the ISIN.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "thresholds_agree",
             "type": "boolean",
-            "description": "Whether the two sets of numbers match. Empty when the letter prints none to compare.",
-            "brdo:kind": "derived"
+            "description": "Whether the two sets of numbers match.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "not applicable: the letter prints no level, or only part of its passage was read"
           }
         ],
         "missingValues": [
@@ -1207,75 +1589,87 @@
             "name": "id",
             "type": "string",
             "description": "Id of the statement.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "instruments",
             "type": "string",
             "description": "ISINs the statement covers, by printing them or by a general sentence.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "period_start",
             "type": "date",
             "description": "First day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "stated_by",
             "type": "string",
             "description": "The source that published the statement: the carrier.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "made_by",
             "type": "string",
             "description": "Who made the statement: `issuer` or `statutory_auditor`.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:origin": "The conclusion originates with this party, whoever publishes it."
           },
           {
             "name": "scope",
             "type": "string",
             "description": "What the statement says it covers: all covenants or financial only.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "breach_stated",
             "type": "boolean",
             "description": "True when the statement says some covenant was not met.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "isins_printed",
             "type": "boolean",
             "description": "False when the statement reaches an ISIN only by a general sentence or by omission.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "exceptions",
             "type": "integer",
             "description": "Number of exception lines in `compliance_statement_exceptions.csv`.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "evidence",
             "type": "string",
             "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -1283,6 +1677,8 @@
             "type": "string",
             "description": "The project's remark.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           }
         ],
@@ -1305,38 +1701,46 @@
             "name": "statement",
             "type": "string",
             "description": "Id of the compliance statement in `compliance_statements.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file, not the printed page number, on which the item is printed.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "isins",
             "type": "string",
             "description": "ISINs the line names.",
             "brdo:kind": "read_from_source",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "covenant_as_reported",
             "type": "string",
             "description": "The covenant as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "required_as_reported",
             "type": "string",
             "description": "The required level as printed.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The deed, as the issuer states it."
           },
           {
@@ -1344,19 +1748,24 @@
             "type": "string",
             "description": "The measured level as printed.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:origin": "The issuer's measurement from its own books."
           },
           {
             "name": "deed_dates_as_reported",
             "type": "string",
             "description": "Deed dates as printed.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "read_from_rendering",
             "type": "boolean",
             "description": "True when the line was read from the rendered page.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -1378,99 +1787,117 @@
             "name": "statement",
             "type": "string",
             "description": "Id of the compliance statement in `compliance_statements.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "made_by",
             "type": "string",
             "description": "Who made the statement.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "scope",
             "type": "string",
             "description": "What the statement says it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "statement_reports_breach",
             "type": "boolean",
             "description": "True when the statement reports a breach.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_report",
             "type": "string",
             "description": "The trustee report compared, if one exists.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_lists",
             "type": "boolean",
-            "description": "Whether that report lists the ISIN. Empty when no fully transcribed report exists.",
-            "brdo:kind": "derived"
+            "description": "Whether that report lists the ISIN.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "not comparable: no fully transcribed report of the ISIN's trustee for the period"
           },
           {
             "name": "agreement",
             "type": "string",
             "description": "`consistent`, `differs` or `not_comparable`, by rules in docs/data-model.md.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "basis",
             "type": "string",
             "description": "Which rule decided the agreement.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "levels_only_in_statement",
             "type": "string",
             "description": "Required levels the statement prints and the trustee's report does not print for the ISIN.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "statement_dated",
             "type": "date",
             "description": "The statement document's own date.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_received_report",
             "type": "date",
             "description": "When the trustee records receiving the issuer's quarterly compliance report, from its census table.",
             "brdo:kind": "read_from_source",
-            "brdo:origin": "The trustee's record of receipt."
+            "brdo:licensed": true,
+            "brdo:origin": "The trustee's record of receipt.",
+            "brdo:empty": "no census of the trustee for the period has been measured, or it has no row cited for the ISIN"
           },
           {
             "name": "trustee_detected",
             "type": "date",
             "description": "The trustee's earliest printed detection date for the ISIN.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_cites_certificate",
             "type": "boolean",
             "description": "True when the trustee's row mentions a certificate or auditor (a mechanical text match).",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_could_rely_on_issuer",
             "type": "boolean",
             "description": "True when the trustee's detection falls on or after the statement's date or the trustee's receipt of the issuer's report, so the trustee may simply be passing the issuer's information on.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -1485,69 +1912,97 @@
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
-      "description": "For each agreement between an issuer's statement and a trustee's report on a breach, one row per kind of information, saying which party prints it. Mechanical rules (see docs/methods.md); the basis columns give the text that satisfied each rule so a decision can be checked by eye.",
+      "description": "For each agreement between an issuer's statement and a trustee's report on a breach, one row per kind of information, saying which party prints it, with every line, item or letter that satisfied the mechanical rule (docs/methods.md). The 17 agreements come from two issuers; this is not the wider statement comparison in `statement_report_comparisons.csv`, nor the comparison sample's pilot.",
       "schema": {
         "fields": [
           {
             "name": "statement",
             "type": "string",
             "description": "Id of the compliance statement in `compliance_statements.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_report",
             "type": "string",
             "description": "Id of the trustee's breach report, a document in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "field",
             "type": "string",
             "description": "Kind of information: clause reference, obligation wording, required level, issuer's measured level, deed dates.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "issuer_prints",
             "type": "boolean",
-            "description": "Whether the issuer's statement prints it for the ISIN.",
-            "brdo:kind": "derived"
+            "description": "Whether any of the statement's exception lines for the ISIN prints it.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "trustee_prints",
             "type": "boolean",
-            "description": "Whether the trustee's report, or for deed dates its letters for the quarter, print it. The issuer's measured level counts only if the trustee prints the same number.",
-            "brdo:kind": "derived"
-          },
-          {
-            "name": "issuer_basis",
-            "type": "string",
-            "description": "The issuer's text or value that satisfied the rule; empty if none.",
-            "brdo:kind": "derived"
-          },
-          {
-            "name": "trustee_basis",
-            "type": "string",
-            "description": "The trustee's text or value that satisfied the rule; empty if none.",
+            "description": "Whether any of the trustee's report items for the ISIN, or for deed dates its letters for the quarter, prints it. The issuer's measured level counts only if the trustee prints the same number and unit.",
             "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "issuer_examined",
+            "type": "integer",
+            "description": "How many of the statement's exception lines for the ISIN were examined.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "issuer_evidence",
+            "type": "string",
+            "description": "JSON list of every exception line that satisfied the rule: document, page, locator and the text that matched.",
+            "brdo:kind": "derived",
+            "brdo:licensed": false,
+            "brdo:rights": "The pointers are the project's; each `matched` text is a short quotation from the source, not licensed.",
+            "brdo:empty": "no line satisfied the rule; `issuer_examined` says how many were looked at"
+          },
+          {
+            "name": "trustee_examined",
+            "type": "integer",
+            "description": "How many report items, or for deed dates letters for the quarter, were examined.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "trustee_evidence",
+            "type": "string",
+            "description": "JSON list of every report item or letter that satisfied the rule: document, page, locator and the text that matched.",
+            "brdo:kind": "derived",
+            "brdo:licensed": false,
+            "brdo:rights": "The pointers are the project's; each `matched` text is a short quotation from the source, not licensed.",
+            "brdo:empty": "nothing satisfied the rule; `trustee_examined` says how many were looked at, and 0 means the record holds nothing to examine, not that the trustee printed nothing",
             "brdo:separator": "; "
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -1562,44 +2017,60 @@
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "utf-8",
-      "description": "For each ISIN listed in a current trustee report for a period, one row per follow-up state that the trustee's reports and letters publish, with where the record shows it. A listed ISIN with none has one row reading `no follow-up published`. States are never ranked or merged.",
+      "description": "For each ISIN listed in a current trustee report for a period, one row per follow-up state that the trustee's reports and letters publish, with where the record shows it and how its period is known. A listed ISIN with none has one row reading `no follow-up published`. Rows with no period come from letters that name no quarter and cannot be tied to one. States are never ranked or merged.",
       "schema": {
         "fields": [
           {
             "name": "trustee",
             "type": "string",
             "description": "Id of the debenture trustee in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
-            "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "description": "The reporting period the state is counted for.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "the letter names no quarter and the rule cannot tie it to one; counted for no period"
           },
           {
             "name": "state",
             "type": "string",
-            "description": "The state, from the project's reading of action cells and letters. A cure is typed by the covenant category of its row.",
-            "brdo:kind": "derived"
+            "description": "The state, from the project's reading of action cells and letters. A cure is typed financial or other only when every covenant the row lists for the ISIN is of that kind; otherwise it is a cure for covenants of more than one kind.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "is_outcome",
             "type": "boolean",
-            "description": "True for the five outcome states: enforcement or nominee director, waiver, holders instructing no action, and the two kinds of cure.",
-            "brdo:kind": "derived"
+            "description": "True for the six outcome states: enforcement or nominee director, waiver, holders instructing no action, and the three kinds of cure.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
+          },
+          {
+            "name": "attribution",
+            "type": "string",
+            "description": "How the period is known: `report_row` (a row of the period's report), `letter_period` (the quarter recorded for the letter), `linked_by_rule` (a letter naming no quarter, continuing a letter of the same file that names one) or `not_attributable`.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "basis",
             "type": "string",
-            "description": "The report row and action kinds, or the letter, that show the state.",
-            "brdo:kind": "derived"
+            "description": "The report row and action kinds, or the letter, that show the state, and for linked letters the rule.",
+            "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "no follow-up is published for the ISIN",
+            "brdo:separator": "; "
           }
         ],
         "missingValues": [
@@ -1621,55 +2092,64 @@
             "name": "id",
             "type": "string",
             "description": "Id of the census record.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "trustee",
             "type": "string",
             "description": "Id of the debenture trustee in `sources.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_start",
             "type": "date",
             "description": "First day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "Last day of the reporting period the document states it covers.",
-            "brdo:kind": "read_from_source"
+            "brdo:kind": "read_from_source",
+            "brdo:licensed": true
           },
           {
             "name": "isins_printed",
             "type": "integer",
             "description": "Distinct ISINs printed in the file that pass the check digit.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "listed_in_breach_report",
             "type": "integer",
             "description": "ISINs the same trustee's breach report for the period lists.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "listed_not_printed",
             "type": "string",
             "description": "Listed ISINs the census omits.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "sample",
             "type": "string",
             "description": "ISINs outside the breach report whose SHA-256 of the file's hash, a colon and the ISIN sorts first.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -1677,19 +2157,22 @@
             "type": "string",
             "description": "ISINs whose census row marks the issuer's quarterly compliance report as not received. Whether that breaches an instrument's terms depends on its deed.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "rows_cited",
             "type": "integer",
             "description": "Number of census rows the dataset quotes.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -1711,31 +2194,38 @@
             "name": "id",
             "type": "string",
             "description": "Id of the passage.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file, not the printed page number, on which the item is printed.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "quote",
             "type": "string",
             "description": "The passage, verbatim.",
-            "brdo:kind": "source_text"
+            "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow."
           },
           {
             "name": "relevance",
             "type": "string",
             "description": "Why the project relies on it.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's."
           }
         ],
         "missingValues": [
@@ -1757,31 +2247,37 @@
             "name": "isin",
             "type": "string",
             "description": "ISIN of the instrument, validated by its check digit.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "End of the reporting period.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "status",
             "type": "string",
             "description": "Status from a closed list; see docs/data-model.md.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "basis",
             "type": "string",
             "description": "The rule that produced the status, including which kind of absence it is.",
-            "brdo:kind": "derived"
+            "brdo:kind": "derived",
+            "brdo:licensed": true
           },
           {
             "name": "documents",
             "type": "string",
             "description": "Documents the status rests on.",
             "brdo:kind": "derived",
+            "brdo:licensed": true,
+            "brdo:empty": "the status rests on no document, as for not_assessed",
             "brdo:separator": "; "
           }
         ],
@@ -1804,62 +2300,73 @@
             "name": "id",
             "type": "string",
             "description": "Id of the search.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "performed_on",
             "type": "date",
             "description": "When the search was made.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "subject",
             "type": "string",
             "description": "ISIN, issuer id or source id the search was about.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "purpose",
             "type": "string",
             "description": "What was sought.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "channel",
             "type": "string",
             "description": "Web search, a source's listing page, or a direct address.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "query",
             "type": "string",
-            "description": "The query, for web searches. Results can differ when re-run.",
-            "brdo:kind": "provenance"
+            "description": "The query, for web searches. Results can differ when re-run. Some search for covenant wording a trustee quotes.",
+            "brdo:kind": "provenance",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's."
           },
           {
             "name": "scope",
             "type": "string",
             "description": "Sites or pages searched.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "period_end",
             "type": "date",
             "description": "End of the reporting period sought, where one was.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "outcome",
             "type": "string",
             "description": "The project's classification of the result.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "documents",
             "type": "string",
             "description": "Documents found and registered.",
             "brdo:kind": "identifier",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -1867,6 +2374,7 @@
             "type": "string",
             "description": "Candidates seen but not retrieved, such as manual-only sources.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -1874,6 +2382,8 @@
             "type": "string",
             "description": "The project's remark.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           }
         ],
@@ -1896,31 +2406,37 @@
             "name": "id",
             "type": "string",
             "description": "Id of the discrepancy.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "kind",
             "type": "string",
             "description": "What kind of disagreement it is.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "subject",
             "type": "string",
             "description": "ISINs, issuer or source concerned.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "status",
             "type": "string",
             "description": "`open` or `resolved`.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           },
           {
             "name": "description",
             "type": "string",
             "description": "The project's neutral description.",
             "brdo:kind": "annotation",
+            "brdo:licensed": true,
+            "brdo:rights": "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's.",
             "brdo:separator": "; "
           },
           {
@@ -1928,6 +2444,7 @@
             "type": "string",
             "description": "The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
@@ -1935,13 +2452,15 @@
             "type": "string",
             "description": "Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine.",
             "brdo:kind": "provenance",
+            "brdo:licensed": true,
             "brdo:separator": "; "
           },
           {
             "name": "resolution",
             "type": "string",
             "description": "How it was resolved, if it was.",
-            "brdo:kind": "annotation"
+            "brdo:kind": "annotation",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [
@@ -1963,44 +2482,52 @@
             "name": "used_by",
             "type": "string",
             "description": "Which record relies on the anchor.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "document",
             "type": "string",
             "description": "Id of the cited file in `documents.csv`.",
-            "brdo:kind": "identifier"
+            "brdo:kind": "identifier",
+            "brdo:licensed": true
           },
           {
             "name": "page",
             "type": "integer",
             "description": "1-based page of the file; empty when the anchor may be on any page.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "locator",
             "type": "string",
             "description": "A human-readable position, where given.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "quote",
             "type": "string",
             "description": "The words relied on, verbatim.",
             "brdo:kind": "source_text",
+            "brdo:licensed": false,
+            "brdo:rights": "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the law allow.",
             "brdo:separator": "; "
           },
           {
             "name": "read_from_rendering",
             "type": "boolean",
             "description": "True when the words were read from the rendered page because the text layer may lack them. Such an anchor is machine-verified only if the words are found in the text layer anyway.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           },
           {
             "name": "ai_training_reserved",
             "type": "boolean",
             "description": "True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use.",
-            "brdo:kind": "provenance"
+            "brdo:kind": "provenance",
+            "brdo:licensed": true
           }
         ],
         "missingValues": [

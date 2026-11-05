@@ -40,6 +40,7 @@ from brdo.vocab import (
     Recipient,
     RedistributionPolicy,
     RetrievalPolicy,
+    ReviewerKind,
     SearchChannel,
     SearchOutcome,
     SearchPurpose,
@@ -650,6 +651,50 @@ class MonitoringCensus(Record):
     def anchors(self) -> Iterator[Evidence]:
         for entry in self.entries:
             yield Evidence(document=self.document, page=entry.page, quote=entry.row_as_reported)
+
+
+class AnnotationReview(Record):
+    """One decision annotated a second time, blind to its value, by a person other than its original annotator.
+
+    The original, second and adjudicated values are kept side by side and never merged. ``original`` is the value
+    when the packet was made, ``second`` is the second annotator's, and ``adjudicated`` is the value a disagreement or
+    hard case was settled on, with who settled it, when and why. Values are written as ``brdo review packet`` writes
+    them. Annotators are named by a label, not by any personal detail.
+    """
+
+    decision: str = Field(description="Decision id, as the packet gives it")
+    codebook_commit: str = Field(min_length=7, description="Commit of docs/annotation-codebook.md used for the round")
+    original: str
+    original_annotator: str = Field(min_length=1)
+    second: str
+    second_annotator: str = Field(min_length=1)
+    second_by: ReviewerKind
+    second_reason: str | None = None
+    annotated_on: date
+    adjudicated: str | None = None
+    adjudicated_by: str | None = None
+    adjudication_reason: str | None = None
+    adjudicated_on: date | None = None
+
+    @model_validator(mode="after")
+    def _independent_and_explained(self) -> "AnnotationReview":
+        if self.second_annotator.strip().casefold() == self.original_annotator.strip().casefold():
+            raise ValueError(f"{self.decision}: a second annotation by the original annotator is not a review")
+        settled = (self.adjudicated_by, self.adjudication_reason, self.adjudicated_on)
+        if self.adjudicated is not None and not all(settled):
+            raise ValueError(f"{self.decision}: an adjudicated value needs who settled it, why, and when")
+        if self.adjudicated is None and any(settled):
+            raise ValueError(f"{self.decision}: adjudication details are given without an adjudicated value")
+        if self.adjudicated_on is not None and self.adjudicated_on < self.annotated_on:
+            raise ValueError(f"{self.decision}: adjudicated before the second annotation was made")
+        return self
+
+    @property
+    def settled(self) -> str | None:
+        """The value the review settles on: the adjudicated one, or the agreed one. None while a disagreement waits."""
+        if self.adjudicated is not None:
+            return self.adjudicated
+        return self.original if self.original == self.second else None
 
 
 class RegulatoryReference(Record):

@@ -73,15 +73,20 @@ class DocumentType(StrEnum):
     OTHER = "other"
 
 
-CONTRACT_DOCUMENT_TYPES = frozenset(
+EXECUTED_CONTRACT_TYPES = frozenset({DocumentType.DEBENTURE_TRUST_DEED, DocumentType.SUPPLEMENTAL_TRUST_DEED})
+"""The instruments that create or amend the terms, once executed. A copy may still be a draft or unsigned."""
+
+OFFER_DOCUMENT_TYPES = frozenset(
     {
-        DocumentType.DEBENTURE_TRUST_DEED,
-        DocumentType.SUPPLEMENTAL_TRUST_DEED,
         DocumentType.GENERAL_INFORMATION_DOCUMENT,
         DocumentType.KEY_INFORMATION_DOCUMENT,
         DocumentType.PLACEMENT_MEMORANDUM,
     }
 )
+"""Documents setting out the terms on which debentures were offered. They are not the executed deed."""
+
+CONTRACT_DOCUMENT_TYPES = EXECUTED_CONTRACT_TYPES | OFFER_DOCUMENT_TYPES
+"""Documents that set out the terms, at either stage. Use the two sets above wherever the stage matters."""
 
 
 TERM_STATING_DOCUMENT_TYPES = CONTRACT_DOCUMENT_TYPES | {
@@ -322,13 +327,28 @@ class ProvisionStage(StrEnum):
     """What a provision record is evidence of. Only the executed document itself establishes the operative term."""
 
     EXECUTED_TEXT = "executed_text"
-    """Quoted from the executed trust deed, supplemental deed or offer document."""
+    """Quoted from an executed debenture trust deed or supplemental deed, the instrument that creates the term."""
+    OFFERED = "offered"
+    """Quoted from an offer document: the terms on which the debentures were offered. The deed may differ.
+
+    An offer document is not the executed deed, and neither shows later amendments.
+    """
     DESCRIBED_IN_FORCE = "described_in_force"
     """A party's description of a term it treats as in force, such as a trustee's quotation or an issuer's level."""
     PROPOSED = "proposed"
-    """A change put forward for approval."""
+    """A change put forward for approval, such as a proposed schedule of covenants."""
     APPROVED_IN_PRINCIPLE = "approved_in_principle"
     """A proposed change approved in principle, for example by an exchange under regulation 59, not shown executed."""
+
+
+class ReviewerKind(StrEnum):
+    """Who made a second annotation.
+
+    Only a person can. There is deliberately no value for an automated process, a model, or the original curator
+    re-reading their own work: none of those is an independent review.
+    """
+
+    PERSON = "person"
 
 
 class StatementMaker(StrEnum):

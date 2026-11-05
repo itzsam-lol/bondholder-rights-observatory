@@ -7,8 +7,17 @@ may differ for good reason, and a difference is not a finding about conduct.
 import re
 from dataclasses import dataclass
 from datetime import date
+from enum import StrEnum
 
-from brdo.models import BreachItem, BreachNotice, BreachReport, BreachRow, ComplianceStatement, Document
+from brdo.models import (
+    BreachItem,
+    BreachNotice,
+    BreachReport,
+    BreachRow,
+    ComplianceStatement,
+    Document,
+    StatedException,
+)
 from brdo.pdftext import normalize
 from brdo.status import addresses, current_versions, trustees_claimed
 from brdo.store import Dataset
@@ -271,24 +280,36 @@ def compare_statements_with_reports(dataset: Dataset) -> list[StatementCompariso
 
 FLOW_FIELDS = ("clause reference", "obligation wording", "required level", "issuer's measured level", "deed dates")
 _CLAUSE_REFERENCE = re.compile(
-    r"\b(?:clauses?|schedules?|para(?:graph)?s?|sections?|articles?)\b"
-    r"|^\W*\d+(?:\.\d+)+(?![\d.]*\s*(?:%|x\b|times\b|crores?\b|cr\b))",
-    re.IGNORECASE,
+    r"\b(?i:clauses?|schedules?|para(?:graph)?s?|articles?)\s*(?:(?i:no)\.?\s*)?"
+    r"(?:\d+(?:\.\d+)*[A-Za-z]?\b(?:\s*\([A-Za-z0-9]{1,4}\))*|[IVXLC]+\b|\([a-z]{1,4}\))"
 )
-"""A named reference (clause, schedule, paragraph, section, article) or a numbered paragraph opening the text.
+"""A clause, schedule, paragraph or article of the deed named and numbered, such as "Clause no. 10.3 (a)", "Schedule
+VIII" or "clause (c)".
 
-A bare decimal elsewhere is not a reference: "-1.02%" is a measured level. Before this was fixed the rule read such a
-number as a clause reference.
+A bare number is never a reference: "-1.02%" is a measured level and "30.06.2026" a date, and a numbered heading
+such as "2.6 (ii)" counts only where the transcription records it as the row's clause reference. "Section" is left
+out because in these disclosures it usually cites a statute. An earlier version read a decimal level as a clause
+number.
 """
 _OBLIGATION_WORDING = re.compile(r"\b(?:shall|maintain|ensure|not exceed|at least)\b", re.IGNORECASE)
+
+
+@dataclass(frozen=True)
+class FlowEvidence:
+    """One exception line, report item or letter that satisfied a field rule, and the exact text that did."""
+
+    document: str
+    page: int | None
+    locator: str
+    matched: str
 
 
 @dataclass(frozen=True)
 class FieldFlow:
     """Whether the issuer's statement and the trustee's publications carry one kind of information about a breach.
 
-    ``issuer_basis`` and ``trustee_basis`` give the text or value that satisfied the rule, so each decision can be
-    checked by eye; they are empty where the rule found nothing.
+    Every line, item or letter that satisfied the rule is kept as evidence, with the text that matched. ``*_examined``
+    counts what was looked at, so a "no" after examining nothing can be told from a "no" after examining several.
     """
 
     statement: str
@@ -296,104 +317,151 @@ class FieldFlow:
     field: str
     issuer: bool
     trustee: bool
-    issuer_basis: str = ""
-    trustee_basis: str = ""
+    issuer_evidence: tuple[FlowEvidence, ...] = ()
+    trustee_evidence: tuple[FlowEvidence, ...] = ()
+    issuer_examined: int = 0
+    trustee_examined: int = 0
     period_end: date | None = None
     trustee_report: str | None = None
 
 
-def _first(found: list[str]) -> str:
-    return found[0] if found else ""
+def _line_at(document: str, n: int, line: StatedException, matched: str) -> FlowEvidence:
+    return FlowEvidence(document, line.page, f"exception line {n}", matched)
+
+
+def _item_at(report: BreachReport, row: BreachRow, item: BreachItem, matched: str) -> FlowEvidence:
+    return FlowEvidence(report.document, item.page, f"row {row.row}", matched)
 
 
 def field_flows(dataset: Dataset) -> list[FieldFlow]:
-    """For each breach both parties report, which of them prints each kind of information.
+    """For each breach both parties report, which of them prints each kind of information, and every line that shows it.
 
-    The rules are mechanical: a clause reference is a named clause, schedule, paragraph, section or article, or a
-    numbered paragraph opening the text, and on the trustee's side also a clause reference transcribed from the row;
-    wording states the obligation with a verb such as "shall" or "maintain", and on the trustee's side must be in an
-    item marked as clause text; the issuer's measured level counts for the trustee only if the trustee prints the same
-    number. Deed dates on the trustee's side come from its letters for the quarter.
+    The rules are mechanical:
+
+    * a clause reference is a named and numbered clause, schedule, paragraph or article (``_CLAUSE_REFERENCE``), and
+      on the trustee's side also a clause reference transcribed from the row;
+    * wording states the obligation with a verb such as "shall" or "maintain", and on the trustee's side must be in an
+      item marked as clause text;
+    * a required level is a printed percentage, multiple or amount; on the trustee's side any level printed in the
+      cell counts, because ``levels_stated`` does not say which levels are required and which achieved;
+    * the issuer's measured level counts for the trustee only if the trustee prints the same number and unit;
+    * deed dates on the trustee's side come from its letters for the quarter naming the ISIN.
     """
     flows = []
     for comparison in compare_statements_with_reports(dataset):
         if comparison.agreement is not Agreement.CONSISTENT or not comparison.statement_reports_breach:
             continue
         statement = dataset.compliance_statements[comparison.statement]
-        lines = [line for line in statement.exceptions if comparison.isin in line.isins]
+        lines = [(n, line) for n, line in enumerate(statement.exceptions, start=1) if comparison.isin in line.isins]
         reports = [r for r in dataset.breach_reports.values() if r.period.end == comparison.period_end]
         own = [r for r in current_versions(reports, dataset) if r.trustee in trustees_claimed(dataset, comparison.isin)]
-        items = [item for r in own for row in r.rows for item in row.items if comparison.isin in item.isins]
-        notices = [
-            n
-            for n in dataset.breach_notices.values()
-            if comparison.isin in n.isins and n.period_end == comparison.period_end
-        ]
-        measured = {
-            key: line.actual_as_reported
-            for line in lines
-            if line.actual_as_reported and (key := _level_key(line.actual_as_reported)) is not None
-        }
-        printed = {_level_key(level): level for item in items for level in item.levels_stated}
-        issuer = {
+        items = [(r, row, item) for r in own for row in r.rows for item in row.items if comparison.isin in item.isins]
+        notices = sorted(
+            (
+                n
+                for n in dataset.breach_notices.values()
+                if comparison.isin in n.isins and n.period_end == comparison.period_end
+            ),
+            key=lambda n: n.id,
+        )
+
+        measured = {}
+        for n, line in lines:
+            if line.actual_as_reported and (key := _level_key(line.actual_as_reported)) is not None:
+                measured.setdefault(key, _line_at(statement.document, n, line, line.actual_as_reported))
+        issuer: dict[str, list[FlowEvidence]] = {
             "clause reference": [
-                line.covenant_as_reported for line in lines if _CLAUSE_REFERENCE.search(line.covenant_as_reported)
+                _line_at(statement.document, n, line, match.group(0))
+                for n, line in lines
+                if (match := _CLAUSE_REFERENCE.search(line.covenant_as_reported))
             ],
             "obligation wording": [
-                line.covenant_as_reported for line in lines if _OBLIGATION_WORDING.search(line.covenant_as_reported)
+                _line_at(statement.document, n, line, match.group(0))
+                for n, line in lines
+                if (match := _OBLIGATION_WORDING.search(line.covenant_as_reported))
             ],
             "required level": [
-                line.required_as_reported
-                for line in lines
+                _line_at(statement.document, n, line, line.required_as_reported)
+                for n, line in lines
                 if line.required_as_reported and _level_key(line.required_as_reported)
             ],
             "issuer's measured level": list(measured.values()),
-            "deed dates": [line.deed_dates_as_reported for line in lines if line.deed_dates_as_reported],
+            "deed dates": [
+                _line_at(statement.document, n, line, line.deed_dates_as_reported)
+                for n, line in lines
+                if line.deed_dates_as_reported
+            ],
         }
-        trustee = {
+        trustee: dict[str, list[FlowEvidence]] = {
             "clause reference": [
-                item.clause_reference_as_reported or item.covenant_as_reported
-                for item in items
-                if item.clause_reference_as_reported or _CLAUSE_REFERENCE.search(item.covenant_as_reported)
+                _item_at(r, row, item, item.clause_reference_as_reported or match.group(0))
+                for r, row, item in items
+                if item.clause_reference_as_reported or (match := _CLAUSE_REFERENCE.search(item.covenant_as_reported))
             ],
             "obligation wording": [
-                item.covenant_as_reported
-                for item in items
+                _item_at(r, row, item, match.group(0))
+                for r, row, item in items
                 if item.specificity is CovenantSpecificity.CLAUSE_TEXT
-                and _OBLIGATION_WORDING.search(item.covenant_as_reported)
+                and (match := _OBLIGATION_WORDING.search(item.covenant_as_reported))
             ],
-            "required level": ["; ".join(item.levels_stated) for item in items if item.levels_stated],
-            "issuer's measured level": [printed[key] for key in measured if key in printed],
-            "deed dates": [f"{n.id}: {', '.join(str(day) for day in n.deed_dates)}" for n in notices if n.deed_dates],
+            "required level": [
+                _item_at(r, row, item, "; ".join(item.levels_stated)) for r, row, item in items if item.levels_stated
+            ],
+            "issuer's measured level": [
+                _item_at(r, row, item, level)
+                for r, row, item in items
+                for level in item.levels_stated
+                if _level_key(level) in measured
+            ],
+            "deed dates": [
+                FlowEvidence(n.document, n.page, f"letter {n.id}", ", ".join(str(day) for day in n.deed_dates))
+                for n in notices
+                if n.deed_dates
+            ],
         }
-        flows.extend(
-            FieldFlow(
-                comparison.statement,
-                comparison.isin,
-                field,
-                bool(issuer[field]),
-                bool(trustee[field]),
-                _first(issuer[field]),
-                _first(trustee[field]),
-                comparison.period_end,
-                comparison.trustee_report,
+        for field in FLOW_FIELDS:
+            trustee_examined = len(notices) if field == "deed dates" else len(items)
+            flows.append(
+                FieldFlow(
+                    comparison.statement,
+                    comparison.isin,
+                    field,
+                    bool(issuer[field]),
+                    bool(trustee[field]),
+                    tuple(issuer[field]),
+                    tuple(trustee[field]),
+                    len(lines),
+                    trustee_examined,
+                    comparison.period_end,
+                    comparison.trustee_report,
+                )
             )
-            for field in FLOW_FIELDS
-        )
     return flows
 
 
+ENFORCEMENT = "enforcement step or nominee director reported"
+WAIVER = "waiver reported"
+NO_ACTION = "holders instructed no action"
+CURE_FINANCIAL = "cure reported for a financial covenant"
+CURE_OTHER = "cure reported for another obligation, such as a late filing"
+CURE_UNATTRIBUTED = "cure reported, for covenants of more than one kind"
+HELD = "meeting reported as held"
+ADJOURNED = "meeting adjourned for lack of quorum"
+SCHEDULED = "meeting reported as scheduled"
+PENDING = "awaiting instructions, following up or continuing"
+
 FOLLOW_UP_STATES = (
-    ("enforcement step or nominee director reported", frozenset({ActionKind.ENFORCEMENT, ActionKind.NOMINEE_DIRECTOR})),
-    ("waiver reported", frozenset({ActionKind.WAIVER_REPORTED})),
-    ("holders instructed no action", frozenset({ActionKind.NO_ACTION_INSTRUCTED})),
-    ("cure reported for a financial covenant", frozenset()),
-    ("cure reported for another obligation, such as a late filing", frozenset()),
-    ("meeting reported as held", frozenset({ActionKind.HOLDERS_MEETING_HELD})),
-    ("meeting adjourned for lack of quorum", frozenset()),
-    ("meeting reported as scheduled", frozenset({ActionKind.HOLDERS_MEETING_SCHEDULED})),
+    (ENFORCEMENT, frozenset({ActionKind.ENFORCEMENT, ActionKind.NOMINEE_DIRECTOR})),
+    (WAIVER, frozenset({ActionKind.WAIVER_REPORTED})),
+    (NO_ACTION, frozenset({ActionKind.NO_ACTION_INSTRUCTED})),
+    (CURE_FINANCIAL, frozenset()),
+    (CURE_OTHER, frozenset()),
+    (CURE_UNATTRIBUTED, frozenset()),
+    (HELD, frozenset({ActionKind.HOLDERS_MEETING_HELD})),
+    (ADJOURNED, frozenset()),
+    (SCHEDULED, frozenset({ActionKind.HOLDERS_MEETING_SCHEDULED})),
     (
-        "awaiting instructions, following up or continuing",
+        PENDING,
         frozenset(
             {
                 ActionKind.AWAITING_INSTRUCTIONS,
@@ -404,30 +472,111 @@ FOLLOW_UP_STATES = (
         ),
     ),
 )
-"""Published follow-up states, in the report's order. The first five are outcomes; none is ranked above another."""
-OUTCOME_STATES = frozenset(state for state, _ in FOLLOW_UP_STATES[:5])
-_CURE_FINANCIAL, _CURE_OTHER = FOLLOW_UP_STATES[3][0], FOLLOW_UP_STATES[4][0]
-_ADJOURNED, _SCHEDULED = FOLLOW_UP_STATES[6][0], FOLLOW_UP_STATES[7][0]
+"""Published follow-up states, in the report's order. The first six are outcomes; none is ranked above another."""
+OUTCOME_STATES = frozenset({ENFORCEMENT, WAIVER, NO_ACTION, CURE_FINANCIAL, CURE_OTHER, CURE_UNATTRIBUTED})
+
+
+class PeriodAttribution(StrEnum):
+    """How a follow-up state is tied to a reporting period."""
+
+    REPORT_ROW = "report_row"
+    """From a row of the trustee's report for the period."""
+    LETTER_PERIOD = "letter_period"
+    """From a letter whose quarter the project recorded as stated or evident in it."""
+    LINKED_BY_RULE = "linked_by_rule"
+    """From a letter naming no quarter that continues, by a stated rule, a letter of the same file that does."""
+    NOT_ATTRIBUTABLE = "not_attributable"
+    """From a letter naming no quarter that the rule cannot link to one. Counted for no period."""
 
 
 @dataclass(frozen=True)
 class FollowUpState:
-    """One follow-up state a trustee publishes for an ISIN it lists for a period, with where the record shows it."""
+    """One follow-up state a trustee publishes for an ISIN, with where the record shows it and how its period is known.
+
+    ``period_end`` is empty when the state comes from a letter that cannot be tied to a period.
+    """
 
     trustee: str
     isin: str
-    period_end: date
+    period_end: date | None
     state: str
     basis: str
+    attribution: PeriodAttribution = PeriodAttribution.REPORT_ROW
+
+
+@dataclass(frozen=True)
+class ContinuationLink:
+    """Which quarter a letter continuing an adjourned meeting belongs to, for one ISIN, if a rule can tell."""
+
+    letter: str
+    isin: str
+    period_end: date | None
+    continues: tuple[str, ...]
+    reason: str
+
+
+def link_continuations(dataset: Dataset) -> dict[tuple[str, str], ContinuationLink]:
+    """Tie each continuation letter, ISIN by ISIN, to the quarter of the meeting it continues, where a rule allows.
+
+    The rule: the same file holds a breach letter of the same trustee naming the same ISIN, with a recorded quarter
+    and a meeting proposed on or before the continuation's date, and every such letter names one quarter. The rule
+    reads the file's order, not the letter's words: the continuation itself states no quarter. Where no such letter
+    exists, or they name different quarters, the continuation is tied to no period.
+    """
+    breach_letters = [n for n in dataset.breach_notices.values() if n.kind is NoticeKind.BREACH]
+    links: dict[tuple[str, str], ContinuationLink] = {}
+    for letter in dataset.breach_notices.values():
+        if letter.kind is not NoticeKind.MEETING_CONTINUATION or letter.period_end is not None:
+            continue
+        for isin in letter.isins:
+            earlier = [
+                n
+                for n in breach_letters
+                if n.document == letter.document
+                and n.trustee == letter.trustee
+                and isin in n.isins
+                and n.period_end is not None
+                and n.meeting_proposed_for is not None
+                and n.meeting_proposed_for <= letter.issued_on
+            ]
+            periods = sorted({n.period_end for n in earlier})
+            continues = tuple(sorted(n.id for n in earlier))
+            if len(periods) == 1:
+                reason = f"continues {', '.join(continues)} of the same file, whose meeting came first"
+                links[(letter.id, isin)] = ContinuationLink(letter.id, isin, periods[0], continues, reason)
+            elif periods:
+                reason = f"earlier letters of the same file name different quarters: {', '.join(continues)}"
+                links[(letter.id, isin)] = ContinuationLink(letter.id, isin, None, continues, reason)
+            else:
+                reason = "no earlier letter of the same file names this ISIN with a quarter and an earlier meeting"
+                links[(letter.id, isin)] = ContinuationLink(letter.id, isin, None, (), reason)
+    return links
+
+
+def _cure_state(categories: set[CovenantCategory]) -> str:
+    """A cure is typed only when every covenant it can concern is of one kind; a mixed row's cure is not typed."""
+    if categories == {CovenantCategory.FINANCIAL}:
+        return CURE_FINANCIAL
+    if CovenantCategory.FINANCIAL not in categories:
+        return CURE_OTHER
+    return CURE_UNATTRIBUTED
+
+
+def _letter_states(notice: BreachNotice, isin: str, period_end: date | None, attribution, suffix: str = ""):
+    if notice.adjourned_for_lack_of_quorum:
+        yield FollowUpState(notice.trustee, isin, period_end, ADJOURNED, f"letter {notice.id}{suffix}", attribution)
+    if notice.meeting_proposed_for:
+        basis = f"letter {notice.id}: meeting proposed for {notice.meeting_proposed_for}{suffix}"
+        yield FollowUpState(notice.trustee, isin, period_end, SCHEDULED, basis, attribution)
 
 
 def follow_up_states(dataset: Dataset, period_end: date) -> tuple[list[FollowUpState], list[tuple[str, str]]]:
     """Every follow-up state published for the ISINs listed in the current reports for a period, and those ISINs.
 
     States come from the project's reading of each report's action cells, and from the trustee's letters naming the
-    ISIN. A cure is typed by the covenant category of its row, so a late filing made good is never a financial
-    covenant restored. A letter that names another quarter is not counted; a letter continuing an adjourned meeting
-    names none and is counted for the ISIN it names.
+    ISIN. A cure is typed by the covenant categories of the row's items for that ISIN, and only when they are all of
+    one kind, so a late filing made good is never a financial covenant restored. A letter naming another quarter is not
+    counted. A letter naming none is counted only when ``link_continuations`` ties it to this quarter.
     """
     reports = current_versions([r for r in dataset.breach_reports.values() if r.period.end == period_end], dataset)
     listed: set[tuple[str, str]] = set()
@@ -442,21 +591,35 @@ def follow_up_states(dataset: Dataset, period_end: date) -> tuple[list[FollowUpS
                     if hit := sorted(kind.value for kind in kinds & wanted):
                         found.add(FollowUpState(report.trustee, isin, period_end, state, f"{where}: {', '.join(hit)}"))
                 if ActionKind.CURE_REPORTED in kinds:
-                    categories = sorted({item.category.value for item in row.items if isin in item.isins})
-                    state = _CURE_FINANCIAL if CovenantCategory.FINANCIAL.value in categories else _CURE_OTHER
-                    basis = f"{where}: cure_reported, covenant category {', '.join(categories)}"
-                    found.add(FollowUpState(report.trustee, isin, period_end, state, basis))
+                    categories = {item.category for item in row.items if isin in item.isins}
+                    basis = (
+                        f"{where}: cure_reported, covenant categories {', '.join(sorted(c.value for c in categories))}"
+                    )
+                    found.add(FollowUpState(report.trustee, isin, period_end, _cure_state(categories), basis))
+    links = link_continuations(dataset)
     for notice in dataset.breach_notices.values():
-        if notice.period_end is not None and notice.period_end != period_end:
-            continue
         for isin in notice.isins:
             if (notice.trustee, isin) not in listed:
                 continue
-            if notice.adjourned_for_lack_of_quorum:
-                found.add(FollowUpState(notice.trustee, isin, period_end, _ADJOURNED, f"letter {notice.id}"))
-            if notice.meeting_proposed_for:
-                basis = f"letter {notice.id}: meeting proposed for {notice.meeting_proposed_for}"
-                found.add(FollowUpState(notice.trustee, isin, period_end, _SCHEDULED, basis))
+            if notice.period_end is not None:
+                if notice.period_end == period_end:
+                    found.update(_letter_states(notice, isin, period_end, PeriodAttribution.LETTER_PERIOD))
+                continue
+            link = links.get((notice.id, isin))
+            if link is not None and link.period_end == period_end:
+                suffix = f"; {link.reason} (linked by rule)"
+                found.update(_letter_states(notice, isin, period_end, PeriodAttribution.LINKED_BY_RULE, suffix))
     order = {state: index for index, (state, _) in enumerate(FOLLOW_UP_STATES)}
     states = sorted(found, key=lambda s: (s.trustee, s.isin, order[s.state], s.basis))
     return states, sorted(listed)
+
+
+def unattributed_follow_up(dataset: Dataset) -> list[FollowUpState]:
+    """Follow-up states from letters that name no quarter and cannot be tied to one. They count for no period."""
+    found = []
+    for (letter_id, isin), link in link_continuations(dataset).items():
+        if link.period_end is not None:
+            continue
+        notice = dataset.breach_notices[letter_id]
+        found += _letter_states(notice, isin, None, PeriodAttribution.NOT_ATTRIBUTABLE, f"; {link.reason}")
+    return sorted(found, key=lambda s: (s.trustee, s.isin, s.state, s.basis))

@@ -115,9 +115,40 @@ def test_a_missing_robots_file_allows_retrieval(tmp_path):
     assert fetcher(tmp_path, web).fetch(URL).size_bytes == len(PDF)
 
 
-def test_an_html_page_at_the_robots_address_is_not_a_robots_file(tmp_path):
+def test_an_html_page_at_the_robots_address_leaves_the_policy_unknown(tmp_path):
+    """A soft error page or a bot challenge where the robots file should be neither states rules nor says there are
+    none, so nothing is fetched, and the failure is not reported as the site's refusal."""
     page = ok(ROBOTS, b"<!doctype html><html>Disallow: /</html>", "text/html")
     web = FakeWeb({ROBOTS: page, URL: ok(URL)})
+    with pytest.raises(RetrievalFailed, match=r"robots.txt could not be read \(an HTML page, not a robots file\)"):
+        fetcher(tmp_path, web).fetch(URL)
+    assert URL not in [url for url, _ in web.requests]
+
+
+@pytest.mark.parametrize("status", [401, 403, 406, 429, 451, 400, 418])
+def test_a_refused_robots_file_leaves_the_policy_unknown_and_fetches_nothing(tmp_path, status):
+    web = FakeWeb({ROBOTS: HttpResponse(status, {}, b"", ROBOTS), URL: ok(URL)})
+    with pytest.raises(RetrievalFailed, match=rf"robots.txt could not be read \(HTTP {status}\)"):
+        fetcher(tmp_path, web).fetch(URL)
+    assert URL not in [url for url, _ in web.requests]
+
+
+@pytest.mark.parametrize("status", [404, 410])
+def test_a_robots_file_that_is_gone_or_missing_allows_retrieval(tmp_path, status):
+    web = FakeWeb({ROBOTS: HttpResponse(status, {}, b"<html>not found</html>", ROBOTS), URL: ok(URL)})
+    assert fetcher(tmp_path, web).fetch(URL).size_bytes == len(PDF)
+
+
+def test_a_robots_file_served_with_the_wrong_content_type_is_still_obeyed(tmp_path):
+    robots = ok(ROBOTS, b"User-agent: *\nDisallow: /report.pdf\n", "text/html; charset=utf-8")
+    web = FakeWeb({ROBOTS: robots, URL: ok(URL)})
+    with pytest.raises(RetrievalRefused, match="disallowed by robots.txt"):
+        fetcher(tmp_path, web).fetch(URL)
+    assert URL not in [url for url, _ in web.requests]
+
+
+def test_an_empty_robots_file_allows_retrieval(tmp_path):
+    web = FakeWeb({ROBOTS: ok(ROBOTS, b"", "text/plain"), URL: ok(URL)})
     assert fetcher(tmp_path, web).fetch(URL).size_bytes == len(PDF)
 
 

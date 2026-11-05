@@ -1,13 +1,14 @@
 # Reliability, and the annotation guide
 
-How far each kind of value in the records can be relied on, what was checked, what was found wrong, and the rules a second annotator should apply. Written on 4 November 2026.
+How far each kind of value in the records can be relied on, what was checked, what was found wrong, and the rules a second annotator should apply. Written on 4 November 2026, and revised on 5 November 2026 after an audit of that work.
 
 ## In brief
 
-- **Quotations and parsed facts are checked by machine** against the hashed source files. At the last full run of `brdo verify`, on 4 November 2026, 1,147 of 1,254 anchors were found in the file's text layer and 107 rest on reading the rendered page. That run could not be repeated in this pass: the sources were unreachable from the environment used, so the figure is carried forward, not re-measured.
-- **Classifications are one curator's reading.** None has had an independent second review. `annotation_reviewed` is false throughout, and the data dictionary marks every such column as `annotation`.
-- **Mechanical comparisons are reproducible, which is not the same as correct.** Checking each decision against the quoted text found two rule errors in this pass (below).
+- **Quotations and parsed facts are checked by machine** against the hashed source files. At the last full run of `brdo verify`, on 4 November 2026, 1,147 of 1,254 anchors were found in the file's text layer and 107 rest on reading the rendered page. That run could not be repeated on 4 or 5 November: the sources were unreachable from the environment used, so the figure is carried forward, not re-measured.
+- **Classifications are one curator's reading.** None has had an independent second review. `annotation_reviewed` is false throughout, no review record exists, and the data dictionary marks every such column as `annotation`.
+- **Mechanical comparisons are reproducible, which is not the same as correct.** Checking each decision against the quoted text found two rule errors on 4 November, and an audit of that work on 5 November found further errors in the rules and views (below).
 - **The headline findings rest on few judgements about few issuers.** They are listed below, so that a reviewer can check every one in an afternoon.
+- **Materials for a blind second annotation are ready, but none has been made.** `brdo review packet` writes the 585 decisions without their current values; [annotation-codebook.md](annotation-codebook.md) states the rules; the protocol is below.
 
 ## Kinds of value, and how each is checked
 
@@ -29,6 +30,19 @@ How far each kind of value in the records can be relied on, what was checked, wh
 
 The audit re-applied the stated rules and read the quoted text. It is not an independent second annotation and must not be counted as one.
 
+## What the audit of that work found, 5 November 2026
+
+The fifth pass's own changes were re-examined. These were wrong or incomplete, and are corrected:
+
+1. **Point-in-time views still leaked.** They kept every instrument and issuer, with its base name, CIN, LEI and sector, whatever the date, and kept notes and searches written later. They also carried a list of what they withheld, which itself tells what the full record holds. Now an entity or attribute appears only when a record then public supports it (`attribute_support.csv`), notes and later searches are dropped, and no such list exists.
+2. **"Not yet public" was not justified.** A view labelled a report `trustee_report_not_yet_public` because a later search found it. A later search cannot show that the report was not public earlier. The label is gone; an estimated view says only that it holds no such report (`trustee_report_not_in_view`).
+3. **A continuation letter counted for every quarter.** A letter continuing an adjourned meeting states no quarter, and was attached to whichever quarter was asked about. It is now tied to a quarter only by a stated rule, and otherwise to none. Catalyst's counts fall from 15 to 14 ISINs for "meeting adjourned for lack of quorum" and from 39 to 38 for "meeting reported as scheduled": the continuation letter for INE179P07530 cannot be tied to a quarter.
+4. **A cure was typed by any one covenant of its row.** It is now typed only when every covenant the row lists for the ISIN is of one kind. No figure changed, because no row mixes kinds.
+5. **Field flows kept only the first supporting line.** They now keep every line, with the number examined; 22 of the 85 decisions rest on more than one. The clause-reference rule was tightened and pinned by 30 hand-written cases (12 that count and 18 that do not), including the decimals, headings, statutes and dates that could mislead it. No figure changed.
+6. **Offer documents were treated as the contract.** The vocabulary called text from an offer document "executed", and the trace to the contract counted offer documents as the contract itself. They are now separate stages, checked by validation (see [data-model.md](data-model.md#clause-records-and-their-legal-stage)). No record was affected.
+7. **The fetcher still fetched when a robots file could not be read.** A 403, 429 or other refusal at the robots address, or an HTML page in place of the file, was treated as no robots file. Now only a robots file, or a 404 or 410, settles the policy. One document in the dataset, ICRA's rationale `icra-krcl-139196`, was retrieved by the pipeline on 4 November 2026, while ICRA's robots address returned a bot-mitigation page; under the corrected rule it would not have been fetched. The record is kept as it was. Whether to re-retrieve it by hand is for the project owner.
+
+
 ## What the headline findings rest on
 
 | Finding | Judgements it rests on | About how many | Robustness |
@@ -43,68 +57,42 @@ The audit re-applied the stated rules and read the quoted text. It is not an ind
 
 Checking the first four rows, about 75 decisions, would cover every judgement behind the fourth pass's main findings.
 
-## Annotation guide
+## The rules, and the hard cases as currently annotated
 
-These are the rules the existing annotations follow, written down so that a second annotator can apply them independently. A hard case is one where a careful reader could reasonably choose otherwise. Hard cases should be annotated twice and adjudicated, never silently relabelled.
+The rules a second annotator applies are in [annotation-codebook.md](annotation-codebook.md). The codebook states rules only: a second annotator must not see what follows until their answers are in, because it says how the hard cases are labelled now. It is kept here for adjudication.
 
-### Covenant category (`BreachItem.category`, `Provision.category`)
+A hard case is one where a careful reader could reasonably choose otherwise. `brdo review packet` flags 23 decisions as hard from the text alone, without looking at their values, and its notes never suggest a value. Hard cases should be annotated twice and adjudicated, never silently relabelled.
 
-The categories of SEBI's guidance note, Annex-VIA of the master circular: accounts, funds and reserves; financial; affirmative; credit rating; negative; default. Anything outside them is `other`.
+- **Security cover.** Every cell about maintaining security cover is labelled `affirmative`, including Catalyst's "Security Cover Ratio - 1.10x" (row 6) and Vistra's "Non-Maintainance of Security cover", although security cover is a ratio kept within a limit, the codebook's gloss for `financial`. SEBI's annex lists "Security Cover as per terms of Issue" under its third heading, "Affirmative", so the labels follow it. This was read on 5 November 2026 from a third-party copy of the master circular of 28 September 2026 and from copies of the circular of 19 May 2022 that introduced the annex, not from the project's hashed copy, which was not in the local cache. It matters wherever a statement covers financial covenants only, because such a statement does not reach a security cover breach.
+- **Ratios without a level.** IDBI's row 1 ("The maximum permissible ratio of the sum of PAR > 30 and write-offs ...") and Axis's row 1 ("Total Financial Indebtness:Tangible Net worth") are labelled `description_only`: each names or defines a ratio but states no limit. IDBI's row 3 (DSCR) is labelled `requirement_and_actual`, though its levels are bare numbers, which `levels_stated` does not record.
+- **Payment.** MITCON's "Non Payment of Interest & principal" is labelled `default`. The annex lists "Payment of Interest on due dates" under "Financial" and "Default of principal or interest or both" under "Default", so either can be argued.
+- **A class of covenants named, the undertaking not.** IDBI's row 10 cites "clause 1.4.1(vi) of Negative Covenants" and is labelled `negative`. The written rule, that a clause cited only by number is `other`, would give `other`. With Vistra's listing delay below, it is one of two labels found that may not follow the written rules. It is left unchanged for adjudication.
+- **Governance.** Catalyst's row 5 ("comply with any corporate governance requirements ...") is labelled `affirmative`. That one call decides whether Infinity's management statement, which covers financial covenants only, can be compared with the trustee's report.
+- **Listing.** Vistra's "Delay in Listed" is labelled `default`. The annex's "Default" heading names defaults of payment and of security creation, not listing, so by the codebook it might be `other`. It is left unchanged for adjudication.
 
-- **Financial:** a ratio or amount the issuer must keep within a limit, such as portfolio at risk, capital adequacy, debt to equity or return on assets.
-- **Other:** information and filing undertakings, such as "Non submission of financial results"; insolvency events; post-closing deliverables. Also a clause cited by number with no words, with a note.
-- **Hard cases.** Security cover is labelled `affirmative` throughout ("Non-Maintainance of Security cover", Catalyst's row 6), though it is a ratio. That is defensible only if applied consistently, and it matters wherever a statement covers financial covenants only. "Delay in Listed" (Vistra) is labelled `default`.
+## Review protocol
 
-### Specificity (`BreachItem.specificity`)
+1. **Fix the codebook.** Commit `docs/annotation-codebook.md` before a round. `brdo review packet` records the codebook's commit in the packet, and warns if it has uncommitted changes.
+2. **Write the packet.** For example, for the judgements behind the headline findings:
 
-Judged on the whole printed cell, not only the quoted part.
+   ```bash
+   brdo review packet --out ../review-round-1 --field breach_item.category --field breach_item.specificity --field breach_row.actions --field notice.adjourned_for_lack_of_quorum --field statement.made_by --field statement.scope --field statement.breach_stated
+   ```
 
-- `clause_text`: the undertaking in words, with any threshold, for example "(e) a Write-Off Ratio may not at any time increase above 6.5%".
-- `requirement_and_actual`: both the required and the achieved level, for example IDBI's ROA and DSCR rows.
-- `clause_number_only`: a reference with no words.
-- `description_only`: names or paraphrases the failure without stating the term.
-- **Hard cases.**
-  - IDBI's row 1 begins "The maximum permissible ratio of the sum of PAR > 30 and write-offs ...". It quotes a ratio's definition inside a description of the failure, and is labelled `description_only`.
-  - Axis's row names "Total Financial Indebtness:Tangible Net worth" without a level, and is labelled `description_only`.
+   Without `--field`, every one of the 585 decisions is included. `packet/` holds `decisions.csv` (document, page, locator, passage, allowed values, rule, hard-case flag and note, and no current value), a blank `answers.csv`, the codebook and instructions. `key/` holds the current values. Give the annotator `packet/` only. Packet ids are fresh for each round, because record ids could hint at a value.
+3. **Annotate blind.** A person who did not make the original annotations, and has not seen the key, the data or the reports, fills in `answers.csv` from the sources, with a reason for every hard case and every unsure decision.
+4. **Score per field.** `brdo review score --decisions packet/decisions.csv --key key/key.csv --answers answers.csv` gives decisions, answers, raw agreement and Cohen's kappa for each field, never pooled, and lists every disagreement. Kappa is reported as `n/a` where it is undefined, for example when every value is the same. Blank answers count as unanswered, not as disagreements.
+5. **Adjudicate.** For each disagreement and each hard case, a person decides, with a reason, against the codebook and the source. The adjudicator may be the original curator, but must record that they are.
+6. **Record every decision reviewed.** Add an `AnnotationReview` to `data/annotation-reviews.yaml` for each decision, with:
+   - `decision`: the stable decision id, from the key;
+   - `codebook_commit`;
+   - `original` and `original_annotator`;
+   - `second`, `second_annotator`, `second_by: person` and `second_reason`;
+   - `annotated_on`;
+   - and, where a disagreement or hard case was settled, `adjudicated`, `adjudicated_by`, `adjudication_reason` and `adjudicated_on`.
 
-  Both deserve a second reading.
+   Annotators are named by a label, not by any personal detail. Then change the record itself to the settled value.
+7. **Mark only what was reviewed.** `Provision.annotation_reviewed` may be set only when reviews settle every decision of that clause record. Validation enforces this, and also rejects a review by the original annotator, a review that does not match the record, and a settled value the record does not hold. Other records' review state is read from the reviews themselves.
+8. **Regenerate and log.** Rebuild the exports and the report, and record in the changelog every figure that moved.
 
-### Actions (`BreachRow.actions`)
-
-One or more kinds per row, read from the action columns only.
-
-- `cure_reported` needs the cell to say that the breach was cured or the missing item supplied.
-- A meeting is `holders_meeting_held` if the cell reports it as held, and `holders_meeting_scheduled` if a date lies ahead.
-- `awaiting_instructions` and `follow_up_with_issuer` follow the cell's words.
-- Mixed cells take every kind they report; Vistra's row 1 has three.
-
-### Other fields
-
-- **Assignment** (`assignment_uncertain`): true only when which row an ISIN belongs to depends on reading merged cells. False throughout this release.
-- **Carried over** (`carried_over_from`): set only when the row's own label assigns the breach to an earlier quarter.
-- **Letters** (`BreachNotice.kind`, `period_end`): `period_end` is set when the letter states the quarter or the certificate's period. Continuation letters have none.
-- **Statements**:
-  - `made_by` is whoever signs the conclusion: the issuer, or its statutory auditor;
-  - `scope` is as printed;
-  - `breach_stated` is true when the statement lists exceptions or says a covenant was not met;
-  - `isins_printed` is false when an ISIN is reached only by a general sentence or by omission from a list of exceptions.
-- **Clause records**:
-  - `stage` follows the document: a party's quotation is `described_in_force`, an exchange's approval `approved_in_principle`, and only the executed instrument `executed_text`;
-  - `thresholds` are parsed only where the comparator, value, unit and dates are unambiguous;
-  - `explanation` is written from the quoted text alone.
-- **Search outcomes** (`SearchRecord.outcome`):
-  - `found` only with a registered document;
-  - `located_not_retrieved` when a candidate sits on a source the pipeline may not use;
-  - `excluded_by_policy` when it sits only on an excluded source;
-  - `access_error` when a source failed to answer, including a robots file that could not be read.
-
-## Making the annotations dependable
-
-1. **Fix the guide as the codebook** for a review round, and record its commit.
-2. **Annotate a second time, blind to the current values,** with someone who did not make them. Start with the roughly 75 judgements behind the main findings, then do every covenant category and specificity.
-3. **Measure agreement field by field.** Report raw agreement and Cohen's kappa with their counts, and never pool fields.
-4. **Adjudicate and keep both readings.** Record the first and second values and the adjudicated one, and say why. Set `annotation_reviewed` only on reviewed records.
-5. **Regenerate the report** and record in the changelog every finding that moved.
-6. **Keep hand-checked decisions as tests** for every mechanical rule, as this pass did for the clause-reference rule.
-
-None of these is review: the same curator re-reading, the same process re-applying the same rules, or two publications that share an origin agreeing with each other.
+**What is not a review.** The same curator re-reading; the same rules re-applied, including by this audit; another pass by an automated process or a language model, however it is prompted; and two publications with a shared origin agreeing with each other. `second_by` accepts only `person`, and there is deliberately no value for anything else. None of these may be recorded as an `AnnotationReview`, and none may set `annotation_reviewed`.

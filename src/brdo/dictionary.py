@@ -53,6 +53,16 @@ class Column:
     """Where the fact originates, when that is not simply the party that published the document."""
     type: str | None = None
     """Frictionless type, when inference from the values could mislead."""
+    empty: str | None = None
+    """What an empty cell means, where that matters: unknown, not applicable, not recorded or not yet established."""
+    licensed: bool | None = None
+    """Whether the project's licence covers the column. By default, every kind but ``source_text`` is covered."""
+    rights: str | None = None
+    """What a reuser must know about third-party text in the column."""
+
+    @property
+    def is_licensed(self) -> bool:
+        return self.licensed if self.licensed is not None else self.kind is not ColumnKind.SOURCE_TEXT
 
 
 @dataclass(frozen=True)
@@ -84,7 +94,12 @@ OBSERVED_AT = Column(
     "Pages of sources whose terms forbid storing their content, such as depository databases, where the value was "
     "seen. The page's content is not stored and cannot be re-verified by machine.",
 )
-NOTE = Column(K.ANNOTATION, "The project's remark.")
+PROJECT_TEXT = "The project's text, under CC BY 4.0. Words it quotes from a source remain their owner's."
+TRADE_NAME = (
+    "A name of an entity, as a source prints it. Trade names are not licensed by the project (LICENSE-DATA.md)."
+)
+FLOW_RIGHTS = "The pointers are the project's; each `matched` text is a short quotation from the source, not licensed."
+NOTE = Column(K.ANNOTATION, "The project's remark.", rights=PROJECT_TEXT)
 TRUSTEE_ORIGIN_DATES = (
     "Published by the trustee. Two trustees define the date of actual breach by the issuer's or auditor's certificate "
     "(see their printed notes in the observability report), so for them it originates with the issuer."
@@ -96,7 +111,7 @@ TABLES: dict[str, Table] = {
         "One row per publisher, with the project's access and reuse policy for it. See docs/source-policy.md.",
         {
             "id": Column(K.IDENTIFIER, "Id of the source."),
-            "name": Column(K.READ_FROM_SOURCE, "The publisher's name."),
+            "name": Column(K.READ_FROM_SOURCE, "The publisher's name.", licensed=False, rights=TRADE_NAME),
             "kind": Column(
                 K.ANNOTATION, "What kind of publisher it is: regulator, exchange, trustee, issuer and so on."
             ),
@@ -123,7 +138,9 @@ TABLES: dict[str, Table] = {
             "sebi_registration": Column(K.READ_FROM_SOURCE, "SEBI registration number, as SEBI's register prints it."),
             "terms_reviewed_on": Column(K.PROVENANCE, "When the project last read the source's terms and robots.txt."),
             "terms_summary": Column(
-                K.ANNOTATION, "The project's summary of the source's terms as reviewed. Not legal advice."
+                K.ANNOTATION,
+                "The project's summary of the source's terms as reviewed. Not legal advice.",
+                rights=PROJECT_TEXT,
             ),
             "notes": NOTE,
         },
@@ -135,7 +152,12 @@ TABLES: dict[str, Table] = {
             "id": Column(K.IDENTIFIER, "Id of the document."),
             "source": Column(K.IDENTIFIER, "Id of the publisher in `sources.csv`."),
             "type": Column(K.ANNOTATION, "What kind of document it is, from a closed list."),
-            "title": Column(K.READ_FROM_SOURCE, "The title the file prints, or a descriptive title where it has none."),
+            "title": Column(
+                K.READ_FROM_SOURCE,
+                "The title the file prints, or a descriptive title where it has none.",
+                licensed=False,
+                rights="A document's title as its publisher gives it, not licensed by the project.",
+            ),
             "url": Column(K.PROVENANCE, "Address the file was retrieved from."),
             "landing_page": Column(K.PROVENANCE, "Page that lists or links the file, where known."),
             "retrieved_at": Column(K.PROVENANCE, "When the project retrieved the file (UTC)."),
@@ -156,31 +178,47 @@ TABLES: dict[str, Table] = {
             "signed": Column(K.READ_FROM_SOURCE, "The date the document says it was signed."),
             "published": Column(
                 K.READ_FROM_SOURCE,
-                "The date the publisher says the file was made public, for example on its listing page. Empty for "
-                "most files: a server's Last-Modified header is never recorded here.",
+                "The date the publisher says the file was posted, for example on its listing page. A server's "
+                "Last-Modified header is never recorded here.",
+                empty="the publisher states no date for the file, as for all but one file in this release",
             ),
             "published_basis": Column(K.PROVENANCE, "Where the publication date was read."),
             "last_modified": Column(
                 K.PROVENANCE,
-                "The server's Last-Modified header for the exact file held. It dates that version on the server, not "
-                "its first publication; an earlier version may have been public sooner.",
+                "The server's Last-Modified header for the exact file held. It dates that version on the server. It "
+                "does not establish first publication: a file can be uploaded before it is linked, replaced later, or "
+                "copied with a misleading date.",
+                empty="the server sent no Last-Modified header",
             ),
             "available_not_before": Column(
                 K.DERIVED,
-                'Lower bound on availability: the latest of the file\'s own date, its signature, its "as on" date '
-                "and the dates of letters transcribed from it. The file cannot have been public earlier.",
+                "Lower bound: the file cannot have been public before this day, if the dates it prints are right. The "
+                'latest of its own date, its signature or "as on" date, the date of a letter in it, and the latest '
+                "event its rows report.",
+                empty="no lower bound: the record reads no date from the file",
             ),
+            "available_not_before_basis": Column(K.DERIVED, "Which kind of date gives the lower bound."),
             "available_from": Column(
                 K.DERIVED,
-                "Estimated day this exact file became public: the later of the publisher's date and Last-Modified, "
-                "never before `available_not_before`; failing both, the file's own date (a lower bound only); "
-                "failing that, `available_observed`. Used by `brdo status --as-of` and `brdo show --as-of`.",
+                "A conservative estimate of when this exact file was at its address, not a publication date and not "
+                "confirmed: the later of the publisher's date and Last-Modified, never before the lower bound; failing "
+                "both, the lower bound; failing that, the confirmation date. It can still be early when a server's "
+                "date predates the file's appearance. Used by `--as-of` with estimated availability.",
+                empty="no date of any kind is known for the file",
             ),
             "available_basis": Column(K.DERIVED, "Which date `available_from` rests on."),
-            "available_observed": Column(
+            "available_confirmed_by": Column(
                 K.PROVENANCE,
-                "The day the project observed the file in public, which is when it retrieved it. The only availability "
-                "date the record proves. Used by `--availability observed`.",
+                "The day the project retrieved the file from its public address, so it was public by then. The only "
+                "availability date the record proves, and usually much later than first publication. Used by "
+                "`--as-of` with `--availability observed`.",
+                empty="the project never retrieved the file",
+            ),
+            "available_window_days": Column(
+                K.DERIVED,
+                "Days from the lower bound to the confirmation: the interval within which the file first became "
+                "public.",
+                empty="the lower bound or the confirmation is unknown, so the interval is open",
             ),
             "period_start": PERIOD_START,
             "period_end": PERIOD_END,
@@ -194,11 +232,63 @@ TABLES: dict[str, Table] = {
         "One row per legal entity that issued an instrument in the sample.",
         {
             "id": Column(K.IDENTIFIER, "Id of the issuer."),
-            "name": Column(K.ANNOTATION, "The name the project uses for the issuer, taken from a source."),
-            "cin": Column(K.READ_FROM_SOURCE, "Corporate Identity Number, where a source prints one."),
-            "lei": Column(K.READ_FROM_SOURCE, "Legal Entity Identifier, where a source prints one."),
+            "name": Column(
+                K.ANNOTATION,
+                "The name the project uses for the issuer, taken from a source.",
+                licensed=False,
+                rights=TRADE_NAME,
+            ),
+            "cin": Column(
+                K.READ_FROM_SOURCE,
+                "Corporate Identity Number, where a source prints one; `attribute_support.csv` says which.",
+                empty="no record of the dataset prints one",
+            ),
+            "lei": Column(
+                K.READ_FROM_SOURCE,
+                "Legal Entity Identifier, where a source prints one; `attribute_support.csv` says which.",
+                empty="no record of the dataset prints one",
+            ),
             "sector": Column(K.ANNOTATION, "Sector, where classified. Empty in this release."),
-            "name_variants": Column(K.READ_FROM_SOURCE, "Other names under which sources print the issuer."),
+            "name_variants": Column(
+                K.READ_FROM_SOURCE,
+                "Other names under which sources print the issuer.",
+                licensed=False,
+                rights=TRADE_NAME,
+            ),
+            "established_from": Column(
+                K.DERIVED,
+                "Earliest estimated day on which a record supporting the issuer was public (see "
+                "`attribute_support.csv`).",
+            ),
+            "established_confirmed_by": Column(
+                K.DERIVED, "Earliest day on which the project itself saw a record supporting the issuer."
+            ),
+        },
+    ),
+    "attribute_support": Table(
+        "One row per record that establishes an attribute of an instrument or issuer, with when that record was "
+        "public. An instrument's `identity` is its ISIN with the issuer the dataset assigns it to, established by any "
+        "record printing the ISIN. An issuer's `name`, `cin` and `lei` are established only by records that print "
+        "them. Point-in-time views show an attribute only once one of its supports is public.",
+        {
+            "entity": Column(K.IDENTIFIER, "`instrument` or `issuer`."),
+            "key": Column(K.IDENTIFIER, "The ISIN or the issuer id.", type="string"),
+            "attribute": Column(K.DERIVED, "`identity`, `name`, `cin` or `lei`."),
+            "record": Column(K.PROVENANCE, "The record that prints the attribute."),
+            "document": Column(
+                K.IDENTIFIER, "The document the record is in.", empty="the support is an observation, not a document"
+            ),
+            "observed_at_url": Column(
+                K.PROVENANCE,
+                "The page of a source whose terms forbid storing it, where the value was seen.",
+                empty="the support is a document",
+            ),
+            "available_from": Column(
+                K.DERIVED, "Estimated day the supporting document was public, or the day the observation was made."
+            ),
+            "available_confirmed_by": Column(
+                K.DERIVED, "Day the project retrieved the supporting document, or made the observation."
+            ),
         },
     ),
     "instruments": Table(
@@ -206,19 +296,38 @@ TABLES: dict[str, Table] = {
         {
             "isin": ISIN,
             "issuer": Column(K.IDENTIFIER, "Id of the issuer in `issuers.csv`."),
-            "issuer_name": Column(K.DERIVED, "The issuer's name from `issuers.csv`."),
+            "issuer_name": Column(
+                K.DERIVED, "The issuer's name from `issuers.csv`.", licensed=False, rights=TRADE_NAME
+            ),
             "trustees_claimed": Column(
-                K.DERIVED, "Every trustee a claim names for the ISIN. More than one means sources disagree."
+                K.DERIVED,
+                "Every trustee a claim names for the ISIN. More than one means sources disagree.",
+                empty="no record names the ISIN's trustee",
             ),
             "trustee_claims_conflict": Column(K.DERIVED, "True when claims name more than one trustee."),
-            "contract_documents": Column(
-                K.DERIVED, "Linked offer documents or trust deeds that have been retrieved. None in this release."
+            "offer_documents": Column(
+                K.DERIVED,
+                "Linked offer documents (general or key information documents, placement memoranda) that have been "
+                "retrieved. They give the terms as offered, not the executed deed. None in this release.",
+                empty="none retrieved; absence is a fact about the project's access, not about the instrument",
+            ),
+            "executed_deeds": Column(
+                K.DERIVED,
+                "Linked debenture trust deeds and supplemental deeds that have been retrieved. None in this release.",
+                empty="none retrieved; absence is a fact about the project's access, not about the instrument",
             ),
             "provisions": Column(K.DERIVED, "Number of clause records attached to the ISIN."),
             "trust_deed_dates": Column(
                 K.DERIVED,
                 "Every deed date that trustees' letters cite for the ISIN.",
                 origin="The executed deeds, as the trustee describes them. No deed has been retrieved.",
+            ),
+            "established_from": Column(
+                K.DERIVED,
+                "Earliest estimated day on which a record printing the ISIN was public (`attribute_support.csv`).",
+            ),
+            "established_confirmed_by": Column(
+                K.DERIVED, "Earliest day on which the project itself saw a record printing the ISIN."
             ),
             "notes": NOTE,
         },
@@ -269,6 +378,7 @@ TABLES: dict[str, Table] = {
                 K.ANNOTATION,
                 "Parsed limits as JSON: comparator, value, unit and any dates they apply between. Parsed only where "
                 "the wording is unambiguous.",
+                empty="no limit parsed: none is stated, or the wording is not unambiguous",
             ),
             "test_frequency": Column(K.ANNOTATION, "How often the clause is tested, where stated."),
             "test_basis": Column(K.ANNOTATION, "Standalone or consolidated, where stated."),
@@ -277,8 +387,10 @@ TABLES: dict[str, Table] = {
             "effective_from": Column(K.READ_FROM_SOURCE, "When the clause takes effect, where stated."),
             "stage": Column(
                 K.ANNOTATION,
-                "What the record is evidence of: `executed_text`, `described_in_force`, `proposed` or "
-                "`approved_in_principle`.",
+                "What the record is evidence of, one of four legal stages or a party's description: `offered` "
+                "(quoted from an offer document), `proposed` (a change put forward), `approved_in_principle` (a "
+                "change approved, not shown executed), `executed_text` (quoted from an executed deed), or "
+                "`described_in_force` (a party's quotation or description of a term it treats as in force).",
             ),
             "text": Column(
                 K.SOURCE_TEXT,
@@ -287,7 +399,9 @@ TABLES: dict[str, Table] = {
                 "contract's own.",
             ),
             "explanation": Column(
-                K.ANNOTATION, "A plain-English gloss written from the quoted text. Not legal advice."
+                K.ANNOTATION,
+                "A plain-English gloss written from the quoted text. Not legal advice.",
+                rights=PROJECT_TEXT,
             ),
             "annotation_reviewed": Column(
                 K.PROVENANCE, "Whether a second person has reviewed the record's annotations. False throughout."
@@ -334,6 +448,7 @@ TABLES: dict[str, Table] = {
                 K.READ_FROM_SOURCE,
                 "Every percentage, multiple and crore amount printed anywhere in the cell, including the part not "
                 "quoted.",
+                empty="the cell prints no level",
                 origin="Mixed: required levels come from the deed and actual levels from the issuer's measurement; "
                 "the column does not say which is which.",
             ),
@@ -342,14 +457,20 @@ TABLES: dict[str, Table] = {
                 K.SOURCE_TEXT, "Date of actual breach as printed.", origin=TRUSTEE_ORIGIN_DATES
             ),
             "actual_breach": Column(
-                K.READ_FROM_SOURCE, "Date of actual breach as read. Meaning differs by trustee; do not compare across."
+                K.READ_FROM_SOURCE,
+                "Date of actual breach as read. Meaning differs by trustee; do not compare across.",
+                empty="not printed, or the printed text is not one date",
             ),
             "detected_as_reported": Column(
                 K.SOURCE_TEXT,
                 "Date of detection as printed.",
                 origin="The trustee's own record. IDBI defines it as the day it received the issuer's certificate.",
             ),
-            "detected": Column(K.READ_FROM_SOURCE, "Date of detection as read."),
+            "detected": Column(
+                K.READ_FROM_SOURCE,
+                "Date of detection as read.",
+                empty="not printed, or the printed text is not one date",
+            ),
             "first_intimation": Column(K.DERIVED, "Earliest date of intimation read from the row."),
             "intimation_as_reported": Column(K.SOURCE_TEXT, "Dates of intimation, and to whom, as printed."),
             "delay_in_detection_as_reported": Column(K.SOURCE_TEXT, "The report's own delay column, as printed."),
@@ -398,7 +519,11 @@ TABLES: dict[str, Table] = {
                 K.PROVENANCE, "False when the letter prints no ISIN and the link comes from elsewhere (see notes)."
             ),
             "issued_on": Column(K.READ_FROM_SOURCE, "The letter's date."),
-            "period_end": Column(K.ANNOTATION, "Quarter-end the letter concerns, where stated or evident."),
+            "period_end": Column(
+                K.ANNOTATION,
+                "Quarter-end the letter concerns, where stated or evident.",
+                empty="the letter names no quarter, as letters continuing an adjourned meeting do",
+            ),
             "deed_dates": Column(
                 K.READ_FROM_SOURCE,
                 "Dates of the trust deeds the letter cites.",
@@ -443,7 +568,9 @@ TABLES: dict[str, Table] = {
             "thresholds_in_notice": Column(K.DERIVED, "Levels printed in the letter."),
             "thresholds_in_report": Column(K.DERIVED, "Levels printed in the report row for the ISIN."),
             "thresholds_agree": Column(
-                K.DERIVED, "Whether the two sets of numbers match. Empty when the letter prints none to compare."
+                K.DERIVED,
+                "Whether the two sets of numbers match.",
+                empty="not applicable: the letter prints no level, or only part of its passage was read",
             ),
         },
     ),
@@ -504,7 +631,9 @@ TABLES: dict[str, Table] = {
             "statement_reports_breach": Column(K.READ_FROM_SOURCE, "True when the statement reports a breach."),
             "trustee_report": Column(K.IDENTIFIER, "The trustee report compared, if one exists."),
             "trustee_lists": Column(
-                K.DERIVED, "Whether that report lists the ISIN. Empty when no fully transcribed report exists."
+                K.DERIVED,
+                "Whether that report lists the ISIN.",
+                empty="not comparable: no fully transcribed report of the ISIN's trustee for the period",
             ),
             "agreement": Column(
                 K.DERIVED, "`consistent`, `differs` or `not_comparable`, by rules in docs/data-model.md."
@@ -518,6 +647,7 @@ TABLES: dict[str, Table] = {
                 K.READ_FROM_SOURCE,
                 "When the trustee records receiving the issuer's quarterly compliance report, from its census table.",
                 origin="The trustee's record of receipt.",
+                empty="no census of the trustee for the period has been measured, or it has no row cited for the ISIN",
             ),
             "trustee_detected": Column(
                 K.READ_FROM_SOURCE, "The trustee's earliest printed detection date for the ISIN."
@@ -534,8 +664,9 @@ TABLES: dict[str, Table] = {
     ),
     "field_flows": Table(
         "For each agreement between an issuer's statement and a trustee's report on a breach, one row per kind of "
-        "information, saying which party prints it. Mechanical rules (see docs/methods.md); the basis columns give "
-        "the text that satisfied each rule so a decision can be checked by eye.",
+        "information, saying which party prints it, with every line, item or letter that satisfied the mechanical "
+        "rule (docs/methods.md). The 17 agreements come from two issuers; this is not the wider statement comparison "
+        "in `statement_report_comparisons.csv`, nor the comparison sample's pilot.",
         {
             "statement": STATEMENT,
             "isin": ISIN,
@@ -546,36 +677,76 @@ TABLES: dict[str, Table] = {
                 "Kind of information: clause reference, obligation wording, required level, issuer's measured level, "
                 "deed dates.",
             ),
-            "issuer_prints": Column(K.DERIVED, "Whether the issuer's statement prints it for the ISIN."),
+            "issuer_prints": Column(
+                K.DERIVED, "Whether any of the statement's exception lines for the ISIN prints it."
+            ),
             "trustee_prints": Column(
                 K.DERIVED,
-                "Whether the trustee's report, or for deed dates its letters for the quarter, print it. The issuer's "
-                "measured level counts only if the trustee prints the same number.",
+                "Whether any of the trustee's report items for the ISIN, or for deed dates its letters for the "
+                "quarter, prints it. The issuer's measured level counts only if the trustee prints the same number "
+                "and unit.",
             ),
-            "issuer_basis": Column(K.DERIVED, "The issuer's text or value that satisfied the rule; empty if none."),
-            "trustee_basis": Column(K.DERIVED, "The trustee's text or value that satisfied the rule; empty if none."),
+            "issuer_examined": Column(
+                K.DERIVED, "How many of the statement's exception lines for the ISIN were examined."
+            ),
+            "issuer_evidence": Column(
+                K.DERIVED,
+                "JSON list of every exception line that satisfied the rule: document, page, locator and the text "
+                "that matched.",
+                licensed=False,
+                rights=FLOW_RIGHTS,
+                empty="no line satisfied the rule; `issuer_examined` says how many were looked at",
+            ),
+            "trustee_examined": Column(
+                K.DERIVED, "How many report items, or for deed dates letters for the quarter, were examined."
+            ),
+            "trustee_evidence": Column(
+                K.DERIVED,
+                "JSON list of every report item or letter that satisfied the rule: document, page, locator and the "
+                "text that matched.",
+                licensed=False,
+                rights=FLOW_RIGHTS,
+                empty="nothing satisfied the rule; `trustee_examined` says how many were looked at, and 0 means the "
+                "record holds nothing to examine, not that the trustee printed nothing",
+            ),
             "ai_training_reserved": AI_RESERVED,
         },
     ),
     "follow_up_states": Table(
         "For each ISIN listed in a current trustee report for a period, one row per follow-up state that the trustee's "
-        "reports and letters publish, with where the record shows it. A listed ISIN with none has one row reading "
-        "`no follow-up published`. States are never ranked or merged.",
+        "reports and letters publish, with where the record shows it and how its period is known. A listed ISIN with "
+        "none has one row reading `no follow-up published`. Rows with no period come from letters that name no quarter "
+        "and cannot be tied to one. States are never ranked or merged.",
         {
             "trustee": TRUSTEE,
             "isin": ISIN,
-            "period_end": PERIOD_END,
+            "period_end": Column(
+                K.DERIVED,
+                "The reporting period the state is counted for.",
+                empty="the letter names no quarter and the rule cannot tie it to one; counted for no period",
+            ),
             "state": Column(
                 K.DERIVED,
-                "The state, from the project's reading of action cells and letters. A cure is typed by the covenant "
-                "category of its row.",
+                "The state, from the project's reading of action cells and letters. A cure is typed financial or other "
+                "only when every covenant the row lists for the ISIN is of that kind; otherwise it is a cure for "
+                "covenants of more than one kind.",
             ),
             "is_outcome": Column(
                 K.DERIVED,
-                "True for the five outcome states: enforcement or nominee director, waiver, holders instructing no "
-                "action, and the two kinds of cure.",
+                "True for the six outcome states: enforcement or nominee director, waiver, holders instructing no "
+                "action, and the three kinds of cure.",
             ),
-            "basis": Column(K.DERIVED, "The report row and action kinds, or the letter, that show the state."),
+            "attribution": Column(
+                K.DERIVED,
+                "How the period is known: `report_row` (a row of the period's report), `letter_period` (the quarter "
+                "recorded for the letter), `linked_by_rule` (a letter naming no quarter, continuing a letter of the "
+                "same file that names one) or `not_attributable`.",
+            ),
+            "basis": Column(
+                K.DERIVED,
+                "The report row and action kinds, or the letter, that show the state, and for linked letters the rule.",
+                empty="no follow-up is published for the ISIN",
+            ),
         },
     ),
     "monitoring_censuses": Table(
@@ -612,7 +783,7 @@ TABLES: dict[str, Table] = {
             "document": DOCUMENT,
             "page": PAGE,
             "quote": Column(K.SOURCE_TEXT, "The passage, verbatim."),
-            "relevance": Column(K.ANNOTATION, "Why the project relies on it."),
+            "relevance": Column(K.ANNOTATION, "Why the project relies on it.", rights=PROJECT_TEXT),
         },
     ),
     "instrument_status": Table(
@@ -623,7 +794,11 @@ TABLES: dict[str, Table] = {
             "period_end": Column(K.DERIVED, "End of the reporting period."),
             "status": Column(K.DERIVED, "Status from a closed list; see docs/data-model.md."),
             "basis": Column(K.DERIVED, "The rule that produced the status, including which kind of absence it is."),
-            "documents": Column(K.DERIVED, "Documents the status rests on."),
+            "documents": Column(
+                K.DERIVED,
+                "Documents the status rests on.",
+                empty="the status rests on no document, as for not_assessed",
+            ),
         },
     ),
     "searches": Table(
@@ -635,7 +810,12 @@ TABLES: dict[str, Table] = {
             "subject": Column(K.IDENTIFIER, "ISIN, issuer id or source id the search was about."),
             "purpose": Column(K.PROVENANCE, "What was sought."),
             "channel": Column(K.PROVENANCE, "Web search, a source's listing page, or a direct address."),
-            "query": Column(K.PROVENANCE, "The query, for web searches. Results can differ when re-run."),
+            "query": Column(
+                K.PROVENANCE,
+                "The query, for web searches. Results can differ when re-run. Some search for covenant wording a "
+                "trustee quotes.",
+                rights=PROJECT_TEXT,
+            ),
             "scope": Column(K.PROVENANCE, "Sites or pages searched."),
             "period_end": Column(K.PROVENANCE, "End of the reporting period sought, where one was."),
             "outcome": Column(K.ANNOTATION, "The project's classification of the result."),
@@ -652,7 +832,7 @@ TABLES: dict[str, Table] = {
             "kind": Column(K.ANNOTATION, "What kind of disagreement it is."),
             "subject": Column(K.IDENTIFIER, "ISINs, issuer or source concerned."),
             "status": Column(K.ANNOTATION, "`open` or `resolved`."),
-            "description": Column(K.ANNOTATION, "The project's neutral description."),
+            "description": Column(K.ANNOTATION, "The project's neutral description.", rights=PROJECT_TEXT),
             "evidence": EVIDENCE,
             "observed_at_urls": OBSERVED_AT,
             "resolution": Column(K.ANNOTATION, "How it was resolved, if it was."),
@@ -714,7 +894,21 @@ def _infer_type(values: list[str]) -> str:
     return "string"
 
 
-def datapackage(all_tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+QUOTATION_RIGHTS = (
+    "Verbatim text from a third-party source, quoted for research, review and verification. It remains its owner's and "
+    "is not licensed under CC BY 4.0 or any other licence by this project; reuse it only as the source's terms and the "
+    "law allow."
+)
+LICENCE_NOTE = (
+    "The project's own work (structure, facts it records, annotations, derived values and measurements) is under "
+    "CC BY 4.0. That licence does not cover any field marked `brdo:licensed: false` (kind `source_text`), which holds "
+    "third-party quotations, nor any source document, none of which is included. See LICENSE-DATA.md."
+)
+
+
+def datapackage(
+    all_tables: dict[str, list[dict[str, Any]]], cited_sources: list[dict[str, str]] | None = None
+) -> dict[str, Any]:
     """A Frictionless Data Package descriptor for the CSV exports, built from the column descriptions."""
     resources = []
     for name, rows in all_tables.items():
@@ -727,9 +921,14 @@ def datapackage(all_tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
                 "type": documented.type or _infer_type(values),
                 "description": documented.description,
                 "brdo:kind": documented.kind.value,
+                "brdo:licensed": documented.is_licensed,
             }
+            if documented.kind is ColumnKind.SOURCE_TEXT or documented.rights:
+                field["brdo:rights"] = documented.rights or QUOTATION_RIGHTS
             if documented.origin:
                 field["brdo:origin"] = documented.origin
+            if documented.empty:
+                field["brdo:empty"] = documented.empty
             if any("; " in value for value in values):
                 field["brdo:separator"] = "; "
             fields.append(field)
@@ -762,10 +961,12 @@ def datapackage(all_tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
             {
                 "name": "CC-BY-4.0",
                 "path": "https://creativecommons.org/licenses/by/4.0/",
-                "title": "Creative Commons Attribution 4.0, for the project's own work. Columns of kind source_text "
-                "are quotations that remain their owners' and are not licensed; see LICENSE-DATA.md.",
+                "title": "Creative Commons Attribution 4.0, for the project's own work only; not for fields marked "
+                "brdo:licensed false, which are third-party quotations",
             }
         ],
+        "brdo:rights": LICENCE_NOTE,
+        "sources": cited_sources or [],
         "resources": resources,
     }
 
@@ -792,10 +993,23 @@ def render_markdown() -> str:
         "Multi-valued cells are joined with `; `. Empty cells mean the value is absent from the record, which is "
         "never evidence that something did not happen.",
     ]
+    lines += [
+        "",
+        "**Licence.** " + LICENCE_NOTE + " In `exports/datapackage.json` every quoted field carries "
+        "`brdo:licensed: false` and a `brdo:rights` statement, so that software reading the data can tell.",
+    ]
     for name, table in TABLES.items():
-        lines += ["", f"## `{name}.csv`", "", table.description, "", "| column | kind | meaning | origin |"]
-        lines.append("|---|---|---|---|")
+        lines += [
+            "",
+            f"## `{name}.csv`",
+            "",
+            table.description,
+            "",
+            "| column | kind | meaning | empty means | origin |",
+        ]
+        lines.append("|---|---|---|---|---|")
         for column, documented in table.columns.items():
-            origin = documented.origin or ""
-            lines.append(f"| `{column}` | {documented.kind.value} | {documented.description} | {origin} |")
+            kind = documented.kind.value + ("" if documented.is_licensed else " (not licensed)")
+            cells = [f"`{column}`", kind, documented.description, documented.empty or "", documented.origin or ""]
+            lines.append("| " + " | ".join(cells) + " |")
     return "\n".join(lines) + "\n"

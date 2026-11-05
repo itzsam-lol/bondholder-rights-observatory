@@ -13,3 +13,5 @@ jobs:
       - run: uv sync --python 3.12
       - run: uv run brdo validate
       - run: uv run pytest
+      - name: Validate the data package with an independent Frictionless implementation
+        run: uvx --from 'frictionless==5.18.1' frictionless validate exports/datapackage.json

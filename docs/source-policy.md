@@ -56,7 +56,7 @@ A trustee's census of monitored issues is a long table of company names, ISINs a
 | **BSE** | **Manual only** | Both hosts refused the project's identified client on 4 November 2026 while serving browsers. The project treats that as an access restriction and does not disguise its client |
 | **CDSL and NSDL** | **Manual only** | CDSL's policy forbids downloading or storing its content without permission and allows links. A single value may be cited with its URL |
 | **Online bond platforms** | **Manual only** | IndiaBonds' terms forbid data gathering tools, even though its robots.txt allows crawling |
-| **NSE** | **Excluded** | Terms prohibit automated collection and storage, and hyperlinks without prior written permission. The dataset holds no NSE URL or content, and tests enforce that |
+| **NSE** | **Excluded** | As read on 3 November 2026, terms prohibit automated collection and storage, and hyperlinks without prior written permission. A re-reading on 5 November 2026 could not confirm the linking clause ([exchange-access.md](exchange-access.md#nses-website-terms)), so the exclusion stands until a person reads the pages. The dataset holds no NSE URL or content outside the source record, and tests enforce that |
 | **Bond Central** | **Not assessed** | Unreachable when reviewed |
 
 Formal research access to exchange data, under SEBI's circular of 20 December 2024, is assessed in [exchange-access.md](exchange-access.md). No application has been made. Any data obtained under an agreement would form a separate, restricted tier, never mixed into these records.
@@ -65,7 +65,7 @@ These rules are enforced in code: `Fetcher` refuses unregistered hosts and close
 
 ### What the fetcher will not do
 
-It will not change its user agent, retry around a block, solve a challenge, use a login, or call an undocumented data API. It identifies itself as `bondholder-rights-observatory` with a link to this repository, keeps at least five seconds between requests to a host, and honours any longer crawl delay. If a host's robots.txt cannot be read, it fetches nothing from that host. It reports that as a failure to read the file, to be logged as an access error, not as a restriction the site never stated.
+It will not change its user agent, retry around a block, solve a challenge, use a login, or call an undocumented data API. It identifies itself as `bondholder-rights-observatory` with a link to this repository, keeps at least five seconds between requests to a host, and honours any longer crawl delay. Only two answers settle a host's robots policy: a robots file, which it obeys, or HTTP 404 or 410, which say there is none. Any other answer leaves the policy unknown, whether it is a refusal such as 403 or 429, a server error, a failed connection, or an HTML page where the robots file should be, as ICRA's bot-mitigation page is. It then fetches nothing from that host. It reports that as a failure to read the file, to be logged as an access error, not as a restriction the site never stated.
 
 ### Manual retrieval
 

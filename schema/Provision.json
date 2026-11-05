@@ -28,6 +28,7 @@
       "description": "What a provision record is evidence of. Only the executed document itself establishes the operative term.",
       "enum": [
         "executed_text",
+        "offered",
         "described_in_force",
         "proposed",
         "approved_in_principle"

@@ -17,421 +17,448 @@ Every fact is published by the party whose document carries it. Where the fact *
 
 Multi-valued cells are joined with `; `. Empty cells mean the value is absent from the record, which is never evidence that something did not happen.
 
+**Licence.** The project's own work (structure, facts it records, annotations, derived values and measurements) is under CC BY 4.0. That licence does not cover any field marked `brdo:licensed: false` (kind `source_text`), which holds third-party quotations, nor any source document, none of which is included. See LICENSE-DATA.md. In `exports/datapackage.json` every quoted field carries `brdo:licensed: false` and a `brdo:rights` statement, so that software reading the data can tell.
+
 ## `sources.csv`
 
 One row per publisher, with the project's access and reuse policy for it. See docs/source-policy.md.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the source. |  |
-| `name` | read_from_source | The publisher's name. |  |
-| `kind` | annotation | What kind of publisher it is: regulator, exchange, trustee, issuer and so on. |  |
-| `retrieval` | provenance | Whether the project's pipeline may retrieve from it: `allowed`, `manual_only` (a person downloads in a browser and the file is ingested by hash) or `excluded` (not used, not even linked). |  |
-| `redistribution` | provenance | What the project publishes about the source's documents: `link_only` (links, hashes, short quotations) or `no_links` (not even a link). |  |
-| `excerpts` | provenance | Whether any quotation is published from the source. |  |
-| `quote_limit` | provenance | Longest quotation, in characters, that the project allows itself from the source outside contract clauses. A self-imposed restraint, not a legal threshold or safe harbour. |  |
-| `domains` | provenance | Hosts that belong to the source. Left empty for sources whose policy forbids links. |  |
-| `ai_training` | provenance | The source's published AI-training signal, if any. |  |
-| `sebi_registration` | read_from_source | SEBI registration number, as SEBI's register prints it. |  |
-| `terms_reviewed_on` | provenance | When the project last read the source's terms and robots.txt. |  |
-| `terms_summary` | annotation | The project's summary of the source's terms as reviewed. Not legal advice. |  |
-| `notes` | annotation | The project's remark. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the source. |  |  |
+| `name` | read_from_source (not licensed) | The publisher's name. |  |  |
+| `kind` | annotation | What kind of publisher it is: regulator, exchange, trustee, issuer and so on. |  |  |
+| `retrieval` | provenance | Whether the project's pipeline may retrieve from it: `allowed`, `manual_only` (a person downloads in a browser and the file is ingested by hash) or `excluded` (not used, not even linked). |  |  |
+| `redistribution` | provenance | What the project publishes about the source's documents: `link_only` (links, hashes, short quotations) or `no_links` (not even a link). |  |  |
+| `excerpts` | provenance | Whether any quotation is published from the source. |  |  |
+| `quote_limit` | provenance | Longest quotation, in characters, that the project allows itself from the source outside contract clauses. A self-imposed restraint, not a legal threshold or safe harbour. |  |  |
+| `domains` | provenance | Hosts that belong to the source. Left empty for sources whose policy forbids links. |  |  |
+| `ai_training` | provenance | The source's published AI-training signal, if any. |  |  |
+| `sebi_registration` | read_from_source | SEBI registration number, as SEBI's register prints it. |  |  |
+| `terms_reviewed_on` | provenance | When the project last read the source's terms and robots.txt. |  |  |
+| `terms_summary` | annotation | The project's summary of the source's terms as reviewed. Not legal advice. |  |  |
+| `notes` | annotation | The project's remark. |  |  |
 
 ## `documents.csv`
 
 One row per exact file, identified by its SHA-256. A revised file at the same address is a new row. Source documents are not distributed; the URL and hash let anyone obtain and confirm the same file.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the document. |  |
-| `source` | identifier | Id of the publisher in `sources.csv`. |  |
-| `type` | annotation | What kind of document it is, from a closed list. |  |
-| `title` | read_from_source | The title the file prints, or a descriptive title where it has none. |  |
-| `url` | provenance | Address the file was retrieved from. |  |
-| `landing_page` | provenance | Page that lists or links the file, where known. |  |
-| `retrieved_at` | provenance | When the project retrieved the file (UTC). |  |
-| `retrieved_manually` | provenance | True if a person downloaded the file in a browser and it was ingested by hash; false if the project's identified pipeline retrieved it. |  |
-| `source_retrieval_policy` | provenance | The publisher's current retrieval policy (`sources.csv`). |  |
-| `sha256` | provenance | SHA-256 of the exact file. Evidence is verified against this file only. |  |
-| `size_bytes` | provenance | Size of the file in bytes. |  |
-| `media_type` | provenance | Media type the server gave. |  |
-| `pages` | provenance | Number of pages in the file. |  |
-| `dated` | read_from_source | The date the document gives itself. |  |
-| `dated_basis` | provenance | How the date was established. |  |
-| `signed` | read_from_source | The date the document says it was signed. |  |
-| `published` | read_from_source | The date the publisher says the file was made public, for example on its listing page. Empty for most files: a server's Last-Modified header is never recorded here. |  |
-| `published_basis` | provenance | Where the publication date was read. |  |
-| `last_modified` | provenance | The server's Last-Modified header for the exact file held. It dates that version on the server, not its first publication; an earlier version may have been public sooner. |  |
-| `available_not_before` | derived | Lower bound on availability: the latest of the file's own date, its signature, its "as on" date and the dates of letters transcribed from it. The file cannot have been public earlier. |  |
-| `available_from` | derived | Estimated day this exact file became public: the later of the publisher's date and Last-Modified, never before `available_not_before`; failing both, the file's own date (a lower bound only); failing that, `available_observed`. Used by `brdo status --as-of` and `brdo show --as-of`. |  |
-| `available_basis` | derived | Which date `available_from` rests on. |  |
-| `available_observed` | provenance | The day the project observed the file in public, which is when it retrieved it. The only availability date the record proves. Used by `--availability observed`. |  |
-| `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `as_of` | read_from_source | The "status as on" date a report prints. |  |
-| `supersedes` | annotation | Earlier documents this file replaces, as identified by the project. |  |
-| `regulatory_basis` | annotation | The rule under which the document is published. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the document. |  |  |
+| `source` | identifier | Id of the publisher in `sources.csv`. |  |  |
+| `type` | annotation | What kind of document it is, from a closed list. |  |  |
+| `title` | read_from_source (not licensed) | The title the file prints, or a descriptive title where it has none. |  |  |
+| `url` | provenance | Address the file was retrieved from. |  |  |
+| `landing_page` | provenance | Page that lists or links the file, where known. |  |  |
+| `retrieved_at` | provenance | When the project retrieved the file (UTC). |  |  |
+| `retrieved_manually` | provenance | True if a person downloaded the file in a browser and it was ingested by hash; false if the project's identified pipeline retrieved it. |  |  |
+| `source_retrieval_policy` | provenance | The publisher's current retrieval policy (`sources.csv`). |  |  |
+| `sha256` | provenance | SHA-256 of the exact file. Evidence is verified against this file only. |  |  |
+| `size_bytes` | provenance | Size of the file in bytes. |  |  |
+| `media_type` | provenance | Media type the server gave. |  |  |
+| `pages` | provenance | Number of pages in the file. |  |  |
+| `dated` | read_from_source | The date the document gives itself. |  |  |
+| `dated_basis` | provenance | How the date was established. |  |  |
+| `signed` | read_from_source | The date the document says it was signed. |  |  |
+| `published` | read_from_source | The date the publisher says the file was posted, for example on its listing page. A server's Last-Modified header is never recorded here. | the publisher states no date for the file, as for all but one file in this release |  |
+| `published_basis` | provenance | Where the publication date was read. |  |  |
+| `last_modified` | provenance | The server's Last-Modified header for the exact file held. It dates that version on the server. It does not establish first publication: a file can be uploaded before it is linked, replaced later, or copied with a misleading date. | the server sent no Last-Modified header |  |
+| `available_not_before` | derived | Lower bound: the file cannot have been public before this day, if the dates it prints are right. The latest of its own date, its signature or "as on" date, the date of a letter in it, and the latest event its rows report. | no lower bound: the record reads no date from the file |  |
+| `available_not_before_basis` | derived | Which kind of date gives the lower bound. |  |  |
+| `available_from` | derived | A conservative estimate of when this exact file was at its address, not a publication date and not confirmed: the later of the publisher's date and Last-Modified, never before the lower bound; failing both, the lower bound; failing that, the confirmation date. It can still be early when a server's date predates the file's appearance. Used by `--as-of` with estimated availability. | no date of any kind is known for the file |  |
+| `available_basis` | derived | Which date `available_from` rests on. |  |  |
+| `available_confirmed_by` | provenance | The day the project retrieved the file from its public address, so it was public by then. The only availability date the record proves, and usually much later than first publication. Used by `--as-of` with `--availability observed`. | the project never retrieved the file |  |
+| `available_window_days` | derived | Days from the lower bound to the confirmation: the interval within which the file first became public. | the lower bound or the confirmation is unknown, so the interval is open |  |
+| `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `as_of` | read_from_source | The "status as on" date a report prints. |  |  |
+| `supersedes` | annotation | Earlier documents this file replaces, as identified by the project. |  |  |
+| `regulatory_basis` | annotation | The rule under which the document is published. |  |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |
 
 ## `issuers.csv`
 
 One row per legal entity that issued an instrument in the sample.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the issuer. |  |
-| `name` | annotation | The name the project uses for the issuer, taken from a source. |  |
-| `cin` | read_from_source | Corporate Identity Number, where a source prints one. |  |
-| `lei` | read_from_source | Legal Entity Identifier, where a source prints one. |  |
-| `sector` | annotation | Sector, where classified. Empty in this release. |  |
-| `name_variants` | read_from_source | Other names under which sources print the issuer. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the issuer. |  |  |
+| `name` | annotation (not licensed) | The name the project uses for the issuer, taken from a source. |  |  |
+| `cin` | read_from_source | Corporate Identity Number, where a source prints one; `attribute_support.csv` says which. | no record of the dataset prints one |  |
+| `lei` | read_from_source | Legal Entity Identifier, where a source prints one; `attribute_support.csv` says which. | no record of the dataset prints one |  |
+| `sector` | annotation | Sector, where classified. Empty in this release. |  |  |
+| `name_variants` | read_from_source (not licensed) | Other names under which sources print the issuer. |  |  |
+| `established_from` | derived | Earliest estimated day on which a record supporting the issuer was public (see `attribute_support.csv`). |  |  |
+| `established_confirmed_by` | derived | Earliest day on which the project itself saw a record supporting the issuer. |  |  |
+
+## `attribute_support.csv`
+
+One row per record that establishes an attribute of an instrument or issuer, with when that record was public. An instrument's `identity` is its ISIN with the issuer the dataset assigns it to, established by any record printing the ISIN. An issuer's `name`, `cin` and `lei` are established only by records that print them. Point-in-time views show an attribute only once one of its supports is public.
+
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `entity` | identifier | `instrument` or `issuer`. |  |  |
+| `key` | identifier | The ISIN or the issuer id. |  |  |
+| `attribute` | derived | `identity`, `name`, `cin` or `lei`. |  |  |
+| `record` | provenance | The record that prints the attribute. |  |  |
+| `document` | identifier | The document the record is in. | the support is an observation, not a document |  |
+| `observed_at_url` | provenance | The page of a source whose terms forbid storing it, where the value was seen. | the support is a document |  |
+| `available_from` | derived | Estimated day the supporting document was public, or the day the observation was made. |  |  |
+| `available_confirmed_by` | derived | Day the project retrieved the supporting document, or made the observation. |  |  |
 
 ## `instruments.csv`
 
 One row per ISIN in the sample, summarising what the other tables hold about it.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `issuer` | identifier | Id of the issuer in `issuers.csv`. |  |
-| `issuer_name` | derived | The issuer's name from `issuers.csv`. |  |
-| `trustees_claimed` | derived | Every trustee a claim names for the ISIN. More than one means sources disagree. |  |
-| `trustee_claims_conflict` | derived | True when claims name more than one trustee. |  |
-| `contract_documents` | derived | Linked offer documents or trust deeds that have been retrieved. None in this release. |  |
-| `provisions` | derived | Number of clause records attached to the ISIN. |  |
-| `trust_deed_dates` | derived | Every deed date that trustees' letters cite for the ISIN. | The executed deeds, as the trustee describes them. No deed has been retrieved. |
-| `notes` | annotation | The project's remark. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `issuer` | identifier | Id of the issuer in `issuers.csv`. |  |  |
+| `issuer_name` | derived (not licensed) | The issuer's name from `issuers.csv`. |  |  |
+| `trustees_claimed` | derived | Every trustee a claim names for the ISIN. More than one means sources disagree. | no record names the ISIN's trustee |  |
+| `trustee_claims_conflict` | derived | True when claims name more than one trustee. |  |  |
+| `offer_documents` | derived | Linked offer documents (general or key information documents, placement memoranda) that have been retrieved. They give the terms as offered, not the executed deed. None in this release. | none retrieved; absence is a fact about the project's access, not about the instrument |  |
+| `executed_deeds` | derived | Linked debenture trust deeds and supplemental deeds that have been retrieved. None in this release. | none retrieved; absence is a fact about the project's access, not about the instrument |  |
+| `provisions` | derived | Number of clause records attached to the ISIN. |  |  |
+| `trust_deed_dates` | derived | Every deed date that trustees' letters cite for the ISIN. |  | The executed deeds, as the trustee describes them. No deed has been retrieved. |
+| `established_from` | derived | Earliest estimated day on which a record printing the ISIN was public (`attribute_support.csv`). |  |  |
+| `established_confirmed_by` | derived | Earliest day on which the project itself saw a record printing the ISIN. |  |  |
+| `notes` | annotation | The project's remark. |  |  |
 
 ## `claims.csv`
 
 One row per attributed statement about one attribute of an instrument. Claims are never overwritten: where sources disagree, both rows stay and a discrepancy explains the disagreement.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `property` | annotation | Which attribute the claim is about. |  |
-| `value` | read_from_source | The value the source asserts. For `debenture_trustee`, the id of the trustee in `sources.csv`. |  |
-| `asserted_by` | identifier | The source making the claim, in `sources.csv`. |  |
-| `as_of` | read_from_source | The date the source gives for the value, where it gives one. |  |
-| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |
-| `observed_at_urls` | provenance | Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine. |  |
-| `note` | annotation | The project's remark. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `property` | annotation | Which attribute the claim is about. |  |  |
+| `value` | read_from_source | The value the source asserts. For `debenture_trustee`, the id of the trustee in `sources.csv`. |  |  |
+| `asserted_by` | identifier | The source making the claim, in `sources.csv`. |  |  |
+| `as_of` | read_from_source | The date the source gives for the value, where it gives one. |  |  |
+| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |  |
+| `observed_at_urls` | provenance | Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine. |  |  |
+| `note` | annotation | The project's remark. |  |  |
 
 ## `document_links.csv`
 
 One row per document tied to an ISIN, with the reason the link holds.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `role` | annotation | What the document is for, relative to the ISIN. |  |
-| `basis` | annotation | Why the link holds, for example because the ISIN is printed in it. |  |
-| `confidence` | annotation | The project's confidence in the link. |  |
-| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |
-| `note` | annotation | The project's remark. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `role` | annotation | What the document is for, relative to the ISIN. |  |  |
+| `basis` | annotation | Why the link holds, for example because the ISIN is printed in it. |  |  |
+| `confidence` | annotation | The project's confidence in the link. |  |  |
+| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |  |
+| `note` | annotation | The project's remark. |  |  |
 
 ## `provisions.csv`
 
 One row per contractual undertaking as quoted by some document. Only `stage = executed_text` is the contract's own wording, and no such record exists in this release.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the clause record. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `document_type` | derived | Type of the quoting document, from `documents.csv`. |  |
-| `clause` | read_from_source | Clause number as printed, or a note that none is given. |  |
-| `heading` | source_text | The heading the clause sits under in the quoting document. |  |
-| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |
-| `category` | annotation | Covenant category of SEBI's guidance note (Annex-VIA), or `other`. |  |
-| `metric` | annotation | What the limit measures, in plain words. |  |
-| `thresholds` | annotation | Parsed limits as JSON: comparator, value, unit and any dates they apply between. Parsed only where the wording is unambiguous. |  |
-| `test_frequency` | annotation | How often the clause is tested, where stated. |  |
-| `test_basis` | annotation | Standalone or consolidated, where stated. |  |
-| `instruments` | annotation | ISINs the clause record is attached to. |  |
-| `amends` | annotation | The earlier clause record this one replaces. |  |
-| `effective_from` | read_from_source | When the clause takes effect, where stated. |  |
-| `stage` | annotation | What the record is evidence of: `executed_text`, `described_in_force`, `proposed` or `approved_in_principle`. |  |
-| `text` | source_text | The clause as the quoting document prints it, up to 800 characters. | The contract, as quoted or described by the publishing party; only executed text is the contract's own. |
-| `explanation` | annotation | A plain-English gloss written from the quoted text. Not legal advice. |  |
-| `annotation_reviewed` | provenance | Whether a second person has reviewed the record's annotations. False throughout. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the clause record. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `document_type` | derived | Type of the quoting document, from `documents.csv`. |  |  |
+| `clause` | read_from_source | Clause number as printed, or a note that none is given. |  |  |
+| `heading` | source_text (not licensed) | The heading the clause sits under in the quoting document. |  |  |
+| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |  |
+| `category` | annotation | Covenant category of SEBI's guidance note (Annex-VIA), or `other`. |  |  |
+| `metric` | annotation | What the limit measures, in plain words. |  |  |
+| `thresholds` | annotation | Parsed limits as JSON: comparator, value, unit and any dates they apply between. Parsed only where the wording is unambiguous. | no limit parsed: none is stated, or the wording is not unambiguous |  |
+| `test_frequency` | annotation | How often the clause is tested, where stated. |  |  |
+| `test_basis` | annotation | Standalone or consolidated, where stated. |  |  |
+| `instruments` | annotation | ISINs the clause record is attached to. |  |  |
+| `amends` | annotation | The earlier clause record this one replaces. |  |  |
+| `effective_from` | read_from_source | When the clause takes effect, where stated. |  |  |
+| `stage` | annotation | What the record is evidence of, one of four legal stages or a party's description: `offered` (quoted from an offer document), `proposed` (a change put forward), `approved_in_principle` (a change approved, not shown executed), `executed_text` (quoted from an executed deed), or `described_in_force` (a party's quotation or description of a term it treats as in force). |  |  |
+| `text` | source_text (not licensed) | The clause as the quoting document prints it, up to 800 characters. |  | The contract, as quoted or described by the publishing party; only executed text is the contract's own. |
+| `explanation` | annotation | A plain-English gloss written from the quoted text. Not legal advice. |  |  |
+| `annotation_reviewed` | provenance | Whether a second person has reviewed the record's annotations. False throughout. |  |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |
 
 ## `breach_report_items.csv`
 
 One row per trustee breach report, printed row, ISIN and covenant cell (Annex-VIIA, Table 5).
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |
-| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `as_of` | read_from_source | The report's printed "status as on" date. |  |
-| `supersedes` | annotation | Earlier versions of the report that this one replaces. |  |
-| `row` | read_from_source | Serial number as printed. A printed row split into several records keeps its number. |  |
-| `issuer` | annotation | Issuer record the row is assigned to. |  |
-| `issuer_name_as_reported` | source_text | The issuer's name as the row prints it. |  |
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `assignment_uncertain` | annotation | True when which row the ISIN belongs to depends on reading merged table cells. |  |
-| `category` | annotation | Covenant category of SEBI's guidance note (Annex-VIA), or `other`. |  |
-| `specificity` | annotation | How much of the term the cell prints: `clause_text`, `requirement_and_actual`, `clause_number_only` or `description_only`. |  |
-| `clause_reference_as_reported` | source_text | Clause reference as printed. | The deed's numbering, as the trustee cites it. |
-| `covenant_as_reported` | source_text | The covenant cell as printed, cut to the source's quotation limit. | The deed's wording where the trustee quotes it (`specificity = clause_text`); otherwise the trustee's own description. |
-| `covenant_truncated` | provenance | True when the printed cell continues beyond the quotation. |  |
-| `levels_stated` | read_from_source | Every percentage, multiple and crore amount printed anywhere in the cell, including the part not quoted. | Mixed: required levels come from the deed and actual levels from the issuer's measurement; the column does not say which is which. |
-| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |
-| `actual_breach_as_reported` | source_text | Date of actual breach as printed. | Published by the trustee. Two trustees define the date of actual breach by the issuer's or auditor's certificate (see their printed notes in the observability report), so for them it originates with the issuer. |
-| `actual_breach` | read_from_source | Date of actual breach as read. Meaning differs by trustee; do not compare across. |  |
-| `detected_as_reported` | source_text | Date of detection as printed. | The trustee's own record. IDBI defines it as the day it received the issuer's certificate. |
-| `detected` | read_from_source | Date of detection as read. |  |
-| `first_intimation` | derived | Earliest date of intimation read from the row. |  |
-| `intimation_as_reported` | source_text | Dates of intimation, and to whom, as printed. |  |
-| `delay_in_detection_as_reported` | source_text | The report's own delay column, as printed. |  |
-| `delay_in_intimation_as_reported` | source_text | The report's own delay column, as printed. |  |
-| `delay_reasons_as_reported` | source_text | Reasons for delay, as printed. |  |
-| `further_action_as_reported` | source_text | Action taken or proposed, as printed. | The trustee's account of what it, the holders or the issuer did. |
-| `truncated_fields` | provenance | Fields whose printed cell continues beyond the quotation. |  |
-| `other_columns_as_reported` | source_text | Columns the trustee prints beyond the prescribed format, as JSON keyed by heading. |  |
-| `actions` | annotation | The project's reading of the action cells, from a closed list. |  |
-| `transcribed_from_rendering` | provenance | True when some cells are absent from the file's text layer and were read from the page. |  |
-| `linked_provisions` | annotation | Clause records the project links to the cell. |  |
-| `provision_agreement` | annotation | Whether each linked clause agrees with the cell. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |  |
+| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `as_of` | read_from_source | The report's printed "status as on" date. |  |  |
+| `supersedes` | annotation | Earlier versions of the report that this one replaces. |  |  |
+| `row` | read_from_source | Serial number as printed. A printed row split into several records keeps its number. |  |  |
+| `issuer` | annotation | Issuer record the row is assigned to. |  |  |
+| `issuer_name_as_reported` | source_text (not licensed) | The issuer's name as the row prints it. |  |  |
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `assignment_uncertain` | annotation | True when which row the ISIN belongs to depends on reading merged table cells. |  |  |
+| `category` | annotation | Covenant category of SEBI's guidance note (Annex-VIA), or `other`. |  |  |
+| `specificity` | annotation | How much of the term the cell prints: `clause_text`, `requirement_and_actual`, `clause_number_only` or `description_only`. |  |  |
+| `clause_reference_as_reported` | source_text (not licensed) | Clause reference as printed. |  | The deed's numbering, as the trustee cites it. |
+| `covenant_as_reported` | source_text (not licensed) | The covenant cell as printed, cut to the source's quotation limit. |  | The deed's wording where the trustee quotes it (`specificity = clause_text`); otherwise the trustee's own description. |
+| `covenant_truncated` | provenance | True when the printed cell continues beyond the quotation. |  |  |
+| `levels_stated` | read_from_source | Every percentage, multiple and crore amount printed anywhere in the cell, including the part not quoted. | the cell prints no level | Mixed: required levels come from the deed and actual levels from the issuer's measurement; the column does not say which is which. |
+| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |  |
+| `actual_breach_as_reported` | source_text (not licensed) | Date of actual breach as printed. |  | Published by the trustee. Two trustees define the date of actual breach by the issuer's or auditor's certificate (see their printed notes in the observability report), so for them it originates with the issuer. |
+| `actual_breach` | read_from_source | Date of actual breach as read. Meaning differs by trustee; do not compare across. | not printed, or the printed text is not one date |  |
+| `detected_as_reported` | source_text (not licensed) | Date of detection as printed. |  | The trustee's own record. IDBI defines it as the day it received the issuer's certificate. |
+| `detected` | read_from_source | Date of detection as read. | not printed, or the printed text is not one date |  |
+| `first_intimation` | derived | Earliest date of intimation read from the row. |  |  |
+| `intimation_as_reported` | source_text (not licensed) | Dates of intimation, and to whom, as printed. |  |  |
+| `delay_in_detection_as_reported` | source_text (not licensed) | The report's own delay column, as printed. |  |  |
+| `delay_in_intimation_as_reported` | source_text (not licensed) | The report's own delay column, as printed. |  |  |
+| `delay_reasons_as_reported` | source_text (not licensed) | Reasons for delay, as printed. |  |  |
+| `further_action_as_reported` | source_text (not licensed) | Action taken or proposed, as printed. |  | The trustee's account of what it, the holders or the issuer did. |
+| `truncated_fields` | provenance | Fields whose printed cell continues beyond the quotation. |  |  |
+| `other_columns_as_reported` | source_text (not licensed) | Columns the trustee prints beyond the prescribed format, as JSON keyed by heading. |  |  |
+| `actions` | annotation | The project's reading of the action cells, from a closed list. |  |  |
+| `transcribed_from_rendering` | provenance | True when some cells are absent from the file's text layer and were read from the page. |  |  |
+| `linked_provisions` | annotation | Clause records the project links to the cell. |  |  |
+| `provision_agreement` | annotation | Whether each linked clause agrees with the cell. |  |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |
 
 ## `no_information_entries.csv`
 
 One row per issuer that a trustee's report says it has received no information about.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |
-| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `issuer_name_as_reported` | source_text | The issuer's name as printed. |  |
-| `issuer` | annotation | Issuer record matched to the name, where one exists. |  |
-| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |  |
+| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `issuer_name_as_reported` | source_text (not licensed) | The issuer's name as printed. |  |  |
+| `issuer` | annotation | Issuer record matched to the name, where one exists. |  |  |
+| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |  |
 
 ## `breach_notices.csv`
 
 One row per trustee letter to the holders of an instrument about a breach, or continuing an adjourned meeting.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the letter record. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |
-| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |
-| `kind` | annotation | `breach` or `meeting_continuation`. |  |
-| `isins` | read_from_source | ISINs the letter concerns. |  |
-| `isins_printed` | provenance | False when the letter prints no ISIN and the link comes from elsewhere (see notes). |  |
-| `issued_on` | read_from_source | The letter's date. |  |
-| `period_end` | annotation | Quarter-end the letter concerns, where stated or evident. |  |
-| `deed_dates` | read_from_source | Dates of the trust deeds the letter cites. | The executed deeds, as the trustee describes them. |
-| `deed_as_reported` | source_text | The sentence citing the deeds. |  |
-| `issuer_intimation` | read_from_source | When the trustee says the issuer informed it. | The trustee's record of receipt. |
-| `meeting_proposed_for` | read_from_source | Date proposed for a meeting of holders. |  |
-| `clause_reference_as_reported` | source_text | Clause reference as printed. |  |
-| `covenant_as_reported` | source_text | The covenant passage as printed, cut to the quotation limit. | The deed's wording, as the trustee quotes or describes it. |
-| `covenant_truncated` | provenance | True when the passage continues beyond the quotation. |  |
-| `levels_stated` | read_from_source | Every percentage, multiple and crore amount printed in the whole passage. |  |
-| `adjourned_for_lack_of_quorum` | read_from_source | True when the letter says a meeting was adjourned for lack of quorum. |  |
-| `read_from_rendering` | provenance | True when the file has no usable text layer for the letter. |  |
-| `notes` | annotation | The project's remark. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the letter record. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |  |
+| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |  |
+| `kind` | annotation | `breach` or `meeting_continuation`. |  |  |
+| `isins` | read_from_source | ISINs the letter concerns. |  |  |
+| `isins_printed` | provenance | False when the letter prints no ISIN and the link comes from elsewhere (see notes). |  |  |
+| `issued_on` | read_from_source | The letter's date. |  |  |
+| `period_end` | annotation | Quarter-end the letter concerns, where stated or evident. | the letter names no quarter, as letters continuing an adjourned meeting do |  |
+| `deed_dates` | read_from_source | Dates of the trust deeds the letter cites. |  | The executed deeds, as the trustee describes them. |
+| `deed_as_reported` | source_text (not licensed) | The sentence citing the deeds. |  |  |
+| `issuer_intimation` | read_from_source | When the trustee says the issuer informed it. |  | The trustee's record of receipt. |
+| `meeting_proposed_for` | read_from_source | Date proposed for a meeting of holders. |  |  |
+| `clause_reference_as_reported` | source_text (not licensed) | Clause reference as printed. |  |  |
+| `covenant_as_reported` | source_text (not licensed) | The covenant passage as printed, cut to the quotation limit. |  | The deed's wording, as the trustee quotes or describes it. |
+| `covenant_truncated` | provenance | True when the passage continues beyond the quotation. |  |  |
+| `levels_stated` | read_from_source | Every percentage, multiple and crore amount printed in the whole passage. |  |  |
+| `adjourned_for_lack_of_quorum` | read_from_source | True when the letter says a meeting was adjourned for lack of quorum. |  |  |
+| `read_from_rendering` | provenance | True when the file has no usable text layer for the letter. |  |  |
+| `notes` | annotation | The project's remark. |  |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |
 
 ## `notice_report_comparisons.csv`
 
 One row per ISIN for which a trustee's report row and the same trustee's letter for the same quarter can be compared. Both come from the trustee, so agreement is not independent corroboration.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `notice` | identifier | Id of the letter in `breach_notices.csv`. |  |
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |
-| `row` | read_from_source | Serial number of the report row compared. |  |
-| `issuer_intimation_per_notice` | read_from_source | When the letter says the issuer told it. |  |
-| `detected_per_report` | read_from_source | Detection date the report prints. |  |
-| `days_from_intimation_to_detection` | derived | Detection minus intimation, in days. |  |
-| `thresholds_in_notice` | derived | Levels printed in the letter. |  |
-| `thresholds_in_report` | derived | Levels printed in the report row for the ISIN. |  |
-| `thresholds_agree` | derived | Whether the two sets of numbers match. Empty when the letter prints none to compare. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `notice` | identifier | Id of the letter in `breach_notices.csv`. |  |  |
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |  |
+| `row` | read_from_source | Serial number of the report row compared. |  |  |
+| `issuer_intimation_per_notice` | read_from_source | When the letter says the issuer told it. |  |  |
+| `detected_per_report` | read_from_source | Detection date the report prints. |  |  |
+| `days_from_intimation_to_detection` | derived | Detection minus intimation, in days. |  |  |
+| `thresholds_in_notice` | derived | Levels printed in the letter. |  |  |
+| `thresholds_in_report` | derived | Levels printed in the report row for the ISIN. |  |  |
+| `thresholds_agree` | derived | Whether the two sets of numbers match. | not applicable: the letter prints no level, or only part of its passage was read |  |
 
 ## `compliance_statements.csv`
 
 One row per explicit statement about covenant compliance, for stated instruments and a period. The statement belongs to whoever made it; the project does not adopt it.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the statement. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `instruments` | annotation | ISINs the statement covers, by printing them or by a general sentence. |  |
-| `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `stated_by` | identifier | The source that published the statement: the carrier. |  |
-| `made_by` | read_from_source | Who made the statement: `issuer` or `statutory_auditor`. | The conclusion originates with this party, whoever publishes it. |
-| `scope` | read_from_source | What the statement says it covers: all covenants or financial only. |  |
-| `breach_stated` | read_from_source | True when the statement says some covenant was not met. |  |
-| `isins_printed` | annotation | False when the statement reaches an ISIN only by a general sentence or by omission. |  |
-| `exceptions` | derived | Number of exception lines in `compliance_statement_exceptions.csv`. |  |
-| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |
-| `note` | annotation | The project's remark. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the statement. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `instruments` | annotation | ISINs the statement covers, by printing them or by a general sentence. |  |  |
+| `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `stated_by` | identifier | The source that published the statement: the carrier. |  |  |
+| `made_by` | read_from_source | Who made the statement: `issuer` or `statutory_auditor`. |  | The conclusion originates with this party, whoever publishes it. |
+| `scope` | read_from_source | What the statement says it covers: all covenants or financial only. |  |  |
+| `breach_stated` | read_from_source | True when the statement says some covenant was not met. |  |  |
+| `isins_printed` | annotation | False when the statement reaches an ISIN only by a general sentence or by omission. |  |  |
+| `exceptions` | derived | Number of exception lines in `compliance_statement_exceptions.csv`. |  |  |
+| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |  |
+| `note` | annotation | The project's remark. |  |  |
 
 ## `compliance_statement_exceptions.csv`
 
 One row per line a compliance statement lists as not met.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `statement` | identifier | Id of the compliance statement in `compliance_statements.csv`. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |
-| `isins` | read_from_source | ISINs the line names. |  |
-| `covenant_as_reported` | source_text | The covenant as printed. |  |
-| `required_as_reported` | source_text | The required level as printed. | The deed, as the issuer states it. |
-| `actual_as_reported` | source_text | The measured level as printed. | The issuer's measurement from its own books. |
-| `deed_dates_as_reported` | source_text | Deed dates as printed. |  |
-| `read_from_rendering` | provenance | True when the line was read from the rendered page. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `statement` | identifier | Id of the compliance statement in `compliance_statements.csv`. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |  |
+| `isins` | read_from_source | ISINs the line names. |  |  |
+| `covenant_as_reported` | source_text (not licensed) | The covenant as printed. |  |  |
+| `required_as_reported` | source_text (not licensed) | The required level as printed. |  | The deed, as the issuer states it. |
+| `actual_as_reported` | source_text (not licensed) | The measured level as printed. |  | The issuer's measurement from its own books. |
+| `deed_dates_as_reported` | source_text (not licensed) | Deed dates as printed. |  |  |
+| `read_from_rendering` | provenance | True when the line was read from the rendered page. |  |  |
 
 ## `statement_report_comparisons.csv`
 
 One row per statement and ISIN, set beside the current trustee report for the same quarter. Agreement shows that the statement was carried into the report, not that it was confirmed.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `statement` | identifier | Id of the compliance statement in `compliance_statements.csv`. |  |
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `made_by` | read_from_source | Who made the statement. |  |
-| `scope` | read_from_source | What the statement says it covers. |  |
-| `statement_reports_breach` | read_from_source | True when the statement reports a breach. |  |
-| `trustee_report` | identifier | The trustee report compared, if one exists. |  |
-| `trustee_lists` | derived | Whether that report lists the ISIN. Empty when no fully transcribed report exists. |  |
-| `agreement` | derived | `consistent`, `differs` or `not_comparable`, by rules in docs/data-model.md. |  |
-| `basis` | derived | Which rule decided the agreement. |  |
-| `levels_only_in_statement` | derived | Required levels the statement prints and the trustee's report does not print for the ISIN. |  |
-| `statement_dated` | read_from_source | The statement document's own date. |  |
-| `trustee_received_report` | read_from_source | When the trustee records receiving the issuer's quarterly compliance report, from its census table. | The trustee's record of receipt. |
-| `trustee_detected` | read_from_source | The trustee's earliest printed detection date for the ISIN. |  |
-| `trustee_cites_certificate` | derived | True when the trustee's row mentions a certificate or auditor (a mechanical text match). |  |
-| `trustee_could_rely_on_issuer` | derived | True when the trustee's detection falls on or after the statement's date or the trustee's receipt of the issuer's report, so the trustee may simply be passing the issuer's information on. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `statement` | identifier | Id of the compliance statement in `compliance_statements.csv`. |  |  |
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `made_by` | read_from_source | Who made the statement. |  |  |
+| `scope` | read_from_source | What the statement says it covers. |  |  |
+| `statement_reports_breach` | read_from_source | True when the statement reports a breach. |  |  |
+| `trustee_report` | identifier | The trustee report compared, if one exists. |  |  |
+| `trustee_lists` | derived | Whether that report lists the ISIN. | not comparable: no fully transcribed report of the ISIN's trustee for the period |  |
+| `agreement` | derived | `consistent`, `differs` or `not_comparable`, by rules in docs/data-model.md. |  |  |
+| `basis` | derived | Which rule decided the agreement. |  |  |
+| `levels_only_in_statement` | derived | Required levels the statement prints and the trustee's report does not print for the ISIN. |  |  |
+| `statement_dated` | read_from_source | The statement document's own date. |  |  |
+| `trustee_received_report` | read_from_source | When the trustee records receiving the issuer's quarterly compliance report, from its census table. | no census of the trustee for the period has been measured, or it has no row cited for the ISIN | The trustee's record of receipt. |
+| `trustee_detected` | read_from_source | The trustee's earliest printed detection date for the ISIN. |  |  |
+| `trustee_cites_certificate` | derived | True when the trustee's row mentions a certificate or auditor (a mechanical text match). |  |  |
+| `trustee_could_rely_on_issuer` | derived | True when the trustee's detection falls on or after the statement's date or the trustee's receipt of the issuer's report, so the trustee may simply be passing the issuer's information on. |  |  |
 
 ## `field_flows.csv`
 
-For each agreement between an issuer's statement and a trustee's report on a breach, one row per kind of information, saying which party prints it. Mechanical rules (see docs/methods.md); the basis columns give the text that satisfied each rule so a decision can be checked by eye.
+For each agreement between an issuer's statement and a trustee's report on a breach, one row per kind of information, saying which party prints it, with every line, item or letter that satisfied the mechanical rule (docs/methods.md). The 17 agreements come from two issuers; this is not the wider statement comparison in `statement_report_comparisons.csv`, nor the comparison sample's pilot.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `statement` | identifier | Id of the compliance statement in `compliance_statements.csv`. |  |
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `trustee_report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |
-| `field` | derived | Kind of information: clause reference, obligation wording, required level, issuer's measured level, deed dates. |  |
-| `issuer_prints` | derived | Whether the issuer's statement prints it for the ISIN. |  |
-| `trustee_prints` | derived | Whether the trustee's report, or for deed dates its letters for the quarter, print it. The issuer's measured level counts only if the trustee prints the same number. |  |
-| `issuer_basis` | derived | The issuer's text or value that satisfied the rule; empty if none. |  |
-| `trustee_basis` | derived | The trustee's text or value that satisfied the rule; empty if none. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `statement` | identifier | Id of the compliance statement in `compliance_statements.csv`. |  |  |
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `trustee_report` | identifier | Id of the trustee's breach report, a document in `documents.csv`. |  |  |
+| `field` | derived | Kind of information: clause reference, obligation wording, required level, issuer's measured level, deed dates. |  |  |
+| `issuer_prints` | derived | Whether any of the statement's exception lines for the ISIN prints it. |  |  |
+| `trustee_prints` | derived | Whether any of the trustee's report items for the ISIN, or for deed dates its letters for the quarter, prints it. The issuer's measured level counts only if the trustee prints the same number and unit. |  |  |
+| `issuer_examined` | derived | How many of the statement's exception lines for the ISIN were examined. |  |  |
+| `issuer_evidence` | derived (not licensed) | JSON list of every exception line that satisfied the rule: document, page, locator and the text that matched. | no line satisfied the rule; `issuer_examined` says how many were looked at |  |
+| `trustee_examined` | derived | How many report items, or for deed dates letters for the quarter, were examined. |  |  |
+| `trustee_evidence` | derived (not licensed) | JSON list of every report item or letter that satisfied the rule: document, page, locator and the text that matched. | nothing satisfied the rule; `trustee_examined` says how many were looked at, and 0 means the record holds nothing to examine, not that the trustee printed nothing |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |
 
 ## `follow_up_states.csv`
 
-For each ISIN listed in a current trustee report for a period, one row per follow-up state that the trustee's reports and letters publish, with where the record shows it. A listed ISIN with none has one row reading `no follow-up published`. States are never ranked or merged.
+For each ISIN listed in a current trustee report for a period, one row per follow-up state that the trustee's reports and letters publish, with where the record shows it and how its period is known. A listed ISIN with none has one row reading `no follow-up published`. Rows with no period come from letters that name no quarter and cannot be tied to one. States are never ranked or merged.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `state` | derived | The state, from the project's reading of action cells and letters. A cure is typed by the covenant category of its row. |  |
-| `is_outcome` | derived | True for the five outcome states: enforcement or nominee director, waiver, holders instructing no action, and the two kinds of cure. |  |
-| `basis` | derived | The report row and action kinds, or the letter, that show the state. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |  |
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `period_end` | derived | The reporting period the state is counted for. | the letter names no quarter and the rule cannot tie it to one; counted for no period |  |
+| `state` | derived | The state, from the project's reading of action cells and letters. A cure is typed financial or other only when every covenant the row lists for the ISIN is of that kind; otherwise it is a cure for covenants of more than one kind. |  |  |
+| `is_outcome` | derived | True for the six outcome states: enforcement or nominee director, waiver, holders instructing no action, and the three kinds of cure. |  |  |
+| `attribution` | derived | How the period is known: `report_row` (a row of the period's report), `letter_period` (the quarter recorded for the letter), `linked_by_rule` (a letter naming no quarter, continuing a letter of the same file that names one) or `not_attributable`. |  |  |
+| `basis` | derived | The report row and action kinds, or the letter, that show the state, and for linked letters the rule. | no follow-up is published for the ISIN |  |
 
 ## `monitoring_censuses.csv`
 
 One row per trustee table of the issues it monitors (Annex-VIIA, Table 3), measured rather than republished. `brdo verify` recomputes every measure from the hashed file.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the census record. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |
-| `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |
-| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |
-| `isins_printed` | derived | Distinct ISINs printed in the file that pass the check digit. |  |
-| `listed_in_breach_report` | derived | ISINs the same trustee's breach report for the period lists. |  |
-| `listed_not_printed` | derived | Listed ISINs the census omits. |  |
-| `sample` | derived | ISINs outside the breach report whose SHA-256 of the file's hash, a colon and the ISIN sorts first. |  |
-| `report_not_received` | derived | ISINs whose census row marks the issuer's quarterly compliance report as not received. Whether that breaches an instrument's terms depends on its deed. |  |
-| `rows_cited` | derived | Number of census rows the dataset quotes. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the census record. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `trustee` | identifier | Id of the debenture trustee in `sources.csv`. |  |  |
+| `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |  |
+| `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
+| `isins_printed` | derived | Distinct ISINs printed in the file that pass the check digit. |  |  |
+| `listed_in_breach_report` | derived | ISINs the same trustee's breach report for the period lists. |  |  |
+| `listed_not_printed` | derived | Listed ISINs the census omits. |  |  |
+| `sample` | derived | ISINs outside the breach report whose SHA-256 of the file's hash, a colon and the ISIN sorts first. |  |  |
+| `report_not_received` | derived | ISINs whose census row marks the issuer's quarterly compliance report as not received. Whether that breaches an instrument's terms depends on its deed. |  |  |
+| `rows_cited` | derived | Number of census rows the dataset quotes. |  |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |
 
 ## `regulatory_references.csv`
 
 One row per checked passage of a regulation or circular that the design relies on.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the passage. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |
-| `quote` | source_text | The passage, verbatim. |  |
-| `relevance` | annotation | Why the project relies on it. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the passage. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `page` | provenance | 1-based page of the file, not the printed page number, on which the item is printed. |  |  |
+| `quote` | source_text (not licensed) | The passage, verbatim. |  |  |
+| `relevance` | annotation | Why the project relies on it. |  |  |
 
 ## `instrument_status.csv`
 
 One row per ISIN and reporting period: what the reviewed record says about breaches, and on what basis. `no_report_found` is never evidence of compliance, and no status implies another.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |
-| `period_end` | derived | End of the reporting period. |  |
-| `status` | derived | Status from a closed list; see docs/data-model.md. |  |
-| `basis` | derived | The rule that produced the status, including which kind of absence it is. |  |
-| `documents` | derived | Documents the status rests on. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `isin` | identifier | ISIN of the instrument, validated by its check digit. |  |  |
+| `period_end` | derived | End of the reporting period. |  |  |
+| `status` | derived | Status from a closed list; see docs/data-model.md. |  |  |
+| `basis` | derived | The rule that produced the status, including which kind of absence it is. |  |  |
+| `documents` | derived | Documents the status rests on. | the status rests on no document, as for not_assessed |  |
 
 ## `searches.csv`
 
 One row per documented attempt to find something, successful or not. A `not_found` means not found by the logged step on that date.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the search. |  |
-| `performed_on` | provenance | When the search was made. |  |
-| `subject` | identifier | ISIN, issuer id or source id the search was about. |  |
-| `purpose` | provenance | What was sought. |  |
-| `channel` | provenance | Web search, a source's listing page, or a direct address. |  |
-| `query` | provenance | The query, for web searches. Results can differ when re-run. |  |
-| `scope` | provenance | Sites or pages searched. |  |
-| `period_end` | provenance | End of the reporting period sought, where one was. |  |
-| `outcome` | annotation | The project's classification of the result. |  |
-| `documents` | identifier | Documents found and registered. |  |
-| `urls_seen` | provenance | Candidates seen but not retrieved, such as manual-only sources. |  |
-| `note` | annotation | The project's remark. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the search. |  |  |
+| `performed_on` | provenance | When the search was made. |  |  |
+| `subject` | identifier | ISIN, issuer id or source id the search was about. |  |  |
+| `purpose` | provenance | What was sought. |  |  |
+| `channel` | provenance | Web search, a source's listing page, or a direct address. |  |  |
+| `query` | provenance | The query, for web searches. Results can differ when re-run. Some search for covenant wording a trustee quotes. |  |  |
+| `scope` | provenance | Sites or pages searched. |  |  |
+| `period_end` | provenance | End of the reporting period sought, where one was. |  |  |
+| `outcome` | annotation | The project's classification of the result. |  |  |
+| `documents` | identifier | Documents found and registered. |  |  |
+| `urls_seen` | provenance | Candidates seen but not retrieved, such as manual-only sources. |  |  |
+| `note` | annotation | The project's remark. |  |  |
 
 ## `discrepancies.csv`
 
 One row per disagreement or oddity in the public record, kept open until resolved. Nothing here is a finding about anyone's conduct.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `id` | identifier | Id of the discrepancy. |  |
-| `kind` | annotation | What kind of disagreement it is. |  |
-| `subject` | identifier | ISINs, issuer or source concerned. |  |
-| `status` | annotation | `open` or `resolved`. |  |
-| `description` | annotation | The project's neutral description. |  |
-| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |
-| `observed_at_urls` | provenance | Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine. |  |
-| `resolution` | annotation | How it was resolved, if it was. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `id` | identifier | Id of the discrepancy. |  |  |
+| `kind` | annotation | What kind of disagreement it is. |  |  |
+| `subject` | identifier | ISINs, issuer or source concerned. |  |  |
+| `status` | annotation | `open` or `resolved`. |  |  |
+| `description` | annotation | The project's neutral description. |  |  |
+| `evidence` | provenance | The anchors supporting the record, as `document#pPAGE`, separated by `; `. See `evidence.csv`. |  |  |
+| `observed_at_urls` | provenance | Pages of sources whose terms forbid storing their content, such as depository databases, where the value was seen. The page's content is not stored and cannot be re-verified by machine. |  |  |
+| `resolution` | annotation | How it was resolved, if it was. |  |  |
 
 ## `evidence.csv`
 
 One row per evidence anchor: a document, a page and the words relied on. `brdo verify` re-tests each against the hashed file.
 
-| column | kind | meaning | origin |
-|---|---|---|---|
-| `used_by` | provenance | Which record relies on the anchor. |  |
-| `document` | identifier | Id of the cited file in `documents.csv`. |  |
-| `page` | provenance | 1-based page of the file; empty when the anchor may be on any page. |  |
-| `locator` | provenance | A human-readable position, where given. |  |
-| `quote` | source_text | The words relied on, verbatim. |  |
-| `read_from_rendering` | provenance | True when the words were read from the rendered page because the text layer may lack them. Such an anchor is machine-verified only if the words are found in the text layer anyway. |  |
-| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |
+| column | kind | meaning | empty means | origin |
+|---|---|---|---|---|
+| `used_by` | provenance | Which record relies on the anchor. |  |  |
+| `document` | identifier | Id of the cited file in `documents.csv`. |  |  |
+| `page` | provenance | 1-based page of the file; empty when the anchor may be on any page. |  |  |
+| `locator` | provenance | A human-readable position, where given. |  |  |
+| `quote` | source_text (not licensed) | The words relied on, verbatim. |  |  |
+| `read_from_rendering` | provenance | True when the words were read from the rendered page because the text layer may lack them. Such an anchor is machine-verified only if the words are found in the text layer anyway. |  |  |
+| `ai_training_reserved` | provenance | True when the row derives from a source that publishes a reservation against AI training. Exclude such rows from any training or benchmark use. |  |  |

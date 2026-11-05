@@ -1,30 +1,30 @@
-id,name,cin,lei,sector,name_variants
-aegis-vopak-terminals,Aegis Vopak Terminals Limited,,,,
-akara-capital-advisors,Akara Capital Advisors Private Limited,,,,
-aliens-developers,Aliens Developers Private Ltd,,,,
-arugn-technologies,ARUGN Technologies Private Limited,,,,
-ats-heights,ATS Heights Private Limited,,,,
-aye-finance,Aye Finance Limited,U65921DL1993PLC283660,335800Q6CHM9LTEPY552,,Aye Finance Private Limited
-belstar-microfinance,Belstar Microfinance Limited,,,,
-casablanca-industries,Casablanca Industries Private Limited,,,,
-convenient-hospitals,Convenient Hospitals Limited,,,,
-dvara-kgfs,Dvara Kshetriya Gramin Financial Services Private Limited,,,,
-emami-frankross,Emami Frankross Limited,,,,Emami Frank Ross Limited
-infinity-fincorp-solutions,Infinity Fincorp Solutions Private Limited,,,,
-konkan-railway-corporation,Konkan Railway Corporation,,,,
-light-microfinance,Light Microfinance Private Limited,,,,
-meghalaya-energy-corporation,Meghalaya Energy Corporation Limited,,,,
-national-highways-authority-of-india,National Highways Authority of India,,,,
-neogrowth-credit,Neogrowth Credit Private Limited,,,,
-pahal-financial-services,Pahal Financial Services Private Limited,,,,
-parsvnath-rail-land-project,Parsvnath Rail Land Project Private Limited,U45203DL2011PTC227343,,,
-punjab-infrastructure-development-board,Punjab Infrastructure Development Board,,,,
-pvp-ventures,PVP Ventures Limited,,,,
-ramasigns-industries,Ramasigns Industries Limited,,,,
-samunnati-finance-2014,Samunnati Finance Private Limited,U65990TN2014PTC096252,,,
-samunnati-finance-2021,Samunnati Finance Private Limited,U65990TN2021PTC146392,,,
-satya-microcapital,Satya Microcapital Limited,,,,
-steelco-gujarat,Steelco Gujarat Limited,,,,
-valencia-and-mishal-ventures,Valencia and Mishal Ventures Private Limited,,,,
-vr-dakshin,VR Dakshin Private Limited,,,,Sugam Vanijya Holdings Private Limited
-watermarke-estates,Watermarke Estates Private Limited,,,,
+id,name,cin,lei,sector,name_variants,established_from,established_confirmed_by
+aegis-vopak-terminals,Aegis Vopak Terminals Limited,,,,,2026-10-29,2026-11-03
+akara-capital-advisors,Akara Capital Advisors Private Limited,,,,,2026-08-24,2026-11-03
+aliens-developers,Aliens Developers Private Ltd,,,,,2026-09-01,2026-11-03
+arugn-technologies,ARUGN Technologies Private Limited,,,,,2026-09-13,2026-11-03
+ats-heights,ATS Heights Private Limited,,,,,2026-09-11,2026-11-03
+aye-finance,Aye Finance Limited,U65921DL1993PLC283660,335800Q6CHM9LTEPY552,,Aye Finance Private Limited,2025-11-28,2026-11-03
+belstar-microfinance,Belstar Microfinance Limited,,,,,2026-07-28,2026-11-03
+casablanca-industries,Casablanca Industries Private Limited,,,,,2026-08-24,2026-11-03
+convenient-hospitals,Convenient Hospitals Limited,,,,,2026-08-24,2026-11-03
+dvara-kgfs,Dvara Kshetriya Gramin Financial Services Private Limited,,,,,2026-02-17,2026-11-03
+emami-frankross,Emami Frankross Limited,,,,Emami Frank Ross Limited,2026-09-15,2026-11-03
+infinity-fincorp-solutions,Infinity Fincorp Solutions Private Limited,,,,,2026-08-10,2026-11-03
+konkan-railway-corporation,Konkan Railway Corporation,,,,,2026-08-14,2026-11-03
+light-microfinance,Light Microfinance Private Limited,,,,,2026-08-25,2026-11-03
+meghalaya-energy-corporation,Meghalaya Energy Corporation Limited,,,,,2026-08-24,2026-11-03
+national-highways-authority-of-india,National Highways Authority of India,,,,,2026-09-15,2026-11-03
+neogrowth-credit,Neogrowth Credit Private Limited,,,,,2026-08-25,2026-11-03
+pahal-financial-services,Pahal Financial Services Private Limited,,,,,2026-09-13,2026-11-03
+parsvnath-rail-land-project,Parsvnath Rail Land Project Private Limited,U45203DL2011PTC227343,,,,2026-09-11,2026-11-03
+punjab-infrastructure-development-board,Punjab Infrastructure Development Board,,,,,2026-08-21,2026-11-03
+pvp-ventures,PVP Ventures Limited,,,,,2026-09-15,2026-11-03
+ramasigns-industries,Ramasigns Industries Limited,,,,,2026-08-14,2026-11-03
+samunnati-finance-2014,Samunnati Finance Private Limited,U65990TN2014PTC096252,,,,2026-08-24,2026-11-03
+samunnati-finance-2021,Samunnati Finance Private Limited,U65990TN2021PTC146392,,,,2026-08-24,2026-11-03
+satya-microcapital,Satya Microcapital Limited,,,,,2026-08-21,2026-11-03
+steelco-gujarat,Steelco Gujarat Limited,,,,,2026-09-11,2026-11-03
+valencia-and-mishal-ventures,Valencia and Mishal Ventures Private Limited,,,,,2026-09-13,2026-11-03
+vr-dakshin,VR Dakshin Private Limited,,,,Sugam Vanijya Holdings Private Limited,2026-09-15,2026-11-03
+watermarke-estates,Watermarke Estates Private Limited,,,,,2026-09-11,2026-11-03

@@ -14,9 +14,9 @@ from enum import StrEnum
 from brdo.models import BreachItem, BreachReport, ComplianceStatement
 from brdo.store import Dataset
 from brdo.vocab import (
+    AvailabilityMode,
     CovenantCategory,
     CoverageStatus,
-    DocumentType,
     InstrumentProperty,
     NoticeKind,
     SearchOutcome,
@@ -39,8 +39,10 @@ class StatusBasis(StrEnum):
     TRUSTEE_REPORT_INCOMPLETELY_TRANSCRIBED = "trustee_report_incompletely_transcribed"
     TRUSTEE_REPORT_NOT_ACCESSIBLE = "trustee_report_not_accessible"
     TRUSTEE_REPORT_NOT_LOCATED = "trustee_report_not_located"
-    TRUSTEE_REPORT_NOT_YET_PUBLIC = "trustee_report_not_yet_public"
-    """In a point-in-time view: a logged search later found the trustee's report, not shown public by then."""
+    TRUSTEE_REPORT_NOT_IN_VIEW = "trustee_report_not_in_view"
+    """In a view of the public record as reconstructed from estimated dates: no report of the trustee for the period is
+    estimated public by the view's date, and no search made by then settles it. It says nothing about whether one was
+    public, only that the view holds none."""
     TRUSTEE_REPORT_NOT_SEARCHED = "trustee_report_not_searched"
     TRUSTEE_NOT_ESTABLISHED = "trustee_not_established"
     TRUSTEE_UNKNOWN = "trustee_unknown"
@@ -77,6 +79,18 @@ def addresses(statement: ComplianceStatement, items: Iterable[BreachItem]) -> bo
     if statement.scope is StatementScope.ALL_COVENANTS:
         return True
     return any(item.category is CovenantCategory.FINANCIAL for item in items)
+
+
+def _unsearched(dataset: Dataset) -> "StatusBasis":
+    """The basis when no report of the trustee is held and no search settles it.
+
+    In a view of the public record as reconstructed from estimated dates, the project's searches say nothing about what
+    was public, so the view only says it holds no report. In a view of what the project had itself observed, and in the
+    full record, it says that no logged search had looked.
+    """
+    if dataset.cutoff is not None and dataset.availability_mode is AvailabilityMode.ESTIMATED:
+        return StatusBasis.TRUSTEE_REPORT_NOT_IN_VIEW
+    return StatusBasis.TRUSTEE_REPORT_NOT_SEARCHED
 
 
 def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentStatus:
@@ -148,7 +162,7 @@ def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentSt
         reviewed_any = any(report.trustee in trustees and report.extraction_complete for report in current)
         if reviewed_any:
             return result(CoverageStatus.AMBIGUOUS, StatusBasis.TRUSTEE_NOT_ESTABLISHED)
-        return result(CoverageStatus.NOT_ASSESSED, StatusBasis.TRUSTEE_REPORT_NOT_SEARCHED)
+        return result(CoverageStatus.NOT_ASSESSED, _unsearched(dataset))
 
     reviewed: list[BreachReport] = []
     for trustee in sorted(trustees):
@@ -170,21 +184,11 @@ def derive_status(dataset: Dataset, isin: str, period_end: date) -> InstrumentSt
             and search.period is not None
             and search.period.end == period_end
         ]
-        if any(
-            search.outcome is SearchOutcome.FOUND
-            and any(
-                document in dataset.withheld
-                and dataset.withheld[document].type is DocumentType.TRUSTEE_BREACH_STATUS_REPORT
-                for document in search.documents
-            )
-            for search in searches
-        ):
-            return result(CoverageStatus.NO_REPORT_FOUND, StatusBasis.TRUSTEE_REPORT_NOT_YET_PUBLIC)
         if any(s.outcome in (SearchOutcome.ACCESS_ERROR, SearchOutcome.EXCLUDED_BY_POLICY) for s in searches):
             return result(CoverageStatus.INACCESSIBLE, StatusBasis.TRUSTEE_REPORT_NOT_ACCESSIBLE)
         if any(s.outcome is SearchOutcome.NOT_FOUND for s in searches):
             return result(CoverageStatus.NO_REPORT_FOUND, StatusBasis.TRUSTEE_REPORT_NOT_LOCATED)
-        return result(CoverageStatus.NOT_ASSESSED, StatusBasis.TRUSTEE_REPORT_NOT_SEARCHED)
+        return result(CoverageStatus.NOT_ASSESSED, _unsearched(dataset))
     basis = (
         StatusBasis.TRUSTEE_REPORT_IS_NIL
         if all(report.nil_report for report in reviewed)

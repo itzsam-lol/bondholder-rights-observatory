@@ -72,34 +72,55 @@ The comparison also lists required levels that the statement prints and the trus
 
 ## Clause records and their legal stage
 
-`Provision.stage` says what a clause record is evidence of:
+`Provision.stage` says what a clause record is evidence of. The first four are different legal stages, and the fifth is a party's account:
 
 | Stage | Meaning |
 |---|---|
-| `executed_text` | Quoted from the executed deed, supplemental deed or offer document |
-| `described_in_force` | A party's description of a term it treats as in force (the default) |
-| `proposed` | A change put forward for approval |
-| `approved_in_principle` | A proposed change approved in principle, for example by an exchange, not shown executed |
+| `offered` | Quoted from an offer document: a general or key information document, or a placement memorandum |
+| `proposed` | A change put forward for approval, such as a proposed schedule of covenants |
+| `approved_in_principle` | A change approved, for example by an exchange under regulation 59, not shown executed |
+| `executed_text` | Quoted from an executed debenture trust deed or supplemental deed |
+| `described_in_force` | A party's quotation or description of a term it treats as in force (the default) |
 
-Only executed text establishes an operative term.
+Validation keeps them apart: `executed_text` must be quoted from a deed, and `offered` from an offer document. Only executed text establishes an operative term, and even that does not show later amendments unless every supplemental deed is held. An offer document shows the terms as offered, an approval that a change was approved, and a description what one party says. `instruments.csv` lists linked offer documents and executed deeds in separate columns, and the report's trace to the contract counts them separately. No record in this release is at the `offered` or `executed_text` stage.
 
 ## Point-in-time views
 
-When a file became public is never known exactly, so `pit.availability` gives each file three dates and keeps them apart:
+When a file became public is never known exactly, so `pit.availability` keeps three kinds of evidence apart:
 
-| Date | Meaning | Proves |
+| Column of `documents.csv` | Meaning | Proves |
 |---|---|---|
-| `available_not_before` | The latest date the file gives itself, its signature, its "as on" date, or a letter transcribed from it. It cannot have been public earlier | A lower bound |
-| `available_from` | The estimate: the later of the publisher's own date (a listing page) and the server's Last-Modified header for the exact file held, never before the lower bound. Failing both, the lower bound itself; failing that, the observation | Nothing; Last-Modified dates the version on the server, and a copied file can carry a misleading date |
-| `available_observed` | The day the project retrieved the file from its public address | That the file was public by then |
+| `available_not_before`, with `available_not_before_basis` | The latest date the file gives itself, gives as its "as on" date, prints for a letter transcribed from it, or prints for an event one of its rows reports, such as a detection or an intimation | A lower bound: the file cannot have been public earlier |
+| `available_from`, with `available_basis` | The estimate: the later of the publisher's own date (a listing page) and the server's Last-Modified header for the exact file held, never before the lower bound. Failing both, the lower bound itself; failing that, the observation | Nothing. Last-Modified dates the version on the server, and a copied file can carry a misleading date |
+| `available_confirmed_by` | The day the project retrieved the file from its public address | That the file was public by then |
+| `available_window_days` | Days from the lower bound to that day | How wide the uncertainty is |
 
-`pit.as_of(dataset, day, mode)` keeps only what the chosen dates show public by `day`. `mode` is `estimated` (the default) or `observed`, which admits a file only from the day the project saw it, so nothing can count too early. Every record whose document is withheld goes. So does every claim, document link, issuer name variant and discrepancy whose support was not yet public, and every observation made after `day`; the evidence lists of what remains are cut to what was public. The search log is kept whole, because it records the project's own steps. A report that a logged search later found, but that the view withholds, gives `no_report_found` with basis `trustee_report_not_yet_public`, never `trustee_report_not_searched`. The view records its `cutoff`, its mode and the documents it `withheld`. A test rebuilds the view at every date on which some document's availability changes, in both modes, and fails if anything later leaks in.
+An estimate is not a publication date, and none of these is the day a file first went public. Where evidence is missing, the column is empty rather than filled with a guess.
+
+`pit.as_of(dataset, day, mode)` builds the record as far as records shown public by `day` establish it. In mode `estimated`, the default, a file counts from its estimate. In mode `observed` it counts only from the day the project saw it, so nothing counts too early, though much counts too late. The two are separate views and are never mixed.
+
+- Every record whose document was not shown public by `day` is left out, and the evidence lists of those kept are cut to what was. Observations count from the day they were made.
+- An instrument appears only if a record then public prints its ISIN. An issuer appears only if such a record supports it. Its name is its base name only if a record then public prints it, and otherwise the earliest name a record then public prints. Its CIN and LEI appear only if a record then public prints them, and its sector never. `attribute_support.csv` lists each record that supports an entity or attribute, and when that record became public.
+- Free-text notes, written with later knowledge, are dropped. So are searches made after `day`, and reviews of annotations made after `day`.
+- Nothing in the view says what the full record holds beyond `day`.
+
+Statuses in a view keep not finding apart from not knowing. In an estimated view, a quarter for which no report of the trustee is estimated public by `day`, and which no search made by then settles, has basis `trustee_report_not_in_view`. That says only that the view holds no such report, not that none was public, because a later search cannot show what was public earlier. In an observed view, and in the full record, the same case is `trustee_report_not_searched`.
+
+Tests rebuild the view at every date on which some document's availability changes, in both modes, and fail if anything later leaks in. They show that the views agree with the recorded dates. They cannot show that the dates are historically true.
 
 This is the record as it stood, not as the project knew it on that day. For what the dataset itself said at an earlier time, use the repository's history.
 
 ## What each party adds, and follow-up states
 
-`consistency.field_flows` records, for each agreement between an issuer's statement and a trustee's report, whether each party prints a clause reference, the obligation's wording, a required level, the issuer's measured level and deed dates, and the text that satisfied each rule. `consistency.follow_up_states` lists every follow-up state per trustee and listed ISIN with the row or letter behind it, never ranking or merging them. It types a cure by the covenant category of its row, so a late filing made good is never counted as a financial covenant restored. It does not count a letter that names another quarter. The report prints, beside every count of ISINs, the number of issuers behind it, because one issuer's ISINs share one history.
+`consistency.field_flows` records, for each agreement between an issuer's statement and a trustee's report, whether each party prints a clause reference, the obligation's wording, a required level, the issuer's measured level and deed dates. Each decision keeps every line that satisfied its rule, with document, page and locator, and the number of lines examined. A clause reference needs a keyword (clause, schedule, paragraph or article) followed by an identifier, or the clause number the record transcribes. A bare heading, a decimal and the word "section" do not count.
+
+`consistency.follow_up_states` lists every follow-up state per trustee and listed ISIN, with the row or letter behind it and how its quarter is known (`attribution`): from the report's row, from the quarter a letter states, by the continuation rule, or not at all. It never ranks or merges states.
+
+- A cure is typed only when every covenant the row lists for the ISIN is of one kind, financial or not. Otherwise it is a "cure reported, for covenants of more than one kind". A late filing made good is never counted as a financial covenant restored.
+- A letter that names another quarter is not counted for this one.
+- A letter continuing an adjourned meeting names no quarter. `consistency.link_continuations` ties it to one only when the same file holds a breach letter from the same trustee naming the same ISIN, with a stated quarter and a meeting proposed on or before the continuation's date, and all such letters name one quarter. Otherwise its states are exported with no quarter and counted for none.
+
+The report prints, beside every count of ISINs, the number of issuers behind it, because one issuer's ISINs share one history.
 
 ## Trustee censuses
 
@@ -151,7 +172,6 @@ Status answers one question: what does the reviewed record say about breaches fo
 | `no_report_found` | `not_listed_in_trustee_report` | Its trustee's fully transcribed report does not list it |
 | | `trustee_report_is_nil` | Its trustee's report is a nil table |
 | | `trustee_report_not_located` | A logged search did not find its trustee's report |
-| | `trustee_report_not_yet_public` | In a point-in-time view only: a logged search later found its trustee's report, but the report was not shown public by the view's date |
 | `inaccessible` | `trustee_report_not_accessible` | The report could not be reached, or policy excludes it |
 | `ambiguous` | `listing_depends_on_layout` | Listing depends on reading merged table cells |
 | | `trustee_not_established` | Sources disagree on the trustee, and at least one candidate's report was reviewed |
@@ -159,7 +179,8 @@ Status answers one question: what does the reviewed record say about breaches fo
 | | `statements_disagree` | A statement of compliance whose scope covers a listed covenant, or two statements, disagree |
 | `not_assessed` | `trustee_unknown` | No source names its trustee |
 | | `trustee_report_incompletely_transcribed` | The report exists but was only partly transcribed |
-| | `trustee_report_not_searched` | Nobody has looked |
+| | `trustee_report_not_searched` | Nobody has looked, or in an observed view, nobody had looked by its date |
+| | `trustee_report_not_in_view` | In an estimated point-in-time view only: no report of the trustee for the period is estimated public by the view's date, and no search made by then settles it. It says nothing about whether one was public |
 
 **The categories are never merged, and none implies another.** In particular:
 
@@ -188,4 +209,8 @@ Every column is described in [data-dictionary.md](data-dictionary.md), generated
 
 Where a fact originates with a party other than its publisher, the dictionary says so. A test fails if any exported column is undocumented.
 
-`field_flows.csv` and `follow_up_states.csv` export the field-level comparison and the follow-up states, with the text, row or letter behind each decision.
+`field_flows.csv` and `follow_up_states.csv` export the field-level comparison and the follow-up states, with the text, row or letter behind each decision. `attribute_support.csv` exports the support for each entity and attribute that point-in-time views rely on.
+
+## Second annotation and review
+
+`brdo review packet` writes the project's 585 annotated decisions, or chosen fields of them, as a packet for a second annotator that never gives the current value, with a key kept apart. `brdo review score` reports agreement and Cohen's kappa field by field. A review is recorded as an `AnnotationReview` in `data/annotation-reviews.yaml`, keeping the original, second and adjudicated values with reasons. Only a person other than the original annotator can make one, and `Provision.annotation_reviewed` is an error unless such reviews settle every decision of the record. No review has been made, and the file does not exist yet. See [reliability.md](reliability.md#review-protocol).

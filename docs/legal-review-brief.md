@@ -28,7 +28,7 @@ The project's summaries are in `data/sources.yaml`, with the date each was read.
 - **Debenture trustees.** Several sites' notices say their content may not be distributed, reused or used "for public or commercial purposes" without written permission. The breach reports themselves say they are published "for information of Debenture Holders, Other Intermediaries and General Public".
 - **Issuers.** Several sites' terms forbid reproduction or republication without permission. They publish their compliance filings under regulation 62 of SEBI's Listing Obligations and Disclosure Requirements Regulations.
 - **BSE.** A disclaimer prohibits reproduction or redistribution. Its servers refused the project's identified client while serving browsers.
-- **NSE.** Its terms prohibit systematic or automated data collection and storing or republishing content without permission. Its hyperlinking policy requires prior written permission for links. The project neither retrieves from NSE nor links to it.
+- **NSE.** As recorded on 3 November 2026, its terms prohibit systematic or automated data collection and storing or republishing content without permission, and its hyperlinking policy requires prior written permission for links. A re-reading on 5 November 2026 could not confirm either clause: the hyperlinking policy as returned says nothing about others linking to NSE, and the quoted prohibition matches the terms of an NSE Data platform word for word ([exchange-access.md](exchange-access.md#nses-website-terms)). The project neither retrieves from NSE nor links to it until a person reads the pages in a browser.
 - **CDSL.** No copying, downloading or storage without permission; links are allowed.
 - **A bond platform** forbids data-gathering and extraction tools and derivative databases.
 - **ICRA's rationale** says its contents may be used freely with acknowledgement.
@@ -36,7 +36,7 @@ The project's summaries are in `data/sources.yaml`, with the date each was read.
 
 ## Regulatory context that may bear on the questions
 
-- SEBI's circular of 25 February 2022 (SEBI/HO/DEPA-III/DEPA-III_SSU/P/CIR/2022/25). It is addressed among others to exchanges, depositories, rating agencies and debenture trustees, and says that data provided "pursuant to regulatory mandates for reporting and disclosure in public domain" should be available "free of charge" for viewing, for download "as well as their usage for the value addition purposes". See [exchange-access.md](exchange-access.md).
+- SEBI's circular of 25 February 2022 (SEBI/HO/DEPA-III/DEPA-III_SSU/P/CIR/2022/25). It is addressed among others to exchanges, depositories, rating agencies and debenture trustees, and says that data provided "pursuant to regulatory mandates for reporting and disclosure in public domain" should be available "free of charge" for viewing, for download "as well as their usage for the value addition purposes". SEBI's master circulars have since rescinded it for some intermediaries, whose master circulars carry its wording, but no rescission for exchanges, depositories or debenture trustees was found. See [exchange-access.md](exchange-access.md).
 - SEBI's circular of 20 December 2024 (SEBI/HO/DEPA-II/DEPA-II_SRG/P/CIR/2024/178) on sharing data for research by accredited academic institutions. The exchanges' uniform policy under it may require a binding NDA and excludes "investigative purposes".
 - Regulation 62(1)(g) of the LODR Regulations requires issuers' websites to carry "all information and reports including compliance reports filed by the listed entity".
 - SEBI's master circular for debenture trustees requires the breach status report to be furnished "on its website and to the Stock Exchange".
@@ -57,7 +57,7 @@ The project's summaries are in `data/sources.yaml`, with the date each was read.
 
 **Links and citation**
 
-7. Is citing an NSE filing by its title, date and identifier, without a link, consistent with NSE's hyperlinking policy? Are deep links to PDFs on other sites a concern?
+7. What do NSE's terms and hyperlinking policy actually require of a site that cites or links its filings? Is citing a filing by its title, date and identifier, without a link, consistent with them? Are deep links to PDFs on other sites a concern?
 
 **Storage, archives and the data licence**
 

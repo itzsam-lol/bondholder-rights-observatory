@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+import subprocess
 import sys
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -17,6 +18,7 @@ from brdo.fetch import Cache, Fetcher, RetrievalFailed, RetrievalRefused, Retrie
 from brdo.pdftext import normalize
 from brdo.pit import as_of
 from brdo.report import render_report
+from brdo.review import CODEBOOK, decisions, read_csv, render_scores, score, write_packet
 from brdo.status import derive_all
 from brdo.store import DatasetError, Severity, check_integrity, load_dataset
 from brdo.verify import (
@@ -268,7 +270,7 @@ def cmd_build(args: argparse.Namespace) -> int:
     all_tables = tables(dataset)
     for path in write_csv(all_tables, args.out):
         print(f"wrote {path}")
-    print(f"wrote {write_datapackage(all_tables, args.out)}")
+    print(f"wrote {write_datapackage(all_tables, args.out, dataset)}")
     if args.sqlite:
         print(f"wrote {write_sqlite(all_tables, args.sqlite)}")
     return 0
@@ -289,14 +291,22 @@ def cmd_show(args: argparse.Namespace) -> int:
     dataset = _as_of(args, _load(args))
     instrument = dataset.instruments.get(args.isin)
     if instrument is None:
-        print(f"no record for {args.isin}", file=sys.stderr)
+        if dataset.cutoff is not None:
+            print(
+                f"{args.isin}: no record shown public by {dataset.cutoff} ({dataset.availability_mode} availability) "
+                "prints this ISIN",
+                file=sys.stderr,
+            )
+        else:
+            print(f"no record for {args.isin}", file=sys.stderr)
         return 1
-    issuer = dataset.issuers[instrument.issuer]
-    print(f"{instrument.isin}  {issuer.name}")
+    issuer = dataset.issuers.get(instrument.issuer)
+    name = issuer.name if issuer is not None and issuer.name else f"(no name for {instrument.issuer} printed by then)"
+    print(f"{instrument.isin}  {name}")
     if dataset.cutoff is not None:
         print(
-            f"  as of  {dataset.cutoff} ({dataset.availability_mode} availability): "
-            f"{len(dataset.documents)} documents shown public by then, {len(dataset.withheld)} withheld"
+            f"  as of  {dataset.cutoff}, by {dataset.availability_mode} availability: only records shown public by "
+            "then, without later notes or searches"
         )
     for claim in instrument.claims:
         print(f"  claim  {claim.property}: {claim.value}  (asserted by {claim.asserted_by})")
@@ -344,6 +354,48 @@ def cmd_dictionary(args: argparse.Namespace) -> int:
         return 1
     args.out.write_text(render_markdown(), encoding="utf-8")
     print(f"wrote {args.out}")
+    return 0
+
+
+def _committed(path: Path) -> str | None:
+    """The last commit of ``path``, or None if it has uncommitted changes or git cannot say."""
+    try:
+        changed = subprocess.run(
+            ["git", "status", "--porcelain", "--", str(path)], capture_output=True, text=True, check=True
+        ).stdout.strip()
+        commit = subprocess.run(
+            ["git", "log", "-1", "--format=%H", "--", str(path)], capture_output=True, text=True, check=True
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return None if changed or not commit else commit
+
+
+def cmd_review_packet(args: argparse.Namespace) -> int:
+    """Write a blind packet for a second annotator, and its key in a separate directory."""
+    dataset = _load(args)
+    known = {decision.field for decision in decisions(dataset)}
+    fields = set(args.field) if args.field else None
+    unknown = sorted((fields or set()) - known)
+    if unknown:
+        print(f"unknown fields {unknown}; choose from {sorted(known)}", file=sys.stderr)
+        return 2
+    commit = _committed(args.codebook)
+    if commit is None:
+        print(
+            f"warning: {args.codebook} has uncommitted changes or no commit; commit it before a review round, so "
+            "that answers can be tied to the codebook they followed",
+            file=sys.stderr,
+        )
+    written = write_packet(dataset, args.out, args.codebook, commit or "uncommitted", fields)
+    print(f"wrote {written['decisions']} decisions to {written['packet']}")
+    print(f"wrote the key to {written['key']}; keep it from the annotator until the answers are in")
+    return 0
+
+
+def cmd_review_score(args: argparse.Namespace) -> int:
+    """Compare a second annotator's answers with the key, field by field."""
+    print(render_scores(score(read_csv(args.key), read_csv(args.answers), read_csv(args.decisions))), end="")
     return 0
 
 
@@ -431,6 +483,19 @@ def build_parser() -> argparse.ArgumentParser:
     schema = commands.add_parser("schema", help="write JSON Schemas for the record types")
     schema.add_argument("--out", type=Path, default=Path("schema"))
     schema.set_defaults(func=cmd_schema)
+
+    review = commands.add_parser("review", help="materials for a blind second annotation, and its scoring")
+    review_commands = review.add_subparsers(dest="review_command", required=True)
+    packet = review_commands.add_parser("packet", help="write a packet without current values, and its key apart")
+    packet.add_argument("--out", type=Path, required=True, help="directory for packet/ and key/; keep it out of git")
+    packet.add_argument("--field", action="append", help="only this field, e.g. breach_item.category (repeatable)")
+    packet.add_argument("--codebook", type=Path, default=CODEBOOK)
+    packet.set_defaults(func=cmd_review_packet)
+    scoring = review_commands.add_parser("score", help="agreement between the key and a second annotator, per field")
+    scoring.add_argument("--decisions", type=Path, required=True, help="the packet's decisions.csv")
+    scoring.add_argument("--key", type=Path, required=True, help="the key's key.csv")
+    scoring.add_argument("--answers", type=Path, required=True, help="the annotator's answers.csv")
+    scoring.set_defaults(func=cmd_review_score)
 
     show = commands.add_parser("show", help="everything recorded about one ISIN")
     show.add_argument("isin")

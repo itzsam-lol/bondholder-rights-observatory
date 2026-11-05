@@ -16,17 +16,28 @@ from typing import Any
 from brdo.census import listed_in_breach_reports
 from brdo.consistency import (
     OUTCOME_STATES,
+    FollowUpState,
+    PeriodAttribution,
     compare_notices_with_reports,
     compare_statements_with_reports,
     field_flows,
     follow_up_states,
+    unattributed_follow_up,
 )
 from brdo.dictionary import datapackage
-from brdo.models import Evidence
-from brdo.pit import availability
+from brdo.models import Evidence, Instrument
+from brdo.pit import Support, availability, shown_public_by, supports
 from brdo.status import derive_all
 from brdo.store import Dataset
-from brdo.vocab import CONTRACT_DOCUMENT_TYPES, AiTrainingSignal, InstrumentProperty, RedistributionPolicy
+from brdo.vocab import (
+    EXECUTED_CONTRACT_TYPES,
+    OFFER_DOCUMENT_TYPES,
+    AiTrainingSignal,
+    AvailabilityMode,
+    DocumentType,
+    InstrumentProperty,
+    RedistributionPolicy,
+)
 
 Row = dict[str, Any]
 
@@ -51,6 +62,15 @@ def _anchors(evidence: Iterable[Evidence]) -> str:
     return "; ".join(f"{item.document}#p{item.page}" if item.page else item.document for item in evidence)
 
 
+def _flow_evidence(evidence) -> str | None:
+    """Every line, item or letter behind a field-level decision, as JSON, or empty when none satisfied the rule."""
+    if not evidence:
+        return None
+    return json.dumps(
+        [{"document": e.document, "page": e.page, "locator": e.locator, "matched": e.matched} for e in evidence]
+    )
+
+
 def _reserved(dataset: Dataset, document_id: str) -> bool:
     document = dataset.documents.get(document_id)
     if document is None:
@@ -58,8 +78,30 @@ def _reserved(dataset: Dataset, document_id: str) -> bool:
     return dataset.sources[document.source].ai_training is AiTrainingSignal.RESERVED
 
 
+def _support_dates(dataset: Dataset, support: Support, mode: AvailabilityMode) -> date | None:
+    if support.observation is not None:
+        return support.observation.observed_on
+    return shown_public_by(dataset.documents[support.document], dataset, mode)
+
+
+def _first_established(dataset: Dataset, found: list[Support], mode: AvailabilityMode) -> date | None:
+    return min((day for s in found if (day := _support_dates(dataset, s, mode)) is not None), default=None)
+
+
+def _linked(dataset: Dataset, instrument: Instrument, types: frozenset[DocumentType]) -> list[str]:
+    """The instrument's linked documents of the given types."""
+    return sorted(link.document for link in instrument.documents if dataset.documents[link.document].type in types)
+
+
 def tables(dataset: Dataset) -> dict[str, list[Row]]:
     out: dict[str, list[Row]] = {}
+    every_support = supports(dataset)
+    supported: dict[tuple[str, str, str], list[Support]] = {}
+    for support in every_support:
+        supported.setdefault((support.entity, support.key, support.attribute), []).append(support)
+
+    def first(entity: str, key: str, attribute: str, mode: AvailabilityMode) -> date | None:
+        return _first_established(dataset, supported.get((entity, key, attribute), []), mode)
 
     out["sources"] = [
         {
@@ -114,9 +156,11 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "published_basis": published_basis,
                 "last_modified": found.last_modified,
                 "available_not_before": found.not_before,
+                "available_not_before_basis": found.not_before_basis if found.not_before else None,
                 "available_from": found.estimate,
                 "available_basis": found.estimate_basis,
-                "available_observed": found.observed,
+                "available_confirmed_by": found.confirmed_by,
+                "available_window_days": found.window_days,
                 "period_start": d.period.start if d.period else None,
                 "period_end": d.period.end if d.period else None,
                 "as_of": d.as_of,
@@ -134,9 +178,37 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "lei": i.lei,
             "sector": i.sector,
             "name_variants": [variant.name for variant in i.name_variants],
+            "established_from": first("issuer", i.id, "identity", AvailabilityMode.ESTIMATED),
+            "established_confirmed_by": first("issuer", i.id, "identity", AvailabilityMode.OBSERVED),
         }
         for i in sorted(dataset.issuers.values(), key=lambda i: i.id)
     ]
+
+    out["attribute_support"] = sorted(
+        (
+            {
+                "entity": s.entity,
+                "key": s.key,
+                "attribute": s.attribute,
+                "record": s.record,
+                "document": s.document,
+                "observed_at_url": s.observation.url if s.observation else None,
+                "available_from": _support_dates(dataset, s, AvailabilityMode.ESTIMATED),
+                "available_confirmed_by": _support_dates(dataset, s, AvailabilityMode.OBSERVED),
+            }
+            for s in {
+                (s.entity, s.key, s.attribute, s.record, s.document, s.observation): s for s in every_support
+            }.values()
+        ),
+        key=lambda r: (
+            r["entity"],
+            r["key"],
+            r["attribute"],
+            r["record"],
+            r["document"] or "",
+            r["observed_at_url"] or "",
+        ),
+    )
 
     out["instruments"], out["claims"], out["document_links"] = [], [], []
     for isin in sorted(dataset.instruments):
@@ -144,9 +216,6 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
         trustees = sorted(
             {str(c.value) for c in instrument.claims if c.property is InstrumentProperty.DEBENTURE_TRUSTEE}
         )
-        contract_links = [
-            link for link in instrument.documents if dataset.documents[link.document].type in CONTRACT_DOCUMENT_TYPES
-        ]
         out["instruments"].append(
             {
                 "isin": isin,
@@ -154,11 +223,14 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "issuer_name": dataset.issuers[instrument.issuer].name,
                 "trustees_claimed": trustees,
                 "trustee_claims_conflict": len(trustees) > 1,
-                "contract_documents": sorted(link.document for link in contract_links),
+                "offer_documents": _linked(dataset, instrument, OFFER_DOCUMENT_TYPES),
+                "executed_deeds": _linked(dataset, instrument, EXECUTED_CONTRACT_TYPES),
                 "provisions": sum(1 for p in dataset.provisions.values() if isin in p.instruments),
                 "trust_deed_dates": sorted(
                     {d for n in dataset.breach_notices.values() if isin in n.isins for d in n.deed_dates}
                 ),
+                "established_from": first("instrument", isin, "identity", AvailabilityMode.ESTIMATED),
+                "established_confirmed_by": first("instrument", isin, "identity", AvailabilityMode.OBSERVED),
                 "notes": instrument.notes,
             }
         )
@@ -389,29 +461,32 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "field": f.field,
             "issuer_prints": f.issuer,
             "trustee_prints": f.trustee,
-            "issuer_basis": f.issuer_basis,
-            "trustee_basis": f.trustee_basis,
+            "issuer_examined": f.issuer_examined,
+            "issuer_evidence": _flow_evidence(f.issuer_evidence),
+            "trustee_examined": f.trustee_examined,
+            "trustee_evidence": _flow_evidence(f.trustee_evidence),
             "ai_training_reserved": _reserved(dataset, dataset.compliance_statements[f.statement].document)
             or (f.trustee_report is not None and _reserved(dataset, f.trustee_report)),
         }
         for f in field_flows(dataset)
     ]
 
+    def follow_up_row(state: FollowUpState) -> Row:
+        return {
+            "trustee": state.trustee,
+            "isin": state.isin,
+            "period_end": state.period_end,
+            "state": state.state,
+            "is_outcome": state.state in OUTCOME_STATES,
+            "attribution": state.attribution,
+            "basis": state.basis,
+        }
+
     out["follow_up_states"] = []
     for period_end in sorted({report.period.end for report in dataset.breach_reports.values()}):
         published, listed = follow_up_states(dataset, period_end)
         with_state = {(state.trustee, state.isin) for state in published}
-        rows = [
-            {
-                "trustee": s.trustee,
-                "isin": s.isin,
-                "period_end": period_end,
-                "state": s.state,
-                "is_outcome": s.state in OUTCOME_STATES,
-                "basis": s.basis,
-            }
-            for s in published
-        ]
+        rows = [follow_up_row(state) for state in published]
         rows += [
             {
                 "trustee": trustee,
@@ -419,12 +494,14 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "period_end": period_end,
                 "state": NO_FOLLOW_UP_PUBLISHED,
                 "is_outcome": False,
+                "attribution": PeriodAttribution.REPORT_ROW,
                 "basis": "",
             }
             for trustee, isin in listed
             if (trustee, isin) not in with_state
         ]
         out["follow_up_states"] += sorted(rows, key=lambda r: (r["trustee"], r["isin"]))
+    out["follow_up_states"] += [follow_up_row(state) for state in unattributed_follow_up(dataset)]
 
     out["monitoring_censuses"] = [
         {
@@ -524,10 +601,23 @@ def write_csv(all_tables: dict[str, list[Row]], directory: Path) -> list[Path]:
     return written
 
 
-def write_datapackage(all_tables: dict[str, list[Row]], directory: Path) -> Path:
+def cited_sources(dataset: Dataset) -> list[dict[str, str]]:
+    """The publishers of cited documents, for a data package's ``sources``, with no link for a source forbidding one."""
+    found = []
+    for source_id in sorted({document.source for document in dataset.documents.values()}):
+        source = dataset.sources[source_id]
+        entry = {"title": source.name}
+        if source.redistribution is not RedistributionPolicy.NO_LINKS and source.domains:
+            entry["path"] = f"https://{source.domains[0]}"
+        found.append(entry)
+    return found
+
+
+def write_datapackage(all_tables: dict[str, list[Row]], directory: Path, dataset: Dataset) -> Path:
     """Describe the CSV files in ``directory`` as a Frictionless Data Package, column by column."""
     path = directory / "datapackage.json"
-    path.write_text(json.dumps(datapackage(all_tables), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    descriptor = datapackage(all_tables, cited_sources(dataset))
+    path.write_text(json.dumps(descriptor, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return path
 
 

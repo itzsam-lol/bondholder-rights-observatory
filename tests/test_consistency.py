@@ -1,5 +1,7 @@
 from datetime import date
 
+import pytest
+
 from brdo.consistency import (
     compare_notices_with_reports,
     compare_statements_with_reports,
@@ -206,23 +208,85 @@ def test_a_measured_level_is_not_mistaken_for_a_clause_reference(dataset):
     dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=[line])
     flows = {flow.field: flow for flow in field_flows(dataset)}
     assert (flows["clause reference"].issuer, flows["clause reference"].trustee) == (False, False)
-    assert flows["issuer's measured level"].trustee_basis == "1.02%"
+    [measured] = flows["issuer's measured level"].trustee_evidence
+    assert (measured.document, measured.locator, measured.matched) == ("report-q1", "row 1", "1.02%")
 
 
-def test_named_and_numbered_references_still_count(dataset):
-    for text, expected in [
-        ("As per Schedule 3 Clause 2 of the Debenture Trust Deed", True),
-        ("2.6 (ii) The Company shall at all times maintain", True),
-        ("Clause no. 10.3 (a) (ii) (B)", True),
-        ("Schedule 4 Paragraph 2.1", True),
-        ("6.5% (Six Decimal Point Five Percent) write-off ratio", False),
-        ("a Write-Off Ratio may not at any time increase above 6.5%", False),
-        ("Net worth of Rs. 870 crores and 1.5 month liabilities", False),
-    ]:
-        row = make_row()
-        item = row.items[0].model_copy(update={"covenant_as_reported": text, "clause_reference_as_reported": None})
-        dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
-        dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=[])
-        flow = next(f for f in field_flows(dataset) if f.field == "clause reference")
-        assert flow.trustee is expected, text
-        assert (flow.trustee_basis == text) is expected, text
+REFERENCES = [
+    ("As per Clause 9.3 of the DTD", "Clause 9.3"),
+    (
+        "Clause no. 10.3 (a) (ii) (B), (iii) (B), (iv) and (viii) of the Debenture Trust Deed",
+        "Clause no. 10.3 (a) (ii) (B)",
+    ),
+    ("10. Non compliance w.r.t. clause 1.4.1(vi) of Negative Covenants", "clause 1.4.1(vi)"),
+    ("As per Schedule 3 Clause 2 of the Debenture Trust Deed", "Schedule 3"),
+    ("As per Schedule VIII of the Debenture Trust Deed", "Schedule VIII"),
+    ("Part B Schedule I", "Schedule I"),
+    ("SCHEDULE 3 Clause 2", "SCHEDULE 3"),
+    ("Schedule 4 Paragraph 2.1 of the Debenture Trust Deed (DTD)", "Schedule 4"),
+    ("in terms of para 4 of the deed", "para 4"),
+    ("Article II of the Deed", "Article II"),
+    ("Clause 10.2A (a) (i) of the Debenture Trust Deed", "Clause 10.2A (a) (i)"),
+    ("a breach of the covenant in clause (c) of the deed", "clause (c)"),
+]
+NOT_REFERENCES = [
+    "Issuer has not complied with the prescribed Return on Assets ratio. Return on Assets maintained is '-1.02%'",
+    "Return on Assets maintained is \u22121.02%",
+    "-1.02% against a minimum of 1%",
+    "1.5 month liabilities after including put options",
+    "6.5% (Six Decimal Point Five Percent)",
+    "a Write-Off Ratio may not at any time increase above 6.5%",
+    "30.06.2026: DSCR below 1.2",
+    "1.0 (one decimal zero) times the outstanding",
+    "Net worth of Rs. 870 crores and 1.5 month liabilities",
+    "the said clause of the deed",
+    "as per the Debenture Trust Deed",
+    "(e) a Write-Off Ratio may not at any time increase above 6.5%",
+    "2.6 (ii) The Company shall at all times maintain",
+    "as required under Section 186 of the Companies Act",
+    "in breach of the Articles of Association",
+    "Tier I Capital",
+    "PAR 90+ (+) TTM Write Off",
+    "Clasue 9.8 (ii), (iii) of the Debenture Trust Deed",
+]
+
+
+def _trustee_clause_flow(dataset, text: str, transcribed: str | None = None):
+    row = make_row()
+    item = row.items[0].model_copy(update={"covenant_as_reported": text, "clause_reference_as_reported": transcribed})
+    dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+    dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=[])
+    return next(f for f in field_flows(dataset) if f.field == "clause reference")
+
+
+@pytest.mark.parametrize(("text", "matched"), REFERENCES)
+def test_named_and_numbered_references_count(dataset, text, matched):
+    flow = _trustee_clause_flow(dataset, text)
+    assert flow.trustee and [e.matched for e in flow.trustee_evidence] == [matched]
+
+
+@pytest.mark.parametrize("text", NOT_REFERENCES)
+def test_numbers_dates_headings_and_statutes_are_not_clause_references(dataset, text):
+    assert not _trustee_clause_flow(dataset, text).trustee
+
+
+def test_a_transcribed_clause_reference_counts_even_where_the_rule_would_miss_it(dataset):
+    flow = _trustee_clause_flow(dataset, "2.6 (ii) The Company shall at all times maintain", transcribed="2.6")
+    assert flow.trustee and [e.matched for e in flow.trustee_evidence] == ["2.6"]
+
+
+def test_every_supporting_line_is_kept_and_what_was_examined_is_counted(dataset):
+    lines = [
+        StatedException(isins=[ISIN_LISTED], page=8, covenant_as_reported="PAR 30", required_as_reported="<=4%"),
+        StatedException(isins=[ISIN_LISTED], page=8, covenant_as_reported="PAR 90", required_as_reported="<=3%"),
+        StatedException(isins=[ISIN_LISTED], page=9, covenant_as_reported="Losses", required_as_reported="Profit"),
+    ]
+    dataset.compliance_statements["s"] = make_statement("s", breach=True, exceptions=lines)
+    flow = next(f for f in field_flows(dataset) if f.field == "required level")
+    assert flow.issuer_examined == 3
+    assert [(e.locator, e.matched) for e in flow.issuer_evidence] == [
+        ("exception line 1", "<=4%"),
+        ("exception line 2", "<=3%"),
+    ]
+    deeds = next(f for f in field_flows(dataset) if f.field == "deed dates")
+    assert (deeds.trustee, deeds.trustee_examined) == (False, 0)

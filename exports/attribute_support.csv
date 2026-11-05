@@ -1,0 +1,522 @@
+entity,key,attribute,record,document,observed_at_url,available_from,available_confirmed_by
+instrument,INE00VD07016,identity,breach report ctl-t5-2026-06 row 5,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE00VD07016,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE00VD07016,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE00VD07016,identity,letter ctl-notice-infinity-2026-08-p6,ctl-notice-infinity-2026-08,,2026-09-29,2026-11-04
+instrument,INE00VD07016,identity,statement infinity-2026-06-management,infinity-sc-2026-08-07,,2026-08-10,2026-11-04
+instrument,INE00VD07032,identity,breach report ctl-t5-2026-06 row 5,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE00VD07032,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE00VD07032,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE00VD07032,identity,letter ctl-notice-infinity-2026-08-p1,ctl-notice-infinity-2026-08,,2026-09-29,2026-11-04
+instrument,INE00VD07032,identity,letter ctl-notice-infinity-2026-08-p4,ctl-notice-infinity-2026-08,,2026-09-29,2026-11-04
+instrument,INE00VD07032,identity,statement infinity-2026-06-management,infinity-sc-2026-08-07,,2026-08-10,2026-11-04
+instrument,INE01W207017,identity,breach report ctl-t5-2026-06 row 9,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE01W207017,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE01W207017,identity,letter ctl-notice-convenient-2026-08-p1,ctl-notice-convenient-2026-08,,2026-08-24,2026-11-04
+instrument,INE02HF07016,identity,breach report ctl-t5-2026-06 row 14,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE02HF07016,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE02HF07016,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE02HF07024,identity,breach report ctl-t5-2026-06 row 14,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE02HF07024,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE02HF07024,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE07J407014,identity,breach report vistra-t5-2026-06 row 3,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE07J407014,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE084S08013,identity,breach report idbi-t5-2026-06 row 12,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE084S08013,identity,breach report idbi-t5-2026-06 row 7,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE084S08013,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE08XP07274,identity,breach report axis-t5-2026-06-v20260814 row 1,axis-t5-2026-06-v20260814,,2026-09-10,2026-11-03
+instrument,INE08XP07274,identity,breach report axis-t5-2026-06-v20260916 row 1,axis-t5-2026-06-v20260916,,2026-09-30,2026-11-03
+instrument,INE08XP07274,identity,breach report axis-t5-2026-09-v20261029 row 1,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+instrument,INE08XP07274,identity,claim debenture_trustee by axis-trustee,axis-t5-2026-06-v20260814,,2026-09-10,2026-11-03
+instrument,INE08XP07357,identity,breach report ctl-t5-2026-06 row 7,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE08XP07357,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE08XP07357,identity,letter ctl-notice-akara-2026-08-p4,ctl-notice-akara-2026-08,,2026-08-24,2026-11-04
+instrument,INE08XP07365,identity,breach report ctl-t5-2026-06 row 7,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE08XP07365,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE08XP07365,identity,letter ctl-notice-akara-2026-08-p1,ctl-notice-akara-2026-08,,2026-08-24,2026-11-04
+instrument,INE091D11097,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11097,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11097,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE091D11105,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11105,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11105,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE091D11139,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11139,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11139,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE091D11147,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11147,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11147,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE091D11162,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11162,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11162,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE091D11170,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11170,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11170,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE091D11204,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11204,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE091D11204,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+instrument,INE0INX07015,identity,breach report axis-t5-2026-09-v20261029 row 2,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+instrument,INE0INX07015,identity,claim debenture_trustee by axis-trustee,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+instrument,INE0INX07023,identity,breach report axis-t5-2026-09-v20261029 row 2,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+instrument,INE0INX07023,identity,claim debenture_trustee by axis-trustee,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+instrument,INE0N5S07052,identity,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE0N5S07052,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE0N5S07052,identity,letter ctl-notice-samunnati-2026-08-p7,ctl-notice-samunnati-2026-08,,2026-08-24,2026-11-04
+instrument,INE139F07105,identity,breach report idbi-t5-2026-06 row 3,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE139F07105,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE139F07105,identity,letter idbi-notice-konkan-2026-09-p1,idbi-notice-konkan-2026-09,,2026-08-14,2026-11-04
+instrument,INE179P07332,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07332,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07332,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07332,identity,letter ctl-notice-dvara-2026-08-p16,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07332,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P07332,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07464,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07464,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07464,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07464,identity,letter ctl-notice-dvara-2026-08-p1,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07464,identity,letter ctl-notice-dvara-2026-08-p4,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07464,identity,letter ctl-notice-dvara-2026-08-p6,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07464,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P07464,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07530,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07530,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07530,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07530,identity,letter ctl-notice-dvara-2026-08-p9,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07530,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P07530,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07548,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07548,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07548,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07548,identity,letter ctl-notice-dvara-2026-08-p22,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07548,identity,letter ctl-notice-dvara-2026-08-p25,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07548,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P07548,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07589,identity,breach report idbi-t5-2026-06 row 2,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE179P07589,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE179P07589,identity,letter idbi-notice-dvara-2026-08-p1,idbi-notice-dvara-2026-08,,2026-08-14,2026-11-04
+instrument,INE179P07589,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07597,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07597,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07597,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07597,identity,letter ctl-notice-dvara-2026-08-p32,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07597,identity,letter ctl-notice-dvara-2026-08-p35,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07597,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07605,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07605,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07605,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07605,identity,letter ctl-notice-dvara-2026-08-p19,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07605,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P07605,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07613,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07613,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07613,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07613,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P07621,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07621,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P07621,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P07621,identity,letter ctl-notice-dvara-2026-08-p37,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07621,identity,letter ctl-notice-dvara-2026-08-p40,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P07621,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P08074,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P08074,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P08074,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P08074,identity,letter ctl-notice-dvara-2026-08-p27,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P08074,identity,letter ctl-notice-dvara-2026-08-p30,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P08074,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P08074,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE179P08082,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P08082,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE179P08082,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE179P08082,identity,letter ctl-notice-dvara-2026-08-p11,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P08082,identity,letter ctl-notice-dvara-2026-08-p14,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+instrument,INE179P08082,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+instrument,INE179P08082,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+instrument,INE187O07031,identity,breach report vistra-t5-2026-06 row 4,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE187O07031,identity,claim debenture_trustee by cdsl,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031,2026-11-03,2026-11-03
+instrument,INE187O07031,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE187O07049,identity,breach report vistra-t5-2026-06 row 4,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE187O07049,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE223Y07017,identity,breach report idbi-t5-2026-06 row 10,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE223Y07017,identity,breach report idbi-t5-2026-06 row 4,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE223Y07017,identity,breach report idbi-t5-2026-06 row 9,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE223Y07017,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE223Y07017,identity,letter idbi-notice-aliens-2026-09b-p1,idbi-notice-aliens-2026-09b,,2026-09-01,2026-11-04
+instrument,INE2GLH07012,identity,breach report ctl-t5-2026-06 row 13,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE2GLH07012,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE2GLH07020,identity,breach report ctl-t5-2026-06 row 13,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE2GLH07020,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE362A07047,identity,breach report idbi-t5-2026-06 row 14,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE362A07047,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE362A07054,identity,breach report idbi-t5-2026-06 row 14,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE362A07054,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE366T07154,identity,breach report ctl-t5-2026-06 row 4,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T07154,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T07154,identity,letter ctl-notice-light-2026-08-p1,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+instrument,INE366T07162,identity,breach report ctl-t5-2026-06 row 4,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T07162,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T07162,identity,letter ctl-notice-light-2026-08-p4,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+instrument,INE366T07188,identity,breach report ctl-t5-2026-06 row 4,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T07188,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T07188,identity,letter ctl-notice-light-2026-08-p7,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+instrument,INE366T08020,identity,breach report ctl-t5-2026-06 row 4,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T08020,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE366T08020,identity,letter ctl-notice-light-2026-08-p10,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+instrument,INE443L08131,identity,breach report idbi-t5-2026-06 row 1,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE443L08131,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE443L08131,identity,letter idbi-notice-belstar-2026-07-p1,idbi-notice-belstar-2026-07,,2026-07-28,2026-11-04
+instrument,INE501X07570,identity,claim debenture_trustee by catalyst-trusteeship,ctl-notice-aye-ine501x07570-2026-05,,2026-05-06,2026-11-04
+instrument,INE501X07570,identity,letter ctl-notice-aye-ine501x07570-2026-05-p1,ctl-notice-aye-ine501x07570-2026-05,,2026-05-06,2026-11-04
+instrument,INE501X07588,identity,breach report ctl-t5-2026-06 row 1,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE501X07588,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE501X07588,identity,claim debenture_trustee by cdsl,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588,2026-11-03,2026-11-03
+instrument,INE501X07588,identity,letter ctl-notice-aye-2026-10-p1,ctl-notice-aye-2026-10,,2026-10-26,2026-11-04
+instrument,INE501X07588,identity,letter ctl-notice-aye-ine501x07588-2026-09-p1,ctl-notice-aye-ine501x07588-2026-09,,2026-09-30,2026-11-04
+instrument,INE501X07620,identity,link to aye-walco-outcome-2025-09-02,aye-walco-outcome-2025-09-02,,2025-11-28,2026-11-04
+instrument,INE514Q07304,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07304,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07304,identity,letter ctl-notice-pahal-2026-08-p6,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07304,identity,letter ctl-notice-pahal-2026-08-p9,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07353,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07353,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07353,identity,letter ctl-notice-pahal-2026-08-p16,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07353,identity,letter ctl-notice-pahal-2026-08-p19,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07361,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07361,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07361,identity,letter ctl-notice-pahal-2026-08-p11,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07361,identity,letter ctl-notice-pahal-2026-08-p14,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07379,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07379,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07379,identity,letter ctl-notice-pahal-2026-08-p21,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07379,identity,letter ctl-notice-pahal-2026-08-p24,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07387,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07387,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07387,identity,letter ctl-notice-pahal-2026-08-p26,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07387,identity,letter ctl-notice-pahal-2026-08-p29,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07395,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07395,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07395,identity,letter ctl-notice-pahal-2026-08-p1,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07395,identity,letter ctl-notice-pahal-2026-08-p4,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07403,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07403,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE514Q07403,identity,letter ctl-notice-pahal-2026-08-p31,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE514Q07403,identity,letter ctl-notice-pahal-2026-08-p34,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+instrument,INE551U07266,identity,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE551U07266,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE551U07266,identity,letter ctl-notice-samunnati-2026-08-p4,ctl-notice-samunnati-2026-08,,2026-08-24,2026-11-04
+instrument,INE551U07324,identity,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE551U07324,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE551U07324,identity,letter ctl-notice-samunnati-2026-08-p1,ctl-notice-samunnati-2026-08,,2026-08-24,2026-11-04
+instrument,INE629B07013,identity,breach report vistra-t5-2026-06 row 2,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE629B07013,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE650D08013,identity,breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,,2026-10-19,2026-11-03
+instrument,INE650D08013,identity,claim debenture_trustee by mitcon-credentia,mitcon-t5-2026-06,,2026-10-19,2026-11-03
+instrument,INE650D08013,identity,letter mitcon-press-ramasigns-2026-08-14-p1,mitcon-press-ramasigns-2026-08-14,,2026-08-14,2026-11-04
+instrument,INE679U07026,identity,breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE679U07026,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE679U08024,identity,breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE679U08024,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE679U08040,identity,breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE679U08040,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+instrument,INE711X07062,identity,breach report idbi-t5-2026-06 row 11,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE711X07062,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE711X07062,identity,letter idbi-notice-emami-2026-09-p1,idbi-notice-emami-2026-09,,2026-09-16,2026-11-04
+instrument,INE760I07011,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07011,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07011,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07029,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07029,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07029,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07037,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07037,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07037,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07045,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07045,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07045,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07052,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07052,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07052,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07060,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07060,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07060,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07078,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07078,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07078,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE760I07086,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07086,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE760I07086,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+instrument,INE814O07543,identity,breach report ctl-t5-2026-06 row 2,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE814O07543,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE814O07543,identity,letter ctl-notice-neogrowth-2026-08-p1,ctl-notice-neogrowth-2026-08,,2026-08-25,2026-11-04
+instrument,INE814O07550,identity,breach report ctl-t5-2026-06 row 2,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE814O07550,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE814O07550,identity,letter ctl-notice-neogrowth-2026-08-p4,ctl-notice-neogrowth-2026-08,,2026-08-25,2026-11-04
+instrument,INE834U07019,identity,breach report ctl-t5-2026-06 row 3,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE834U07019,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE834U07019,identity,letter ctl-notice-casablanca-2026-08-p1,ctl-notice-casablanca-2026-08,,2026-08-24,2026-11-04
+instrument,INE834U07027,identity,breach report ctl-t5-2026-06 row 3,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE834U07027,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE834U07027,identity,letter ctl-notice-casablanca-2026-08-p4,ctl-notice-casablanca-2026-08,,2026-08-24,2026-11-04
+instrument,INE906B07HP8,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07HP8,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IC4,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IC4,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07ID2,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07ID2,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IE0,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IE0,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IF7,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IF7,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IG5,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IG5,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IH3,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IH3,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07II1,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07II1,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IJ9,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IJ9,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IK7,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IK7,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IL5,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IL5,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IY8,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IY8,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IZ5,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07IZ5,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07JA6,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07JA6,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07JB4,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE906B07JB4,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+instrument,INE982X07176,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X07176,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE982X07176,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X07176,identity,letter ctl-notice-satya-2026-08-p1,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+instrument,INE982X07176,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X07432,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X07432,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE982X07432,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X07432,identity,letter ctl-notice-satya-2026-08-p5,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+instrument,INE982X07432,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X07457,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X07457,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE982X07457,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X07457,identity,letter ctl-notice-satya-2026-08-p8,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+instrument,INE982X07457,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X08034,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08034,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08034,identity,letter ctl-notice-satya-2026-08-p11,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+instrument,INE982X08034,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X08042,identity,claim debenture_trustee by satya-microcapital-web,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X08042,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X08091,identity,breach report ctl-t5-2026-06 row 11,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08091,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08091,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE982X08091,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08091,identity,letter ctl-notice-satya-2026-08-p14,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+instrument,INE982X08091,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+instrument,INE982X08109,identity,breach report ctl-t5-2026-06 row 11,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08109,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08109,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+instrument,INE982X08109,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+instrument,INE982X08109,identity,letter ctl-notice-satya-2026-08-p17,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+instrument,INE982X08109,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+issuer,aegis-vopak-terminals,identity,breach report axis-t5-2026-09-v20261029 row 2,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+issuer,aegis-vopak-terminals,identity,claim debenture_trustee by axis-trustee,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+issuer,aegis-vopak-terminals,name,breach report axis-t5-2026-09-v20261029 row 2,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+issuer,akara-capital-advisors,identity,breach report axis-t5-2026-06-v20260814 row 1,axis-t5-2026-06-v20260814,,2026-09-10,2026-11-03
+issuer,akara-capital-advisors,identity,breach report axis-t5-2026-06-v20260916 row 1,axis-t5-2026-06-v20260916,,2026-09-30,2026-11-03
+issuer,akara-capital-advisors,identity,breach report axis-t5-2026-09-v20261029 row 1,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+issuer,akara-capital-advisors,identity,breach report ctl-t5-2026-06 row 7,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,akara-capital-advisors,identity,claim debenture_trustee by axis-trustee,axis-t5-2026-06-v20260814,,2026-09-10,2026-11-03
+issuer,akara-capital-advisors,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,akara-capital-advisors,identity,letter ctl-notice-akara-2026-08-p1,ctl-notice-akara-2026-08,,2026-08-24,2026-11-04
+issuer,akara-capital-advisors,identity,letter ctl-notice-akara-2026-08-p4,ctl-notice-akara-2026-08,,2026-08-24,2026-11-04
+issuer,akara-capital-advisors,name,breach report axis-t5-2026-06-v20260814 row 1,axis-t5-2026-06-v20260814,,2026-09-10,2026-11-03
+issuer,akara-capital-advisors,name,breach report axis-t5-2026-06-v20260916 row 1,axis-t5-2026-06-v20260916,,2026-09-30,2026-11-03
+issuer,akara-capital-advisors,name,breach report axis-t5-2026-09-v20261029 row 1,axis-t5-2026-09-v20261029,,2026-10-29,2026-11-03
+issuer,akara-capital-advisors,name,breach report ctl-t5-2026-06 row 7,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,aliens-developers,identity,breach report idbi-t5-2026-06 row 10,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,aliens-developers,identity,breach report idbi-t5-2026-06 row 4,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,aliens-developers,identity,breach report idbi-t5-2026-06 row 9,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,aliens-developers,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,aliens-developers,identity,letter idbi-notice-aliens-2026-09b-p1,idbi-notice-aliens-2026-09b,,2026-09-01,2026-11-04
+issuer,aliens-developers,name,breach report idbi-t5-2026-06 row 10,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,aliens-developers,name,breach report idbi-t5-2026-06 row 4,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,aliens-developers,name,breach report idbi-t5-2026-06 row 9,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,arugn-technologies,identity,breach report ctl-t5-2026-06 row 13,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,arugn-technologies,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,arugn-technologies,name,breach report ctl-t5-2026-06 row 13,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,ats-heights,identity,breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,ats-heights,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,ats-heights,name,breach report vistra-t5-2026-06 row 1,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,aye-finance,cin,discrepancy aye-cin-form,aye-walco-outcome-2025-09-02,,2025-11-28,2026-11-04
+issuer,aye-finance,identity,breach report ctl-t5-2026-06 row 1,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,aye-finance,identity,claim debenture_trustee by catalyst-trusteeship,ctl-notice-aye-ine501x07570-2026-05,,2026-05-06,2026-11-04
+issuer,aye-finance,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,aye-finance,identity,claim debenture_trustee by cdsl,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588,2026-11-03,2026-11-03
+issuer,aye-finance,identity,issuer aye-finance name variant,aye-walco-outcome-2025-09-02,,2025-11-28,2026-11-04
+issuer,aye-finance,identity,issuer aye-finance name variant,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,aye-finance,identity,issuer aye-finance observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588,2026-11-03,2026-11-03
+issuer,aye-finance,identity,letter ctl-notice-aye-2026-10-p1,ctl-notice-aye-2026-10,,2026-10-26,2026-11-04
+issuer,aye-finance,identity,letter ctl-notice-aye-ine501x07570-2026-05-p1,ctl-notice-aye-ine501x07570-2026-05,,2026-05-06,2026-11-04
+issuer,aye-finance,identity,letter ctl-notice-aye-ine501x07588-2026-09-p1,ctl-notice-aye-ine501x07588-2026-09,,2026-09-30,2026-11-04
+issuer,aye-finance,identity,link to aye-walco-outcome-2025-09-02,aye-walco-outcome-2025-09-02,,2025-11-28,2026-11-04
+issuer,aye-finance,lei,issuer aye-finance observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588,2026-11-03,2026-11-03
+issuer,aye-finance,name,issuer aye-finance observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE501X07588,2026-11-03,2026-11-03
+issuer,belstar-microfinance,identity,breach report idbi-t5-2026-06 row 1,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,belstar-microfinance,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,belstar-microfinance,identity,letter idbi-notice-belstar-2026-07-p1,idbi-notice-belstar-2026-07,,2026-07-28,2026-11-04
+issuer,belstar-microfinance,name,breach report idbi-t5-2026-06 row 1,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,casablanca-industries,identity,breach report ctl-t5-2026-06 row 3,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,casablanca-industries,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,casablanca-industries,identity,letter ctl-notice-casablanca-2026-08-p1,ctl-notice-casablanca-2026-08,,2026-08-24,2026-11-04
+issuer,casablanca-industries,identity,letter ctl-notice-casablanca-2026-08-p4,ctl-notice-casablanca-2026-08,,2026-08-24,2026-11-04
+issuer,casablanca-industries,name,breach report ctl-t5-2026-06 row 3,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,convenient-hospitals,identity,breach report ctl-t5-2026-06 row 9,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,convenient-hospitals,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,convenient-hospitals,identity,letter ctl-notice-convenient-2026-08-p1,ctl-notice-convenient-2026-08,,2026-08-24,2026-11-04
+issuer,convenient-hospitals,name,breach report ctl-t5-2026-06 row 9,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,dvara-kgfs,identity,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,dvara-kgfs,identity,breach report idbi-t5-2026-06 row 2,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,dvara-kgfs,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+issuer,dvara-kgfs,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,dvara-kgfs,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p1,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p11,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p14,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p16,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p19,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p22,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p25,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p27,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p30,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p32,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p35,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p37,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p4,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p40,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p6,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter ctl-notice-dvara-2026-08-p9,ctl-notice-dvara-2026-08,,2026-09-29,2026-11-04
+issuer,dvara-kgfs,identity,letter idbi-notice-dvara-2026-08-p1,idbi-notice-dvara-2026-08,,2026-08-14,2026-11-04
+issuer,dvara-kgfs,identity,statement dvara-2025-12-exceptions,dvara-reg54-2026-02-11,,2026-02-17,2026-11-04
+issuer,dvara-kgfs,identity,statement dvara-2026-06-exceptions,dvara-sc-2026-08-12,,2026-08-12,2026-11-04
+issuer,dvara-kgfs,name,breach report ctl-t5-2026-06 row 12,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,dvara-kgfs,name,breach report idbi-t5-2026-06 row 2,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,emami-frankross,identity,breach report idbi-t5-2026-06 row 11,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,emami-frankross,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,emami-frankross,identity,issuer emami-frankross name variant,idbi-notice-emami-2026-09,,2026-09-16,2026-11-04
+issuer,emami-frankross,identity,letter idbi-notice-emami-2026-09-p1,idbi-notice-emami-2026-09,,2026-09-16,2026-11-04
+issuer,emami-frankross,name,breach report idbi-t5-2026-06 row 11,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,infinity-fincorp-solutions,identity,breach report ctl-t5-2026-06 row 5,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,infinity-fincorp-solutions,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+issuer,infinity-fincorp-solutions,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,infinity-fincorp-solutions,identity,letter ctl-notice-infinity-2026-08-p1,ctl-notice-infinity-2026-08,,2026-09-29,2026-11-04
+issuer,infinity-fincorp-solutions,identity,letter ctl-notice-infinity-2026-08-p4,ctl-notice-infinity-2026-08,,2026-09-29,2026-11-04
+issuer,infinity-fincorp-solutions,identity,letter ctl-notice-infinity-2026-08-p6,ctl-notice-infinity-2026-08,,2026-09-29,2026-11-04
+issuer,infinity-fincorp-solutions,identity,statement infinity-2026-06-management,infinity-sc-2026-08-07,,2026-08-10,2026-11-04
+issuer,infinity-fincorp-solutions,name,breach report ctl-t5-2026-06 row 5,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,konkan-railway-corporation,identity,breach report idbi-t5-2026-06 row 3,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,konkan-railway-corporation,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,konkan-railway-corporation,identity,letter idbi-notice-konkan-2026-09-p1,idbi-notice-konkan-2026-09,,2026-08-14,2026-11-04
+issuer,konkan-railway-corporation,name,breach report idbi-t5-2026-06 row 3,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,light-microfinance,identity,breach report ctl-t5-2026-06 row 4,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,light-microfinance,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,light-microfinance,identity,letter ctl-notice-light-2026-08-p1,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+issuer,light-microfinance,identity,letter ctl-notice-light-2026-08-p10,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+issuer,light-microfinance,identity,letter ctl-notice-light-2026-08-p4,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+issuer,light-microfinance,identity,letter ctl-notice-light-2026-08-p7,ctl-notice-light-2026-08,,2026-08-25,2026-11-04
+issuer,light-microfinance,name,breach report ctl-t5-2026-06 row 4,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,meghalaya-energy-corporation,identity,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,meghalaya-energy-corporation,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,meghalaya-energy-corporation,identity,letter idbi-notice-mecl-2026-08-p1,idbi-notice-mecl-2026-08,,2026-08-24,2026-11-04
+issuer,meghalaya-energy-corporation,name,breach report idbi-t5-2026-06 row 6,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,national-highways-authority-of-india,identity,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,national-highways-authority-of-india,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,national-highways-authority-of-india,name,breach report idbi-t5-2026-06 row 8,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,neogrowth-credit,identity,breach report ctl-t5-2026-06 row 2,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,neogrowth-credit,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,neogrowth-credit,identity,letter ctl-notice-neogrowth-2026-08-p1,ctl-notice-neogrowth-2026-08,,2026-08-25,2026-11-04
+issuer,neogrowth-credit,identity,letter ctl-notice-neogrowth-2026-08-p4,ctl-notice-neogrowth-2026-08,,2026-08-25,2026-11-04
+issuer,neogrowth-credit,name,breach report ctl-t5-2026-06 row 2,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,pahal-financial-services,identity,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,pahal-financial-services,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p1,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p11,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p14,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p16,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p19,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p21,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p24,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p26,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p29,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p31,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p34,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p4,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p6,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,identity,letter ctl-notice-pahal-2026-08-p9,ctl-notice-pahal-2026-08,,2026-09-29,2026-11-04
+issuer,pahal-financial-services,name,breach report ctl-t5-2026-06 row 10,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,parsvnath-rail-land-project,cin,issuer parsvnath-rail-land-project observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031,2026-11-03,2026-11-03
+issuer,parsvnath-rail-land-project,identity,breach report vistra-t5-2026-06 row 4,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,parsvnath-rail-land-project,identity,claim debenture_trustee by cdsl,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031,2026-11-03,2026-11-03
+issuer,parsvnath-rail-land-project,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,parsvnath-rail-land-project,identity,issuer parsvnath-rail-land-project observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031,2026-11-03,2026-11-03
+issuer,parsvnath-rail-land-project,name,breach report vistra-t5-2026-06 row 4,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,parsvnath-rail-land-project,name,issuer parsvnath-rail-land-project observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE187O07031,2026-11-03,2026-11-03
+issuer,punjab-infrastructure-development-board,identity,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,punjab-infrastructure-development-board,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,punjab-infrastructure-development-board,identity,letter idbi-notice-pidb-2026-08-p1,idbi-notice-pidb-2026-08,,2026-08-21,2026-11-04
+issuer,punjab-infrastructure-development-board,name,breach report idbi-t5-2026-06 row 5,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,pvp-ventures,identity,breach report idbi-t5-2026-06 row 14,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,pvp-ventures,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,pvp-ventures,name,breach report idbi-t5-2026-06 row 14,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,ramasigns-industries,identity,breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,,2026-10-19,2026-11-03
+issuer,ramasigns-industries,identity,claim debenture_trustee by mitcon-credentia,mitcon-t5-2026-06,,2026-10-19,2026-11-03
+issuer,ramasigns-industries,identity,letter mitcon-press-ramasigns-2026-08-14-p1,mitcon-press-ramasigns-2026-08-14,,2026-08-14,2026-11-04
+issuer,ramasigns-industries,name,breach report mitcon-t5-2026-06 row 1,mitcon-t5-2026-06,,2026-10-19,2026-11-03
+issuer,samunnati-finance-2014,cin,discrepancy samunnati-two-cins,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE551U07324,2026-11-03,2026-11-03
+issuer,samunnati-finance-2014,cin,issuer samunnati-finance-2014 observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE551U07324,2026-11-03,2026-11-03
+issuer,samunnati-finance-2014,identity,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,samunnati-finance-2014,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,samunnati-finance-2014,identity,issuer samunnati-finance-2014 observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE551U07324,2026-11-03,2026-11-03
+issuer,samunnati-finance-2014,identity,letter ctl-notice-samunnati-2026-08-p1,ctl-notice-samunnati-2026-08,,2026-08-24,2026-11-04
+issuer,samunnati-finance-2014,identity,letter ctl-notice-samunnati-2026-08-p4,ctl-notice-samunnati-2026-08,,2026-08-24,2026-11-04
+issuer,samunnati-finance-2014,name,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,samunnati-finance-2014,name,issuer samunnati-finance-2014 observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE551U07324,2026-11-03,2026-11-03
+issuer,samunnati-finance-2021,cin,discrepancy samunnati-two-cins,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE0N5S07052,2026-11-03,2026-11-03
+issuer,samunnati-finance-2021,cin,issuer samunnati-finance-2021 observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE0N5S07052,2026-11-03,2026-11-03
+issuer,samunnati-finance-2021,identity,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,samunnati-finance-2021,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,samunnati-finance-2021,identity,issuer samunnati-finance-2021 observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE0N5S07052,2026-11-03,2026-11-03
+issuer,samunnati-finance-2021,identity,letter ctl-notice-samunnati-2026-08-p7,ctl-notice-samunnati-2026-08,,2026-08-24,2026-11-04
+issuer,samunnati-finance-2021,name,breach report ctl-t5-2026-06 row 6,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,samunnati-finance-2021,name,issuer samunnati-finance-2021 observation,,https://www.cdslindia.com/CorporateBond/CorpBondDatabase.aspx?ISIN=INE0N5S07052,2026-11-03,2026-11-03
+issuer,satya-microcapital,identity,breach report ctl-t5-2026-06 row 11,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,satya-microcapital,identity,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,satya-microcapital,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+issuer,satya-microcapital,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,satya-microcapital,identity,claim debenture_trustee by satya-microcapital-web,satya-qcr-2026-06,,2026-08-21,2026-11-04
+issuer,satya-microcapital,identity,letter ctl-notice-satya-2026-08-p1,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+issuer,satya-microcapital,identity,letter ctl-notice-satya-2026-08-p11,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+issuer,satya-microcapital,identity,letter ctl-notice-satya-2026-08-p14,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+issuer,satya-microcapital,identity,letter ctl-notice-satya-2026-08-p17,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+issuer,satya-microcapital,identity,letter ctl-notice-satya-2026-08-p5,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+issuer,satya-microcapital,identity,letter ctl-notice-satya-2026-08-p8,ctl-notice-satya-2026-08,,2026-08-24,2026-11-04
+issuer,satya-microcapital,identity,statement satya-2026-06-financial-covenants,satya-qcr-2026-06,,2026-08-21,2026-11-04
+issuer,satya-microcapital,name,breach report ctl-t5-2026-06 row 11,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,satya-microcapital,name,breach report ctl-t5-2026-06 row 8,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,steelco-gujarat,identity,breach report vistra-t5-2026-06 row 2,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,steelco-gujarat,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,steelco-gujarat,name,breach report vistra-t5-2026-06 row 2,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,valencia-and-mishal-ventures,identity,breach report ctl-t5-2026-06 row 14,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,valencia-and-mishal-ventures,identity,census ctl-qcr-2026-06,ctl-qcr-2026-06,,2026-09-13,2026-11-04
+issuer,valencia-and-mishal-ventures,identity,claim debenture_trustee by catalyst-trusteeship,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,valencia-and-mishal-ventures,name,breach report ctl-t5-2026-06 row 14,ctl-t5-2026-06,,2026-09-13,2026-11-03
+issuer,vr-dakshin,identity,breach report idbi-t5-2026-06 row 12,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,vr-dakshin,identity,breach report idbi-t5-2026-06 row 7,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,vr-dakshin,identity,claim debenture_trustee by idbi-trusteeship,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,vr-dakshin,identity,issuer vr-dakshin name variant,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,vr-dakshin,name,breach report idbi-t5-2026-06 row 12,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,vr-dakshin,name,breach report idbi-t5-2026-06 row 7,idbi-t5-2026-06,,2026-09-15,2026-11-03
+issuer,watermarke-estates,identity,breach report vistra-t5-2026-06 row 3,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,watermarke-estates,identity,claim debenture_trustee by vistra-itcl,vistra-t5-2026-06,,2026-09-11,2026-11-03
+issuer,watermarke-estates,name,breach report vistra-t5-2026-06 row 3,vistra-t5-2026-06,,2026-09-11,2026-11-03

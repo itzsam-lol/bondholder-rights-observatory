@@ -5,6 +5,13 @@ retrieval policy is ``allowed``, obeys robots.txt and crawl delays, identifies
 itself, and never attempts to get past authentication or access controls.
 Retrieved files stay in a local cache; they are never written into the
 repository.
+
+Only two answers settle a host's robots policy: a robots file, which is obeyed,
+or HTTP 404 or 410, which say there is none. Any other answer, such as 401, 403,
+429, a server error, a failed connection, or an HTML page where the robots file
+should be, leaves the policy unknown. Nothing is then fetched from the host, and
+the failure is reported as robots.txt being unread, not as a refusal the site
+never stated.
 """
 
 import hashlib
@@ -238,11 +245,13 @@ class Fetcher:
         else:
             if response.status == 200 and _looks_like_robots(response):
                 parser.parse(response.body.decode("utf-8", errors="replace").splitlines())
-            elif response.status >= 500:
-                parser.disallow_all = True
-                self._robots_unread[host] = f"HTTP {response.status}"
-            else:
+            elif response.status in NO_ROBOTS_FILE:
                 parser.allow_all = True
+            else:
+                parser.disallow_all = True
+                self._robots_unread[host] = (
+                    "an HTML page, not a robots file" if response.status == 200 else f"HTTP {response.status}"
+                )
         self._robots[host] = parser
         return parser
 
@@ -251,11 +260,15 @@ def _expects_pdf(url: str) -> bool:
     return urlsplit(url).path.lower().endswith(".pdf")
 
 
+NO_ROBOTS_FILE = frozenset({404, 410})
+"""Statuses that say a host has no robots file, so that no rule restricts retrieval (RFC 9309, section 2.3.1.3)."""
+
+
 def _looks_like_robots(response: HttpResponse) -> bool:
-    """Some servers answer /robots.txt with an HTML page; treat that as no robots file."""
-    content_type = response.headers.get("content-type", "")
-    head = response.body[:512].lstrip().lower()
-    return "html" not in content_type and not head.startswith((b"<!doctype", b"<html"))
+    """Some servers answer /robots.txt with an HTML page, such as a soft error or a bot challenge. That is not a robots
+    file, and it does not say that there is none."""
+    head = response.body[:1024].lstrip().lower()
+    return not head.startswith((b"<!doctype", b"<html", b"<head", b"<body", b"<?xml")) and b"<html" not in head
 
 
 def _parse_http_date(value: str | None) -> datetime | None:

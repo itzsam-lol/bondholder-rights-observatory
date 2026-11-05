@@ -3,20 +3,22 @@
 import csv
 import json
 import re
+from dataclasses import replace
 from datetime import date, timedelta
 from pathlib import Path
 
 import pytest
 
 from brdo import models
-from brdo.build import tables
+from brdo.build import cited_sources, tables
 from brdo.census import check_census
+from brdo.consistency import link_continuations
 from brdo.dictionary import datapackage, render_markdown, undocumented
 from brdo.fetch import Cache, Fetcher, default_cache_dir
 from brdo.identifiers import is_valid_isin
-from brdo.pit import as_of, availability
+from brdo.pit import all_observations, as_of, availability, shown_public_by, supports
 from brdo.report import render_report
-from brdo.status import StatusBasis, derive_all, trustees_claimed
+from brdo.status import StatusBasis, derive_all
 from brdo.store import check_integrity, load_dataset
 from brdo.verify import AnchorStatus, load_document_text, verify_dataset
 from brdo.vocab import (
@@ -24,8 +26,6 @@ from brdo.vocab import (
     CoverageStatus,
     RedistributionPolicy,
     RetrievalPolicy,
-    SearchOutcome,
-    SearchPurpose,
     SourceKind,
 )
 
@@ -148,46 +148,81 @@ def test_covenants_differ_within_an_issuer(data):
 
 
 def _cutoffs(data) -> list[date]:
-    """Every day on which some document's availability changes under either mode, and the day before it."""
-    days = set()
+    """Every day on which a document's availability, a search or an observation changes the view, and the day before."""
+    days = {search.performed_on for search in data.searches.values()}
+    days |= {seen.observed_on for _, seen in all_observations(data)}
     for document in data.documents.values():
         found = availability(document, data)
-        days |= {day for day in (found.estimate, found.observed) if day is not None}
+        days |= {day for day in (found.estimate, found.confirmed_by) if day is not None}
     return sorted({day + timedelta(days=offset) for day in days for offset in (-1, 0)})
 
 
 @pytest.mark.parametrize("mode", list(AvailabilityMode))
 def test_no_point_in_time_view_holds_anything_later_than_its_date(data, mode):
+    """Consistency, not historical truth: the view applies its dates everywhere, whether or not the dates are right."""
+    every_support = supports(data)
     for day in _cutoffs(data):
         view = as_of(data, day, mode)
         for document in view.documents.values():
-            found = availability(document, data)
-            shown = found.observed if mode is AvailabilityMode.OBSERVED else found.estimate
-            assert shown is not None and shown <= day, (day, document.id)
+            assert shown_public_by(document, data, mode) <= day, (day, document.id)
         for label, item in view.evidence():
             assert item.document in view.documents, (day, label, item.document)
         observations = [o for i in view.instruments.values() for c in i.claims for o in c.observations]
         observations += [o for i in view.issuers.values() for o in i.observations]
         observations += [o for d in view.discrepancies.values() for o in d.observations]
         assert all(o.observed_on <= day for o in observations), day
-        found_reports = {
-            (s.subject, s.period.end)
-            for s in view.searches.values()
-            if s.purpose is SearchPurpose.TRUSTEE_REPORT and s.outcome is SearchOutcome.FOUND and s.period
+        assert all(search.performed_on <= day for search in view.searches.values()), day
+
+        established = {
+            (s.entity, s.key, s.attribute)
+            for s in every_support
+            if (s.observation.observed_on <= day if s.observation is not None else s.document in view.documents)
         }
+        assert {("instrument", isin, "identity") for isin in view.instruments} <= established, day
+        assert {("issuer", issuer, "identity") for issuer in view.issuers} <= established, day
+        for issuer in view.issuers.values():
+            for attribute in ("cin", "lei"):
+                if getattr(issuer, attribute):
+                    assert ("issuer", issuer.id, attribute) in established, (day, issuer.id, attribute)
+            assert issuer.sector is None
+            if issuer.name == data.issuers[issuer.id].name:
+                assert ("issuer", issuer.id, "name") in established or not issuer.name, (day, issuer.id)
+        assert all(i.notes is None for i in view.instruments.values())
+        assert all(p.notes is None for p in view.provisions.values())
+        assert all(n.notes is None for n in view.breach_notices.values())
         for status in derive_all(view):
             assert set(status.documents) <= set(view.documents), (day, status)
-            if status.basis is StatusBasis.TRUSTEE_REPORT_NOT_SEARCHED:
-                trustees = trustees_claimed(view, status.isin)
-                assert not {(t, status.period_end) for t in trustees} & found_reports, (day, status)
+            if status.basis is StatusBasis.TRUSTEE_REPORT_NOT_IN_VIEW:
+                assert mode is AvailabilityMode.ESTIMATED, (day, status)
 
 
-def test_the_full_record_is_the_view_as_of_the_last_retrieval(data):
-    last = max(d.retrieved_at.date() for d in data.documents.values() if d.retrieved_at)
+def test_the_latest_view_reconstructs_the_present_record(data):
+    latest = max(_cutoffs(data))
+    present = derive_all(data)
     for mode in AvailabilityMode:
-        view = as_of(data, last, mode)
+        view = as_of(data, latest, mode)
         assert set(view.documents) == set(data.documents)
-        assert derive_all(view) == derive_all(data)
+        assert set(view.instruments) == set(data.instruments)
+        assert view.searches == data.searches
+        for issuer_id, issuer in data.issuers.items():
+            shown = view.issuers[issuer_id]
+            assert (shown.name, shown.cin, shown.lei) == (issuer.name, issuer.cin, issuer.lei), issuer_id
+        relabel = {StatusBasis.TRUSTEE_REPORT_NOT_SEARCHED: StatusBasis.TRUSTEE_REPORT_NOT_IN_VIEW}
+        expected = [
+            replace(s, basis=relabel.get(s.basis, s.basis)) if mode is AvailabilityMode.ESTIMATED else s
+            for s in present
+        ]
+        assert derive_all(view) == expected
+
+
+def test_continuation_letters_are_tied_to_a_quarter_only_by_the_stated_rule(data):
+    """INE179P07530's continuation cannot be tied: the file's letter misprints its ISIN (dvara-isin-in-notice)."""
+    links = link_continuations(data)
+    assert len(links) == 15
+    assert {key for key, link in links.items() if link.period_end is None} == {
+        ("ctl-notice-dvara-2026-08-p9", "INE179P07530")
+    }
+    assert "dvara-isin-in-notice" in data.discrepancies
 
 
 def test_absence_from_a_report_is_recorded_as_no_report_found(data):
@@ -211,7 +246,9 @@ def test_every_exported_column_is_documented(data):
 
 def test_the_committed_data_package_matches_the_exports(data):
     on_disk = json.loads((REPOSITORY / "exports" / "datapackage.json").read_text(encoding="utf-8"))
-    assert on_disk == datapackage(tables(data)), "exports/datapackage.json is stale; run `brdo build`"
+    assert on_disk == datapackage(tables(data), cited_sources(data)), (
+        "exports/datapackage.json is stale; run `brdo build`"
+    )
 
 
 def test_the_committed_data_dictionary_matches_the_code():
@@ -221,7 +258,7 @@ def test_the_committed_data_dictionary_matches_the_code():
 
 def test_quotations_are_marked_as_such_in_the_data_package(data):
     """A reader of the flat files must be able to tell every quoted column from the project's own work."""
-    package = datapackage(tables(data))
+    package = datapackage(tables(data), cited_sources(data))
     kinds = {
         (resource["path"], field["name"]): field["brdo:kind"]
         for resource in package["resources"]
@@ -232,6 +269,44 @@ def test_quotations_are_marked_as_such_in_the_data_package(data):
     assert ("evidence.csv", "quote") in quoted
     assert all(name.endswith("_as_reported") or name in {"text", "quote", "heading"} for _, name in quoted)
     assert {key for key in kinds if key[1].endswith("_as_reported")} <= quoted
+    fields = [field for resource in package["resources"] for field in resource["schema"]["fields"]]
+    assert all(field["brdo:licensed"] is False for field in fields if field["brdo:kind"] == "source_text")
+    assert all("brdo:rights" in field for field in fields if not field["brdo:licensed"])
+    unlicensed = {
+        (resource["path"], f["name"])
+        for resource in package["resources"]
+        for f in resource["schema"]["fields"]
+        if not f["brdo:licensed"]
+    }
+    assert {("field_flows.csv", "trustee_evidence"), ("documents.csv", "title"), ("issuers.csv", "name")} <= unlicensed
+    assert "not licensed" in package["brdo:rights"] or "does not cover" in package["brdo:rights"]
+
+
+def test_exported_quotations_respect_each_sources_limit(data):
+    """Every quoted cell of every export stays within its source's limit, or the 800-character clause limit."""
+    exported = tables(data)
+    package = datapackage(exported, cited_sources(data))
+    document_columns = ("document", "report", "trustee_report")
+    clause_quotes = {(provision.document, provision.text) for provision in data.provisions.values()}
+    for resource in package["resources"]:
+        name = resource["path"].removesuffix(".csv")
+        quoted = [f["name"] for f in resource["schema"]["fields"] if f["brdo:kind"] == "source_text"]
+        for row in exported[name]:
+            document = next((row[c] for c in document_columns if c in row and row[c]), None)
+            limit = data.sources[data.documents[document].source].quote_limit if document else models.MAX_QUOTE_CHARS
+            for column in quoted:
+                # Contract clauses may run to 800 characters (docs/source-policy.md), wherever they are exported.
+                clause = (name, column) == ("provisions", "text") or (
+                    name == "evidence" and (row["document"], row["quote"]) in clause_quotes
+                )
+                ceiling = models.MAX_QUOTE_CHARS if clause else limit
+                # A cell holding several printed cells as JSON is several passages, each under the limit.
+                value = row[column]
+                passages = (
+                    list(json.loads(value).values()) if column == "other_columns_as_reported" and value else [value]
+                )
+                for passage in passages:
+                    assert len(str(passage)) <= ceiling, (name, column, len(str(passage)))
 
 
 def test_the_committed_report_matches_the_records(data):

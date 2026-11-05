@@ -1,202 +1,202 @@
-trustee,isin,period_end,state,is_outcome,basis
-axis-trustee,INE08XP07274,2026-06-30,waiver reported,true,axis-t5-2026-06-v20260916 row 1: waiver_reported
-axis-trustee,INE08XP07274,2026-06-30,meeting reported as held,false,axis-t5-2026-06-v20260916 row 1: holders_meeting_held
-catalyst-trusteeship,INE00VD07016,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-infinity-2026-08-p6: meeting proposed for 2026-09-04
-catalyst-trusteeship,INE00VD07016,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 5: awaiting_instructions
-catalyst-trusteeship,INE00VD07032,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-infinity-2026-08-p4
-catalyst-trusteeship,INE00VD07032,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-infinity-2026-08-p1: meeting proposed for 2026-09-04
-catalyst-trusteeship,INE00VD07032,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-infinity-2026-08-p4: meeting proposed for 2026-09-11
-catalyst-trusteeship,INE00VD07032,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 5: awaiting_instructions
-catalyst-trusteeship,INE01W207017,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-convenient-2026-08-p1: meeting proposed for 2026-09-08
-catalyst-trusteeship,INE01W207017,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 9: awaiting_instructions
-catalyst-trusteeship,INE02HF07016,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 14: awaiting_instructions
-catalyst-trusteeship,INE02HF07024,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 14: awaiting_instructions
-catalyst-trusteeship,INE08XP07357,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-akara-2026-08-p4: meeting proposed for 2026-09-09
-catalyst-trusteeship,INE08XP07357,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 7: awaiting_instructions
-catalyst-trusteeship,INE08XP07365,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-akara-2026-08-p1: meeting proposed for 2026-09-09
-catalyst-trusteeship,INE08XP07365,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 7: awaiting_instructions
-catalyst-trusteeship,INE0N5S07052,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-samunnati-2026-08-p7: meeting proposed for 2026-09-08
-catalyst-trusteeship,INE0N5S07052,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 6: awaiting_instructions
-catalyst-trusteeship,INE179P07332,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p16: meeting proposed for 2026-09-18
-catalyst-trusteeship,INE179P07332,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07464,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p4
-catalyst-trusteeship,INE179P07464,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p1: meeting proposed for 2026-09-18
-catalyst-trusteeship,INE179P07464,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p4: meeting proposed for 2026-09-25
-catalyst-trusteeship,INE179P07464,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p6: meeting proposed for 2026-09-18
-catalyst-trusteeship,INE179P07464,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07530,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p9
-catalyst-trusteeship,INE179P07530,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p9: meeting proposed for 2026-09-25
-catalyst-trusteeship,INE179P07530,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07548,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p25
-catalyst-trusteeship,INE179P07548,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p22: meeting proposed for 2026-09-21
-catalyst-trusteeship,INE179P07548,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p25: meeting proposed for 2026-09-28
-catalyst-trusteeship,INE179P07548,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07597,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p35
-catalyst-trusteeship,INE179P07597,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p32: meeting proposed for 2026-09-22
-catalyst-trusteeship,INE179P07597,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p35: meeting proposed for 2026-09-29
-catalyst-trusteeship,INE179P07597,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07605,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p19: meeting proposed for 2026-09-21
-catalyst-trusteeship,INE179P07605,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07613,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P07621,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p40
-catalyst-trusteeship,INE179P07621,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p37: meeting proposed for 2026-09-22
-catalyst-trusteeship,INE179P07621,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p40: meeting proposed for 2026-09-29
-catalyst-trusteeship,INE179P07621,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P08074,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p30
-catalyst-trusteeship,INE179P08074,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p27: meeting proposed for 2026-09-22
-catalyst-trusteeship,INE179P08074,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p30: meeting proposed for 2026-09-29
-catalyst-trusteeship,INE179P08074,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE179P08082,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-dvara-2026-08-p14
-catalyst-trusteeship,INE179P08082,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p11: meeting proposed for 2026-09-21
-catalyst-trusteeship,INE179P08082,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-dvara-2026-08-p14: meeting proposed for 2026-09-28
-catalyst-trusteeship,INE179P08082,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 12: awaiting_instructions
-catalyst-trusteeship,INE2GLH07012,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 13: awaiting_instructions
-catalyst-trusteeship,INE2GLH07020,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 13: awaiting_instructions
-catalyst-trusteeship,INE366T07154,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-light-2026-08-p1: meeting proposed for 2026-09-07
-catalyst-trusteeship,INE366T07154,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 4: awaiting_instructions
-catalyst-trusteeship,INE366T07162,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-light-2026-08-p4: meeting proposed for 2026-09-07
-catalyst-trusteeship,INE366T07162,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 4: awaiting_instructions
-catalyst-trusteeship,INE366T07188,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-light-2026-08-p7: meeting proposed for 2026-09-07
-catalyst-trusteeship,INE366T07188,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 4: awaiting_instructions
-catalyst-trusteeship,INE366T08020,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-light-2026-08-p10: meeting proposed for 2026-09-07
-catalyst-trusteeship,INE366T08020,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 4: awaiting_instructions
-catalyst-trusteeship,INE501X07588,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-aye-ine501x07588-2026-09-p1: meeting proposed for 2026-08-18
-catalyst-trusteeship,INE501X07588,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 1: awaiting_instructions
-catalyst-trusteeship,INE514Q07304,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p9
-catalyst-trusteeship,INE514Q07304,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p6: meeting proposed for 2026-09-09
-catalyst-trusteeship,INE514Q07304,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p9: meeting proposed for 2026-09-16
-catalyst-trusteeship,INE514Q07304,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE514Q07353,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p19
-catalyst-trusteeship,INE514Q07353,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p16: meeting proposed for 2026-09-09
-catalyst-trusteeship,INE514Q07353,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p19: meeting proposed for 2026-09-16
-catalyst-trusteeship,INE514Q07353,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE514Q07361,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p14
-catalyst-trusteeship,INE514Q07361,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p11: meeting proposed for 2026-09-09
-catalyst-trusteeship,INE514Q07361,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p14: meeting proposed for 2026-09-16
-catalyst-trusteeship,INE514Q07361,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE514Q07379,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p24
-catalyst-trusteeship,INE514Q07379,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p21: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE514Q07379,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p24: meeting proposed for 2026-09-17
-catalyst-trusteeship,INE514Q07379,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE514Q07387,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p29
-catalyst-trusteeship,INE514Q07387,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p26: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE514Q07387,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p29: meeting proposed for 2026-09-17
-catalyst-trusteeship,INE514Q07387,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE514Q07395,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p4
-catalyst-trusteeship,INE514Q07395,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p1: meeting proposed for 2026-09-09
-catalyst-trusteeship,INE514Q07395,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p4: meeting proposed for 2026-09-16
-catalyst-trusteeship,INE514Q07395,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE514Q07403,2026-06-30,meeting adjourned for lack of quorum,false,letter ctl-notice-pahal-2026-08-p34
-catalyst-trusteeship,INE514Q07403,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p31: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE514Q07403,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-pahal-2026-08-p34: meeting proposed for 2026-09-17
-catalyst-trusteeship,INE514Q07403,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 10: awaiting_instructions
-catalyst-trusteeship,INE551U07266,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-samunnati-2026-08-p4: meeting proposed for 2026-09-08
-catalyst-trusteeship,INE551U07266,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 6: awaiting_instructions
-catalyst-trusteeship,INE551U07324,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-samunnati-2026-08-p1: meeting proposed for 2026-09-08
-catalyst-trusteeship,INE551U07324,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 6: awaiting_instructions
-catalyst-trusteeship,INE814O07543,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-neogrowth-2026-08-p1: meeting proposed for 2026-08-31
-catalyst-trusteeship,INE814O07543,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 2: awaiting_instructions
-catalyst-trusteeship,INE814O07550,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-neogrowth-2026-08-p4: meeting proposed for 2026-08-31
-catalyst-trusteeship,INE814O07550,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 2: awaiting_instructions
-catalyst-trusteeship,INE834U07019,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-casablanca-2026-08-p1: meeting proposed for 2026-09-07
-catalyst-trusteeship,INE834U07019,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 3: awaiting_instructions
-catalyst-trusteeship,INE834U07027,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-casablanca-2026-08-p4: meeting proposed for 2026-09-07
-catalyst-trusteeship,INE834U07027,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 3: awaiting_instructions
-catalyst-trusteeship,INE982X07176,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-satya-2026-08-p1: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE982X07176,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 8: awaiting_instructions
-catalyst-trusteeship,INE982X07432,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-satya-2026-08-p5: meeting proposed for 2026-09-11
-catalyst-trusteeship,INE982X07432,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 8: awaiting_instructions
-catalyst-trusteeship,INE982X07457,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-satya-2026-08-p8: meeting proposed for 2026-09-11
-catalyst-trusteeship,INE982X07457,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 8: awaiting_instructions
-catalyst-trusteeship,INE982X08034,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-satya-2026-08-p11: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE982X08034,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 8: awaiting_instructions
-catalyst-trusteeship,INE982X08091,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-satya-2026-08-p14: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE982X08091,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 11: awaiting_instructions
-catalyst-trusteeship,INE982X08091,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 8: awaiting_instructions
-catalyst-trusteeship,INE982X08109,2026-06-30,meeting reported as scheduled,false,letter ctl-notice-satya-2026-08-p17: meeting proposed for 2026-09-10
-catalyst-trusteeship,INE982X08109,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 11: awaiting_instructions
-catalyst-trusteeship,INE982X08109,2026-06-30,"awaiting instructions, following up or continuing",false,ctl-t5-2026-06 row 8: awaiting_instructions
-idbi-trusteeship,INE084S08013,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 7: holders_meeting_scheduled
-idbi-trusteeship,INE084S08013,2026-06-30,"awaiting instructions, following up or continuing",false,idbi-t5-2026-06 row 12: other
-idbi-trusteeship,INE091D11097,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11097,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE091D11105,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11105,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE091D11139,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11139,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE091D11147,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11147,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE091D11162,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11162,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE091D11170,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11170,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE091D11204,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 5: holders_meeting_scheduled
-idbi-trusteeship,INE091D11204,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
-idbi-trusteeship,INE139F07105,2026-06-30,meeting reported as held,false,idbi-t5-2026-06 row 3: holders_meeting_held
-idbi-trusteeship,INE139F07105,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 3: holders_meeting_scheduled
-idbi-trusteeship,INE139F07105,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-konkan-2026-09-p1: meeting proposed for 2026-09-09
-idbi-trusteeship,INE179P07589,2026-06-30,meeting reported as held,false,idbi-t5-2026-06 row 2: holders_meeting_held
-idbi-trusteeship,INE223Y07017,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 4: cure_reported, covenant category other"
-idbi-trusteeship,INE223Y07017,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 9: cure_reported, covenant category other"
-idbi-trusteeship,INE223Y07017,2026-06-30,meeting reported as scheduled,false,idbi-t5-2026-06 row 10: holders_meeting_scheduled
-idbi-trusteeship,INE223Y07017,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-aliens-2026-09b-p1: meeting proposed for 2026-09-11
-idbi-trusteeship,INE362A07047,2026-06-30,"awaiting instructions, following up or continuing",false,idbi-t5-2026-06 row 14: reported_as_continuing
-idbi-trusteeship,INE362A07054,2026-06-30,"awaiting instructions, following up or continuing",false,idbi-t5-2026-06 row 14: reported_as_continuing
-idbi-trusteeship,INE443L08131,2026-06-30,meeting reported as held,false,idbi-t5-2026-06 row 1: holders_meeting_held
-idbi-trusteeship,INE443L08131,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-belstar-2026-07-p1: meeting proposed for 2026-08-19
-idbi-trusteeship,INE711X07062,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-emami-2026-09-p1: meeting proposed for 2026-10-05
-idbi-trusteeship,INE711X07062,2026-06-30,"awaiting instructions, following up or continuing",false,idbi-t5-2026-06 row 11: other
-idbi-trusteeship,INE760I07011,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07011,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07029,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07029,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07037,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07037,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07045,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07045,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07052,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07052,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07060,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07060,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07078,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07078,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE760I07086,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 6: cure_reported, covenant category other"
-idbi-trusteeship,INE760I07086,2026-06-30,meeting reported as scheduled,false,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
-idbi-trusteeship,INE906B07HP8,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IC4,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07ID2,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IE0,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IF7,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IG5,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IH3,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07II1,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IJ9,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IK7,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IL5,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IY8,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07IZ5,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07JA6,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-idbi-trusteeship,INE906B07JB4,2026-06-30,"cure reported for another obligation, such as a late filing",true,"idbi-t5-2026-06 row 8: cure_reported, covenant category other"
-mitcon-credentia,INE650D08013,2026-06-30,enforcement step or nominee director reported,true,mitcon-t5-2026-06 row 1: nominee_director
-mitcon-credentia,INE650D08013,2026-06-30,meeting reported as held,false,mitcon-t5-2026-06 row 1: holders_meeting_held
-vistra-itcl,INE07J407014,2026-06-30,holders instructed no action,true,vistra-t5-2026-06 row 3: no_action_instructed
-vistra-itcl,INE07J407014,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 3: holders_meeting_held
-vistra-itcl,INE187O07031,2026-06-30,holders instructed no action,true,vistra-t5-2026-06 row 4: no_action_instructed
-vistra-itcl,INE187O07031,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 4: holders_meeting_held
-vistra-itcl,INE187O07049,2026-06-30,holders instructed no action,true,vistra-t5-2026-06 row 4: no_action_instructed
-vistra-itcl,INE187O07049,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 4: holders_meeting_held
-vistra-itcl,INE629B07013,2026-06-30,waiver reported,true,vistra-t5-2026-06 row 2: waiver_reported
-vistra-itcl,INE629B07013,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 2: holders_meeting_held
-vistra-itcl,INE679U07026,2026-06-30,holders instructed no action,true,vistra-t5-2026-06 row 1: no_action_instructed
-vistra-itcl,INE679U07026,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 1: holders_meeting_held
-vistra-itcl,INE679U07026,2026-06-30,meeting reported as scheduled,false,vistra-t5-2026-06 row 1: holders_meeting_scheduled
-vistra-itcl,INE679U08024,2026-06-30,holders instructed no action,true,vistra-t5-2026-06 row 1: no_action_instructed
-vistra-itcl,INE679U08024,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 1: holders_meeting_held
-vistra-itcl,INE679U08024,2026-06-30,meeting reported as scheduled,false,vistra-t5-2026-06 row 1: holders_meeting_scheduled
-vistra-itcl,INE679U08040,2026-06-30,holders instructed no action,true,vistra-t5-2026-06 row 1: no_action_instructed
-vistra-itcl,INE679U08040,2026-06-30,meeting reported as held,false,vistra-t5-2026-06 row 1: holders_meeting_held
-vistra-itcl,INE679U08040,2026-06-30,meeting reported as scheduled,false,vistra-t5-2026-06 row 1: holders_meeting_scheduled
-axis-trustee,INE08XP07274,2026-09-30,waiver reported,true,axis-t5-2026-09-v20261029 row 1: waiver_reported
-axis-trustee,INE08XP07274,2026-09-30,meeting reported as held,false,axis-t5-2026-09-v20261029 row 1: holders_meeting_held
-axis-trustee,INE0INX07015,2026-09-30,waiver reported,true,axis-t5-2026-09-v20261029 row 2: waiver_reported
-axis-trustee,INE0INX07023,2026-09-30,waiver reported,true,axis-t5-2026-09-v20261029 row 2: waiver_reported
+trustee,isin,period_end,state,is_outcome,attribution,basis
+axis-trustee,INE08XP07274,2026-06-30,waiver reported,true,report_row,axis-t5-2026-06-v20260916 row 1: waiver_reported
+axis-trustee,INE08XP07274,2026-06-30,meeting reported as held,false,report_row,axis-t5-2026-06-v20260916 row 1: holders_meeting_held
+catalyst-trusteeship,INE00VD07016,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-infinity-2026-08-p6: meeting proposed for 2026-09-04
+catalyst-trusteeship,INE00VD07016,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 5: awaiting_instructions
+catalyst-trusteeship,INE00VD07032,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-infinity-2026-08-p4; continues ctl-notice-infinity-2026-08-p1 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE00VD07032,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-infinity-2026-08-p1: meeting proposed for 2026-09-04
+catalyst-trusteeship,INE00VD07032,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-infinity-2026-08-p4: meeting proposed for 2026-09-11; continues ctl-notice-infinity-2026-08-p1 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE00VD07032,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 5: awaiting_instructions
+catalyst-trusteeship,INE01W207017,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-convenient-2026-08-p1: meeting proposed for 2026-09-08
+catalyst-trusteeship,INE01W207017,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 9: awaiting_instructions
+catalyst-trusteeship,INE02HF07016,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 14: awaiting_instructions
+catalyst-trusteeship,INE02HF07024,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 14: awaiting_instructions
+catalyst-trusteeship,INE08XP07357,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-akara-2026-08-p4: meeting proposed for 2026-09-09
+catalyst-trusteeship,INE08XP07357,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 7: awaiting_instructions
+catalyst-trusteeship,INE08XP07365,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-akara-2026-08-p1: meeting proposed for 2026-09-09
+catalyst-trusteeship,INE08XP07365,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 7: awaiting_instructions
+catalyst-trusteeship,INE0N5S07052,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-samunnati-2026-08-p7: meeting proposed for 2026-09-08
+catalyst-trusteeship,INE0N5S07052,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 6: awaiting_instructions
+catalyst-trusteeship,INE179P07332,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p16: meeting proposed for 2026-09-18
+catalyst-trusteeship,INE179P07332,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07464,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p4; continues ctl-notice-dvara-2026-08-p1, ctl-notice-dvara-2026-08-p6 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07464,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p1: meeting proposed for 2026-09-18
+catalyst-trusteeship,INE179P07464,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p4: meeting proposed for 2026-09-25; continues ctl-notice-dvara-2026-08-p1, ctl-notice-dvara-2026-08-p6 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07464,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p6: meeting proposed for 2026-09-18
+catalyst-trusteeship,INE179P07464,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07530,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07548,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p25; continues ctl-notice-dvara-2026-08-p22 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07548,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p22: meeting proposed for 2026-09-21
+catalyst-trusteeship,INE179P07548,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p25: meeting proposed for 2026-09-28; continues ctl-notice-dvara-2026-08-p22 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07548,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07597,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p35; continues ctl-notice-dvara-2026-08-p32 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07597,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p32: meeting proposed for 2026-09-22
+catalyst-trusteeship,INE179P07597,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p35: meeting proposed for 2026-09-29; continues ctl-notice-dvara-2026-08-p32 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07597,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07605,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p19: meeting proposed for 2026-09-21
+catalyst-trusteeship,INE179P07605,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07613,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P07621,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p40; continues ctl-notice-dvara-2026-08-p37 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07621,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p37: meeting proposed for 2026-09-22
+catalyst-trusteeship,INE179P07621,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p40: meeting proposed for 2026-09-29; continues ctl-notice-dvara-2026-08-p37 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P07621,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P08074,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p30; continues ctl-notice-dvara-2026-08-p27 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P08074,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p27: meeting proposed for 2026-09-22
+catalyst-trusteeship,INE179P08074,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p30: meeting proposed for 2026-09-29; continues ctl-notice-dvara-2026-08-p27 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P08074,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE179P08082,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p14; continues ctl-notice-dvara-2026-08-p11 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P08082,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-dvara-2026-08-p11: meeting proposed for 2026-09-21
+catalyst-trusteeship,INE179P08082,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-dvara-2026-08-p14: meeting proposed for 2026-09-28; continues ctl-notice-dvara-2026-08-p11 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE179P08082,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 12: awaiting_instructions
+catalyst-trusteeship,INE2GLH07012,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 13: awaiting_instructions
+catalyst-trusteeship,INE2GLH07020,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 13: awaiting_instructions
+catalyst-trusteeship,INE366T07154,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-light-2026-08-p1: meeting proposed for 2026-09-07
+catalyst-trusteeship,INE366T07154,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 4: awaiting_instructions
+catalyst-trusteeship,INE366T07162,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-light-2026-08-p4: meeting proposed for 2026-09-07
+catalyst-trusteeship,INE366T07162,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 4: awaiting_instructions
+catalyst-trusteeship,INE366T07188,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-light-2026-08-p7: meeting proposed for 2026-09-07
+catalyst-trusteeship,INE366T07188,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 4: awaiting_instructions
+catalyst-trusteeship,INE366T08020,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-light-2026-08-p10: meeting proposed for 2026-09-07
+catalyst-trusteeship,INE366T08020,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 4: awaiting_instructions
+catalyst-trusteeship,INE501X07588,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-aye-ine501x07588-2026-09-p1: meeting proposed for 2026-08-18
+catalyst-trusteeship,INE501X07588,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 1: awaiting_instructions
+catalyst-trusteeship,INE514Q07304,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p9; continues ctl-notice-pahal-2026-08-p6 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07304,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p6: meeting proposed for 2026-09-09
+catalyst-trusteeship,INE514Q07304,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p9: meeting proposed for 2026-09-16; continues ctl-notice-pahal-2026-08-p6 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07304,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE514Q07353,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p19; continues ctl-notice-pahal-2026-08-p16 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07353,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p16: meeting proposed for 2026-09-09
+catalyst-trusteeship,INE514Q07353,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p19: meeting proposed for 2026-09-16; continues ctl-notice-pahal-2026-08-p16 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07353,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE514Q07361,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p14; continues ctl-notice-pahal-2026-08-p11 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07361,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p11: meeting proposed for 2026-09-09
+catalyst-trusteeship,INE514Q07361,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p14: meeting proposed for 2026-09-16; continues ctl-notice-pahal-2026-08-p11 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07361,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE514Q07379,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p24; continues ctl-notice-pahal-2026-08-p21 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07379,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p21: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE514Q07379,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p24: meeting proposed for 2026-09-17; continues ctl-notice-pahal-2026-08-p21 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07379,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE514Q07387,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p29; continues ctl-notice-pahal-2026-08-p26 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07387,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p26: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE514Q07387,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p29: meeting proposed for 2026-09-17; continues ctl-notice-pahal-2026-08-p26 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07387,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE514Q07395,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p4; continues ctl-notice-pahal-2026-08-p1 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07395,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p1: meeting proposed for 2026-09-09
+catalyst-trusteeship,INE514Q07395,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p4: meeting proposed for 2026-09-16; continues ctl-notice-pahal-2026-08-p1 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07395,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE514Q07403,2026-06-30,meeting adjourned for lack of quorum,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p34; continues ctl-notice-pahal-2026-08-p31 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07403,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-pahal-2026-08-p31: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE514Q07403,2026-06-30,meeting reported as scheduled,false,linked_by_rule,"letter ctl-notice-pahal-2026-08-p34: meeting proposed for 2026-09-17; continues ctl-notice-pahal-2026-08-p31 of the same file, whose meeting came first (linked by rule)"
+catalyst-trusteeship,INE514Q07403,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 10: awaiting_instructions
+catalyst-trusteeship,INE551U07266,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-samunnati-2026-08-p4: meeting proposed for 2026-09-08
+catalyst-trusteeship,INE551U07266,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 6: awaiting_instructions
+catalyst-trusteeship,INE551U07324,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-samunnati-2026-08-p1: meeting proposed for 2026-09-08
+catalyst-trusteeship,INE551U07324,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 6: awaiting_instructions
+catalyst-trusteeship,INE814O07543,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-neogrowth-2026-08-p1: meeting proposed for 2026-08-31
+catalyst-trusteeship,INE814O07543,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 2: awaiting_instructions
+catalyst-trusteeship,INE814O07550,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-neogrowth-2026-08-p4: meeting proposed for 2026-08-31
+catalyst-trusteeship,INE814O07550,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 2: awaiting_instructions
+catalyst-trusteeship,INE834U07019,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-casablanca-2026-08-p1: meeting proposed for 2026-09-07
+catalyst-trusteeship,INE834U07019,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 3: awaiting_instructions
+catalyst-trusteeship,INE834U07027,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-casablanca-2026-08-p4: meeting proposed for 2026-09-07
+catalyst-trusteeship,INE834U07027,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 3: awaiting_instructions
+catalyst-trusteeship,INE982X07176,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-satya-2026-08-p1: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE982X07176,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 8: awaiting_instructions
+catalyst-trusteeship,INE982X07432,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-satya-2026-08-p5: meeting proposed for 2026-09-11
+catalyst-trusteeship,INE982X07432,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 8: awaiting_instructions
+catalyst-trusteeship,INE982X07457,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-satya-2026-08-p8: meeting proposed for 2026-09-11
+catalyst-trusteeship,INE982X07457,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 8: awaiting_instructions
+catalyst-trusteeship,INE982X08034,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-satya-2026-08-p11: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE982X08034,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 8: awaiting_instructions
+catalyst-trusteeship,INE982X08091,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-satya-2026-08-p14: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE982X08091,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 11: awaiting_instructions
+catalyst-trusteeship,INE982X08091,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 8: awaiting_instructions
+catalyst-trusteeship,INE982X08109,2026-06-30,meeting reported as scheduled,false,letter_period,letter ctl-notice-satya-2026-08-p17: meeting proposed for 2026-09-10
+catalyst-trusteeship,INE982X08109,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 11: awaiting_instructions
+catalyst-trusteeship,INE982X08109,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,ctl-t5-2026-06 row 8: awaiting_instructions
+idbi-trusteeship,INE084S08013,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 7: holders_meeting_scheduled
+idbi-trusteeship,INE084S08013,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,idbi-t5-2026-06 row 12: other
+idbi-trusteeship,INE091D11097,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11097,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE091D11105,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11105,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE091D11139,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11139,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE091D11147,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11147,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE091D11162,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11162,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE091D11170,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11170,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE091D11204,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 5: holders_meeting_scheduled
+idbi-trusteeship,INE091D11204,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-pidb-2026-08-p1: meeting proposed for 2026-09-18
+idbi-trusteeship,INE139F07105,2026-06-30,meeting reported as held,false,report_row,idbi-t5-2026-06 row 3: holders_meeting_held
+idbi-trusteeship,INE139F07105,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 3: holders_meeting_scheduled
+idbi-trusteeship,INE139F07105,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-konkan-2026-09-p1: meeting proposed for 2026-09-09
+idbi-trusteeship,INE179P07589,2026-06-30,meeting reported as held,false,report_row,idbi-t5-2026-06 row 2: holders_meeting_held
+idbi-trusteeship,INE223Y07017,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 4: cure_reported, covenant categories other"
+idbi-trusteeship,INE223Y07017,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 9: cure_reported, covenant categories other"
+idbi-trusteeship,INE223Y07017,2026-06-30,meeting reported as scheduled,false,report_row,idbi-t5-2026-06 row 10: holders_meeting_scheduled
+idbi-trusteeship,INE223Y07017,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-aliens-2026-09b-p1: meeting proposed for 2026-09-11
+idbi-trusteeship,INE362A07047,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,idbi-t5-2026-06 row 14: reported_as_continuing
+idbi-trusteeship,INE362A07054,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,idbi-t5-2026-06 row 14: reported_as_continuing
+idbi-trusteeship,INE443L08131,2026-06-30,meeting reported as held,false,report_row,idbi-t5-2026-06 row 1: holders_meeting_held
+idbi-trusteeship,INE443L08131,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-belstar-2026-07-p1: meeting proposed for 2026-08-19
+idbi-trusteeship,INE711X07062,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-emami-2026-09-p1: meeting proposed for 2026-10-05
+idbi-trusteeship,INE711X07062,2026-06-30,"awaiting instructions, following up or continuing",false,report_row,idbi-t5-2026-06 row 11: other
+idbi-trusteeship,INE760I07011,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07011,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07029,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07029,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07037,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07037,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07045,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07045,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07052,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07052,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07060,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07060,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07078,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07078,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE760I07086,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 6: cure_reported, covenant categories other"
+idbi-trusteeship,INE760I07086,2026-06-30,meeting reported as scheduled,false,letter_period,letter idbi-notice-mecl-2026-08-p1: meeting proposed for 2026-09-16
+idbi-trusteeship,INE906B07HP8,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IC4,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07ID2,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IE0,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IF7,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IG5,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IH3,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07II1,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IJ9,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IK7,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IL5,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IY8,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07IZ5,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07JA6,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+idbi-trusteeship,INE906B07JB4,2026-06-30,"cure reported for another obligation, such as a late filing",true,report_row,"idbi-t5-2026-06 row 8: cure_reported, covenant categories other"
+mitcon-credentia,INE650D08013,2026-06-30,enforcement step or nominee director reported,true,report_row,mitcon-t5-2026-06 row 1: nominee_director
+mitcon-credentia,INE650D08013,2026-06-30,meeting reported as held,false,report_row,mitcon-t5-2026-06 row 1: holders_meeting_held
+vistra-itcl,INE07J407014,2026-06-30,holders instructed no action,true,report_row,vistra-t5-2026-06 row 3: no_action_instructed
+vistra-itcl,INE07J407014,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 3: holders_meeting_held
+vistra-itcl,INE187O07031,2026-06-30,holders instructed no action,true,report_row,vistra-t5-2026-06 row 4: no_action_instructed
+vistra-itcl,INE187O07031,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 4: holders_meeting_held
+vistra-itcl,INE187O07049,2026-06-30,holders instructed no action,true,report_row,vistra-t5-2026-06 row 4: no_action_instructed
+vistra-itcl,INE187O07049,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 4: holders_meeting_held
+vistra-itcl,INE629B07013,2026-06-30,waiver reported,true,report_row,vistra-t5-2026-06 row 2: waiver_reported
+vistra-itcl,INE629B07013,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 2: holders_meeting_held
+vistra-itcl,INE679U07026,2026-06-30,holders instructed no action,true,report_row,vistra-t5-2026-06 row 1: no_action_instructed
+vistra-itcl,INE679U07026,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 1: holders_meeting_held
+vistra-itcl,INE679U07026,2026-06-30,meeting reported as scheduled,false,report_row,vistra-t5-2026-06 row 1: holders_meeting_scheduled
+vistra-itcl,INE679U08024,2026-06-30,holders instructed no action,true,report_row,vistra-t5-2026-06 row 1: no_action_instructed
+vistra-itcl,INE679U08024,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 1: holders_meeting_held
+vistra-itcl,INE679U08024,2026-06-30,meeting reported as scheduled,false,report_row,vistra-t5-2026-06 row 1: holders_meeting_scheduled
+vistra-itcl,INE679U08040,2026-06-30,holders instructed no action,true,report_row,vistra-t5-2026-06 row 1: no_action_instructed
+vistra-itcl,INE679U08040,2026-06-30,meeting reported as held,false,report_row,vistra-t5-2026-06 row 1: holders_meeting_held
+vistra-itcl,INE679U08040,2026-06-30,meeting reported as scheduled,false,report_row,vistra-t5-2026-06 row 1: holders_meeting_scheduled
+axis-trustee,INE08XP07274,2026-09-30,waiver reported,true,report_row,axis-t5-2026-09-v20261029 row 1: waiver_reported
+axis-trustee,INE08XP07274,2026-09-30,meeting reported as held,false,report_row,axis-t5-2026-09-v20261029 row 1: holders_meeting_held
+axis-trustee,INE0INX07015,2026-09-30,waiver reported,true,report_row,axis-t5-2026-09-v20261029 row 2: waiver_reported
+axis-trustee,INE0INX07023,2026-09-30,waiver reported,true,report_row,axis-t5-2026-09-v20261029 row 2: waiver_reported
+catalyst-trusteeship,INE179P07530,,meeting adjourned for lack of quorum,false,not_attributable,letter ctl-notice-dvara-2026-08-p9; no earlier letter of the same file names this ISIN with a quarter and an earlier meeting
+catalyst-trusteeship,INE179P07530,,meeting reported as scheduled,false,not_attributable,letter ctl-notice-dvara-2026-08-p9: meeting proposed for 2026-09-25; no earlier letter of the same file names this ISIN with a quarter and an earlier meeting

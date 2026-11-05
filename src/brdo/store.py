@@ -28,6 +28,7 @@ from pydantic import BaseModel, ValidationError
 from brdo.fetch import source_for_url
 from brdo.identifiers import isin_issuer_code
 from brdo.models import (
+    AnnotationReview,
     BreachNotice,
     BreachReport,
     ComplianceStatement,
@@ -44,11 +45,14 @@ from brdo.models import (
 )
 from brdo.vocab import (
     CONTRACT_DOCUMENT_TYPES,
+    EXECUTED_CONTRACT_TYPES,
+    OFFER_DOCUMENT_TYPES,
     TERM_STATING_DOCUMENT_TYPES,
     AvailabilityMode,
     DocumentType,
     ExcerptPolicy,
     InstrumentProperty,
+    ProvisionStage,
     RedistributionPolicy,
     RetrievalPolicy,
     SourceKind,
@@ -93,12 +97,12 @@ class Dataset:
     regulatory_references: dict[str, RegulatoryReference] = field(default_factory=dict)
     searches: dict[str, SearchRecord] = field(default_factory=dict)
     discrepancies: dict[str, Discrepancy] = field(default_factory=dict)
+    reviews: list[AnnotationReview] = field(default_factory=list)
+    """Second annotations by people, with their adjudication (see ``review``)."""
     cutoff: date | None = None
     """Set on a point-in-time view (see ``pit.as_of``): the day whose public record the view holds."""
     availability_mode: AvailabilityMode | None = None
     """Which availability dates the point-in-time view trusted."""
-    withheld: dict[str, Document] = field(default_factory=dict)
-    """Documents of the full record that a point-in-time view leaves out because they were not shown public by then."""
 
     def source_of(self, document_id: str) -> Source:
         return self.sources[self.documents[document_id].source]
@@ -220,6 +224,7 @@ def load_dataset(root: Path) -> Dataset:
         "monitoring censuses",
         problems,
     )
+    dataset.reviews = _load_list(root / "annotation-reviews.yaml", AnnotationReview, problems)
 
     instruments = []
     for path in sorted((root / "instruments").glob("*.yaml")):
@@ -272,7 +277,7 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         where = f"document {document.id}"
         found = availability(document, dataset)
         if found.dated_after_observation:
-            error(where, f"carries a date after {found.observed}, the day it was retrieved")
+            error(where, f"carries a date after {found.confirmed_by}, the day it was retrieved")
         if found.estimate_precedes_own_date:
             warn(
                 where,
@@ -344,6 +349,16 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         document = dataset.documents.get(provision.document)
         if document is not None and document.type not in TERM_STATING_DOCUMENT_TYPES:
             error(where, f"{provision.document} is a {document.type}, which cannot state a contractual term")
+        stage_types = {
+            ProvisionStage.EXECUTED_TEXT: EXECUTED_CONTRACT_TYPES,
+            ProvisionStage.OFFERED: OFFER_DOCUMENT_TYPES,
+        }
+        if (
+            document is not None
+            and provision.stage in stage_types
+            and document.type not in stage_types[provision.stage]
+        ):
+            error(where, f"is marked {provision.stage}, but {provision.document} is a {document.type}")
         if provision.amends is not None and provision.amends not in dataset.provisions:
             error(where, f"amends unknown provision {provision.amends}")
         for isin in provision.instruments:
@@ -439,5 +454,10 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         source = source_for_url(url, no_links)
         if source is not None:
             error(where, f"carries a link to {source.id}, whose policy forbids links")
+
+    from brdo.review import review_problems  # review reads records through this module's Dataset
+
+    for where, message in review_problems(dataset):
+        error(where, message)
 
     return problems

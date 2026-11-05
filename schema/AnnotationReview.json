@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "ReviewerKind": {
+      "description": "Who made a second annotation.\n\nOnly a person can. There is deliberately no value for an automated process, a model, or the original curator\nre-reading their own work: none of those is an independent review.",
+      "enum": [
+        "person"
+      ],
+      "title": "ReviewerKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One decision annotated a second time, blind to its value, by a person other than its original annotator.\n\nThe original, second and adjudicated values are kept side by side and never merged. ``original`` is the value\nwhen the packet was made, ``second`` is the second annotator's, and ``adjudicated`` is the value a disagreement or\nhard case was settled on, with who settled it, when and why. Values are written as ``brdo review packet`` writes\nthem. Annotators are named by a label, not by any personal detail.",
+  "properties": {
+    "adjudicated": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adjudicated"
+    },
+    "adjudicated_by": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adjudicated By"
+    },
+    "adjudicated_on": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adjudicated On"
+    },
+    "adjudication_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adjudication Reason"
+    },
+    "annotated_on": {
+      "format": "date",
+      "title": "Annotated On",
+      "type": "string"
+    },
+    "codebook_commit": {
+      "description": "Commit of docs/annotation-codebook.md used for the round",
+      "minLength": 7,
+      "title": "Codebook Commit",
+      "type": "string"
+    },
+    "decision": {
+      "description": "Decision id, as the packet gives it",
+      "title": "Decision",
+      "type": "string"
+    },
+    "original": {
+      "title": "Original",
+      "type": "string"
+    },
+    "original_annotator": {
+      "minLength": 1,
+      "title": "Original Annotator",
+      "type": "string"
+    },
+    "second": {
+      "title": "Second",
+      "type": "string"
+    },
+    "second_annotator": {
+      "minLength": 1,
+      "title": "Second Annotator",
+      "type": "string"
+    },
+    "second_by": {
+      "$ref": "#/$defs/ReviewerKind"
+    },
+    "second_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Second Reason"
+    }
+  },
+  "required": [
+    "decision",
+    "codebook_commit",
+    "original",
+    "original_annotator",
+    "second",
+    "second_annotator",
+    "second_by",
+    "annotated_on"
+  ],
+  "title": "AnnotationReview",
+  "type": "object"
+}

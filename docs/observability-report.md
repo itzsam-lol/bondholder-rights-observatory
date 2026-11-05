@@ -160,7 +160,7 @@ catalyst-trusteeship's table of quarterly compliance reports received for the qu
 
 ## What the published follow-up shows
 
-For each ISIN listed in a current report for the quarter ended 2026-06-30, every follow-up state that the trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed meeting are different things. The last row counts ISINs for which none of the first five states, the outcomes, is published. This measures the public record, not what trustees or holders did. The states are the project's reading of each report's action cells, and a cure is typed by the covenant category of its row. A letter that names another quarter is not counted. Each cell gives ISINs, with the number of issuers behind them in brackets: one issuer's many ISINs share one history. Every state, with the row or letter that shows it, is in `exports/follow_up_states.csv`.
+For each ISIN listed in a current report for the quarter ended 2026-06-30, every follow-up state that the trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed meeting are different things. The last row counts ISINs for which none of the first six states, the outcomes, is published. This measures the public record, not what trustees or holders did. The states are the project's reading of each report's action cells. A cure is typed only when every covenant the row lists for the ISIN is of one kind; otherwise it is counted as a cure for covenants of more than one kind. A letter that names another quarter is not counted. A letter continuing an adjourned meeting names no quarter, and counts only where a rule ties it to an earlier letter of the same file for this quarter; 2 states from such letters cannot be tied to any quarter and are counted for none. Each cell gives ISINs, with the number of issuers behind them in brackets: one issuer's many ISINs share one history. Every state, with the row or letter that shows it and how its quarter is known, is in `exports/follow_up_states.csv`.
 
 | published follow-up | axis-trustee | catalyst-trusteeship | idbi-trusteeship | mitcon-credentia | vistra-itcl |
 |---|---|---|---|---|---|
@@ -169,15 +169,16 @@ For each ISIN listed in a current report for the quarter ended 2026-06-30, every
 | holders instructed no action | 0 | 0 | 0 | 0 | 6 (3) |
 | cure reported for a financial covenant | 0 | 0 | 0 | 0 | 0 |
 | cure reported for another obligation, such as a late filing | 0 | 0 | 24 (3) | 0 | 0 |
+| cure reported, for covenants of more than one kind | 0 | 0 | 0 | 0 | 0 |
 | meeting reported as held | 1 (1) | 0 | 3 (3) | 1 (1) | 7 (4) |
-| meeting adjourned for lack of quorum | 0 | 15 (3) | 0 | 0 | 0 |
-| meeting reported as scheduled | 0 | 39 (12) | 20 (7) | 0 | 3 (1) |
+| meeting adjourned for lack of quorum | 0 | 14 (3) | 0 | 0 | 0 |
+| meeting reported as scheduled | 0 | 38 (12) | 20 (7) | 0 | 3 (1) |
 | awaiting instructions, following up or continuing | 0 | 44 (14) | 4 (3) | 0 | 0 |
 | no outcome published | 0 | 44 (14) | 14 (7) | 0 | 0 |
 
 ## What was public when
 
-An account of a past date must use only what was public by then. The record keeps three kinds of date for each file and never treats one as another: a lower bound (the latest date the file gives itself, or prints in a letter or an "as on" date it contains), an estimate (the publisher's listing date or the server's Last-Modified date for the exact file held, whichever is later), and the day the project observed the file in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the version held, so an earlier version may have been public sooner, and a copied file can carry a misleading date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the estimates, or with `--availability observed` from the observations alone.
+An account of a past date must use only what was public by then. The record keeps three kinds of date for each file and never treats one as another: a lower bound (the latest date the file gives itself, gives as an "as on" date, prints for a letter it contains, or prints for an event it reports, such as a detection or an intimation), an estimate (the later of the publisher's listing date and the server's Last-Modified date for the exact file held, never earlier than the lower bound, and the lower bound itself where neither exists), and the day the project observed the file in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the version held, so an earlier version may have been public sooner, and a copied file can carry a misleading date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the estimates, or with `--availability observed` from the observations alone.
 
 Breach reports for the quarter ended 2026-06-30, with the trustees' detection dates and the three dates for the file held:
 
@@ -186,10 +187,10 @@ Breach reports for the quarter ended 2026-06-30, with the trustees' detection da
 | axis-t5-2026-06-v20260814 | 2026-08-14 | 2026-08-14 | 2026-08-14 | 2026-09-10 | http_last_modified | 72 | 2026-11-03 |
 | axis-t5-2026-06-v20260916 | 2026-08-14 | 2026-08-14 | 2026-09-16 | 2026-09-30 | http_last_modified | 92 | 2026-11-03 |
 | beacon-t5-2026-06 |  |  | 2026-06-30 | 2026-09-13 | listing_page | 75 | 2026-11-04 |
-| ctl-t5-2026-06 | 2026-07-22 | 2026-09-07 |  | 2026-09-13 | http_last_modified | 75 | 2026-11-03 |
-| idbi-t5-2026-06 | 2026-06-12 | 2026-09-15 |  | 2026-09-15 | http_last_modified | 77 | 2026-11-03 |
+| ctl-t5-2026-06 | 2026-07-22 | 2026-09-07 | 2026-09-11 | 2026-09-13 | http_last_modified | 75 | 2026-11-03 |
+| idbi-t5-2026-06 | 2026-06-12 | 2026-09-15 | 2026-09-15 | 2026-09-15 | http_last_modified | 77 | 2026-11-03 |
 | mitcon-t5-2026-06 | 2023-10-11 | 2023-10-11 | 2026-09-12 | 2026-10-19 | http_last_modified | 111 | 2026-11-03 |
-| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 |  | 2026-09-11 | http_last_modified | 73 | 2026-11-03 |
+| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 | 2026-01-09 | 2026-09-11 | http_last_modified | 73 | 2026-11-03 |
 
 By the estimates, the issuer's statement was public before the trustee's report in 21 of 21 ISIN-level comparisons with a listing, and the estimates behind them all rest on http_last_modified. If those dates are right, the public record held the issuer's account alone for a time. The project's own observations cannot order the two: it observed the issuer's statement first in 0 and the trustee's report first in 21 of 21 comparisons, an order that reflects when the project looked, not when either was published.
 
@@ -218,8 +219,9 @@ ISINs at each stage, out of those listed in a reviewed report. The stages are no
 | at least one clause transcribed in this dataset | 14 |
 | reported breach linked to a transcribed clause | 14 |
 | ... and the two agree | 13 |
-| a candidate contract document located, not retrievable by the pipeline | 5 |
-| the contract itself retrieved, hashed and linked | 0 |
+| a candidate offer document or deed located, not retrievable by the pipeline | 5 |
+| an offer document retrieved, hashed and linked | 0 |
+| an executed trust deed retrieved, hashed and linked | 0 |
 
 ## Contractual evolution
 
@@ -249,7 +251,7 @@ Clauses recorded with both their earlier and later text:
 | INE179P08082 | dvara-ine179p08082-cost-to-income-2025-12 | dvara-ine179p08082-cost-to-income-2026 | described_in_force | ctl-notice-dvara-2026-08 |
 | INE179P08082 | dvara-ine179p08082-cost-to-income-existing-2026-06 | dvara-ine179p08082-cost-to-income-proposed-2026-07 | approved_in_principle | dvara-reg59-2026-07-02 |
 
-What each clause record is evidence of: 0 executed_text, 24 described_in_force, 0 proposed, 1 approved_in_principle. Only executed text establishes an operative term; a description, a proposal or an approval in principle does not.
+What each clause record is evidence of: 0 executed_text, 0 offered, 24 described_in_force, 0 proposed, 1 approved_in_principle. Only executed text establishes an operative term; a description, a proposal or an approval in principle does not.
 
 ## Contract clauses transcribed
 
@@ -261,7 +263,7 @@ By SEBI covenant category (Annex-VIA):
 | financial | 19 |
 | other | 2 |
 
-By the kind of document stating them. None of these is the contract itself.
+By the kind of document stating them. None of these is quoted from an offer document or an executed deed.
 
 | document type | clauses |
 |---|---|

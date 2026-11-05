@@ -19,12 +19,15 @@ from brdo.consistency import (
     field_flows,
     follow_up_states,
     revisions,
+    unattributed_follow_up,
 )
 from brdo.pit import availability
 from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
     CONTRACT_DOCUMENT_TYPES,
+    EXECUTED_CONTRACT_TYPES,
+    OFFER_DOCUMENT_TYPES,
     ActionKind,
     Agreement,
     CovenantSpecificity,
@@ -84,12 +87,15 @@ def linkage_funnel(dataset: Dataset) -> list[tuple[str, int]]:
         for search in dataset.searches.values()
         if search.purpose is SearchPurpose.CONTRACT_DOCUMENT and search.outcome is SearchOutcome.LOCATED_NOT_RETRIEVED
     } & listed
-    retrieved = {
-        isin
-        for isin in listed
-        for link in dataset.instruments[isin].documents
-        if dataset.documents[link.document].type in CONTRACT_DOCUMENT_TYPES
-    }
+
+    def retrieved(types: frozenset[DocumentType]) -> set[str]:
+        return {
+            isin
+            for isin in listed
+            for link in dataset.instruments[isin].documents
+            if dataset.documents[link.document].type in types
+        }
+
     links = [
         (isin, link)
         for report in dataset.breach_reports.values()
@@ -116,8 +122,9 @@ def linkage_funnel(dataset: Dataset) -> list[tuple[str, int]]:
         ("at least one clause transcribed in this dataset", len(transcribed)),
         ("reported breach linked to a transcribed clause", len(linked)),
         ("... and the two agree", len(consistent)),
-        ("a candidate contract document located, not retrievable by the pipeline", len(located)),
-        ("the contract itself retrieved, hashed and linked", len(retrieved)),
+        ("a candidate offer document or deed located, not retrievable by the pipeline", len(located)),
+        ("an offer document retrieved, hashed and linked", len(retrieved(OFFER_DOCUMENT_TYPES))),
+        ("an executed trust deed retrieved, hashed and linked", len(retrieved(EXECUTED_CONTRACT_TYPES))),
     ]
 
 
@@ -461,6 +468,7 @@ def _outcomes_section(dataset: Dataset) -> str:
     if period is None:
         return ""
     published, listed = follow_up_states(dataset, period)
+    unattributed = unattributed_follow_up(dataset)
     states: dict[tuple[str, str], set[str]] = {key: set() for key in listed}
     for state in published:
         states[(state.trustee, state.isin)].add(state.state)
@@ -478,12 +486,16 @@ def _outcomes_section(dataset: Dataset) -> str:
         f"For each ISIN listed in a current report for the quarter ended {period}, every follow-up state that the "
         "trustee's transcribed reports and letters publish, by trustee. One ISIN can be in several states, and the "
         "states are not ranked or merged: a late filing later made, a financial ratio restored, a waiver and a failed "
-        "meeting are different things. The last row counts ISINs for which none of the first five states, the "
+        "meeting are different things. The last row counts ISINs for which none of the first six states, the "
         "outcomes, is published. This measures the public record, not what trustees or holders did. The states are the "
-        "project's reading of each report's action cells, and a cure is typed by the covenant category of its row. A "
-        "letter that names another quarter is not counted. Each cell gives ISINs, with the number of issuers behind "
-        "them in brackets: one issuer's many ISINs share one history. Every state, with the row or letter that shows "
-        "it, is in `exports/follow_up_states.csv`.\n\n" + _table(["published follow-up"] + trustees, rows)
+        "project's reading of each report's action cells. A cure is typed only when every covenant the row lists for "
+        "the ISIN is of one kind; otherwise it is counted as a cure for covenants of more than one kind. A letter that "
+        "names another quarter is not counted. A letter continuing an adjourned meeting names no quarter, and counts "
+        "only where a rule ties it to an earlier letter of the same file for this quarter; "
+        f"{len(unattributed)} states from such letters cannot be tied to any quarter and are counted for none. Each "
+        "cell gives ISINs, with the number of issuers behind them in brackets: one issuer's many ISINs share one "
+        "history. Every state, with the row or letter that shows it and how its quarter is known, is in "
+        "`exports/follow_up_states.csv`.\n\n" + _table(["published follow-up"] + trustees, rows)
     )
 
 
@@ -536,7 +548,7 @@ def _timing_section(dataset: Dataset) -> str:
                 found.estimate,
                 found.estimate_basis,
                 (found.estimate - period).days if found.estimate else None,
-                found.observed,
+                found.confirmed_by,
             ]
         )
     pairs = []
@@ -549,16 +561,18 @@ def _timing_section(dataset: Dataset) -> str:
     estimated = [(i, t) for i, t in pairs if i.estimate and t.estimate]
     issuer_first = [(i, t) for i, t in estimated if i.estimate < t.estimate]
     bases = sorted({b for i, t in issuer_first for b in (i.estimate_basis, t.estimate_basis)})
-    observed = [(i, t) for i, t in pairs if i.observed and t.observed]
-    observed_issuer_first = sum(i.observed < t.observed for i, t in observed)
-    observed_trustee_first = sum(t.observed < i.observed for i, t in observed)
+    observed = [(i, t) for i, t in pairs if i.confirmed_by and t.confirmed_by]
+    observed_issuer_first = sum(i.confirmed_by < t.confirmed_by for i, t in observed)
+    observed_trustee_first = sum(t.confirmed_by < i.confirmed_by for i, t in observed)
     return (
         "## What was public when\n\n"
         "An account of a past date must use only what was public by then. The record keeps three kinds of date for "
-        "each file and never treats one as another: a lower bound (the latest date the file gives itself, or prints in "
-        "a letter or an \"as on\" date it contains), an estimate (the publisher's listing date or the server's "
-        "Last-Modified date for the exact file held, whichever is later), and the day the project observed the file "
-        "in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the "
+        "each file and never treats one as another: a lower bound (the latest date the file gives itself, gives as an "
+        '"as on" date, prints for a letter it contains, or prints for an event it reports, such as a detection or '
+        "an intimation), an estimate (the later of the publisher's listing date and the server's Last-Modified date "
+        "for the exact file held, never earlier than the lower bound, and the lower bound itself where neither "
+        "exists), and the day the project observed the file in public, which is when it was retrieved. Only the "
+        "last is proved by the record. Last-Modified dates the "
         "version held, so an earlier version may have been public sooner, and a copied file can carry a misleading "
         "date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the "
         "estimates, or with `--availability observed` from the observations alone.\n\n"
@@ -676,11 +690,11 @@ def _clauses_section(dataset: Dataset) -> str:
         + _table(["category", "clauses"], [list(item) for item in sorted(counts.items())])
         + "\n\nBy the kind of document stating them. "
         + (
-            "None of these is the contract itself."
+            "None of these is quoted from an offer document or an executed deed."
             if not any(
                 dataset.documents[p.document].type in CONTRACT_DOCUMENT_TYPES for p in dataset.provisions.values()
             )
-            else "Contract documents are included."
+            else "Some are quoted from offer documents or deeds; their `stage` says which."
         )
         + "\n\n"
         + _table(["document type", "clauses"], [list(item) for item in sorted(sources.items())])

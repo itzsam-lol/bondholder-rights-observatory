@@ -12,7 +12,8 @@ Please cite it as "Bondholder Rights & Disclosure Observatory", with the release
 
 - **Quotations.** Verbatim passages, including every field ending in `_as_reported`, `Provision.text`, `Evidence.quote` and `PrintedNote.text`, remain the property of their owners. They are included as short, attributed quotations for research, review and verification. This licence grants no rights in them.
 - **Source documents.** None is included. Links and hashes identify them, and their use is governed by their publishers' terms.
-- **Trade names** of the entities named.
+- **Trade names** of the entities named, and **titles of documents** as their publishers gave them.
+- **Quoted text anywhere in the repository.** Code, tests, fixtures and documentation quote sources and regulations in places. Neither this licence nor the MIT Licence for the code grants any right in those quotations or in any other third-party text.
 
 Rows marked `ai_training_reserved = true` derive from a source that has reserved its rights against AI training. Please respect that reservation.
 
