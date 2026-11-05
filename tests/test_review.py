@@ -10,8 +10,11 @@ from pydantic import ValidationError
 from brdo.models import AnnotationReview, BreachItem, Provision
 from brdo.pit import as_of
 from brdo.review import (
+    ANSWER_COLUMNS,
+    FIELD_KINDS,
     KEY_COLUMNS,
     PACKET_COLUMNS,
+    PROBLEMS,
     PacketRefused,
     canonical,
     cohen_kappa,
@@ -479,3 +482,44 @@ def test_unsure_answers_and_hard_cases_are_also_scored_apart():
     [result] = score(key, answers, [])
     assert result.unsure == 1 and len(result.hard) == 1 and len(result.sure) == 1
     assert result.disagreements[0]["unsure"] == "true"
+
+
+def test_a_packet_carries_the_reviewers_guide_and_a_table_of_its_fields(dataset, tmp_path):
+    guide = tmp_path / "guide.md"
+    guide.write_text("# Guide\n", encoding="utf-8")
+    written = write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0", guide=guide)
+    assert (written["packet"] / "guide.md").read_text(encoding="utf-8") == "# Guide\n"
+    readme = (written["packet"] / "README.txt").read_text(encoding="utf-8")
+    assert "breach_item.category: 1 decisions, categorical" in readme and "hash_mismatch" in readme
+    assert list(read_csv(written["packet"] / "answers.csv")[0]) == ANSWER_COLUMNS
+    assert not (written["packet"] / "key.csv").exists()
+
+
+def test_the_reviewers_guide_explains_every_field_and_problem_code():
+    guide = (REPOSITORY / "docs" / "reviewer-guide.md").read_text(encoding="utf-8")
+    assert [field for field in FIELD_KINDS if f"`{field}`" not in guide] == []
+    assert all(f"`{problem}`" in guide for problem in PROBLEMS)
+    for words in ("SHA-256", "shasum -a 256", "sha256sum", "Get-FileHash", "`none`", "unsure", "answers.csv"):
+        assert words in guide, words
+
+
+def test_reported_problems_are_counted_apart_and_a_blank_value_stays_unanswered():
+    key = [
+        {"decision": "D1", "decision_id": "a:category", "field": "breach_item.category", "value": "financial"},
+        {"decision": "D2", "decision_id": "b:category", "field": "breach_item.category", "value": "other"},
+    ]
+    answers = [
+        {"decision": "D1", "value": "", "unsure": "", "reason": "the site refuses", "problem": "source_unavailable"},
+        {
+            "decision": "D2",
+            "value": "other",
+            "unsure": "true",
+            "reason": "partly illegible",
+            "problem": "cannot_interpret",
+        },
+    ]
+    [result] = score(key, answers, [])
+    assert result.answered == 1 and result.agreed == 1
+    assert result.problems == {"source_unavailable": 1, "cannot_interpret": 1}
+    rendered = render_scores([result])
+    assert "| a:category | source_unavailable | the site refuses |" in rendered

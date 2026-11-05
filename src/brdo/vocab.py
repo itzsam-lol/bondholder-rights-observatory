@@ -150,8 +150,10 @@ class AvailabilityMode(StrEnum):
     """Files observed by the day, and files not yet observed that an estimate, from the publisher's or the server's
     date, puts on or before the day. A reconstruction under that stated assumption, not the public record itself."""
     POSSIBLE = "possible"
-    """Every file that no lower bound rules out on the day: an upper envelope. Nothing that could have been public is
-    left out, but files not yet public may be let in, and a file with no lower bound is let in on any day."""
+    """A retrospective upper bound, not a snapshot of what was public or known on the day: every file that no lower
+    bound rules out, including files the project found much later, because the evidence cannot show they were not
+    public. Nothing that could have been public is left out, but a file in it may not yet have existed publicly, and
+    a file with no lower bound is let in on any day."""
 
 
 class SupportBasis(StrEnum):
@@ -421,6 +423,59 @@ class ReviewerKind(StrEnum):
     """
 
     PERSON = "person"
+
+
+class ManualCheckKind(StrEnum):
+    """What a manual check concerns."""
+
+    DOCUMENT = "document"
+    """A file that a person may download in a browser and ingest with ``brdo add-document --from-file``."""
+    SOURCE_REVIEW = "source_review"
+    """A source's pages or terms, which a person reads and records in the source's record."""
+
+
+class ManualCheckStatus(StrEnum):
+    """How far a manual check has gone. Nothing beyond ``not_attempted`` is set without a dated attempt."""
+
+    NOT_ATTEMPTED = "not_attempted"
+    ATTEMPTED_NOT_FOUND = "attempted_not_found"
+    """A person looked, and the file or page was not there."""
+    FOUND_INACCESSIBLE = "found_inaccessible"
+    """The file or page exists, but a person could not open it."""
+    RETRIEVED_MANUALLY = "retrieved_manually"
+    """A person downloaded the file, and it is registered as a document retrieved manually."""
+    INSPECTED_NOT_SUITABLE = "inspected_not_suitable"
+    """A person examined it and decided, with a reason, that it should not enter the dataset."""
+    INGESTED_AND_CHECKED = "ingested_and_checked"
+    """The file is registered, its records are transcribed, and their anchors were verified against it."""
+    RECORDED = "recorded"
+    """For a source review only: what the pages or terms say is recorded in the source's record."""
+
+
+class ManualCheckPriority(StrEnum):
+    """The order in which the project would attempt manual checks. The reasons are in ``docs/coverage.md``."""
+
+    FIRST = "first"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+    HOLD = "hold"
+    """Not to be attempted until its prerequisite is met."""
+
+
+class CandidateStage(StrEnum):
+    """What a candidate document would be evidence of. The legal stages are not interchangeable."""
+
+    OFFERED = "offered"
+    """An offer document: the terms on which debentures were offered, not the executed deed."""
+    PROPOSED = "proposed"
+    APPROVED_IN_PRINCIPLE = "approved_in_principle"
+    EXECUTED = "executed"
+    """An executed deed, if the copy is the signed and complete instrument."""
+    NOT_A_CONTRACT_DOCUMENT = "not_a_contract_document"
+    """A filing or report that may state the issuer's position, but no contract term."""
+    NOT_A_DOCUMENT = "not_a_document"
+    """A source's pages or terms."""
 
 
 class StatementMaker(StrEnum):

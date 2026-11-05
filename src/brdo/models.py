@@ -21,6 +21,7 @@ from brdo.vocab import (
     ActionKind,
     Agreement,
     AiTrainingSignal,
+    CandidateStage,
     Comparator,
     Confidence,
     CovenantCategory,
@@ -34,6 +35,9 @@ from brdo.vocab import (
     ExcerptPolicy,
     InstrumentProperty,
     LinkBasis,
+    ManualCheckKind,
+    ManualCheckPriority,
+    ManualCheckStatus,
     NoticeKind,
     ProvisionLinkBasis,
     ProvisionStage,
@@ -703,6 +707,72 @@ class AnnotationReview(Record):
         if self.adjudicated is not None:
             return self.adjudicated
         return self.original if self.original == self.second else None
+
+
+class ManualAttempt(Record):
+    """One dated attempt by a person to examine a candidate, and what it reached."""
+
+    on: date
+    by: str = Field(min_length=1, description="A label for the person, not a personal detail")
+    outcome: ManualCheckStatus
+    note: str = Field(min_length=1, description="What was done and seen, including any reason")
+
+
+class ManualCheck(Record):
+    """A candidate that only a person can examine, what it could resolve, and what has been done about it.
+
+    ``status`` is the outcome of the latest attempt, and nothing beyond ``not_attempted`` is valid without one. A
+    document counts as retrieved only when it is registered as retrieved manually, and as checked only when its
+    anchors were verified against it, on a stated day.
+    """
+
+    id: RecordId
+    kind: ManualCheckKind
+    candidate: str
+    source: RecordId
+    url: str | None = Field(default=None, description="None where the source's policy forbids links")
+    isins: list[Isin] = Field(default_factory=list)
+    stage: CandidateStage
+    priority: ManualCheckPriority
+    contributes: str
+    resolves: str
+    why_by_hand: str = Field(description="Why automated retrieval is not used")
+    prerequisite: str | None = Field(default=None, description="What must happen before anyone attempts it")
+    found_by: list[RecordId] = Field(default_factory=list, description="Searches that located it")
+    status: ManualCheckStatus = ManualCheckStatus.NOT_ATTEMPTED
+    attempts: list[ManualAttempt] = Field(default_factory=list)
+    document: RecordId | None = None
+    evidence_checked_on: date | None = None
+
+    @model_validator(mode="after")
+    def _status_rests_on_attempts(self) -> "ManualCheck":
+        if self.priority is ManualCheckPriority.HOLD and not self.prerequisite:
+            raise ValueError(f"{self.id}: a check on hold must say what it waits for")
+        if self.status is ManualCheckStatus.NOT_ATTEMPTED:
+            if self.attempts or self.document or self.evidence_checked_on:
+                raise ValueError(f"{self.id}: not attempted, but records an attempt, a document or a check")
+            return self
+        if not self.attempts:
+            raise ValueError(f"{self.id}: status {self.status} needs a dated attempt")
+        if [a.on for a in self.attempts] != sorted(a.on for a in self.attempts):
+            raise ValueError(f"{self.id}: attempts are not in date order")
+        if any(a.outcome is ManualCheckStatus.NOT_ATTEMPTED for a in self.attempts):
+            raise ValueError(f"{self.id}: an attempt cannot have the outcome not_attempted")
+        if self.attempts[-1].outcome is not self.status:
+            raise ValueError(f"{self.id}: status {self.status} is not the outcome of the latest attempt")
+        documentary = (ManualCheckStatus.RETRIEVED_MANUALLY, ManualCheckStatus.INGESTED_AND_CHECKED)
+        if self.kind is ManualCheckKind.SOURCE_REVIEW and (self.status in documentary or self.document):
+            raise ValueError(f"{self.id}: a source review does not retrieve a document")
+        if self.kind is ManualCheckKind.DOCUMENT and self.status is ManualCheckStatus.RECORDED:
+            raise ValueError(f"{self.id}: only a source review can be recorded")
+        if self.status in documentary and self.document is None:
+            raise ValueError(f"{self.id}: status {self.status} needs the registered document")
+        if self.status is ManualCheckStatus.INGESTED_AND_CHECKED:
+            if self.evidence_checked_on is None or self.evidence_checked_on < self.attempts[-1].on:
+                raise ValueError(f"{self.id}: ingested_and_checked needs the day its anchors were verified")
+        elif self.evidence_checked_on is not None:
+            raise ValueError(f"{self.id}: records an evidence check, but its status is {self.status}")
+        return self
 
 
 class RegulatoryReference(Record):

@@ -2,9 +2,9 @@
 
 Changes to the records, the exports and the figures derived from them. Corrections to figures published earlier are listed first, with the old and new values, so that anyone who cited a figure can see what changed and why. The repository's history holds every earlier state.
 
-## Unreleased (sixth pass: historical truth and attribute support, 5 November 2026)
+## Unreleased (sixth pass: historical truth and attribute support, 5 November 2026; commit `a8cd1e3`)
 
-The availability model, the 521 attribute-support rows and the review kit added by the previous audit were themselves audited before anything else was done. Nothing was committed in this pass.
+The availability model, the 521 attribute-support rows and the review kit added by the previous audit were themselves audited before anything else was done. This entry first said that nothing was committed in the pass; the work was committed afterwards, unchanged, as `a8cd1e3`.
 
 ### Corrected figures
 
@@ -39,7 +39,7 @@ No status, comparison, follow-up count or timing comparison changed.
 - `brdo fetch` and `brdo verify` could not run: the proxy refused the tunnel to every source host, and the fetcher, correctly, reported robots.txt as unread and fetched nothing. Verification figures are still those of 4 November 2026.
 - No annotation was changed and no review was made. Two labels that may not follow the written rules are left for adjudication.
 
-## Unreleased (audit of the fifth pass, 5 November 2026)
+## Unreleased (audit of the fifth pass, 5 November 2026; commit `2094841`)
 
 The fifth pass's own changes were re-examined before anything was added. This entry corrects that pass where it was wrong, including two claims in its entry below.
 
@@ -83,7 +83,7 @@ No other published figure changed. The field-level comparison, cure counts, esti
 - No record in `data/` was added, changed or removed.
 - No second annotation was made, and no annotation is marked reviewed.
 
-## Unreleased (fifth pass, 4 November 2026)
+## Unreleased (fifth pass, 4 November 2026; commits `2f095f1`, `d37c5bd`, `caf4a42`, `f51b281`)
 
 ### Corrected
 

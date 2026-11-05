@@ -177,7 +177,9 @@ def test_no_point_in_time_view_holds_anything_later_than_its_date(data, mode):
     for day in _cutoffs(data):
         view = as_of(data, day, mode)
         for document in view.documents.values():
-            assert shown_public_by(document, data, mode) <= day, (day, document.id)
+            assert shown_public_by(data.documents[document.id], data, mode) <= day, (day, document.id)
+            assert document.retrieved_at is None or document.retrieved_at.date() <= day, (day, document.id)
+            assert all(held.value <= day for held in document.dates), (day, document.id)
         assert set(view.availability_states) == set(view.documents), day
         assert all(
             (state is AvailabilityState.CONFIRMED) == (availability(data.documents[doc], data).confirmed_by <= day)

@@ -43,6 +43,7 @@ if TYPE_CHECKING:
     from brdo.store import Dataset
 
 CODEBOOK = Path("docs") / "annotation-codebook.md"
+GUIDE = Path("docs") / "reviewer-guide.md"
 BOOLEAN = ("true", "false")
 DATE_OR_NONE = "a date as YYYY-MM-DD, or none"
 NONE = "none"
@@ -64,7 +65,9 @@ PACKET_COLUMNS = [
     "hard_case_note",
     "rule",
 ]
-ANSWER_COLUMNS = ["decision", "field", "value", "unsure", "reason"]
+ANSWER_COLUMNS = ["decision", "field", "value", "unsure", "reason", "problem"]
+PROBLEMS = ("source_unavailable", "hash_mismatch", "page_not_found", "cannot_interpret")
+"""What a reviewer reports when a source cannot be used; see ``docs/reviewer-guide.md``."""
 KEY_COLUMNS = ["decision", "decision_id", "record", "field", "value", "hard_case"]
 
 
@@ -426,22 +429,26 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 INSTRUCTIONS = """Second annotation packet
 
-Read codebook.md, then SEBI's Annex-VIA it points to, before starting. For each line of decisions.csv, open the
-document at the address given, check that its SHA-256 matches, go to the page and read the passage in its context.
-Then fill in the matching line of answers.csv:
+Read guide.md first, then codebook.md and the SEBI annex it names. For each line of decisions.csv, download the
+document from its address, check that its SHA-256 matches, go to the page and the locator, and read the passage in its
+context. Then fill in the matching line of answers.csv:
 
-- value: one of the allowed values (several separated by | where multiple is true). Write none where the allowed
-  values say so, for example when a letter states no quarter. Leave the value blank only if the source does not let
-  you decide, and say why.
+- value: one of the allowed values (several separated by | where multiple is true). none is a value: write it where the
+  allowed values offer it and there is nothing to record. A blank value means you could not decide.
 - unsure: true or false.
-- reason: required for every hard case, every decision marked unsure, and every blank value.
+- reason: required for every hard case, every answer marked unsure, every blank value and every problem.
+- problem: empty, or one of {problems}.
 
-Do not look at the project's data, exports or reports until you have handed in your answers. The answer key is not
-in this folder and must not be sent with it.
+Do not look at the project's data, exports, reports or repository until you have returned your answers, and do not use
+an AI tool or other automated aid to decide. Return only answers.csv. The answer key is not in this folder.
 
 Codebook commit: {commit}
 Round: {round}
-Decisions: {count}
+Decisions: {count}, in {documents} documents; {hard} are hard cases
+
+Fields in this packet:
+
+{fields}
 """
 
 ROUNDS = ("1", "2", "all")
@@ -485,6 +492,7 @@ def write_packet(
     fields: set[str] | None = None,
     chosen_round: str = "all",
     repository: Path | None = None,
+    guide: Path | None = None,
 ) -> dict:
     """Write the packet for the annotator and, apart from it, the key.
 
@@ -507,13 +515,30 @@ def write_packet(
         packet / "answers.csv",
         ANSWER_COLUMNS,
         (
-            {"decision": i, "field": d.field, "value": "", "unsure": "", "reason": ""}
+            {"decision": i, "field": d.field, "value": "", "unsure": "", "reason": "", "problem": ""}
             for i, d in zip(ids, chosen, strict=True)
         ),
     )
     (packet / "codebook.md").write_text(codebook.read_text(encoding="utf-8"), encoding="utf-8")
+    if guide is not None:
+        (packet / "guide.md").write_text(guide.read_text(encoding="utf-8"), encoding="utf-8")
+    counts = Counter(d.field for d in chosen)
+    allowed = {d.field: (d.kind, d.allowed) for d in chosen}
+    field_table = "\n".join(
+        f"  {name}: {count} decisions, {allowed[name][0]}; allowed: {allowed[name][1]}"
+        for name, count in sorted(counts.items())
+    )
     (packet / "README.txt").write_text(
-        INSTRUCTIONS.format(commit=commit, round=chosen_round, count=len(chosen)), encoding="utf-8"
+        INSTRUCTIONS.format(
+            commit=commit,
+            round=chosen_round,
+            count=len(chosen),
+            documents=len({d.document for d in chosen}),
+            hard=sum(1 for d in chosen if d.hard_case_note),
+            problems=", ".join(PROBLEMS),
+            fields=field_table,
+        ),
+        encoding="utf-8",
     )
     key.mkdir(parents=True, mode=0o700)
     key.chmod(0o700)
@@ -575,6 +600,8 @@ class FieldScore:
     answered: int = 0
     agreed: int = 0
     unsure: int = 0
+    problems: Counter = dataclasses.field(default_factory=Counter)
+    reported: list[dict[str, str]] = dataclasses.field(default_factory=list)
     pairs: list[tuple[str, str]] = dataclasses.field(default_factory=list)
     hard: list[tuple[str, str]] = dataclasses.field(default_factory=list)
     sure: list[tuple[str, str]] = dataclasses.field(default_factory=list)
@@ -640,6 +667,16 @@ def score(key: list[dict[str, str]], answers: list[dict[str, str]], packet: list
         result = scores.setdefault(row["field"], FieldScore(row["field"], kind))
         result.decisions += 1
         answer = given.get(row["decision"])
+        problem = (answer or {}).get("problem", "").strip()
+        if problem:
+            result.problems[problem] += 1
+            result.reported.append(
+                {
+                    "decision": row.get("decision_id") or row["decision"],
+                    "problem": problem,
+                    "reason": answer.get("reason", ""),
+                }
+            )
         if answer is None or not answer.get("value", "").strip():
             continue
         second = normalise_answer(answer["value"], line.get("multiple") == "true")
@@ -681,12 +718,12 @@ def render_scores(scores: list[FieldScore]) -> str:
         return f"date given or none: {number(s.presence_agreement)}"
 
     lines = [
-        "| field | kind | decisions | answered | unsure | agreed | raw agreement | statistic | hard cases "
+        "| field | kind | decisions | answered | unsure | problems | agreed | raw agreement | statistic | hard cases "
         "| sure only |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
         *(
-            f"| {s.field} | {s.kind} | {s.decisions} | {s.answered} | {s.unsure} | {s.agreed} | "
-            f"{number(s.agreement)} | {statistic(s)} | {_agreement(s.hard)} | {_agreement(s.sure)} |"
+            f"| {s.field} | {s.kind} | {s.decisions} | {s.answered} | {s.unsure} | {sum(s.problems.values())} | "
+            f"{s.agreed} | {number(s.agreement)} | {statistic(s)} | {_agreement(s.hard)} | {_agreement(s.sure)} |"
             for s in scores
         ),
         "",
@@ -704,6 +741,10 @@ def render_scores(scores: list[FieldScore]) -> str:
             lines.append(
                 "- agreement on each value: " + ", ".join(f"{value} {number(rate)}" for value, rate in specific.items())
             )
+    reported = [r for s in scores for r in s.reported]
+    if reported:
+        lines += ["", "Problems the annotator reported:", "", "| decision | problem | reason |", "|---|---|---|"]
+        lines += [f"| {r['decision']} | {r['problem']} | {r['reason']} |" for r in reported]
     disagreements = [d for s in scores for d in s.disagreements]
     if disagreements:
         lines += ["", "| decision | original | second | unsure | reason |", "|---|---|---|---|---|"]

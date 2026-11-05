@@ -4,7 +4,7 @@ How far each kind of value in the records can be relied on, what was checked, wh
 
 ## In brief
 
-- **Quotations and parsed facts are checked by machine** against the hashed source files. At the last full run of `brdo verify`, on 4 November 2026, 1,147 of 1,254 anchors were found in the file's text layer and 107 rest on reading the rendered page. That run could not be repeated on 4 or 5 November: the sources were unreachable from the environment used, so the figure is carried forward, not re-measured.
+- **Quotations and parsed facts are checked by machine** against the hashed source files. At the last full run of `brdo verify`, on 4 November 2026, 1,147 of 1,254 anchors were found in the file's text layer and 107 rest on reading the rendered page. That run could not be repeated on 4 or 5 November: the sources were unreachable from the environment used, so the figure is carried forward, not re-measured. Separately, 246 anchors are recorded as transcribed from the rendered page (`read_from_rendering` in `evidence.csv`). That is a fact about how they were transcribed, not a verification result: `brdo verify` reports an anchor as `visual_only` only if it is one of those 246 and its words are not in the text layer, which at that run was true of 107. See [verification-runbook.md](verification-runbook.md).
 - **Classifications are one curator's reading.** None has had an independent second review. `annotation_reviewed` is false throughout, no review record exists, and the data dictionary marks every such column as `annotation`.
 - **Mechanical comparisons are reproducible, which is not the same as correct.** Checking each decision against the quoted text found two rule errors on 4 November, and an audit of that work on 5 November found further errors in the rules and views (below).
 - **The headline findings rest on few judgements about few issuers.** They are listed below, so that a reviewer can check every one in an afternoon.
@@ -96,25 +96,37 @@ A hard case is one where a careful reader could reasonably choose otherwise. `br
 
 ## Review protocol
 
-1. **Fix the codebook.** Commit `docs/annotation-codebook.md` before a round. `brdo review packet` records the codebook's commit in the packet, and warns if it has uncommitted changes. The codebook names the exact SEBI file it relies on, with its SHA-256 and page.
-2. **Write the packet, outside the repository.** Start with round 1:
+1. **Choose the reviewer, and agree terms first.** The reviewer must be a person who did not make the original annotations and has not seen the data. Agree, before sending anything:
+   - the label under which their answers will be recorded, and whether and how they wish to be credited;
+   - that their answers may be released as part of the dataset under its licence (see [legal-review-brief.md](legal-review-brief.md) for the open question about this);
+   - that they will not use AI tools or automated aids to decide, nor consult the project's data, exports, reports or repository until they have returned their answers;
+   - how they will return `answers.csv`, and by when.
+2. **Fix the codebook.** The codebook is committed as of `a8cd1e3`. If it is changed, commit it before generating a packet: `brdo review packet` records the codebook's commit in the packet's README, and warns if the codebook has uncommitted changes.
+3. **Write the packet, outside the repository.** From the repository's root:
 
    ```bash
-   brdo review packet --out ../review-round-1 --round 1
+   uv run brdo review packet --out ~/brdo-review/round-1 --round 1
    ```
 
-   Round 1 holds 356 decisions: every statement field, every row's actions, every letter's kind, quarter and adjournment, every covenant cell's category, and the specificity of the 23 cells listing an ISIN that a statement covers. They carry the statement comparisons, what each party adds, and the follow-up and cure findings. Round 1 would not validate the trace to the contract, the clause records and their legal stages, row assignment, carried-over quarters, or the specificity of the other 50 cells, which round 2's 229 decisions cover. The rounds are chosen by field and record, never by the current value.
+   Round 1 holds 356 decisions in 34 documents, 15 of them hard cases: every statement field, every row's actions, every letter's kind, quarter and adjournment, every covenant cell's category, and the specificity of the 23 cells listing an ISIN that a statement covers. They carry the statement comparisons, what each party adds, and the follow-up and cure findings. Round 1 would not validate the trace to the contract, the clause records and their legal stages, row assignment, carried-over quarters, or the specificity of the other 50 cells, which round 2's 229 decisions cover. The rounds are chosen by field and record, never by the current value.
 
-   `packet/` holds `decisions.csv` (file, SHA-256, page, locator, ISINs, passage, allowed values, kind, rule, hard-case flag and note, and no current value), a blank `answers.csv`, the codebook and instructions. `key/` holds the current values, readable by its owner only. The command refuses to write inside the repository, so the key cannot be committed or published with the exports, and refuses to write over an earlier round. Give the annotator `packet/` only. Packet ids are fresh for each round, because record ids could hint at a value.
-3. **Annotate blind.** A person who did not make the original annotations, and has not seen the key, the data or the reports, fills in `answers.csv` from the sources. `none` is a value, for example a letter that states no quarter; a blank means the annotator could not decide. Every hard case, every unsure decision and every blank needs a reason.
-4. **Score per field.** `brdo review score --decisions packet/decisions.csv --key key/key.csv --answers answers.csv` reports each field separately, never pooled: counts, raw agreement, both annotators' label distributions, every disagreement, and agreement on the hard cases and on the answers not marked unsure. How to read it:
+   `packet/` holds `README.txt` (the round, counts, codebook commit and a table of the fields), `guide.md` (the reviewer's guide, [reviewer-guide.md](reviewer-guide.md)), `codebook.md`, `decisions.csv` (file, SHA-256, page, locator, ISINs, passage, allowed values, kind, rule, hard-case flag and note, and no current value) and a blank `answers.csv`. `key/` holds the current values, readable by its owner only. The command refuses to write inside the repository, so the key cannot be committed or published with the exports, and refuses to write over an earlier round. Packet ids are fresh for each round, because record ids could hint at a value.
+4. **Check, then send `packet/` only.** Before sending, list the folder and confirm it holds exactly those five files, and that `decisions.csv` has no `value` column. Send the folder, for example as a zip, and keep `key/` where only you can read it. Never send the key, commit it, or put it in `exports/` or `docs/`.
+5. **Annotate blind.** The reviewer works from the sources, following the guide. `none` is a value, for example a letter that states no quarter; a blank means the reviewer could not decide. Every hard case, every unsure answer, every blank and every reported problem needs a reason. A source that cannot be used is reported with a `problem` code: `source_unavailable`, `hash_mismatch`, `page_not_found` or `cannot_interpret`. A `hash_mismatch` means the publisher has changed the file; record it, and do not substitute another copy without legal advice.
+6. **Score per field.** Keep the returned `answers.csv` beside the key, outside the repository, and run:
+
+   ```bash
+   uv run brdo review score --decisions ~/brdo-review/round-1/packet/decisions.csv --key ~/brdo-review/round-1/key/key.csv --answers ~/brdo-review/round-1/answers.csv > ~/brdo-review/round-1/scores.md
+   ```
+
+   The scores report each field separately, never pooled: counts, raw agreement, problems reported, both annotators' label distributions, every disagreement, every reported problem, and agreement on the hard cases and on the answers not marked unsure. How to read it:
    - **Categorical fields** get Cohen's kappa. Read it with the distributions: when one value dominates, kappa can be low although raw agreement is high, and with few decisions one disagreement moves it a lot.
    - **Binary fields** also get agreement on each value. For a rare value, such as `true` for row assignment, that number matters more than raw agreement, which is high even if the rare value is never agreed.
    - **Actions** are a set per row. Raw agreement is on the whole set, which is strict; mean Jaccard and per-label agreement show how close the sets are. No kappa is given.
    - **Dates** are compared exactly, and on whether a date is given at all. No kappa is given.
    - **Hard cases and unsure answers** are expected to disagree more. Report them, do not drop them.
-5. **Adjudicate.** For each disagreement and each hard case, a person decides, with a reason, against the codebook and the source. The adjudicator may be the original curator, but must record that they are.
-6. **Record every decision reviewed.** Add an `AnnotationReview` to `data/annotation-reviews.yaml` for each decision, with:
+7. **Adjudicate.** For each disagreement and each hard case, a person decides, with a reason, against the codebook and the source. The adjudicator may be the original curator, but must record that they are.
+8. **Record every decision reviewed.** Add an `AnnotationReview` to `data/annotation-reviews.yaml` for each decision, with:
    - `decision`: the stable decision id, from the key;
    - `codebook_commit`;
    - `original` and `original_annotator`;
@@ -123,7 +135,7 @@ A hard case is one where a careful reader could reasonably choose otherwise. `br
    - and, where a disagreement or hard case was settled, `adjudicated`, `adjudicated_by`, `adjudication_reason` and `adjudicated_on`.
 
    Annotators are named by a label, not by any personal detail. Then change the record itself to the settled value. The review record keeps the original value, so adjudication never erases it.
-7. **Mark only what was reviewed.** `Provision.annotation_reviewed` may be set only when reviews settle every decision of that clause record. Validation enforces this, and also rejects a review by the original annotator, a review that does not match the record, and a settled value the record does not hold. Other records' review state is read from the reviews themselves.
-8. **Regenerate and log.** Rebuild the exports and the report, and record in the changelog every figure that moved.
+9. **Mark only what was reviewed.** `Provision.annotation_reviewed` may be set only when reviews settle every decision of that clause record. Validation enforces this, and also rejects a review by the original annotator, a review that does not match the record, and a settled value the record does not hold. Other records' review state is read from the reviews themselves.
+10. **Regenerate and log.** Rebuild the exports and the report, and record in the changelog every figure that moved.
 
 **What is not a review.** The same curator re-reading; the same rules re-applied, including by these audits; another pass by an automated process or a language model, however it is prompted; and two publications with a shared origin agreeing with each other. `second_by` accepts only `person`, and there is deliberately no value for anything else. None of these may be recorded as an `AnnotationReview`, and none may set `annotation_reviewed`.

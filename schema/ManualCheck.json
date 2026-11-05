@@ -1,0 +1,222 @@
+{
+  "$defs": {
+    "CandidateStage": {
+      "description": "What a candidate document would be evidence of. The legal stages are not interchangeable.",
+      "enum": [
+        "offered",
+        "proposed",
+        "approved_in_principle",
+        "executed",
+        "not_a_contract_document",
+        "not_a_document"
+      ],
+      "title": "CandidateStage",
+      "type": "string"
+    },
+    "ManualAttempt": {
+      "additionalProperties": false,
+      "description": "One dated attempt by a person to examine a candidate, and what it reached.",
+      "properties": {
+        "by": {
+          "description": "A label for the person, not a personal detail",
+          "minLength": 1,
+          "title": "By",
+          "type": "string"
+        },
+        "note": {
+          "description": "What was done and seen, including any reason",
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "on": {
+          "format": "date",
+          "title": "On",
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/$defs/ManualCheckStatus"
+        }
+      },
+      "required": [
+        "on",
+        "by",
+        "outcome",
+        "note"
+      ],
+      "title": "ManualAttempt",
+      "type": "object"
+    },
+    "ManualCheckKind": {
+      "description": "What a manual check concerns.",
+      "enum": [
+        "document",
+        "source_review"
+      ],
+      "title": "ManualCheckKind",
+      "type": "string"
+    },
+    "ManualCheckPriority": {
+      "description": "The order in which the project would attempt manual checks. The reasons are in ``docs/coverage.md``.",
+      "enum": [
+        "first",
+        "high",
+        "medium",
+        "low",
+        "hold"
+      ],
+      "title": "ManualCheckPriority",
+      "type": "string"
+    },
+    "ManualCheckStatus": {
+      "description": "How far a manual check has gone. Nothing beyond ``not_attempted`` is set without a dated attempt.",
+      "enum": [
+        "not_attempted",
+        "attempted_not_found",
+        "found_inaccessible",
+        "retrieved_manually",
+        "inspected_not_suitable",
+        "ingested_and_checked",
+        "recorded"
+      ],
+      "title": "ManualCheckStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A candidate that only a person can examine, what it could resolve, and what has been done about it.\n\n``status`` is the outcome of the latest attempt, and nothing beyond ``not_attempted`` is valid without one. A\ndocument counts as retrieved only when it is registered as retrieved manually, and as checked only when its\nanchors were verified against it, on a stated day.",
+  "properties": {
+    "attempts": {
+      "items": {
+        "$ref": "#/$defs/ManualAttempt"
+      },
+      "title": "Attempts",
+      "type": "array"
+    },
+    "candidate": {
+      "title": "Candidate",
+      "type": "string"
+    },
+    "contributes": {
+      "title": "Contributes",
+      "type": "string"
+    },
+    "document": {
+      "anyOf": [
+        {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Document"
+    },
+    "evidence_checked_on": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Checked On"
+    },
+    "found_by": {
+      "description": "Searches that located it",
+      "items": {
+        "maxLength": 120,
+        "pattern": "^[a-z0-9][a-z0-9._-]*$",
+        "type": "string"
+      },
+      "title": "Found By",
+      "type": "array"
+    },
+    "id": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "isins": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Isins",
+      "type": "array"
+    },
+    "kind": {
+      "$ref": "#/$defs/ManualCheckKind"
+    },
+    "prerequisite": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "What must happen before anyone attempts it",
+      "title": "Prerequisite"
+    },
+    "priority": {
+      "$ref": "#/$defs/ManualCheckPriority"
+    },
+    "resolves": {
+      "title": "Resolves",
+      "type": "string"
+    },
+    "source": {
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Source",
+      "type": "string"
+    },
+    "stage": {
+      "$ref": "#/$defs/CandidateStage"
+    },
+    "status": {
+      "$ref": "#/$defs/ManualCheckStatus",
+      "default": "not_attempted"
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None where the source's policy forbids links",
+      "title": "Url"
+    },
+    "why_by_hand": {
+      "description": "Why automated retrieval is not used",
+      "title": "Why By Hand",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "candidate",
+    "source",
+    "stage",
+    "priority",
+    "contributes",
+    "resolves",
+    "why_by_hand"
+  ],
+  "title": "ManualCheck",
+  "type": "object"
+}

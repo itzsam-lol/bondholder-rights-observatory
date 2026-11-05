@@ -37,6 +37,7 @@ from brdo.models import (
     Evidence,
     Instrument,
     Issuer,
+    ManualCheck,
     MonitoringCensus,
     Provision,
     RegulatoryReference,
@@ -53,9 +54,11 @@ from brdo.vocab import (
     DocumentType,
     ExcerptPolicy,
     InstrumentProperty,
+    ManualCheckStatus,
     ProvisionStage,
     RedistributionPolicy,
     RetrievalPolicy,
+    SearchOutcome,
     SourceKind,
     SupportBasis,
 )
@@ -101,6 +104,8 @@ class Dataset:
     discrepancies: dict[str, Discrepancy] = field(default_factory=dict)
     reviews: list[AnnotationReview] = field(default_factory=list)
     """Second annotations by people, with their adjudication (see ``review``)."""
+    manual_checks: dict[str, ManualCheck] = field(default_factory=dict)
+    """Candidates that only a person can examine, and what has been done about each."""
     cutoff: date | None = None
     """Set on a point-in-time view (see ``pit.as_of``): the day whose public record the view holds."""
     availability_mode: AvailabilityMode | None = None
@@ -233,6 +238,9 @@ def load_dataset(root: Path) -> Dataset:
         problems,
     )
     dataset.reviews = _load_list(root / "annotation-reviews.yaml", AnnotationReview, problems)
+    dataset.manual_checks = _index(
+        _load_list(root / "manual-checks.yaml", ManualCheck, problems), "id", "manual checks", problems
+    )
 
     instruments = []
     for path in sorted((root / "instruments").glob("*.yaml")):
@@ -467,10 +475,44 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         (f"instrument {i.isin}", o.url) for i in dataset.instruments.values() for c in i.claims for o in c.observations
     ]
     published_urls += [(f"discrepancy {d.id}", o.url) for d in dataset.discrepancies.values() for o in d.observations]
+    published_urls += [(f"manual check {m.id}", m.url) for m in dataset.manual_checks.values() if m.url]
     for where, url in published_urls:
         source = source_for_url(url, no_links)
         if source is not None:
             error(where, f"carries a link to {source.id}, whose policy forbids links")
+
+    checked = {check.url for check in dataset.manual_checks.values() if check.url}
+    for search in dataset.searches.values():
+        if search.outcome is SearchOutcome.LOCATED_NOT_RETRIEVED:
+            for url in search.urls_seen:
+                if url not in checked:
+                    warn(f"search {search.id}", f"located {url}, which no manual check records")
+    cited = {item.document for _, item in dataset.evidence()}
+    for check in dataset.manual_checks.values():
+        where = f"manual check {check.id}"
+        source = dataset.sources.get(check.source)
+        if source is None:
+            error(where, f"unknown source {check.source}")
+        elif check.url and source_for_url(check.url, [source]) is None:
+            error(where, f"{check.url} is not an address of {check.source}")
+        for search in check.found_by:
+            if search not in dataset.searches:
+                error(where, f"names unknown search {search}")
+        for isin in check.isins:
+            if isin not in dataset.instruments:
+                error(where, f"names {isin}, which has no instrument record")
+        if check.document is not None:
+            document = dataset.documents.get(check.document)
+            if document is None:
+                error(where, f"names unknown document {check.document}")
+            elif not document.retrieved_manually or document.source != check.source:
+                error(where, f"{check.document} is not registered as retrieved manually from {check.source}")
+            elif check.status is ManualCheckStatus.INGESTED_AND_CHECKED and check.document not in cited:
+                error(where, f"is ingested and checked, but no anchor cites {check.document}")
+        if check.status is ManualCheckStatus.RECORDED:
+            reviewed = source.terms.reviewed_on if source is not None and source.terms else None
+            if reviewed is None or reviewed < check.attempts[-1].on:
+                error(where, f"is recorded, but {check.source}'s terms were not reviewed on or after the attempt")
 
     from brdo.review import review_problems  # review reads records through this module's Dataset
 

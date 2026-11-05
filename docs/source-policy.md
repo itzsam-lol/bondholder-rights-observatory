@@ -75,7 +75,7 @@ For a manual-only source, a person downloads the file in a browser and runs:
 $ brdo add-document "<url>" --id <id> --type key_information_document --title "<title>" --from-file <path>
 ```
 
-This hashes the file into the local cache and marks the record `retrieved_manually`. Anyone else can do the same and `brdo verify` will confirm they hold an identical file. The candidates found so far are listed in the [observability report](observability-report.md#candidates-awaiting-manual-retrieval).
+This hashes the file into the local cache and marks the record `retrieved_manually`. Anyone else can do the same and `brdo verify` will confirm they hold an identical file. The candidates found so far are listed in the [observability report](observability-report.md#manual-checks).
 
 ## Reservations of AI-training rights
 

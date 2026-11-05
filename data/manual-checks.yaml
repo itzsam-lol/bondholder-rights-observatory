@@ -1,0 +1,175 @@
+# Candidates that only a person can examine, and what has been done about each, in the order the project would
+# attempt them (the reasons for that order are in docs/coverage.md).
+# Nothing here has been attempted. A status beyond not_attempted needs a dated attempt by a person, recorded by a
+# label, and validation refuses a document status unless the file is registered as retrieved manually.
+- id: mc-pahal-security-cover-2026-06
+  kind: document
+  candidate: Pahal Financial Services, security cover filing for the quarter ended 30 June 2026
+  source: pahal-finance-web
+  url: https://pahalfinance.com/wp-content/uploads/2026/08/Security-Cover_Signed.pdf
+  isins: [INE514Q07304, INE514Q07353, INE514Q07361, INE514Q07379, INE514Q07387, INE514Q07395, INE514Q07403]
+  stage: not_a_contract_document
+  priority: first
+  contributes: >-
+    Possibly the issuer's own statement of covenant compliance for the quarter. Whether the file holds one is not
+    known until it is opened.
+  resolves: >-
+    Whether Pahal's own account agrees with Catalyst's listing of its seven ISINs. That would add a fourth issuer to
+    the statement comparisons, which rest on three, and a third to the field-level comparison, which rests on two.
+  why_by_hand: The file answered HTTP 403 to the project's identified client on 4 November 2026.
+  found_by: [cs-pahal-2026-06]
+  status: not_attempted
+- id: mc-pahal-intimation-2026-06
+  kind: document
+  candidate: Pahal Financial Services, intimation for the trustee's reporting for the quarter ended 30 June 2026
+  source: pahal-finance-web
+  url: https://pahalfinance.com/wp-content/uploads/2026/08/Intimation-for-trustee-reporting_Signed.pdf
+  isins: [INE514Q07304, INE514Q07353, INE514Q07361, INE514Q07379, INE514Q07387, INE514Q07395, INE514Q07403]
+  stage: not_a_contract_document
+  priority: first
+  contributes: >-
+    The issuer's intimation to its trustee, which may enclose or summarise its compliance statement. What it holds
+    is not known until it is opened.
+  resolves: The same comparison as the security cover filing, and when the issuer informed its trustee.
+  why_by_hand: The file answered HTTP 403 to the project's identified client on 4 November 2026.
+  found_by: [cs-pahal-2026-06]
+  status: not_attempted
+- id: mc-bond-central-pages-and-terms
+  kind: source_review
+  candidate: Bond Central, its per-ISIN pages and its terms of use
+  source: bond-central
+  url: https://bondcentral.in/
+  stage: not_a_document
+  priority: first
+  contributes: >-
+    What the portal shows for a few of the dataset's ISINs: which fields, whether documents are listed and
+    identifiable by title and date, whether earlier versions and timestamps are kept, where the data comes from, and
+    on what terms it may be retained, extracted and cited.
+  resolves: >-
+    Whether Bond Central could close the gaps in visibility and in the trace to the contract under terms that allow
+    citation. Only its home, search and "About" pages have been read, through a reading service on 5 November
+    2026, and the "About" page returned no text.
+  why_by_hand: >-
+    The project's network could not reach the site on 3, 4 or 5 November 2026, its pages are built by scripts, and
+    its source policy is manual only.
+  status: not_attempted
+- id: mc-aye-kid-ine501x07570
+  kind: document
+  candidate: Aye Finance, key information document on BSE naming INE501X07570 as a further issuance
+  source: bse
+  url: https://bond.bseindia.com/PPMFiles/2024/JUN/KID/197/8156.pdf
+  isins: [INE501X07570]
+  stage: offered
+  priority: high
+  contributes: The first offer-document text in the dataset, with the terms on which INE501X07570 was offered.
+  resolves: >-
+    Whether the trustee's quotation of clause 9.3(a)(viii) matches the terms as offered. It cannot show the
+    executed deed's wording, whose numbering may differ, or any later amendment.
+  why_by_hand: BSE refuses identified automated clients, so its source policy is manual only.
+  found_by: [cd-aye-570]
+  status: not_attempted
+- id: mc-satya-gid-ine982x08091
+  kind: document
+  candidate: Satya MicroCapital, general information document on BSE
+  source: bse
+  url: https://bond.bseindia.com/PPMFiles/2024/JUL/PPM/629/8380.pdf
+  isins: [INE982X08091]
+  stage: offered
+  priority: high
+  contributes: Programme-level terms as offered, for an issuer central to the statement comparisons.
+  resolves: >-
+    Whether the trustee's quotation of clause 9.3 matches the terms as offered at programme level. It cannot show
+    the instrument's own terms, the executed deed or later amendments.
+  why_by_hand: BSE refuses identified automated clients, so its source policy is manual only.
+  found_by: [cd-satya]
+  status: not_attempted
+- id: mc-meghalaya-deed-2013
+  kind: document
+  candidate: Meghalaya Energy Corporation, debenture trust deed of 7 February 2013 on BSE
+  source: bse
+  url: https://bseindia.com/corporates/download/10200/Debenture%20Trust%20Deed/Trust%20Deed_07.02.2013_20200923123418.pdf
+  isins: [INE760I07011]
+  stage: executed
+  priority: medium
+  contributes: >-
+    Possibly the first executed contract text in the dataset, if the copy is the signed and complete deed.
+  resolves: >-
+    Whether the deed governs any listed ISIN, which is unknown until it is opened. It cannot show supplemental deeds
+    executed since 2013.
+  why_by_hand: BSE refuses identified automated clients, so its source policy is manual only.
+  found_by: [cd-mecl]
+  status: not_attempted
+- id: mc-nse-terms
+  kind: source_review
+  candidate: NSE's terms of use, copyright policy and hyperlinking policy
+  source: nse
+  stage: not_a_document
+  priority: medium
+  contributes: A complete reading of what NSE's terms require of a site that cites or links its filings.
+  resolves: >-
+    Whether the basis recorded for excluding NSE holds: the hyperlinking clause and the prohibition of automated
+    collection could not be confirmed from a partial reading on 5 November 2026.
+  why_by_hand: >-
+    NSE is excluded and no NSE address is recorded. Its pages are built by scripts, so a person must read them in a
+    browser.
+  status: not_attempted
+- id: mc-akara-gid-ine08xp07274
+  kind: document
+  candidate: Akara Capital Advisors, general information document on BSE for the issuer's programme
+  source: bse
+  url: https://bond.bseindia.com/PPMFiles/2024/JUL/PPM/723/8320.pdf
+  isins: [INE08XP07274]
+  stage: offered
+  priority: low
+  contributes: Programme-level terms as offered.
+  resolves: >-
+    Little for the instrument itself: it is not INE08XP07274's own key information document, and neither shows the
+    executed deed.
+  why_by_hand: BSE refuses identified automated clients, so its source policy is manual only.
+  found_by: [cd-akara]
+  status: not_attempted
+- id: mc-satya-im-ine982x08091
+  kind: document
+  candidate: Satya MicroCapital, issue document named for INE982X08091 on an online bond platform
+  source: indiabonds
+  url: https://assets.indiabonds.com/vendor/3ebce3c2-43de-40c0-904b-0ee0d1fe96e5/imfiles/INE982X08091-imfile-1701748127.pdf
+  isins: [INE982X08091]
+  stage: offered
+  priority: hold
+  contributes: The instrument's own offer-document text.
+  resolves: The same fidelity question as the general information document, at instrument level.
+  why_by_hand: The platform's source policy is manual only.
+  prerequisite: >-
+    Legal review of the platform's terms, which forbid data-gathering and extraction tools and derivative databases.
+  found_by: [cd-satya]
+  status: not_attempted
+- id: mc-ramasigns-issue-document
+  kind: document
+  candidate: Ramasigns Industries, issue document offered on an online bond platform's page for INE650D08013
+  source: indiabonds
+  url: https://www.indiabonds.com/bond-directory/INE650D08013-ramasigns-industries-limited
+  isins: [INE650D08013]
+  stage: offered
+  priority: hold
+  contributes: Offer-document text for the instrument.
+  resolves: The terms as offered, against which the trustee's description could be compared.
+  why_by_hand: The platform's source policy is manual only.
+  prerequisite: >-
+    Legal review of the platform's terms, which forbid data-gathering and extraction tools and derivative databases.
+  found_by: [cd-ramasigns]
+  status: not_attempted
+- id: mc-watermarke-issue-document
+  kind: document
+  candidate: Watermarke Estates, issue document offered on an online bond platform's page for INE07J407014
+  source: indiabonds
+  url: https://www.indiabonds.com/bond-directory/INE07J407014-watermarke-estates-private-limited/
+  isins: [INE07J407014]
+  stage: offered
+  priority: hold
+  contributes: Offer-document text for the instrument.
+  resolves: The terms as offered, against which the trustee's description could be compared.
+  why_by_hand: The platform's source policy is manual only.
+  prerequisite: >-
+    Legal review of the platform's terms, which forbid data-gathering and extraction tools and derivative databases.
+  found_by: [cd-watermarke]
+  status: not_attempted

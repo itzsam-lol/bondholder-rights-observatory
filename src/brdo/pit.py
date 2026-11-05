@@ -569,6 +569,23 @@ def _printed_names(dataset: Dataset, issuer_id: str) -> Iterator[tuple[str, str]
             yield variant.name, item.document
 
 
+def _as_known_by(document: Document, day: date):
+    """The document's record without what was learned after ``day``: a later retrieval, its robots outcome, a
+    server's or publisher's date after the day, and the project's notes."""
+    retrieved_later = document.retrieved_at is not None and document.retrieved_at.date() > day
+    return document.model_copy(
+        update={
+            "notes": None,
+            "dates": [held for held in document.dates if held.value <= day],
+            **(
+                {"retrieved_at": None, "retrieved_manually": False, "robots_at_retrieval": None}
+                if retrieved_later
+                else {}
+            ),
+        }
+    )
+
+
 _RELATIONSHIP_STRENGTH = (
     SupportBasis.PRINTED_WITH_NAME,
     SupportBasis.ISSUER_PUBLICATION,
@@ -593,7 +610,8 @@ def as_of(dataset: Dataset, day: date, mode: AvailabilityMode = AvailabilityMode
     * ISINs that a record lists but no admitted record prints are removed from it.
     * Free-text notes and discrepancy descriptions, written with later knowledge, are dropped. Searches and reviews
       of annotations made after ``day`` are dropped; a clause record counts as reviewed only if reviews made by then
-      settle it.
+      settle it. An admitted file's record keeps only the dates on or before ``day``: a later retrieval, and a server's
+      or publisher's date after the day, are dropped from it, though the view's rule may have used them.
 
     The result holds nothing that tells what the full record contains beyond ``day``.
     """
@@ -788,7 +806,7 @@ def as_of(dataset: Dataset, day: date, mode: AvailabilityMode = AvailabilityMode
 
     return replace(
         dataset,
-        documents={k: without_note(v) for k, v in dataset.documents.items() if k in kept},
+        documents={k: _as_known_by(v, day) for k, v in dataset.documents.items() if k in kept},
         issuers=issuers,
         instruments=instruments,
         provisions=provisions,
@@ -808,6 +826,7 @@ def as_of(dataset: Dataset, day: date, mode: AvailabilityMode = AvailabilityMode
             if all(e.document in kept for e in v.evidence) and all(o.observed_on <= day for o in v.observations)
         },
         reviews=reviews,
+        manual_checks={},
         cutoff=day if dataset.cutoff is None else min(day, dataset.cutoff),
         availability_mode=mode,
         availability_states=states,

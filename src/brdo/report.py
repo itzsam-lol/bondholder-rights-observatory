@@ -35,6 +35,8 @@ from brdo.vocab import (
     CoverageStatus,
     DocumentType,
     InstrumentProperty,
+    ManualCheckPriority,
+    ManualCheckStatus,
     NoticeKind,
     ProvisionStage,
     SearchOutcome,
@@ -575,8 +577,12 @@ def _timing_section(dataset: Dataset) -> str:
         "exists), and the day the project observed the file in public, which is when it was retrieved. Only the "
         "last is proved by the record. Last-Modified dates the "
         "version held, so an earlier version may have been public sooner, and a copied file can carry a misleading "
-        "date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the "
-        "estimates, or with `--availability observed` from the observations alone.\n\n"
+        "date. `brdo status --as-of` and `brdo show --as-of` build a view of a date under one of three rules: what "
+        "the project had itself observed by then (`observed`), a reconstruction that also admits files whose "
+        "estimate has passed (`estimated`, the default), or every file no lower bound rules out (`possible`). The "
+        "last is a retrospective upper bound, not a snapshot: it admits files the project found much later because "
+        "the evidence cannot show they were not public, and admits files with no lower bound on any day. Every view "
+        "says which of its files were confirmed public by its date and which are only uncertain.\n\n"
         f"Breach reports for the quarter ended {period}, with the trustees' detection dates and the three dates for "
         "the file held:\n\n"
         + _table(
@@ -702,18 +708,41 @@ def _clauses_section(dataset: Dataset) -> str:
     )
 
 
-def _manual_queue_section(dataset: Dataset) -> str:
-    rows = [
-        [s.subject, url, s.note or ""]
-        for s in sorted(dataset.searches.values(), key=lambda s: s.id)
-        if s.outcome is SearchOutcome.LOCATED_NOT_RETRIEVED
-        for url in s.urls_seen
-    ]
+def _manual_checks_section(dataset: Dataset) -> str:
+    priorities = list(ManualCheckPriority)
+    checks = sorted(dataset.manual_checks.values(), key=lambda c: priorities.index(c.priority))
+    if not checks:
+        return ""
+    statuses = Counter(c.status for c in checks)
+    attempted = len(checks) - statuses[ManualCheckStatus.NOT_ATTEMPTED]
+    progress = (
+        "None has been attempted, so none is cited as evidence."
+        if not attempted
+        else f"{attempted} of {len(checks)} have been attempted: "
+        + ", ".join(f"{n} {status}" for status, n in sorted(statuses.items()))
+        + "."
+    )
+    rows = [[f"`{c.id}`", c.priority, c.kind, c.stage, c.status, ", ".join(c.isins)] for c in checks]
+    details = "\n".join(
+        f"- `{c.id}`: {c.candidate}.\n"
+        f"  - Could contribute: {c.contributes}\n"
+        f"  - Would resolve: {c.resolves}\n"
+        f"  - Why a person: {c.why_by_hand}\n"
+        + (f"  - Waits for: {c.prerequisite}\n" if c.prerequisite else "")
+        + f"  - Address: {c.url or 'none recorded'}"
+        for c in checks
+    )
     return (
-        "## Candidates awaiting manual retrieval\n\n"
-        "These sources refuse or forbid automated retrieval. Each file can be downloaded in a browser and ingested "
-        "with `brdo add-document --from-file`, which hashes it so that others can verify they hold the same file. None "
-        "has been ingested, and none is cited as evidence.\n\n" + _table(["ISIN", "where", "note"], rows)
+        "## Manual checks\n\n"
+        "Candidates that only a person can examine, recorded in `data/manual-checks.yaml`, in the order the project "
+        "would attempt them ([coverage.md](coverage.md#document-gaps-and-what-closing-each-would-change) gives the "
+        "reasons). A document is downloaded in an ordinary browser and ingested with `brdo add-document --from-file`, "
+        "which hashes it so that others can verify they hold the same file; a source review is read in a browser and "
+        "recorded in the source's record. A status beyond `not_attempted` needs a dated attempt by a person, and a "
+        "document status needs the file registered as retrieved manually. The stage says what a document would be "
+        "evidence of: an offer document shows the terms as offered, not as executed, and neither shows later "
+        "amendments.\n\n"
+        f"{progress}\n\n" + _table(["check", "priority", "kind", "stage", "status", "ISINs"], rows) + "\n\n" + details
     )
 
 
@@ -832,7 +861,7 @@ def render_report(dataset: Dataset) -> str:
         _evolution_section(dataset),
         _clauses_section(dataset),
         _discrepancy_section(dataset),
-        _manual_queue_section(dataset),
+        _manual_checks_section(dataset),
         _search_section(dataset),
         _verification_section(dataset),
     ]

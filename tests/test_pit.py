@@ -411,7 +411,17 @@ def test_a_view_never_reveals_when_the_project_later_observed_a_file(dataset):
     dataset.documents["report-q1"] = _modified(date(2026, 9, 13), retrieved_at=NOVEMBER)
     view = as_of(dataset, date(2026, 10, 1))
     assert set(view.availability_states.values()) == {AvailabilityState.UNCERTAIN}
-    assert all(state is not AvailabilityState.CONFIRMED for state in view.availability_states.values())
+    assert view.documents["report-q1"].retrieved_at is None
+
+
+def test_a_view_keeps_no_retrieval_or_server_date_from_after_its_day(dataset):
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13), retrieved_at=NOVEMBER)
+    possible = as_of(dataset, date(2026, 9, 1), POSSIBLE).documents["report-q1"]
+    assert possible.retrieved_at is None and possible.dates == []
+    estimated = as_of(dataset, date(2026, 10, 1)).documents["report-q1"]
+    assert [held.value for held in estimated.dates] == [date(2026, 9, 13)]
+    observed = as_of(dataset, date(2026, 11, 3), OBSERVED).documents["report-q1"]
+    assert observed.retrieved_at == NOVEMBER
 
 
 # --- What establishes an ISIN, whose it is, and an issuer ---

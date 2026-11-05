@@ -19,7 +19,17 @@ from brdo.identifiers import isin_issuer_code
 from brdo.pdftext import normalize
 from brdo.pit import as_of
 from brdo.report import render_report
-from brdo.review import CODEBOOK, ROUNDS, PacketRefused, decisions, read_csv, render_scores, score, write_packet
+from brdo.review import (
+    CODEBOOK,
+    GUIDE,
+    ROUNDS,
+    PacketRefused,
+    decisions,
+    read_csv,
+    render_scores,
+    score,
+    write_packet,
+)
 from brdo.status import derive_all
 from brdo.store import DatasetError, Severity, check_integrity, load_dataset
 from brdo.verify import (
@@ -57,7 +67,16 @@ def cmd_validate(args: argparse.Namespace) -> int:
     errors = sum(1 for problem in problems if problem.severity is Severity.ERROR)
     counts = ", ".join(
         f"{len(getattr(dataset, name))} {name.replace('_', ' ')}"
-        for name in ("sources", "documents", "issuers", "instruments", "provisions", "breach_reports", "searches")
+        for name in (
+            "sources",
+            "documents",
+            "issuers",
+            "instruments",
+            "provisions",
+            "breach_reports",
+            "searches",
+            "manual_checks",
+        )
     )
     print(f"{counts}; {errors} errors, {len(problems) - errors} warnings")
     return 1 if errors else 0
@@ -263,7 +282,8 @@ MODE_MEANING = {
         "That date is an assumption, not evidence"
     ),
     AvailabilityMode.POSSIBLE: (
-        "an upper envelope: every file no lower bound rules out by then. Some may not yet have been public"
+        "a retrospective upper bound, not a snapshot of what was public then: every file no lower bound rules out, "
+        "including files found much later. A file in it may not yet have been public"
     ),
 }
 
@@ -315,7 +335,8 @@ def cmd_status(args: argparse.Namespace) -> int:
     print(
         f"as of {args.as_of}: status in the observed, estimated and possible views. "
         "'-' means the view holds no record printing the ISIN for that period; '*' marks a status resting on a file "
-        "admitted only as uncertain. Where observed and possible agree, uncertain files do not change the status"
+        "admitted only as uncertain. The possible column is a retrospective upper bound, not what was public then. "
+        "Where observed and possible agree, uncertain files do not change the status"
     )
     for key in sorted(set().union(*(result.keys() for result in results.values()))):
         cells = []
@@ -506,6 +527,7 @@ def cmd_review_packet(args: argparse.Namespace) -> int:
             fields,
             chosen_round=args.round,
             repository=args.data.resolve().parent,
+            guide=args.guide,
         )
     except PacketRefused as refusal:
         print(f"refused: {refusal}", file=sys.stderr)
@@ -580,7 +602,8 @@ def build_parser() -> argparse.ArgumentParser:
     availability_help = (
         "which files --as-of admits: 'observed' (only files BRDO had itself observed by then), 'estimated' (also "
         "files whose publisher's or server's date puts them by then, an assumption), or 'possible' (every file no "
-        "lower bound rules out). show defaults to estimated; status without this option prints all three"
+        "lower bound rules out, a retrospective upper bound and not a snapshot). show defaults to estimated; status "
+        "without this option prints all three"
     )
     modes = [mode.value for mode in AvailabilityMode]
     status = commands.add_parser("status", help="derived breach-disclosure status per ISIN and period")
@@ -611,6 +634,7 @@ def build_parser() -> argparse.ArgumentParser:
     packet.add_argument("--out", type=Path, required=True, help="directory for packet/ and key/; keep it out of git")
     packet.add_argument("--field", action="append", help="only this field, e.g. breach_item.category (repeatable)")
     packet.add_argument("--codebook", type=Path, default=CODEBOOK)
+    packet.add_argument("--guide", type=Path, default=GUIDE, help="the reviewer's guide copied into the packet")
     packet.add_argument(
         "--round",
         choices=ROUNDS,

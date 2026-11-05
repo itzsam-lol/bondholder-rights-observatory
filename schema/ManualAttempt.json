@@ -1,0 +1,50 @@
+{
+  "$defs": {
+    "ManualCheckStatus": {
+      "description": "How far a manual check has gone. Nothing beyond ``not_attempted`` is set without a dated attempt.",
+      "enum": [
+        "not_attempted",
+        "attempted_not_found",
+        "found_inaccessible",
+        "retrieved_manually",
+        "inspected_not_suitable",
+        "ingested_and_checked",
+        "recorded"
+      ],
+      "title": "ManualCheckStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One dated attempt by a person to examine a candidate, and what it reached.",
+  "properties": {
+    "by": {
+      "description": "A label for the person, not a personal detail",
+      "minLength": 1,
+      "title": "By",
+      "type": "string"
+    },
+    "note": {
+      "description": "What was done and seen, including any reason",
+      "minLength": 1,
+      "title": "Note",
+      "type": "string"
+    },
+    "on": {
+      "format": "date",
+      "title": "On",
+      "type": "string"
+    },
+    "outcome": {
+      "$ref": "#/$defs/ManualCheckStatus"
+    }
+  },
+  "required": [
+    "on",
+    "by",
+    "outcome",
+    "note"
+  ],
+  "title": "ManualAttempt",
+  "type": "object"
+}

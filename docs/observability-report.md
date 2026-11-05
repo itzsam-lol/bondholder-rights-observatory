@@ -178,7 +178,7 @@ For each ISIN listed in a current report for the quarter ended 2026-06-30, every
 
 ## What was public when
 
-An account of a past date must use only what was public by then. The record keeps three kinds of date for each file and never treats one as another: a lower bound (the latest date the file gives itself, gives as an "as on" date, prints for a letter it contains, or prints for an event it reports, such as a detection or an intimation), an estimate (the later of the publisher's listing date and the server's Last-Modified date for the exact file held, never earlier than the lower bound, and the lower bound itself where neither exists), and the day the project observed the file in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the version held, so an earlier version may have been public sooner, and a copied file can carry a misleading date. `brdo status --as-of` and `brdo show --as-of` build the record as it stood on a date from the estimates, or with `--availability observed` from the observations alone.
+An account of a past date must use only what was public by then. The record keeps three kinds of date for each file and never treats one as another: a lower bound (the latest date the file gives itself, gives as an "as on" date, prints for a letter it contains, or prints for an event it reports, such as a detection or an intimation), an estimate (the later of the publisher's listing date and the server's Last-Modified date for the exact file held, never earlier than the lower bound, and the lower bound itself where neither exists), and the day the project observed the file in public, which is when it was retrieved. Only the last is proved by the record. Last-Modified dates the version held, so an earlier version may have been public sooner, and a copied file can carry a misleading date. `brdo status --as-of` and `brdo show --as-of` build a view of a date under one of three rules: what the project had itself observed by then (`observed`), a reconstruction that also admits files whose estimate has passed (`estimated`, the default), or every file no lower bound rules out (`possible`). The last is a retrospective upper bound, not a snapshot: it admits files the project found much later because the evidence cannot show they were not public, and admits files with no lower bound on any day. Every view says which of its files were confirmed public by its date and which are only uncertain.
 
 Breach reports for the quarter ended 2026-06-30, with the trustees' detection dates and the three dates for the file held:
 
@@ -327,21 +327,84 @@ Instruments whose debenture trustee is stated differently by different sources:
 | INE187O07031 | bank-of-maharashtra, vistra-itcl |
 | INE501X07588 | catalyst-trusteeship, central-bank-of-india |
 
-## Candidates awaiting manual retrieval
+## Manual checks
 
-These sources refuse or forbid automated retrieval. Each file can be downloaded in a browser and ingested with `brdo add-document --from-file`, which hashes it so that others can verify they hold the same file. None has been ingested, and none is cited as evidence.
+Candidates that only a person can examine, recorded in `data/manual-checks.yaml`, in the order the project would attempt them ([coverage.md](coverage.md#document-gaps-and-what-closing-each-would-change) gives the reasons). A document is downloaded in an ordinary browser and ingested with `brdo add-document --from-file`, which hashes it so that others can verify they hold the same file; a source review is read in a browser and recorded in the source's record. A status beyond `not_attempted` needs a dated attempt by a person, and a document status needs the file registered as retrieved manually. The stage says what a document would be evidence of: an offer document shows the terms as offered, not as executed, and neither shows later amendments.
 
-| ISIN | where | note |
-|---|---|---|
-| INE08XP07274 | https://bond.bseindia.com/PPMFiles/2024/JUL/PPM/723/8320.pdf | A general information document covering the issuer's programme, not the instrument's own key information document. |
-| INE501X07570 | https://bond.bseindia.com/PPMFiles/2024/JUN/KID/197/8156.pdf | A key information document on BSE that names this ISIN as a further issuance. BSE refuses the project's client; awaiting manual retrieval. |
-| INE760I07011 | https://bseindia.com/corporates/download/10200/Debenture%20Trust%20Deed/Trust%20Deed_07.02.2013_20200923123418.pdf | A BSE-hosted trust deed surfaced for this query. It has not been opened, so whether it governs this ISIN is unknown. |
-| INE650D08013 | https://www.indiabonds.com/bond-directory/INE650D08013-ramasigns-industries-limited | An online bond platform's page for this ISIN offers an issue document for download. |
-| INE982X08091 | https://assets.indiabonds.com/vendor/3ebce3c2-43de-40c0-904b-0ee0d1fe96e5/imfiles/INE982X08091-imfile-1701748127.pdf | An online bond platform links an issue document named for this ISIN, and BSE hosts the issuer's general information document. Neither source permits pipeline retrieval. |
-| INE982X08091 | https://bond.bseindia.com/PPMFiles/2024/JUL/PPM/629/8380.pdf | An online bond platform links an issue document named for this ISIN, and BSE hosts the issuer's general information document. Neither source permits pipeline retrieval. |
-| INE07J407014 | https://www.indiabonds.com/bond-directory/INE07J407014-watermarke-estates-private-limited/ | An online bond platform's page for this ISIN offers an issue document for download. |
-| pahal-financial-services | https://pahalfinance.com/wp-content/uploads/2026/08/Security-Cover_Signed.pdf | Both files answered HTTP 403 to the project's client. Whether either contains a covenant statement is not known. |
-| pahal-financial-services | https://pahalfinance.com/wp-content/uploads/2026/08/Intimation-for-trustee-reporting_Signed.pdf | Both files answered HTTP 403 to the project's client. Whether either contains a covenant statement is not known. |
+None has been attempted, so none is cited as evidence.
+
+| check | priority | kind | stage | status | ISINs |
+|---|---|---|---|---|---|
+| `mc-pahal-security-cover-2026-06` | first | document | not_a_contract_document | not_attempted | INE514Q07304, INE514Q07353, INE514Q07361, INE514Q07379, INE514Q07387, INE514Q07395, INE514Q07403 |
+| `mc-pahal-intimation-2026-06` | first | document | not_a_contract_document | not_attempted | INE514Q07304, INE514Q07353, INE514Q07361, INE514Q07379, INE514Q07387, INE514Q07395, INE514Q07403 |
+| `mc-bond-central-pages-and-terms` | first | source_review | not_a_document | not_attempted |  |
+| `mc-aye-kid-ine501x07570` | high | document | offered | not_attempted | INE501X07570 |
+| `mc-satya-gid-ine982x08091` | high | document | offered | not_attempted | INE982X08091 |
+| `mc-meghalaya-deed-2013` | medium | document | executed | not_attempted | INE760I07011 |
+| `mc-nse-terms` | medium | source_review | not_a_document | not_attempted |  |
+| `mc-akara-gid-ine08xp07274` | low | document | offered | not_attempted | INE08XP07274 |
+| `mc-satya-im-ine982x08091` | hold | document | offered | not_attempted | INE982X08091 |
+| `mc-ramasigns-issue-document` | hold | document | offered | not_attempted | INE650D08013 |
+| `mc-watermarke-issue-document` | hold | document | offered | not_attempted | INE07J407014 |
+
+- `mc-pahal-security-cover-2026-06`: Pahal Financial Services, security cover filing for the quarter ended 30 June 2026.
+  - Could contribute: Possibly the issuer's own statement of covenant compliance for the quarter. Whether the file holds one is not known until it is opened.
+  - Would resolve: Whether Pahal's own account agrees with Catalyst's listing of its seven ISINs. That would add a fourth issuer to the statement comparisons, which rest on three, and a third to the field-level comparison, which rests on two.
+  - Why a person: The file answered HTTP 403 to the project's identified client on 4 November 2026.
+  - Address: https://pahalfinance.com/wp-content/uploads/2026/08/Security-Cover_Signed.pdf
+- `mc-pahal-intimation-2026-06`: Pahal Financial Services, intimation for the trustee's reporting for the quarter ended 30 June 2026.
+  - Could contribute: The issuer's intimation to its trustee, which may enclose or summarise its compliance statement. What it holds is not known until it is opened.
+  - Would resolve: The same comparison as the security cover filing, and when the issuer informed its trustee.
+  - Why a person: The file answered HTTP 403 to the project's identified client on 4 November 2026.
+  - Address: https://pahalfinance.com/wp-content/uploads/2026/08/Intimation-for-trustee-reporting_Signed.pdf
+- `mc-bond-central-pages-and-terms`: Bond Central, its per-ISIN pages and its terms of use.
+  - Could contribute: What the portal shows for a few of the dataset's ISINs: which fields, whether documents are listed and identifiable by title and date, whether earlier versions and timestamps are kept, where the data comes from, and on what terms it may be retained, extracted and cited.
+  - Would resolve: Whether Bond Central could close the gaps in visibility and in the trace to the contract under terms that allow citation. Only its home, search and "About" pages have been read, through a reading service on 5 November 2026, and the "About" page returned no text.
+  - Why a person: The project's network could not reach the site on 3, 4 or 5 November 2026, its pages are built by scripts, and its source policy is manual only.
+  - Address: https://bondcentral.in/
+- `mc-aye-kid-ine501x07570`: Aye Finance, key information document on BSE naming INE501X07570 as a further issuance.
+  - Could contribute: The first offer-document text in the dataset, with the terms on which INE501X07570 was offered.
+  - Would resolve: Whether the trustee's quotation of clause 9.3(a)(viii) matches the terms as offered. It cannot show the executed deed's wording, whose numbering may differ, or any later amendment.
+  - Why a person: BSE refuses identified automated clients, so its source policy is manual only.
+  - Address: https://bond.bseindia.com/PPMFiles/2024/JUN/KID/197/8156.pdf
+- `mc-satya-gid-ine982x08091`: Satya MicroCapital, general information document on BSE.
+  - Could contribute: Programme-level terms as offered, for an issuer central to the statement comparisons.
+  - Would resolve: Whether the trustee's quotation of clause 9.3 matches the terms as offered at programme level. It cannot show the instrument's own terms, the executed deed or later amendments.
+  - Why a person: BSE refuses identified automated clients, so its source policy is manual only.
+  - Address: https://bond.bseindia.com/PPMFiles/2024/JUL/PPM/629/8380.pdf
+- `mc-meghalaya-deed-2013`: Meghalaya Energy Corporation, debenture trust deed of 7 February 2013 on BSE.
+  - Could contribute: Possibly the first executed contract text in the dataset, if the copy is the signed and complete deed.
+  - Would resolve: Whether the deed governs any listed ISIN, which is unknown until it is opened. It cannot show supplemental deeds executed since 2013.
+  - Why a person: BSE refuses identified automated clients, so its source policy is manual only.
+  - Address: https://bseindia.com/corporates/download/10200/Debenture%20Trust%20Deed/Trust%20Deed_07.02.2013_20200923123418.pdf
+- `mc-nse-terms`: NSE's terms of use, copyright policy and hyperlinking policy.
+  - Could contribute: A complete reading of what NSE's terms require of a site that cites or links its filings.
+  - Would resolve: Whether the basis recorded for excluding NSE holds: the hyperlinking clause and the prohibition of automated collection could not be confirmed from a partial reading on 5 November 2026.
+  - Why a person: NSE is excluded and no NSE address is recorded. Its pages are built by scripts, so a person must read them in a browser.
+  - Address: none recorded
+- `mc-akara-gid-ine08xp07274`: Akara Capital Advisors, general information document on BSE for the issuer's programme.
+  - Could contribute: Programme-level terms as offered.
+  - Would resolve: Little for the instrument itself: it is not INE08XP07274's own key information document, and neither shows the executed deed.
+  - Why a person: BSE refuses identified automated clients, so its source policy is manual only.
+  - Address: https://bond.bseindia.com/PPMFiles/2024/JUL/PPM/723/8320.pdf
+- `mc-satya-im-ine982x08091`: Satya MicroCapital, issue document named for INE982X08091 on an online bond platform.
+  - Could contribute: The instrument's own offer-document text.
+  - Would resolve: The same fidelity question as the general information document, at instrument level.
+  - Why a person: The platform's source policy is manual only.
+  - Waits for: Legal review of the platform's terms, which forbid data-gathering and extraction tools and derivative databases.
+  - Address: https://assets.indiabonds.com/vendor/3ebce3c2-43de-40c0-904b-0ee0d1fe96e5/imfiles/INE982X08091-imfile-1701748127.pdf
+- `mc-ramasigns-issue-document`: Ramasigns Industries, issue document offered on an online bond platform's page for INE650D08013.
+  - Could contribute: Offer-document text for the instrument.
+  - Would resolve: The terms as offered, against which the trustee's description could be compared.
+  - Why a person: The platform's source policy is manual only.
+  - Waits for: Legal review of the platform's terms, which forbid data-gathering and extraction tools and derivative databases.
+  - Address: https://www.indiabonds.com/bond-directory/INE650D08013-ramasigns-industries-limited
+- `mc-watermarke-issue-document`: Watermarke Estates, issue document offered on an online bond platform's page for INE07J407014.
+  - Could contribute: Offer-document text for the instrument.
+  - Would resolve: The terms as offered, against which the trustee's description could be compared.
+  - Why a person: The platform's source policy is manual only.
+  - Waits for: Legal review of the platform's terms, which forbid data-gathering and extraction tools and derivative databases.
+  - Address: https://www.indiabonds.com/bond-directory/INE07J407014-watermarke-estates-private-limited/
 
 ## Search log outcomes
 
