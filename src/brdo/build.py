@@ -25,8 +25,9 @@ from brdo.consistency import (
     unattributed_follow_up,
 )
 from brdo.dictionary import datapackage
+from brdo.identifiers import isin_issuer_code
 from brdo.models import Evidence, Instrument
-from brdo.pit import Support, availability, shown_public_by, supports
+from brdo.pit import Support, as_of, availability, code_owners, shown_public_by, supports
 from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
@@ -37,6 +38,7 @@ from brdo.vocab import (
     DocumentType,
     InstrumentProperty,
     RedistributionPolicy,
+    SupportBasis,
 )
 
 Row = dict[str, Any]
@@ -79,13 +81,73 @@ def _reserved(dataset: Dataset, document_id: str) -> bool:
 
 
 def _support_dates(dataset: Dataset, support: Support, mode: AvailabilityMode) -> date | None:
+    """The first day a view of ``mode`` admits the support. An observation counts from the day it was made, and
+    nothing bounds it from below."""
     if support.observation is not None:
-        return support.observation.observed_on
-    return shown_public_by(dataset.documents[support.document], dataset, mode)
+        return None if mode is AvailabilityMode.POSSIBLE else support.observation.observed_on
+    day = shown_public_by(dataset.documents[support.document], dataset, mode)
+    return None if day == date.min else day
 
 
 def _first_established(dataset: Dataset, found: list[Support], mode: AvailabilityMode) -> date | None:
-    return min((day for s in found if (day := _support_dates(dataset, s, mode)) is not None), default=None)
+    days = [_support_dates(dataset, s, mode) for s in found if s.establishes]
+    if mode is AvailabilityMode.POSSIBLE and any(day is None for day in days):
+        return None  # one support has no lower bound, so the entity could have been established on any day
+    return min((day for day in days if day is not None), default=None)
+
+
+def _later(*days: date | None) -> date | None:
+    return None if any(day is None for day in days) else max(days)  # type: ignore[type-var]
+
+
+def _code_inferences(dataset: Dataset, supported: dict[tuple[str, str, str], list[Support]]) -> list[Row]:
+    """Rows for issuer links inferred from an ISIN's issuer code, with the days they first hold in each view."""
+    owners = code_owners(dataset)
+    rows = []
+    for isin, held in sorted(dataset.instruments.items()):
+        code = isin_issuer_code(isin)
+        if owners[code] != {held.issuer}:
+            continue
+        others = [
+            other
+            for other in sorted(dataset.instruments)
+            if other != isin
+            and isin_issuer_code(other) == code
+            and any(s.establishes for s in supported.get(("instrument", other, "issuer"), []))
+        ]
+        if not others:
+            continue
+
+        def when(other: str, mode: AvailabilityMode, isin: str = isin) -> date | None:
+            own = _first_established(dataset, supported.get(("instrument", isin, "identity"), []), mode)
+            borrowed = _first_established(dataset, supported.get(("instrument", other, "issuer"), []), mode)
+            return _later(own, borrowed)
+
+        best = min(others, key=lambda other: (when(other, AvailabilityMode.ESTIMATED) or date.max, other))
+        rows.append(
+            {
+                "entity": "instrument",
+                "key": isin,
+                "attribute": "issuer",
+                "basis": SupportBasis.ISSUER_CODE,
+                "establishes": True,
+                "record": f"issuer code {code}, shared with {best}",
+                "document": None,
+                "observed_at_url": None,
+                "matched_as_reported": code,
+                "explanation": f"{best}'s issuer is established by a record, and no other issuer uses code {code}",
+                "available_not_before": min(
+                    (day for other in others if (day := when(other, AvailabilityMode.POSSIBLE))), default=None
+                ),
+                "available_estimate": min(
+                    (day for other in others if (day := when(other, AvailabilityMode.ESTIMATED))), default=None
+                ),
+                "available_confirmed_by": min(
+                    (day for other in others if (day := when(other, AvailabilityMode.OBSERVED))), default=None
+                ),
+            }
+        )
+    return rows
 
 
 def _linked(dataset: Dataset, instrument: Instrument, types: frozenset[DocumentType]) -> list[str]:
@@ -157,10 +219,11 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "last_modified": found.last_modified,
                 "available_not_before": found.not_before,
                 "available_not_before_basis": found.not_before_basis if found.not_before else None,
-                "available_from": found.estimate,
-                "available_basis": found.estimate_basis,
+                "available_estimate": found.estimate,
+                "available_estimate_basis": found.estimate_basis,
                 "available_confirmed_by": found.confirmed_by,
                 "available_window_days": found.window_days,
+                "robots_at_retrieval": d.robots_at_retrieval,
                 "period_start": d.period.start if d.period else None,
                 "period_end": d.period.end if d.period else None,
                 "as_of": d.as_of,
@@ -178,37 +241,60 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
             "lei": i.lei,
             "sector": i.sector,
             "name_variants": [variant.name for variant in i.name_variants],
-            "established_from": first("issuer", i.id, "identity", AvailabilityMode.ESTIMATED),
+            "established_not_before": first("issuer", i.id, "identity", AvailabilityMode.POSSIBLE),
+            "established_estimate": first("issuer", i.id, "identity", AvailabilityMode.ESTIMATED),
             "established_confirmed_by": first("issuer", i.id, "identity", AvailabilityMode.OBSERVED),
         }
         for i in sorted(dataset.issuers.values(), key=lambda i: i.id)
     ]
 
+    inferred = _code_inferences(dataset, supported)
     out["attribute_support"] = sorted(
-        (
+        [
             {
                 "entity": s.entity,
                 "key": s.key,
                 "attribute": s.attribute,
+                "basis": s.basis,
+                "establishes": s.establishes,
                 "record": s.record,
                 "document": s.document,
                 "observed_at_url": s.observation.url if s.observation else None,
-                "available_from": _support_dates(dataset, s, AvailabilityMode.ESTIMATED),
+                "matched_as_reported": s.matched,
+                "explanation": s.explanation,
+                "available_not_before": _support_dates(dataset, s, AvailabilityMode.POSSIBLE),
+                "available_estimate": _support_dates(dataset, s, AvailabilityMode.ESTIMATED),
                 "available_confirmed_by": _support_dates(dataset, s, AvailabilityMode.OBSERVED),
             }
-            for s in {
-                (s.entity, s.key, s.attribute, s.record, s.document, s.observation): s for s in every_support
-            }.values()
-        ),
+            for s in every_support
+        ]
+        + inferred,
         key=lambda r: (
             r["entity"],
             r["key"],
             r["attribute"],
+            str(r["basis"]),
             r["record"],
             r["document"] or "",
             r["observed_at_url"] or "",
         ),
     )
+    links = {row["key"]: row for row in inferred}
+    latest = max(
+        (day for d in dataset.documents.values() if (day := availability(d, dataset).confirmed_by)), default=None
+    )
+    link_basis = as_of(dataset, latest, AvailabilityMode.ESTIMATED).relationship_bases if latest is not None else {}
+
+    def link_first(isin: str, mode: AvailabilityMode) -> date | None:
+        direct = _first_established(dataset, supported.get(("instrument", isin, "issuer"), []), mode)
+        code = links.get(isin, {}).get(
+            {
+                AvailabilityMode.POSSIBLE: "available_not_before",
+                AvailabilityMode.ESTIMATED: "available_estimate",
+                AvailabilityMode.OBSERVED: "available_confirmed_by",
+            }[mode]
+        )
+        return min((day for day in (direct, code) if day is not None), default=None)
 
     out["instruments"], out["claims"], out["document_links"] = [], [], []
     for isin in sorted(dataset.instruments):
@@ -229,8 +315,12 @@ def tables(dataset: Dataset) -> dict[str, list[Row]]:
                 "trust_deed_dates": sorted(
                     {d for n in dataset.breach_notices.values() if isin in n.isins for d in n.deed_dates}
                 ),
-                "established_from": first("instrument", isin, "identity", AvailabilityMode.ESTIMATED),
+                "established_not_before": first("instrument", isin, "identity", AvailabilityMode.POSSIBLE),
+                "established_estimate": first("instrument", isin, "identity", AvailabilityMode.ESTIMATED),
                 "established_confirmed_by": first("instrument", isin, "identity", AvailabilityMode.OBSERVED),
+                "issuer_link_basis": link_basis.get(isin),
+                "issuer_link_estimate": link_first(isin, AvailabilityMode.ESTIMATED),
+                "issuer_link_confirmed_by": link_first(isin, AvailabilityMode.OBSERVED),
                 "notes": instrument.notes,
             }
         )

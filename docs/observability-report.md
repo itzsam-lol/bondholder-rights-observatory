@@ -190,9 +190,35 @@ Breach reports for the quarter ended 2026-06-30, with the trustees' detection da
 | ctl-t5-2026-06 | 2026-07-22 | 2026-09-07 | 2026-09-11 | 2026-09-13 | http_last_modified | 75 | 2026-11-03 |
 | idbi-t5-2026-06 | 2026-06-12 | 2026-09-15 | 2026-09-15 | 2026-09-15 | http_last_modified | 77 | 2026-11-03 |
 | mitcon-t5-2026-06 | 2023-10-11 | 2023-10-11 | 2026-09-12 | 2026-10-19 | http_last_modified | 111 | 2026-11-03 |
-| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 | 2026-01-09 | 2026-09-11 | http_last_modified | 73 | 2026-11-03 |
+| vistra-t5-2026-06 | 2024-07-20 | 2026-01-05 | 2026-04-01 | 2026-09-11 | http_last_modified | 73 | 2026-11-03 |
 
 By the estimates, the issuer's statement was public before the trustee's report in 21 of 21 ISIN-level comparisons with a listing, and the estimates behind them all rest on http_last_modified. If those dates are right, the public record held the issuer's account alone for a time. The project's own observations cannot order the two: it observed the issuer's statement first in 0 and the trustee's report first in 21 of 21 comparisons, an order that reflects when the project looked, not when either was published.
+
+## What supports each entity and attribute
+
+A historical view shows an ISIN, which issuer it belongs to, and an issuer's identity, name, CIN and LEI only once a record then admitted supports each of them. Printing an ISIN does not show whose it is, and a name counts only as a whole name. Rows that do not establish anything are kept in `exports/attribute_support.csv` so that what the record holds can be seen, but views do not rely on them. Links inferred from an ISIN's issuer code are listed there too.
+
+| entity | attribute | basis | establishes | records |
+|---|---|---|---|---|
+| instrument | identity | flag_only | no | 2 |
+| instrument | identity | observed | yes | 6 |
+| instrument | identity | quoted | yes | 315 |
+| instrument | identity | recomputed | yes | 2 |
+| instrument | issuer | issuer_publication | yes | 27 |
+| instrument | issuer | letter_to_holders | no | 77 |
+| instrument | issuer | observed | yes | 4 |
+| instrument | issuer | printed_with_name | yes | 100 |
+| issuer | cin | issuer_publication | yes | 1 |
+| issuer | cin | observed | yes | 3 |
+| issuer | identity | exact_name | yes | 33 |
+| issuer | identity | issuer_publication | yes | 7 |
+| issuer | identity | name_variant | yes | 5 |
+| issuer | identity | name_with_addition | yes | 3 |
+| issuer | identity | observed | yes | 4 |
+| issuer | lei | observed | yes | 1 |
+| issuer | name | exact_name | yes | 33 |
+| issuer | name | name_with_addition | yes | 3 |
+| issuer | name | observed | yes | 4 |
 
 ## Breach-disclosure status by reporting period
 
@@ -334,3 +360,33 @@ These sources refuse or forbid automated retrieval. Each file can be downloaded 
 | trustee_report | not_found | 2 |
 
 Documents held by type: 8 breach reports, 23 trustee notices, 6 issuer filings, 1 rating rationales, 5 regulatory circulars.
+
+## What verification needs
+
+These are different checks, and none stands in for another:
+
+1. schema and integrity checks (`brdo validate`), offline;
+2. rebuilding the exports and this report, offline;
+3. checking every anchor against the cached source files (`brdo verify`), offline once the files are cached;
+4. retrieving the files again (`brdo fetch`), which needs the hosts below and their robots policies;
+5. re-reading each source's terms and robots policy, by a person;
+6. checking by eye the anchors read from rendered pages, by a person;
+7. an independent second annotation, by a person (see `docs/reliability.md`).
+
+Anchors marked as read from the rendering were transcribed from the rendered page; whether their words are also in the file's text layer is a separate result of `brdo verify`, which reports those it cannot find there as `visual_only`. The fetcher retrieves a file only when the host's robots policy is established: a robots file it can read, or HTTP 404 or 410. Any other answer stops it, and the failure is logged as an access error. 0 of 45 documents were retrieved by hand.
+
+| host | source | retrieval policy | documents | anchors | anchors read from the rendering | robots policy at retrieval |
+|---|---|---|---|---|---|---|
+| beacontrustee.co.in | beacon-trusteeship | allowed | 1 | 1 | 0 | not recorded |
+| catalysttrustee.com | catalyst-trusteeship | allowed | 15 | 593 | 0 | not recorded |
+| dlryl1dmmgapd.cloudfront.net | aye-finance-web | allowed | 1 | 5 | 0 | not recorded |
+| idbitrustee.com | idbi-trusteeship | allowed | 10 | 238 | 24 | not recorded |
+| mitconcredentia.in | mitcon-credentia | allowed | 1 | 11 | 0 | not recorded |
+| satyamicrocapital.com | satya-microcapital-web | allowed | 1 | 31 | 28 | not recorded |
+| www.axistrustee.in | axis-trustee | allowed | 3 | 127 | 0 | not recorded |
+| www.dvarakgfs.com | dvara-kgfs-web | allowed | 3 | 155 | 154 | not recorded |
+| www.icra.in | icra | allowed | 1 | 2 | 0 | unread |
+| www.infinityfincorp.com | infinity-fincorp-web | allowed | 1 | 6 | 0 | not recorded |
+| www.mitconcredentia.in | mitcon-credentia | allowed | 1 | 1 | 0 | not recorded |
+| www.sebi.gov.in | sebi | allowed | 6 | 28 | 0 | not recorded |
+| www.vistraitcl.com | vistra-itcl | allowed | 1 | 56 | 40 | not recorded |

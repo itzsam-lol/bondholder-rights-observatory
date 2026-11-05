@@ -8,6 +8,7 @@ trustee complied with any obligation.
 from collections import Counter, defaultdict
 from datetime import date
 from statistics import median
+from urllib.parse import urlsplit
 
 from brdo.census import listed_in_breach_reports
 from brdo.consistency import (
@@ -730,6 +731,86 @@ def _search_section(dataset: Dataset) -> str:
     )
 
 
+def _support_section(dataset: Dataset) -> str:
+    """What evidence supports each entity and attribute that point-in-time views rely on."""
+    from brdo.pit import supports
+
+    counts: dict[tuple[str, str, str, bool], int] = defaultdict(int)
+    for support in supports(dataset):
+        counts[(support.entity, support.attribute, str(support.basis), support.establishes)] += 1
+    rows = [
+        [entity, attribute, basis, "yes" if establishes else "no", count]
+        for (entity, attribute, basis, establishes), count in sorted(counts.items())
+    ]
+    return (
+        "## What supports each entity and attribute\n\n"
+        "A historical view shows an ISIN, which issuer it belongs to, and an issuer's identity, name, CIN and LEI only "
+        "once a record then admitted supports each of them. Printing an ISIN does not show whose it is, and a name "
+        "counts only as a whole name. Rows that do not establish anything are kept in `exports/attribute_support.csv` "
+        "so that what the record holds can be seen, but views do not rely on them. Links inferred from an ISIN's "
+        "issuer code are listed there too.\n\n"
+        + _table(["entity", "attribute", "basis", "establishes", "records"], rows)
+    )
+
+
+def _verification_section(dataset: Dataset) -> str:
+    """What a full verification run needs, host by host."""
+    by_host: dict[str, list[str]] = defaultdict(list)
+    for document in dataset.documents.values():
+        by_host[urlsplit(document.url).hostname or ""].append(document.id)
+    anchors: dict[str, int] = defaultdict(int)
+    reading: dict[str, int] = defaultdict(int)
+    for _, item in dataset.evidence():
+        anchors[item.document] += 1
+        reading[item.document] += int(item.visual_fallback)
+    rows = []
+    for host in sorted(by_host):
+        documents = sorted(by_host[host])
+        sources = sorted({dataset.documents[d].source for d in documents})
+        policy = sorted({str(dataset.sources[s].retrieval) for s in sources})
+        robots = sorted({str(dataset.documents[d].robots_at_retrieval or "not recorded") for d in documents})
+        rows.append(
+            [
+                host,
+                ", ".join(sources),
+                ", ".join(policy),
+                len(documents),
+                sum(anchors[d] for d in documents),
+                sum(reading[d] for d in documents),
+                ", ".join(robots),
+            ]
+        )
+    manual = sum(1 for d in dataset.documents.values() if d.retrieved_manually)
+    return (
+        "## What verification needs\n\n"
+        "These are different checks, and none stands in for another:\n\n"
+        "1. schema and integrity checks (`brdo validate`), offline;\n"
+        "2. rebuilding the exports and this report, offline;\n"
+        "3. checking every anchor against the cached source files (`brdo verify`), offline once the files are cached;\n"
+        "4. retrieving the files again (`brdo fetch`), which needs the hosts below and their robots policies;\n"
+        "5. re-reading each source's terms and robots policy, by a person;\n"
+        "6. checking by eye the anchors read from rendered pages, by a person;\n"
+        "7. an independent second annotation, by a person (see `docs/reliability.md`).\n\n"
+        "Anchors marked as read from the rendering were transcribed from the rendered page; whether their words are "
+        "also in the file's text layer is a separate result of `brdo verify`, which reports those it cannot find "
+        "there as `visual_only`. The fetcher retrieves a file only when the host's robots policy is established: "
+        "a robots file it can read, or HTTP 404 or 410. Any other answer stops it, and the failure is logged as an "
+        f"access error. {manual} of {len(dataset.documents)} documents were retrieved by hand.\n\n"
+        + _table(
+            [
+                "host",
+                "source",
+                "retrieval policy",
+                "documents",
+                "anchors",
+                "anchors read from the rendering",
+                "robots policy at retrieval",
+            ],
+            rows,
+        )
+    )
+
+
 def render_report(dataset: Dataset) -> str:
     sections = [
         _heading_section(dataset),
@@ -745,6 +826,7 @@ def render_report(dataset: Dataset) -> str:
         _census_section(dataset),
         _outcomes_section(dataset),
         _timing_section(dataset),
+        _support_section(dataset),
         _status_section(dataset),
         _funnel_section(dataset),
         _evolution_section(dataset),
@@ -752,5 +834,6 @@ def render_report(dataset: Dataset) -> str:
         _discrepancy_section(dataset),
         _manual_queue_section(dataset),
         _search_section(dataset),
+        _verification_section(dataset),
     ]
     return "\n\n".join(section for section in sections if section) + "\n"

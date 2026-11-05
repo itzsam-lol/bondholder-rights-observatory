@@ -127,15 +127,87 @@ DATE_BASES_BY_KIND = {
 """Which ways of knowing a date can support which meaning. A server header cannot show that a file was published."""
 
 
-class AvailabilityMode(StrEnum):
-    """Which dates a point-in-time view trusts to decide that a document was public by a given day."""
+class AvailabilityState(StrEnum):
+    """What the record shows about one exact file on one day. Only ``confirmed`` rests on the project's own evidence."""
 
-    ESTIMATED = "estimated"
-    """A file counts from its estimated availability: the publisher's date, the server's Last-Modified date or, failing
-    both, its own date, which is only a lower bound. Closer to what was public, but a file may count too early."""
+    NOT_YET_POSSIBLE = "not_yet_possible"
+    """The day precedes a lower bound: a date the file gives itself, a letter it contains or an event it records.
+    If those dates are right, the file cannot have been public yet."""
+    UNCERTAIN = "uncertain"
+    """The file may or may not have been public: no lower bound rules it out, and the project had not yet observed
+    it. A publisher's or server's date only suggests when, and is not evidence that it was."""
+    CONFIRMED = "confirmed"
+    """The project had retrieved this exact file from its public address by then."""
+
+
+class AvailabilityMode(StrEnum):
+    """Which files a point-in-time view admits on a given day. The three views nest: observed, estimated, possible."""
+
     OBSERVED = "observed"
-    """A file counts only from the day it was observed to be public, which is when the project retrieved it. No file
-    counts too early, but files that were public long before the project looked are left out."""
+    """Only files the project itself had observed by the day: what BRDO had seen, not what the public could see. No
+    file counts too early, but files public long before the project looked are left out."""
+    ESTIMATED = "estimated"
+    """Files observed by the day, and files not yet observed that an estimate, from the publisher's or the server's
+    date, puts on or before the day. A reconstruction under that stated assumption, not the public record itself."""
+    POSSIBLE = "possible"
+    """Every file that no lower bound rules out on the day: an upper envelope. Nothing that could have been public is
+    left out, but files not yet public may be let in, and a file with no lower bound is let in on any day."""
+
+
+class SupportBasis(StrEnum):
+    """What kind of evidence supports an entity or attribute (see ``pit.supports``)."""
+
+    QUOTED = "quoted"
+    """An anchor's quotation prints the value, so ``brdo verify`` can check it against the hashed file."""
+    RECOMPUTED = "recomputed"
+    """The value is recomputed from the hashed file's text by ``brdo verify``, as for a census's ISIN lists."""
+    OBSERVED = "observed"
+    """Seen on a link-only page and recorded as an observation, which cannot be re-verified automatically."""
+    FLAG_ONLY = "flag_only"
+    """A curated flag says the record prints the value, but no anchor quotes it. It does not establish the value."""
+    PRINTED_WITH_NAME = "printed_with_name"
+    """One record prints the ISIN and the issuer's name together, such as a row of a trustee's breach report."""
+    ISSUER_PUBLICATION = "issuer_publication"
+    """The issuer's own website published the record, which prints the ISIN or the identifier."""
+    LETTER_TO_HOLDERS = "letter_to_holders"
+    """A trustee's letter to the holders of the ISIN, which the project attributes to the issuer. No transcribed
+    quotation prints the issuer's name, so the attribution is the curator's reading. It does not establish the link."""
+    ISSUER_CODE = "issuer_code"
+    """Inferred: the ISIN's issuer code is shared with an ISIN whose issuer a record prints, and no other issuer in
+    the dataset uses that code."""
+    EXACT_NAME = "exact_name"
+    """The printed name is the issuer's name, ignoring case, punctuation and Ltd or Pvt for Limited or Private."""
+    NAME_WITH_ADDITION = "name_with_addition"
+    """The printed name is the issuer's name followed by a parenthesis, such as an abbreviation or a former name."""
+    NAME_VARIANT = "name_variant"
+    """A recorded variant of the issuer's name is printed, with its own evidence."""
+
+
+ESTABLISHING_BASES = frozenset(
+    {
+        SupportBasis.QUOTED,
+        SupportBasis.RECOMPUTED,
+        SupportBasis.OBSERVED,
+        SupportBasis.PRINTED_WITH_NAME,
+        SupportBasis.ISSUER_PUBLICATION,
+        SupportBasis.ISSUER_CODE,
+        SupportBasis.EXACT_NAME,
+        SupportBasis.NAME_WITH_ADDITION,
+        SupportBasis.NAME_VARIANT,
+    }
+)
+"""Bases that establish what they support in a point-in-time view. The others are exported, labelled, but not used."""
+
+
+class RobotsAtRetrieval(StrEnum):
+    """What the fetcher could establish about a host's robots policy when it retrieved a file."""
+
+    OBEYED = "obeyed"
+    """A robots file was read and allowed the retrieval."""
+    ABSENT = "absent"
+    """The robots address answered HTTP 404 or 410: the host publishes no robots rules."""
+    UNREAD = "unread"
+    """No robots policy could be established, but an earlier version of the fetcher retrieved the file anyway."""
 
 
 class CovenantCategory(StrEnum):

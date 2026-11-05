@@ -41,6 +41,7 @@ from brdo.vocab import (
     RedistributionPolicy,
     RetrievalPolicy,
     ReviewerKind,
+    RobotsAtRetrieval,
     SearchChannel,
     SearchOutcome,
     SearchPurpose,
@@ -151,6 +152,9 @@ class Source(Record):
     )
     ai_training: AiTrainingSignal = AiTrainingSignal.UNSPECIFIED
     sebi_registration: str | None = None
+    issuer: RecordId | None = Field(
+        default=None, description="The issuer whose own website this is, for sources of kind issuer"
+    )
     terms: TermsReview | None = None
     notes: str | None = None
 
@@ -182,6 +186,9 @@ class Document(Record):
     retrieved_at: datetime | None = None
     retrieved_manually: bool = Field(
         default=False, description="Downloaded in a browser, outside the pipeline; see `brdo add-document --from-file`"
+    )
+    robots_at_retrieval: RobotsAtRetrieval | None = Field(
+        default=None, description="What the fetcher established about the host's robots policy; None if not recorded"
     )
     sha256: Sha256 | None = None
     size_bytes: int | None = Field(default=None, ge=0)
@@ -669,6 +676,7 @@ class AnnotationReview(Record):
     second: str
     second_annotator: str = Field(min_length=1)
     second_by: ReviewerKind
+    second_unsure: bool = Field(default=False, description="The second annotator marked the decision as unsure")
     second_reason: str | None = None
     annotated_on: date
     adjudicated: str | None = None

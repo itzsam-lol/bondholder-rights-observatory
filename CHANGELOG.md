@@ -2,6 +2,43 @@
 
 Changes to the records, the exports and the figures derived from them. Corrections to figures published earlier are listed first, with the old and new values, so that anyone who cited a figure can see what changed and why. The repository's history holds every earlier state.
 
+## Unreleased (sixth pass: historical truth and attribute support, 5 November 2026)
+
+The availability model, the 521 attribute-support rows and the review kit added by the previous audit were themselves audited before anything else was done. Nothing was committed in this pass.
+
+### Corrected figures
+
+| Figure | Was | Now | Why |
+|---|---|---|---|
+| Lower bound of availability of Vistra's June 2026 report | 2026-01-09 | 2026-04-01 | The start of the period a report covers now bounds it from below, and is later than any event its rows print |
+| Lower bound of Catalyst's June 2026 census | none | 2026-08-14 | The dates on which the census records receiving issuers' compliance reports now bound it from below |
+| Estimate of availability of ICRA's rationale `icra-krcl-139196` | 2025-11-25, its own date | none | A file's own date is a lower bound, not an estimate. With no publisher's or server's date the file has no estimate, and the estimated view admits it only from the day it was observed, 2026-11-04 |
+| Support rows for issuer identity | 153 | 52 | 71 rested on no transcribed evidence of the issuer, such as a trustee's letter printing only the ISIN, and 33 on another anchor of the same file. Which issuer an ISIN belongs to is now its own attribute |
+| Rows in `attribute_support.csv` | 521 | 716 | 630 supports, 79 of which are labelled as establishing nothing, and 86 issuer-code inferences |
+
+No status, comparison, follow-up count or timing comparison changed.
+
+### Corrected behaviour
+
+- **Availability is a state, not a date.** On any day a file is `not_yet_possible`, `uncertain` or `confirmed`. The estimated view no longer counts a file's own date, or its retrieval, as an estimate. Views record each admitted file's state, and a new `possible` view gives the upper envelope.
+- **`brdo show --as-of`** tags every line with its file's state, says how the issuer link is known, and never shows when the project later observed a file. **`brdo status --as-of`** without `--availability` prints the observed, estimated and possible statuses side by side, and calls a status settled only where the observed and possible views agree.
+- **Support rules.** A claim's or link's evidence establishes an ISIN only where its quotation prints it. An issuer's identity needs its name, a variant, its CIN or LEI, or its own website, not merely one of its ISINs. Names match as whole names, exactly or with a parenthetical addition. A CIN or LEI counts only from the issuer's own publication, a quotation naming the issuer, or a depository page for one of its ISINs.
+- **Views hide what they cannot establish.** An issuer that a view cannot identify, or cannot tell from another of the same name, appears under its ISINs' issuer code, never under the dataset's identifier, which encodes its name. Before 3 November 2026 the two Samunnati issuers appear this way. ISINs that no admitted record prints are removed from the records that list them, and discrepancy descriptions are withheld as later prose.
+- **The review kit.** The packet now names each line's file hash, ISINs and field kind, uses `none` for "no value" so that a blank always means undecided, and is written in two rounds chosen by field and record. `brdo review packet` refuses to write inside the repository or over an earlier round, and writes the key readable by its owner only. The scorer reports each field with the statistics its kind allows, the label distributions, and the hard cases and unsure answers apart.
+
+### Added
+
+- **Records:** `Source.issuer` links the six issuer websites to their issuers; `Document.robots_at_retrieval` records that ICRA's rationale was retrieved while no robots policy could be established; `AnnotationReview.second_unsure`.
+- **Exports:** `attribute_support.csv` gains `basis`, `establishes`, `matched_as_reported`, `explanation` and `available_not_before`, and issuer-code inference rows. `documents.csv` renames `available_from` to `available_estimate` and `available_basis` to `available_estimate_basis`, and adds `robots_at_retrieval`. `issuers.csv` and `instruments.csv` rename `established_from` to `established_estimate` and add `established_not_before`; `instruments.csv` adds `issuer_link_basis`, `issuer_link_estimate` and `issuer_link_confirmed_by`.
+- **Report sections** on what supports each entity and attribute, and on what verification needs, host by host.
+- **The codebook** cites the exact SEBI file for covenant categories, with its address, SHA-256 and page.
+- **Tests** for each state and view, each support rule, issuer codes and shared names, the leak of issuer identifiers into views, the packet's refusal and key permissions, the rounds, and each kind of agreement statistic.
+
+### Not done
+
+- `brdo fetch` and `brdo verify` could not run: the proxy refused the tunnel to every source host, and the fetcher, correctly, reported robots.txt as unread and fetched nothing. Verification figures are still those of 4 November 2026.
+- No annotation was changed and no review was made. Two labels that may not follow the written rules are left for adjudication.
+
 ## Unreleased (audit of the fifth pass, 5 November 2026)
 
 The fifth pass's own changes were re-examined before anything was added. This entry corrects that pass where it was wrong, including two claims in its entry below.

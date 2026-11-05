@@ -109,6 +109,12 @@
       ],
       "default": null,
       "title": "Second Reason"
+    },
+    "second_unsure": {
+      "default": false,
+      "description": "The second annotator marked the decision as unsure",
+      "title": "Second Unsure",
+      "type": "boolean"
     }
   },
   "required": [

@@ -1,6 +1,6 @@
 # Reliability, and the annotation guide
 
-How far each kind of value in the records can be relied on, what was checked, what was found wrong, and the rules a second annotator should apply. Written on 4 November 2026, and revised on 5 November 2026 after an audit of that work.
+How far each kind of value in the records can be relied on, what was checked, what was found wrong, and the rules a second annotator should apply. Written on 4 November 2026, and revised on 5 November 2026 after two audits: of the fifth pass's rules and views, and of the attribute supports and historical views that audit introduced.
 
 ## In brief
 
@@ -8,7 +8,8 @@ How far each kind of value in the records can be relied on, what was checked, wh
 - **Classifications are one curator's reading.** None has had an independent second review. `annotation_reviewed` is false throughout, no review record exists, and the data dictionary marks every such column as `annotation`.
 - **Mechanical comparisons are reproducible, which is not the same as correct.** Checking each decision against the quoted text found two rule errors on 4 November, and an audit of that work on 5 November found further errors in the rules and views (below).
 - **The headline findings rest on few judgements about few issuers.** They are listed below, so that a reviewer can check every one in an afternoon.
-- **Materials for a blind second annotation are ready, but none has been made.** `brdo review packet` writes the 585 decisions without their current values; [annotation-codebook.md](annotation-codebook.md) states the rules; the protocol is below.
+- **Historical views now say what they rest on.** Each admitted file is `confirmed` or only `uncertain` on the view's day, and no file was confirmed before 3 November 2026. An entity or attribute appears only with a support whose basis is named; 79 of the 630 supports are recorded but establish nothing (below).
+- **Materials for a blind second annotation are ready, but none has been made.** `brdo review packet` writes the 585 decisions without their current values, in two rounds; [annotation-codebook.md](annotation-codebook.md) states the rules; the protocol is below.
 
 ## Kinds of value, and how each is checked
 
@@ -43,6 +44,29 @@ The fifth pass's own changes were re-examined. These were wrong or incomplete, a
 7. **The fetcher still fetched when a robots file could not be read.** A 403, 429 or other refusal at the robots address, or an HTML page in place of the file, was treated as no robots file. Now only a robots file, or a 404 or 410, settles the policy. One document in the dataset, ICRA's rationale `icra-krcl-139196`, was retrieved by the pipeline on 4 November 2026, while ICRA's robots address returned a bot-mitigation page; under the corrected rule it would not have been fetched. The record is kept as it was. Whether to re-retrieve it by hand is for the project owner.
 
 
+## What the audit of attribute support found, 5 November 2026
+
+Every one of the 521 support rows the previous audit exported was checked against the anchors, observations and records behind it. Source files could not be reopened, because none was cached and the hosts were unreachable, so a row was judged on whether the record's own quotation or observation prints the value, not on the file itself.
+
+| Attribute | Rows | What they rested on | Verdict |
+|---|---|---|---|
+| Instrument identity (the ISIN) | 321 | 315 quotations printing the ISIN, 2 ISIN lists recomputable from the census file, 2 depository pages whose address names the ISIN, 2 a curated `isins_printed` flag with no quotation | Sound except the 2 flag-only rows, now labelled `flag_only` and not relied on |
+| Issuer identity, which also carried the ISIN-to-issuer link | 153 | 37 breach rows printing the name beside the ISINs, 4 name variants, 4 depository pages showing the name, 4 the issuer's own filings, 33 records whose quotation did not print the name though another anchor of the same file did, and 71 records with no transcribed evidence of the issuer at all: 63 trustee letters, 4 census rows, 2 claims and 2 depository observations of the trustee | Too permissive. A record printing an ISIN does not show whose it is |
+| Issuer name | 40 | 37 exact, 3 the name plus a parenthesis ("(NHAI)", "(formerly known as …)") | Sound, but matched by substring. Two issuers share the name "Samunnati Finance Private Limited", so the name told neither apart, and their identifiers encode CINs seen only on 3 November |
+| CIN and LEI | 7 | 1 the issuer's own filing, 6 depository pages for the issuer's ISINs (2 duplicates) | Sound |
+
+**Corrections.**
+
+1. Which issuer an ISIN belongs to is now its own attribute (`instrument`, `issuer`), with bases: `printed_with_name`, `issuer_publication` (using a new, explicit link from each issuer's website to the issuer), `observed`, and `issuer_code` for inference from a code no other issuer uses. A trustee's letter printing only the ISIN is kept as `letter_to_holders` but establishes nothing.
+2. An issuer's identity needs its name, a variant, its CIN or LEI, or its own website. It no longer follows from any record printing one of its ISINs.
+3. Names match as whole names, exactly or with a parenthetical addition, never by containment. Issuers whose name another issuer shares are not told apart without an identifier or their own website.
+4. A claim's or link's evidence establishes an ISIN only where its quotation prints it, and a depository page only where its address or value names it.
+5. A view refers to an issuer it cannot identify, or cannot tell from another, by its ISINs' issuer code, never by the dataset's identifier.
+
+**What the corrected rules give.** 630 support rows, of which 551 establish their attribute; with 86 issuer-code inferences, `attribute_support.csv` has 716 rows. By the end of the record every one of the 96 instruments and 29 issuers is reconstructed, and every issuer link is established: 93 by a record printing the issuer's name with the ISIN, 2 by the issuer's own publication and 1 by issuer-code inference. Earlier views differ. 33 ISINs appear before their issuer link does, typically printed in an August trustee letter and named in a September report. Dvara's, Infinity's and Satya's own filings identify them before any admitted record prints their names. No ISIN or link rests on the census alone: its rows print ISINs but no names.
+
+**What this audit could not do.** It could not reopen any file, so a quotation that misrepresents its page would not have been caught here. That is what `brdo verify` is for, and it has not run since 4 November.
+
 ## What the headline findings rest on
 
 | Finding | Judgements it rests on | About how many | Robustness |
@@ -72,27 +96,34 @@ A hard case is one where a careful reader could reasonably choose otherwise. `br
 
 ## Review protocol
 
-1. **Fix the codebook.** Commit `docs/annotation-codebook.md` before a round. `brdo review packet` records the codebook's commit in the packet, and warns if it has uncommitted changes.
-2. **Write the packet.** For example, for the judgements behind the headline findings:
+1. **Fix the codebook.** Commit `docs/annotation-codebook.md` before a round. `brdo review packet` records the codebook's commit in the packet, and warns if it has uncommitted changes. The codebook names the exact SEBI file it relies on, with its SHA-256 and page.
+2. **Write the packet, outside the repository.** Start with round 1:
 
    ```bash
-   brdo review packet --out ../review-round-1 --field breach_item.category --field breach_item.specificity --field breach_row.actions --field notice.adjourned_for_lack_of_quorum --field statement.made_by --field statement.scope --field statement.breach_stated
+   brdo review packet --out ../review-round-1 --round 1
    ```
 
-   Without `--field`, every one of the 585 decisions is included. `packet/` holds `decisions.csv` (document, page, locator, passage, allowed values, rule, hard-case flag and note, and no current value), a blank `answers.csv`, the codebook and instructions. `key/` holds the current values. Give the annotator `packet/` only. Packet ids are fresh for each round, because record ids could hint at a value.
-3. **Annotate blind.** A person who did not make the original annotations, and has not seen the key, the data or the reports, fills in `answers.csv` from the sources, with a reason for every hard case and every unsure decision.
-4. **Score per field.** `brdo review score --decisions packet/decisions.csv --key key/key.csv --answers answers.csv` gives decisions, answers, raw agreement and Cohen's kappa for each field, never pooled, and lists every disagreement. Kappa is reported as `n/a` where it is undefined, for example when every value is the same. Blank answers count as unanswered, not as disagreements.
+   Round 1 holds 356 decisions: every statement field, every row's actions, every letter's kind, quarter and adjournment, every covenant cell's category, and the specificity of the 23 cells listing an ISIN that a statement covers. They carry the statement comparisons, what each party adds, and the follow-up and cure findings. Round 1 would not validate the trace to the contract, the clause records and their legal stages, row assignment, carried-over quarters, or the specificity of the other 50 cells, which round 2's 229 decisions cover. The rounds are chosen by field and record, never by the current value.
+
+   `packet/` holds `decisions.csv` (file, SHA-256, page, locator, ISINs, passage, allowed values, kind, rule, hard-case flag and note, and no current value), a blank `answers.csv`, the codebook and instructions. `key/` holds the current values, readable by its owner only. The command refuses to write inside the repository, so the key cannot be committed or published with the exports, and refuses to write over an earlier round. Give the annotator `packet/` only. Packet ids are fresh for each round, because record ids could hint at a value.
+3. **Annotate blind.** A person who did not make the original annotations, and has not seen the key, the data or the reports, fills in `answers.csv` from the sources. `none` is a value, for example a letter that states no quarter; a blank means the annotator could not decide. Every hard case, every unsure decision and every blank needs a reason.
+4. **Score per field.** `brdo review score --decisions packet/decisions.csv --key key/key.csv --answers answers.csv` reports each field separately, never pooled: counts, raw agreement, both annotators' label distributions, every disagreement, and agreement on the hard cases and on the answers not marked unsure. How to read it:
+   - **Categorical fields** get Cohen's kappa. Read it with the distributions: when one value dominates, kappa can be low although raw agreement is high, and with few decisions one disagreement moves it a lot.
+   - **Binary fields** also get agreement on each value. For a rare value, such as `true` for row assignment, that number matters more than raw agreement, which is high even if the rare value is never agreed.
+   - **Actions** are a set per row. Raw agreement is on the whole set, which is strict; mean Jaccard and per-label agreement show how close the sets are. No kappa is given.
+   - **Dates** are compared exactly, and on whether a date is given at all. No kappa is given.
+   - **Hard cases and unsure answers** are expected to disagree more. Report them, do not drop them.
 5. **Adjudicate.** For each disagreement and each hard case, a person decides, with a reason, against the codebook and the source. The adjudicator may be the original curator, but must record that they are.
 6. **Record every decision reviewed.** Add an `AnnotationReview` to `data/annotation-reviews.yaml` for each decision, with:
    - `decision`: the stable decision id, from the key;
    - `codebook_commit`;
    - `original` and `original_annotator`;
-   - `second`, `second_annotator`, `second_by: person` and `second_reason`;
+   - `second`, `second_annotator`, `second_by: person`, `second_unsure` and `second_reason`;
    - `annotated_on`;
    - and, where a disagreement or hard case was settled, `adjudicated`, `adjudicated_by`, `adjudication_reason` and `adjudicated_on`.
 
-   Annotators are named by a label, not by any personal detail. Then change the record itself to the settled value.
+   Annotators are named by a label, not by any personal detail. Then change the record itself to the settled value. The review record keeps the original value, so adjudication never erases it.
 7. **Mark only what was reviewed.** `Provision.annotation_reviewed` may be set only when reviews settle every decision of that clause record. Validation enforces this, and also rejects a review by the original annotator, a review that does not match the record, and a settled value the record does not hold. Other records' review state is read from the reviews themselves.
 8. **Regenerate and log.** Rebuild the exports and the report, and record in the changelog every figure that moved.
 
-**What is not a review.** The same curator re-reading; the same rules re-applied, including by this audit; another pass by an automated process or a language model, however it is prompted; and two publications with a shared origin agreeing with each other. `second_by` accepts only `person`, and there is deliberately no value for anything else. None of these may be recorded as an `AnnotationReview`, and none may set `annotation_reviewed`.
+**What is not a review.** The same curator re-reading; the same rules re-applied, including by these audits; another pass by an automated process or a language model, however it is prompted; and two publications with a shared origin agreeing with each other. `second_by` accepts only `person`, and there is deliberately no value for anything else. None of these may be recorded as an `AnnotationReview`, and none may set `annotation_reviewed`.

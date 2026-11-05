@@ -15,14 +15,15 @@ from brdo.census import check_census
 from brdo.consistency import link_continuations
 from brdo.dictionary import datapackage, render_markdown, undocumented
 from brdo.fetch import Cache, Fetcher, default_cache_dir
-from brdo.identifiers import is_valid_isin
-from brdo.pit import all_observations, as_of, availability, shown_public_by, supports
+from brdo.identifiers import is_valid_isin, isin_issuer_code
+from brdo.pit import all_observations, as_of, availability, placeholder_issuer, shown_public_by, supports
 from brdo.report import render_report
 from brdo.status import StatusBasis, derive_all
 from brdo.store import check_integrity, load_dataset
 from brdo.verify import AnchorStatus, load_document_text, verify_dataset
 from brdo.vocab import (
     AvailabilityMode,
+    AvailabilityState,
     CoverageStatus,
     RedistributionPolicy,
     RetrievalPolicy,
@@ -148,23 +149,40 @@ def test_covenants_differ_within_an_issuer(data):
 
 
 def _cutoffs(data) -> list[date]:
-    """Every day on which a document's availability, a search or an observation changes the view, and the day before."""
+    """Every day on which a document's availability, a search or an observation changes a view, and the day before."""
     days = {search.performed_on for search in data.searches.values()}
     days |= {seen.observed_on for _, seen in all_observations(data)}
     for document in data.documents.values():
         found = availability(document, data)
-        days |= {day for day in (found.estimate, found.confirmed_by) if day is not None}
+        days |= {day for day in (found.not_before, found.estimate, found.confirmed_by) if day is not None}
     return sorted({day + timedelta(days=offset) for day in days for offset in (-1, 0)})
+
+
+def _issuer_references(view) -> list[tuple[str, str]]:
+    """Every place a view names an issuer by identifier, with where."""
+    found = [(f"instrument {i.isin}", i.issuer) for i in view.instruments.values()]
+    found += [(f"issuer {key}", issuer.id) for key, issuer in view.issuers.items()]
+    for report in view.breach_reports.values():
+        found += [(f"row {report.document} {row.row}", row.issuer) for row in report.rows]
+        found += [(f"no-information {report.document}", e.issuer) for e in report.no_information if e.issuer]
+    found += [(f"discrepancy {d.id}", d.subject) for d in view.discrepancies.values()]
+    found += [(f"search {s.id}", s.subject) for s in view.searches.values()]
+    return found
 
 
 @pytest.mark.parametrize("mode", list(AvailabilityMode))
 def test_no_point_in_time_view_holds_anything_later_than_its_date(data, mode):
     """Consistency, not historical truth: the view applies its dates everywhere, whether or not the dates are right."""
-    every_support = supports(data)
+    every_support = [support for support in supports(data) if support.establishes]
     for day in _cutoffs(data):
         view = as_of(data, day, mode)
         for document in view.documents.values():
             assert shown_public_by(document, data, mode) <= day, (day, document.id)
+        assert set(view.availability_states) == set(view.documents), day
+        assert all(
+            (state is AvailabilityState.CONFIRMED) == (availability(data.documents[doc], data).confirmed_by <= day)
+            for doc, state in view.availability_states.items()
+        ), day
         for label, item in view.evidence():
             assert item.document in view.documents, (day, label, item.document)
         observations = [o for i in view.instruments.values() for c in i.claims for o in c.observations]
@@ -179,17 +197,28 @@ def test_no_point_in_time_view_holds_anything_later_than_its_date(data, mode):
             if (s.observation.observed_on <= day if s.observation is not None else s.document in view.documents)
         }
         assert {("instrument", isin, "identity") for isin in view.instruments} <= established, day
-        assert {("issuer", issuer, "identity") for issuer in view.issuers} <= established, day
-        for issuer in view.issuers.values():
+        for isin, instrument in view.instruments.items():
+            if view.relationship_bases[isin] is None:
+                assert instrument.issuer == placeholder_issuer(isin_issuer_code(isin)), (day, isin)
+            for listed in (*view.provisions.values(), *view.breach_notices.values()):
+                assert set(getattr(listed, "instruments", getattr(listed, "isins", []))) <= set(view.instruments)
+        for key, issuer in view.issuers.items():
+            if key.startswith("issuer-code-"):
+                assert issuer.cin is None and issuer.lei is None, (day, key)
+                continue
+            assert ("issuer", key, "identity") in established, (day, key)
             for attribute in ("cin", "lei"):
                 if getattr(issuer, attribute):
-                    assert ("issuer", issuer.id, attribute) in established, (day, issuer.id, attribute)
+                    assert ("issuer", key, attribute) in established, (day, key, attribute)
             assert issuer.sector is None
-            if issuer.name == data.issuers[issuer.id].name:
-                assert ("issuer", issuer.id, "name") in established or not issuer.name, (day, issuer.id)
+            if issuer.name == data.issuers[key].name:
+                assert ("issuer", key, "name") in established or not issuer.name, (day, key)
+        hidden = set(data.issuers) - set(view.issuers)
+        assert not [(where, ref) for where, ref in _issuer_references(view) if ref in hidden], day
         assert all(i.notes is None for i in view.instruments.values())
         assert all(p.notes is None for p in view.provisions.values())
         assert all(n.notes is None for n in view.breach_notices.values())
+        assert all(d.description == "" for d in view.discrepancies.values())
         for status in derive_all(view):
             assert set(status.documents) <= set(view.documents), (day, status)
             if status.basis is StatusBasis.TRUSTEE_REPORT_NOT_IN_VIEW:
@@ -203,7 +232,9 @@ def test_the_latest_view_reconstructs_the_present_record(data):
         view = as_of(data, latest, mode)
         assert set(view.documents) == set(data.documents)
         assert set(view.instruments) == set(data.instruments)
-        assert view.searches == data.searches
+        assert all(view.instruments[isin].issuer == held.issuer for isin, held in data.instruments.items())
+        assert None not in view.relationship_bases.values()
+        assert view.searches == {key: s.model_copy(update={"note": None}) for key, s in data.searches.items()}
         for issuer_id, issuer in data.issuers.items():
             shown = view.issuers[issuer_id]
             assert (shown.name, shown.cin, shown.lei) == (issuer.name, issuer.cin, issuer.lei), issuer_id

@@ -65,7 +65,7 @@ These describe this sample, which is selected on a breach having been reported. 
 - **The published follow-up mostly stops before an outcome.** No trustee publishes a cure of a financial covenant; the 24 cures published, for ISINs of three issuers, are late filings and similar obligations made good. For every ISIN Catalyst listed, no outcome is published at all.
 - **Each party adds what it alone holds.** Where issuer and trustee agree on a breach, the trustee adds the deed's wording, references and dates; the issuer adds the measured level, which the trustee repeats in one of nine cases. The agreements come from two issuers, and the measured-level contrast from one, so this is a well-documented case rather than a pattern.
 - **Trustees differ in what they publish as a breach.** Catalyst's census marks the compliance report as not received for 59 ISINs, of which its breach report lists 2; IDBI's report lists non-submission of results as breaches.
-- **What was public when can be bounded, not proved.** Every document carries a lower bound, an estimate and the day the project observed it. `--as-of` rebuilds the record as it stood on a date: an instrument, an issuer's name or an identifier appears only once a record then public prints it, and later notes and searches are left out. Views built from the estimates and from the project's observations are kept apart. Tests show that the views agree with the recorded dates, not that those dates are true. By the servers' Last-Modified dates, the issuers' statements preceded the trustees' reports in every comparison. The project's own observations, all from 3 and 4 November 2026, cannot order them.
+- **What was public when can be bounded, not proved.** Every document carries a lower bound, an estimate and the day the project observed it, and on any date is `not_yet_possible`, `uncertain` or `confirmed`. Nothing is confirmed before 3 November 2026, when the project first looked. `--as-of` builds a view of a date under one of three nested rules: what BRDO had observed, a reconstruction from the publisher's or server's dates, or every file not ruled out. An ISIN, which issuer it belongs to, an issuer's name and its identifiers each appear only once a record then admitted supports them, and an issuer the view cannot identify is shown by its ISINs' issuer code. Tests show that the views agree with the recorded dates and supports, not that those dates are true. By the servers' Last-Modified dates, the issuers' statements preceded the trustees' reports in every comparison. The project's own observations, all from 3 and 4 November 2026, cannot order them.
 - **Trustees' disclosures carry very different amounts of the contract.** One trustee prints the clause text for nearly every ISIN. Others mostly print a description such as "Non submission of financial results".
 - **The same column means different things.** "Date of actual breach" is defined differently by different trustees, and used in two ways within a single report. An issuer's statement date confirms one trustee's printed definition.
 - **Disclosures change without notice.** Only a reader who kept both versions of one report can see that a "seeking instructions" became a reported waiver.
@@ -88,7 +88,7 @@ Flat files are in [`exports/`](exports), and the records they are built from are
 | `notice_report_comparisons.csv` | A trustee's report compared mechanically with its own notice |
 | `field_flows.csv` | For each issuer–trustee agreement, which party prints each kind of information, and the text behind each decision |
 | `follow_up_states.csv` | Every follow-up state published for each listed ISIN, with the report row or letter that shows it, and how its quarter is known |
-| `attribute_support.csv` | For each instrument, issuer, name and identifier, every record that supports it and when that record became public: what `--as-of` views rely on |
+| `attribute_support.csv` | For each ISIN, issuer link, issuer, name and identifier, every record that supports it, the kind of evidence it is, whether views rely on it, and when it could have been, was estimated to be, and was confirmed public |
 | `instruments.csv`, `issuers.csv` | The entities, with linked offer documents and executed deeds kept apart, and when each was first established by a public record |
 | `evidence.csv` | Every anchor: document, page, quotation, and whether it was read from the rendered page |
 | `documents.csv` | Every cited file with its URL, SHA-256, how it was retrieved, and its lower bound, estimate and observation of availability |
@@ -133,12 +133,13 @@ $ uv run brdo build --sqlite dist/brdo.sqlite
 $ uv run brdo report --out docs/observability-report.md
 $ uv run brdo dictionary            # the data dictionary, after checking every column is described
 $ uvx --from 'frictionless==5.18.1' frictionless validate exports/datapackage.json   # an independent check of the package
-$ uv run brdo show INE179P08082 --as-of 2026-08-15   # the record as it stood on a date, by estimated availability
+$ uv run brdo show INE179P08082 --as-of 2026-08-15   # a view of a date; every line says whether its file was confirmed then
+$ uv run brdo status --as-of 2026-09-14   # the status in the observed, estimated and possible views side by side
 $ uv run brdo status --as-of 2026-11-03 --availability observed   # only what the project itself saw by then
-$ uv run brdo review packet --out ../review-round-1   # a blind packet for a second annotator, and its key apart
+$ uv run brdo review packet --out ../review-round-1 --round 1   # a blind packet for a second annotator, its key apart
 ```
 
-`brdo fetch`, `brdo verify` and `pytest -m network` need a network that reaches the sources; everything else runs offline. In a view of an earlier date an issuer's name may be blank, as Dvara's is on 15 August 2026: a name counts only where a record then public is transcribed as printing it.
+`brdo fetch`, `brdo verify` and `pytest -m network` need a network that reaches the sources; everything else runs offline. In a view of an earlier date an issuer's name may be blank, as Dvara's is on 15 August 2026, because a name counts only where a record then admitted is transcribed as printing it; and an issuer may appear only as an issuer code, as the two Samunnati issuers do before their CINs were observed.
 
 `brdo verify` reports how each passage was matched and lists any page whose text layer cannot be trusted. Exports are deterministic, and the tests fail if the committed exports or report drift from the records. A file that has changed at its source shows up as a hash mismatch and is never silently accepted.
 

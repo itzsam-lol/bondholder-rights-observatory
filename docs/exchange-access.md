@@ -97,7 +97,7 @@ The project's network still cannot reach Bond Central. Its home page, search pag
 - **Documents, history and timestamps.** Unknown. SEBI's press release says the site offers "corporate bond documents, and disclosures" (`bond-central-documents`). Nothing read on the site confirmed that, or showed whether documents are identified by title and date, whether earlier versions are kept, or whether times are shown.
 - **Terms.** The "About" page returned no text. No terms of use or disclaimer was found.
 
-A person needs to open the site in a browser on another network, read its terms, and record what a detail page shows for a few of the dataset's ISINs.
+A person needs to open the site in a browser on another network, read its terms, and record what a detail page shows for a few of the dataset's ISINs. A second search later on 5 November 2026 found the same three pages and still no terms, disclaimer or per-ISIN page.
 
 ### SEBI, 25 February 2022: free use of mandated disclosures
 

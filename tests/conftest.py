@@ -105,12 +105,12 @@ def make_report(document: str = "report-q1", rows: list[BreachRow] | None = None
     return BreachReport(**(values | overrides))
 
 
-def trustee_claim(trustee: str = "trustee-a", document: str = "report-q1") -> Claim:
+def trustee_claim(trustee: str = "trustee-a", document: str = "report-q1", isin: str = ISIN_LISTED) -> Claim:
     return Claim(
         property=InstrumentProperty.DEBENTURE_TRUSTEE,
         value=trustee,
         asserted_by=trustee,
-        evidence=[Evidence(document=document, page=1, quote=ISIN_LISTED)],
+        evidence=[Evidence(document=document, page=1, quote=isin)],
     )
 
 
@@ -124,7 +124,9 @@ def dataset(tmp_path: Path) -> Dataset:
         issuers={"example-finance": Issuer(id="example-finance", name="Example Finance Limited")},
         instruments={
             ISIN_LISTED: Instrument(isin=ISIN_LISTED, issuer="example-finance", claims=[trustee_claim()]),
-            ISIN_UNLISTED: Instrument(isin=ISIN_UNLISTED, issuer="example-finance", claims=[trustee_claim()]),
+            ISIN_UNLISTED: Instrument(
+                isin=ISIN_UNLISTED, issuer="example-finance", claims=[trustee_claim(isin=ISIN_UNLISTED)]
+            ),
         },
         breach_reports={"report-q1": make_report()},
     )

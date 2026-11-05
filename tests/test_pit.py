@@ -12,6 +12,7 @@ from pydantic import ValidationError
 from brdo.models import (
     BreachNotice,
     Claim,
+    ComplianceStatement,
     Discrepancy,
     DocumentDate,
     Evidence,
@@ -20,11 +21,12 @@ from brdo.models import (
     Observation,
     SearchRecord,
 )
-from brdo.pit import CONFIRMED_BASIS, OWN_DATE_BASIS, as_of, availability, available_from, supports
+from brdo.pit import NO_ESTIMATE_BASIS, OWN_DATE_BASIS, as_of, availability, match_name, placeholder_issuer, supports
 from brdo.status import StatusBasis, derive_status, trustees_claimed
 from brdo.store import Severity, check_integrity
 from brdo.vocab import (
     AvailabilityMode,
+    AvailabilityState,
     CoverageStatus,
     DateBasis,
     DiscrepancyKind,
@@ -33,16 +35,38 @@ from brdo.vocab import (
     SearchChannel,
     SearchOutcome,
     SearchPurpose,
+    SourceKind,
+    StatementMaker,
+    StatementScope,
+    SupportBasis,
 )
-from tests.conftest import ISIN_LISTED, ISIN_UNLISTED, QUARTER, make_document, make_source, trustee_claim
+from tests.conftest import (
+    ISIN_LISTED,
+    ISIN_UNLISTED,
+    QUARTER,
+    make_document,
+    make_report,
+    make_row,
+    make_source,
+    trustee_claim,
+)
 
 LAST_MODIFIED = DocumentDateKind.LAST_MODIFIED
 HEADER = DateBasis.HTTP_LAST_MODIFIED
 NOVEMBER = datetime(2026, 11, 3, 7, 54, tzinfo=UTC)
 
 
+OBSERVED, ESTIMATED, POSSIBLE = AvailabilityMode.OBSERVED, AvailabilityMode.ESTIMATED, AvailabilityMode.POSSIBLE
+OTHER_ISIN = "INE179P07530"
+
+
 def _dated(kind: DocumentDateKind, day: date, basis: DateBasis) -> DocumentDate:
     return DocumentDate(kind=kind, value=day, basis=basis)
+
+
+def _estimate(document, dataset=None):
+    found = availability(document, dataset)
+    return found.estimate, found.estimate_basis
 
 
 def _modified(day: date, **overrides):
@@ -99,15 +123,18 @@ def test_the_later_of_the_publishers_and_the_servers_date_is_taken():
     replaced_later = make_document(dates=[listed, _dated(LAST_MODIFIED, date(2026, 9, 20), HEADER)])
     uploaded_earlier = make_document(dates=[listed, _dated(LAST_MODIFIED, date(2026, 9, 1), HEADER)])
     same_day = make_document(dates=[listed, _dated(LAST_MODIFIED, date(2026, 9, 13), HEADER)])
-    assert available_from(replaced_later) == (date(2026, 9, 20), "http_last_modified")
-    assert available_from(uploaded_earlier) == (date(2026, 9, 13), "listing_page")
-    assert available_from(same_day) == (date(2026, 9, 13), "listing_page")
+    assert _estimate(replaced_later) == (date(2026, 9, 20), "http_last_modified")
+    assert _estimate(uploaded_earlier) == (date(2026, 9, 13), "listing_page")
+    assert _estimate(same_day) == (date(2026, 9, 13), "listing_page")
 
 
-def test_a_documents_own_date_is_only_a_lower_bound():
+def test_a_documents_own_date_is_only_a_lower_bound_and_never_an_estimate():
     document = make_document(dates=[_dated(DocumentDateKind.DATED, date(2026, 7, 2), DateBasis.STATED_IN_DOCUMENT)])
-    assert available_from(document) == (date(2026, 7, 2), OWN_DATE_BASIS)
-    assert availability(document).confirmed_by is None
+    found = availability(document)
+    assert (found.not_before, found.estimate, found.estimate_basis) == (date(2026, 7, 2), None, NO_ESTIMATE_BASIS)
+    assert found.confirmed_by is None
+    assert found.state_on(date(2026, 7, 1)) is AvailabilityState.NOT_YET_POSSIBLE
+    assert found.state_on(date(2030, 1, 1)) is AvailabilityState.UNCERTAIN
 
 
 def test_retrieval_confirms_availability_and_closes_the_window(dataset):
@@ -135,7 +162,7 @@ def test_a_server_date_before_the_documents_own_date_gives_way_and_is_reported(d
             _dated(LAST_MODIFIED, date(2026, 8, 3), HEADER),
         ]
     )
-    assert available_from(document) == (date(2026, 8, 20), OWN_DATE_BASIS)
+    assert _estimate(document) == (date(2026, 8, 20), OWN_DATE_BASIS)
     dataset.documents["report-q1"] = document
     warnings = [p for p in check_integrity(dataset) if p.severity is Severity.WARNING and "precedes" in p.message]
     assert warnings
@@ -163,15 +190,22 @@ def test_an_event_a_report_prints_bounds_it_from_below(dataset):
     assert (found.not_before, found.not_before_basis) == (date(2026, 8, 14), "an event it reports")
 
 
-def test_a_retrieved_file_with_no_other_date_is_public_from_its_retrieval():
-    assert available_from(make_document(retrieved_at=NOVEMBER)) == (date(2026, 11, 3), CONFIRMED_BASIS)
+def test_a_retrieved_file_with_no_publisher_or_server_date_has_no_estimate():
+    found = availability(make_document(retrieved_at=NOVEMBER, period=None))
+    assert (found.estimate, found.estimate_basis) == (None, NO_ESTIMATE_BASIS)
+    assert found.admitted_from(ESTIMATED) == found.admitted_from(OBSERVED) == date(2026, 11, 3)
+    assert found.admitted_from(POSSIBLE) == date.min  # nothing rules it out on any earlier day
 
 
 def test_a_document_of_unknown_availability_is_left_out(dataset):
     dataset.breach_reports["report-q1"] = dataset.breach_reports["report-q1"].model_copy(update={"rows": []})
     dataset.breach_reports["report-q1"] = dataset.breach_reports["report-q1"].model_copy(update={"nil_report": True})
-    assert available_from(dataset.documents["report-q1"], dataset) == (None, "unknown")
+    assert _estimate(dataset.documents["report-q1"], dataset) == (None, NO_ESTIMATE_BASIS)
     assert not as_of(dataset, date(2030, 1, 1)).breach_reports
+    assert not as_of(dataset, date(2030, 1, 1), OBSERVED).breach_reports
+    # Only the period it reports on bounds it, so the upper envelope admits it from the period's start.
+    assert not as_of(dataset, date(2026, 3, 31), POSSIBLE).breach_reports
+    assert as_of(dataset, date(2026, 4, 1), POSSIBLE).breach_reports
 
 
 # --- Records, entities and attributes ---
@@ -253,7 +287,11 @@ def test_an_issuer_whose_name_is_not_yet_printed_takes_the_name_then_printed(dat
 
 def test_an_observation_counts_only_from_the_day_it_was_made(dataset):
     dataset.sources["depository"] = make_source("depository")
-    seen = Observation(url="https://depository.example/isin", observed_on=date(2026, 11, 3), value_seen="TRUSTEE A")
+    seen = Observation(
+        url=f"https://depository.example/bond?ISIN={ISIN_UNLISTED}",
+        observed_on=date(2026, 11, 3),
+        value_seen="TRUSTEE A",
+    )
     claim = Claim(
         property=InstrumentProperty.DEBENTURE_TRUSTEE, value="trustee-a", asserted_by="depository", observations=[seen]
     )
@@ -336,3 +374,221 @@ def test_a_view_of_a_view_keeps_the_earlier_cutoff(dataset):
 def test_every_support_names_its_document_or_observation(dataset):
     for support in supports(dataset):
         assert (support.document is None) != (support.observation is None), support
+
+
+# --- Availability as states, and three nested views ---
+
+
+def test_each_day_is_ruled_out_uncertain_or_confirmed():
+    document = make_document(
+        retrieved_at=NOVEMBER,
+        dates=[
+            _dated(DocumentDateKind.DATED, date(2026, 8, 1), DateBasis.STATED_IN_DOCUMENT),
+            _dated(LAST_MODIFIED, date(2026, 9, 13), HEADER),
+        ],
+    )
+    found = availability(document)
+    assert found.state_on(date(2026, 7, 31)) is AvailabilityState.NOT_YET_POSSIBLE
+    assert found.state_on(date(2026, 8, 1)) is AvailabilityState.UNCERTAIN
+    # A server's date is not evidence that the file was public on it.
+    assert found.state_on(date(2026, 9, 13)) is AvailabilityState.UNCERTAIN
+    assert found.state_on(date(2026, 11, 3)) is AvailabilityState.CONFIRMED
+
+
+def test_the_three_views_nest_and_record_each_files_state(dataset):
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13), retrieved_at=NOVEMBER)
+    # The fixture's row prints a detection on 14 August, so the report cannot have been public before then.
+    assert not as_of(dataset, date(2026, 8, 13), POSSIBLE).breach_reports
+    on = {mode: as_of(dataset, date(2026, 9, 1), mode) for mode in (OBSERVED, ESTIMATED, POSSIBLE)}
+    assert not on[OBSERVED].breach_reports and not on[ESTIMATED].breach_reports
+    assert on[POSSIBLE].availability_states == {"report-q1": AvailabilityState.UNCERTAIN}
+    assert as_of(dataset, date(2026, 9, 13)).availability_states == {"report-q1": AvailabilityState.UNCERTAIN}
+    for mode in (OBSERVED, ESTIMATED, POSSIBLE):
+        assert as_of(dataset, date(2026, 11, 3), mode).availability_states == {"report-q1": AvailabilityState.CONFIRMED}
+
+
+def test_a_view_never_reveals_when_the_project_later_observed_a_file(dataset):
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13), retrieved_at=NOVEMBER)
+    view = as_of(dataset, date(2026, 10, 1))
+    assert set(view.availability_states.values()) == {AvailabilityState.UNCERTAIN}
+    assert all(state is not AvailabilityState.CONFIRMED for state in view.availability_states.values())
+
+
+# --- What establishes an ISIN, whose it is, and an issuer ---
+
+
+def test_a_claims_evidence_establishes_an_isin_only_where_its_quotation_prints_it(dataset):
+    claim = trustee_claim().model_copy(
+        update={"evidence": [Evidence(document="report-q1", page=1, quote="Trustee A Limited")]}
+    )
+    dataset.instruments[ISIN_UNLISTED] = dataset.instruments[ISIN_UNLISTED].model_copy(update={"claims": [claim]})
+    assert not [s for s in supports(dataset) if s.key == ISIN_UNLISTED and s.attribute == "identity"]
+    assert ISIN_UNLISTED not in as_of(dataset, date(2030, 1, 1)).instruments
+
+
+def test_a_letter_printing_only_the_isin_does_not_show_whose_it_is(dataset):
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13))
+    dataset.documents["letter"] = make_document("letter", dates=[_dated(LAST_MODIFIED, date(2026, 5, 6), HEADER)])
+    dataset.breach_notices["n1"] = BreachNotice(
+        id="n1", document="letter", page=1, trustee="trustee-a", isins=[ISIN_LISTED], issued_on=date(2026, 5, 5)
+    )
+    [letter] = [s for s in supports(dataset) if s.attribute == "issuer" and s.record == "letter n1"]
+    assert letter.basis is SupportBasis.LETTER_TO_HOLDERS and not letter.establishes
+    early = as_of(dataset, date(2026, 6, 1))
+    assert ISIN_LISTED in early.instruments and early.relationship_bases[ISIN_LISTED] is None
+    assert early.instruments[ISIN_LISTED].issuer == placeholder_issuer("501X")
+    assert "example-finance" not in early.issuers
+    later = as_of(dataset, date(2026, 9, 13))
+    assert later.relationship_bases[ISIN_LISTED] is SupportBasis.PRINTED_WITH_NAME
+    assert later.instruments[ISIN_LISTED].issuer == "example-finance"
+
+
+def test_an_isin_takes_its_issuer_from_its_code_only_if_no_other_issuer_uses_that_code(dataset):
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13))
+    view = as_of(dataset, date(2026, 9, 13))
+    assert view.relationship_bases[ISIN_LISTED] is SupportBasis.PRINTED_WITH_NAME
+    assert view.relationship_bases[ISIN_UNLISTED] is SupportBasis.ISSUER_CODE
+    dataset.issuers["other"] = Issuer(id="other", name="Other Finance Limited")
+    dataset.instruments[ISIN_UNLISTED] = dataset.instruments[ISIN_UNLISTED].model_copy(update={"issuer": "other"})
+    assert as_of(dataset, date(2026, 9, 13)).relationship_bases[ISIN_UNLISTED] is None
+
+
+@pytest.mark.parametrize(
+    ("printed", "expected"),
+    [
+        ("Aye Finance Limited", SupportBasis.EXACT_NAME),
+        ("AYE FINANCE LTD.", SupportBasis.EXACT_NAME),
+        ("Aye Finance Limited (formerly known as Aye Finance Private Limited)", SupportBasis.NAME_WITH_ADDITION),
+        ("Aye Finance Limited (AFL)", SupportBasis.NAME_WITH_ADDITION),
+        ("Aye Finance Pvt Ltd", SupportBasis.NAME_VARIANT),
+        ("Finance Limited", None),
+        ("Aye Finance Limited Holdings", None),
+        ("New Aye Finance Limited", None),
+        ("Aye Finance", None),
+    ],
+)
+def test_names_match_as_whole_names_never_by_containment(printed, expected):
+    issuer = Issuer(
+        id="aye",
+        name="Aye Finance Limited",
+        name_variants=[
+            NameVariant(name="Aye Finance Private Limited", evidence=[Evidence(document="d", page=1, quote="x" * 3)])
+        ],
+    )
+    assert match_name(printed, issuer) is expected
+
+
+def _second_issuer_of_the_same_name(dataset, observed: bool = False):
+    """Two issuers printed under one name, told apart only by CINs seen on depository pages."""
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13))
+    cins = {"example-finance": "U65990TN2014PTC096252", "example-finance-2": "U65990TN2021PTC146392"}
+    isins = {"example-finance": ISIN_LISTED, "example-finance-2": OTHER_ISIN}
+    for issuer_id, cin in cins.items():
+        pages = [
+            Observation(
+                url=f"https://depository.example/bond?ISIN={isins[issuer_id]}",
+                observed_on=date(2026, 11, 3),
+                value_seen=f"EXAMPLE FINANCE LIMITED; CIN {cin}",
+            )
+        ]
+        dataset.issuers[issuer_id] = Issuer(
+            id=issuer_id, name="Example Finance Limited", cin=cin, observations=pages if observed else []
+        )
+    dataset.instruments[OTHER_ISIN] = dataset.instruments[ISIN_UNLISTED].model_copy(
+        update={"isin": OTHER_ISIN, "issuer": "example-finance-2", "claims": []}
+    )
+    second = make_row(OTHER_ISIN).model_copy(update={"row": "2", "issuer": "example-finance-2"})
+    dataset.breach_reports["report-q1"] = make_report(rows=[make_row(), second])
+
+
+def test_issuers_of_one_name_are_not_told_apart_without_an_identifier(dataset):
+    _second_issuer_of_the_same_name(dataset)
+    view = as_of(dataset, date(2026, 10, 1))
+    assert set(view.issuers) == {placeholder_issuer("501X"), placeholder_issuer("179P")}
+    assert {view.instruments[i].issuer for i in (ISIN_LISTED, OTHER_ISIN)} == set(view.issuers)
+    assert all(issuer.name == "Example Finance Limited" for issuer in view.issuers.values())
+    rows = view.breach_reports["report-q1"].rows
+    assert {row.issuer for row in rows} == set(view.issuers)
+
+
+def test_an_identifier_seen_later_tells_them_apart_from_that_day(dataset):
+    _second_issuer_of_the_same_name(dataset, observed=True)
+    assert set(as_of(dataset, date(2026, 11, 2)).issuers) == {placeholder_issuer("501X"), placeholder_issuer("179P")}
+    after = as_of(dataset, date(2026, 11, 3))
+    assert set(after.issuers) == {"example-finance", "example-finance-2"}
+    assert after.issuers["example-finance-2"].cin == "U65990TN2021PTC146392"
+
+
+def test_a_cin_counts_only_from_the_issuers_own_publication_or_a_quotation_naming_it(dataset):
+    cin = "U65921DL1993PLC283660"
+    dataset.sources["issuer-web"] = make_source("issuer-web", kind=SourceKind.ISSUER, issuer="example-finance")
+    dataset.documents["own"] = make_document(
+        "own", source="issuer-web", dates=[_dated(LAST_MODIFIED, date(2026, 5, 1), HEADER)]
+    )
+    dataset.issuers["example-finance"] = Issuer(id="example-finance", name="Example Finance Limited", cin=cin)
+    dataset.discrepancies["elsewhere"] = Discrepancy(
+        id="elsewhere",
+        kind=DiscrepancyKind.IDENTITY,
+        subject=ISIN_LISTED,
+        description="x",
+        evidence=[Evidence(document="report-q1", page=1, quote=f"CIN: {cin}")],
+    )
+    assert not [s for s in supports(dataset) if s.attribute == "cin"]
+    dataset.discrepancies["own"] = Discrepancy(
+        id="own",
+        kind=DiscrepancyKind.IDENTITY,
+        subject=ISIN_LISTED,
+        description="x",
+        evidence=[Evidence(document="own", page=1, quote=f"CIN: {cin}")],
+    )
+    [found] = [s for s in supports(dataset) if s.attribute == "cin"]
+    assert found.basis is SupportBasis.ISSUER_PUBLICATION and found.document == "own"
+
+
+def test_the_issuers_own_website_shows_whose_isin_it_is_but_not_its_name(dataset):
+    dataset.sources["issuer-web"] = make_source("issuer-web", kind=SourceKind.ISSUER, issuer="example-finance")
+    dataset.documents["own"] = make_document(
+        "own", source="issuer-web", dates=[_dated(LAST_MODIFIED, date(2026, 5, 1), HEADER)]
+    )
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13))
+    dataset.compliance_statements["s"] = ComplianceStatement(
+        id="s",
+        document="own",
+        instruments=[ISIN_LISTED],
+        period=QUARTER,
+        stated_by="issuer-web",
+        made_by=StatementMaker.ISSUER,
+        scope=StatementScope.ALL_COVENANTS,
+        breach_stated=False,
+        evidence=[Evidence(document="own", page=1, quote=f"{ISIN_LISTED} complied")],
+    )
+    view = as_of(dataset, date(2026, 6, 1))
+    assert view.relationship_bases[ISIN_LISTED] is SupportBasis.ISSUER_PUBLICATION
+    assert view.instruments[ISIN_LISTED].issuer == "example-finance"
+    assert view.issuers["example-finance"].name == ""
+
+
+def test_a_view_drops_later_descriptions_and_isins_no_admitted_record_prints(dataset):
+    dataset.documents["report-q1"] = _modified(date(2026, 9, 13))
+    dataset.documents["letter"] = make_document("letter", dates=[_dated(LAST_MODIFIED, date(2026, 5, 6), HEADER)])
+    dataset.breach_notices["n1"] = BreachNotice(
+        id="n1",
+        document="letter",
+        page=1,
+        trustee="trustee-a",
+        isins=[ISIN_LISTED],
+        issued_on=date(2026, 5, 5),
+        isins_printed=False,
+    )
+    dataset.discrepancies["d"] = Discrepancy(
+        id="d",
+        kind=DiscrepancyKind.VALUE,
+        subject=ISIN_LISTED,
+        description="Written in November.",
+        evidence=[Evidence(document="report-q1", page=1, quote="x" * 3)],
+    )
+    early = as_of(dataset, date(2026, 6, 1))
+    assert "n1" not in early.breach_notices  # its only ISIN is printed by no record admitted by then
+    later = as_of(dataset, date(2026, 9, 13))
+    assert later.breach_notices["n1"].isins == [ISIN_LISTED]
+    assert later.discrepancies["d"].description == ""

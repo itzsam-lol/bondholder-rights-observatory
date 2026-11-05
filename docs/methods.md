@@ -62,9 +62,11 @@ The field-level comparison uses mechanical rules, so that it can be re-run and c
 
 Three dates are kept for each file (see [data-model.md](data-model.md#point-in-time-views)):
 
-- **A lower bound** from the file's own dates, its "as on" date, the letters in it, and the events its rows report, such as detections and intimations.
-- **An estimate** from the publisher's listing date or the server's Last-Modified header, whichever is later, but never before the lower bound.
+- **A lower bound** from the file's own dates, its "as on" date, the start of the period it reports on, the letters in it, and the events it records, such as detections, intimations and receipts.
+- **An estimate** from the publisher's listing date or the server's Last-Modified header, whichever is later, but never before the lower bound. A file with neither has no estimate; nothing is filled in from another kind of date.
 - **An observation**, the day the project retrieved the file.
+
+On a given day a file is `not_yet_possible` before its lower bound, `confirmed` from the day the project observed it, and `uncertain` in between. The estimate does not change that state. Historical views come in three nested modes, observed, estimated and possible, and `brdo status --as-of` prints all three side by side (see [data-model.md](data-model.md#point-in-time-views)).
 
 A Last-Modified header is recorded as `last_modified` and never as a publication date. It describes the version held, which may be later than the first publication. A copied file can also carry a date unrelated to its publication. Timing figures are therefore measurements of the files held, not findings about anyone's timeliness. Every observation in this release falls on 3 or 4 November 2026, so the project can prove nothing about what was public before then. The estimates are the only basis for earlier dates.
 
@@ -86,7 +88,8 @@ The first pilot searched for the June 2026 covenant statement of four sampled is
 | ISIN completeness | An ISIN in a report's text that was not transcribed | ISINs absent from the text layer |
 | Text layer audit | Outlined text, scans, OCR layers | Other ways a text layer can differ from the page |
 | Tests on the dataset | Stale exports, NSE material, a listed ISIN without `reported_breach` or a disagreeing statement, e-mail addresses, depository participant IDs, PANs and written-out phone numbers in the published records | Annotation quality; personal data in forms the patterns do not cover |
-| Point-in-time test | A record, claim, observation or status document in a view of a date that its evidence was not shown public by, at every date where availability changes and in both modes | Wrong availability dates themselves |
+| Point-in-time test | A file, record, claim, observation or status in a view that its mode would not admit by the day; an entity or attribute without an admitted support; an issuer's identifier in a view that does not identify the issuer; at every date where a lower bound, estimate, observation or search changes a view, in all three modes | Wrong availability dates themselves, and a quotation that misrepresents its page |
+| Support rules | A claim or link counted for an ISIN it does not quote; an issuer counted from an ISIN alone; a name matched by containment; issuers of one name told apart without an identifier; a CIN or LEI from a quotation that is neither the issuer's nor names it | Whether a transcribed quotation is right |
 | Data dictionary test | An exported column with no description or kind | A description that is wrong |
 | Frictionless validation | A package descriptor or CSV that an independent implementation rejects: types, missing values, field order | Whether a column means what it says |
 | Legal stage rule | A clause record marked executed that is not quoted from a deed, or marked offered that is not quoted from an offer document | A deed copy that is unsigned or superseded |

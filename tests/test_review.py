@@ -12,11 +12,15 @@ from brdo.pit import as_of
 from brdo.review import (
     KEY_COLUMNS,
     PACKET_COLUMNS,
+    PacketRefused,
     canonical,
     cohen_kappa,
     decisions,
+    normalise_answer,
     read_csv,
+    render_scores,
     review_problems,
+    round_fields,
     score,
     write_packet,
 )
@@ -214,7 +218,13 @@ def test_scores_are_kept_per_field_and_blanks_are_not_disagreements():
     category = scores["breach_item.category"]
     assert (category.decisions, category.answered, category.agreed) == (3, 2, 1)
     assert category.disagreements == [
-        {"decision": "y:category", "original": "other", "second": "affirmative", "reason": "an undertaking to maintain"}
+        {
+            "decision": "y:category",
+            "original": "other",
+            "second": "affirmative",
+            "unsure": "",
+            "reason": "an undertaking to maintain",
+        }
     ]
     assert scores["breach_row.actions"].agreed == 1
 
@@ -328,3 +338,144 @@ def test_an_item_that_names_a_ratio_with_a_level_is_not_flagged(dataset):
     row = make_row()
     dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
     assert not [d.id for d in decisions(dataset) if d.hard_case_note]
+
+
+def test_a_packet_is_refused_inside_the_repository_or_over_an_earlier_round(dataset, tmp_path):
+    with pytest.raises(PacketRefused, match="inside the repository"):
+        write_packet(dataset, tmp_path / "repo" / "round", _codebook(tmp_path), "abcdef0", repository=tmp_path / "repo")
+    write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0", repository=tmp_path / "repo")
+    with pytest.raises(PacketRefused, match="already holds"):
+        write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")
+
+
+def test_the_key_is_readable_by_its_owner_only_and_never_beside_the_packet(dataset, tmp_path):
+    written = write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")
+    assert written["key"].stat().st_mode & 0o777 == 0o700
+    assert (written["key"] / "key.csv").stat().st_mode & 0o777 == 0o600
+    assert sorted(path.name for path in written["packet"].iterdir()) == [
+        "README.txt",
+        "answers.csv",
+        "codebook.md",
+        "decisions.csv",
+    ]
+
+
+def test_no_export_or_document_holds_a_review_key():
+    published = [
+        *(REPOSITORY / "exports").iterdir(),
+        *(REPOSITORY / "docs").iterdir(),
+        *(REPOSITORY / "data").rglob("*"),
+    ]
+    assert not [path for path in published if path.name in {"key.csv", "decisions.csv", "answers.csv"}]
+
+
+def test_each_packet_line_names_its_file_its_hash_its_isins_and_how_it_is_compared(dataset, tmp_path):
+    dataset.provisions["p"] = _provision()
+    packet = read_csv(
+        write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")["packet"] / "decisions.csv"
+    )
+    assert all(row["url"] and row["sha256"] and row["isins"] and row["page"] for row in packet)
+    assert {row["field"]: row["kind"] for row in packet}["breach_row.actions"] == "multi_label"
+    assert {row["field"]: row["kind"] for row in packet}["breach_row.carried_over_from"] == "date"
+
+
+def test_a_missing_date_is_none_in_the_key_never_blank(dataset, tmp_path):
+    key = read_csv(write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")["key"] / "key.csv")
+    assert {row["field"]: row["value"] for row in key}["breach_row.carried_over_from"] == "none"
+    assert normalise_answer(" None ", multiple=False) == "none"
+    assert normalise_answer("none", multiple=True) == "none"
+    assert normalise_answer("awaiting_instructions|none", multiple=True) == "awaiting_instructions"
+
+
+def test_rounds_split_the_decisions_without_looking_at_their_values(dataset):
+    dataset.provisions["p"] = _provision()
+    every = decisions(dataset)
+    first = [d.id for d in every if round_fields(dataset, "1")(d)]
+    second = [d.id for d in every if round_fields(dataset, "2")(d)]
+    assert set(first) | set(second) == {d.id for d in every} and not set(first) & set(second)
+    assert any(":category" in i for i in first) and any("provision" in i or ":stage" in i for i in second)
+    row = dataset.breach_reports["report-q1"].rows[0]
+    item = row.items[0].model_copy(update={"category": CovenantCategory.OTHER})
+    dataset.breach_reports["report-q1"] = make_report(rows=[row.model_copy(update={"items": [item]})])
+    assert [d.id for d in decisions(dataset) if round_fields(dataset, "1")(d)] == first
+
+
+def test_round_one_covers_the_statement_comparisons_and_closure_findings_in_the_release():
+    from brdo.store import load_dataset
+
+    data = load_dataset(REPOSITORY / "data")
+    first = {d.field for d in decisions(data) if round_fields(data, "1")(d)}
+    assert {
+        "statement.made_by",
+        "statement.scope",
+        "statement.breach_stated",
+        "breach_row.actions",
+        "notice.kind",
+        "notice.period_end",
+        "notice.adjourned_for_lack_of_quorum",
+        "breach_item.category",
+        "breach_item.specificity",
+    } <= first
+
+
+def test_binary_fields_report_agreement_on_each_value_and_rare_values_show():
+    key = [{"decision": f"D{i}", "field": "statement.breach_stated", "value": v} for i, v in enumerate("ttttttttff")]
+    key = [dict(row, value="true" if row["value"] == "t" else "false") for row in key]
+    answers = [{"decision": row["decision"], "value": row["value"], "reason": ""} for row in key]
+    answers[8]["value"] = "true"  # one disagreement on the rare value
+    [result] = score(key, answers, [])
+    assert result.kind == "binary" and result.agreed == 9
+    assert result.specific()["false"] == pytest.approx(2 * 1 / (2 * 1 + 1))
+    assert result.specific()["true"] == pytest.approx(2 * 8 / (2 * 8 + 1))
+    assert result.kappa is not None and result.kappa < result.agreement
+    assert "false 2" in render_scores([result]) and "true 9" in render_scores([result])
+
+
+def test_multi_label_fields_are_scored_on_the_set_and_on_each_label():
+    key = [
+        {"decision": "D1", "field": "breach_row.actions", "value": "awaiting_instructions|holders_meeting_held"},
+        {"decision": "D2", "field": "breach_row.actions", "value": "cure_reported"},
+    ]
+    packet = [
+        {"decision": "D1", "multiple": "true", "kind": "multi_label"},
+        {"decision": "D2", "multiple": "true", "kind": "multi_label"},
+    ]
+    answers = [
+        {"decision": "D1", "value": "awaiting_instructions", "reason": "the meeting is only proposed"},
+        {"decision": "D2", "value": "cure_reported", "reason": ""},
+    ]
+    [result] = score(key, answers, packet)
+    assert result.agreed == 1 and result.kappa is None
+    assert result.mean_jaccard == pytest.approx((0.5 + 1.0) / 2)
+    assert result.specific()["holders_meeting_held"] == 0.0
+    assert result.specific()["awaiting_instructions"] == 1.0
+
+
+def test_date_fields_report_whether_a_date_is_given_as_well_as_exact_agreement():
+    key = [
+        {"decision": "D1", "field": "notice.period_end", "value": "2026-06-30"},
+        {"decision": "D2", "field": "notice.period_end", "value": "none"},
+        {"decision": "D3", "field": "notice.period_end", "value": "2026-06-30"},
+    ]
+    answers = [
+        {"decision": "D1", "value": "2026-03-31", "reason": "the certificate's quarter"},
+        {"decision": "D2", "value": "None", "reason": ""},
+        {"decision": "D3", "value": "2026-06-30", "reason": ""},
+    ]
+    [result] = score(key, answers, [])
+    assert result.kind == "date" and result.agreed == 2 and result.kappa is None
+    assert result.presence_agreement == 1.0
+
+
+def test_unsure_answers_and_hard_cases_are_also_scored_apart():
+    key = [
+        {"decision": "D1", "field": "breach_item.category", "value": "affirmative", "hard_case": "true"},
+        {"decision": "D2", "field": "breach_item.category", "value": "financial", "hard_case": "false"},
+    ]
+    answers = [
+        {"decision": "D1", "value": "financial", "unsure": "true", "reason": "a ratio"},
+        {"decision": "D2", "value": "financial", "unsure": "false", "reason": ""},
+    ]
+    [result] = score(key, answers, [])
+    assert result.unsure == 1 and len(result.hard) == 1 and len(result.sure) == 1
+    assert result.disagreements[0]["unsure"] == "true"

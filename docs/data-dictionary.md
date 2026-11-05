@@ -64,12 +64,13 @@ One row per exact file, identified by its SHA-256. A revised file at the same ad
 | `published` | read_from_source | The date the publisher says the file was posted, for example on its listing page. A server's Last-Modified header is never recorded here. | the publisher states no date for the file, as for all but one file in this release |  |
 | `published_basis` | provenance | Where the publication date was read. |  |  |
 | `last_modified` | provenance | The server's Last-Modified header for the exact file held. It dates that version on the server. It does not establish first publication: a file can be uploaded before it is linked, replaced later, or copied with a misleading date. | the server sent no Last-Modified header |  |
-| `available_not_before` | derived | Lower bound: the file cannot have been public before this day, if the dates it prints are right. The latest of its own date, its signature or "as on" date, the date of a letter in it, and the latest event its rows report. | no lower bound: the record reads no date from the file |  |
+| `available_not_before` | derived | Lower bound: the file cannot have been public before this day, if the dates it prints are right. The latest of its own date, its signature or "as on" date, the start of the period it reports on, the date of a letter in it, and the latest event it records. Before this day the file's state is `not_yet_possible`; from it until `available_confirmed_by`, `uncertain`. | no lower bound: the record reads no date from the file, so no earlier day is ruled out |  |
 | `available_not_before_basis` | derived | Which kind of date gives the lower bound. |  |  |
-| `available_from` | derived | A conservative estimate of when this exact file was at its address, not a publication date and not confirmed: the later of the publisher's date and Last-Modified, never before the lower bound; failing both, the lower bound; failing that, the confirmation date. It can still be early when a server's date predates the file's appearance. Used by `--as-of` with estimated availability. | no date of any kind is known for the file |  |
-| `available_basis` | derived | Which date `available_from` rests on. |  |  |
+| `available_estimate` | derived | An estimate, not evidence: the later of the publisher's date and Last-Modified, never before the lower bound. It assumes this exact file was at its address from then; it is not a publication date, and a server's date can precede or follow the file's first appearance. Used only by `--as-of` in the estimated view, where files admitted on it are marked `uncertain` until confirmed. | neither the publisher nor the server gives a date, so there is no estimate: the estimated view admits the file only from `available_confirmed_by` |  |
+| `available_estimate_basis` | derived | Which date `available_estimate` rests on. |  |  |
 | `available_confirmed_by` | provenance | The day the project retrieved the file from its public address, so it was public by then. The only availability date the record proves, and usually much later than first publication. Used by `--as-of` with `--availability observed`. | the project never retrieved the file |  |
 | `available_window_days` | derived | Days from the lower bound to the confirmation: the interval within which the file first became public. | the lower bound or the confirmation is unknown, so the interval is open |  |
+| `robots_at_retrieval` | provenance | What the fetcher established about the host's robots policy when it retrieved the file: `obeyed`, `absent` (HTTP 404 or 410) or `unread`, where no policy could be established but an earlier version of the fetcher retrieved the file anyway. The current fetcher would not. | not recorded for this retrieval |  |
 | `period_start` | read_from_source | First day of the reporting period the document states it covers. |  |  |
 | `period_end` | read_from_source | Last day of the reporting period the document states it covers. |  |  |
 | `as_of` | read_from_source | The "status as on" date a report prints. |  |  |
@@ -89,22 +90,28 @@ One row per legal entity that issued an instrument in the sample.
 | `lei` | read_from_source | Legal Entity Identifier, where a source prints one; `attribute_support.csv` says which. | no record of the dataset prints one |  |
 | `sector` | annotation | Sector, where classified. Empty in this release. |  |  |
 | `name_variants` | read_from_source (not licensed) | Other names under which sources print the issuer. |  |  |
-| `established_from` | derived | Earliest estimated day on which a record supporting the issuer was public (see `attribute_support.csv`). |  |  |
-| `established_confirmed_by` | derived | Earliest day on which the project itself saw a record supporting the issuer. |  |  |
+| `established_not_before` | derived | Earliest day on which a record identifying the issuer could have been public, from the lower bounds of its supports in `attribute_support.csv`. | a support has no lower bound, so no earlier day is ruled out |  |
+| `established_estimate` | derived | Earliest estimated day on which a record identifying the issuer was public. An estimate, not evidence. | no support has an estimate |  |
+| `established_confirmed_by` | derived | Earliest day on which the project itself saw a record identifying the issuer. |  |  |
 
 ## `attribute_support.csv`
 
-One row per record that establishes an attribute of an instrument or issuer, with when that record was public. An instrument's `identity` is its ISIN with the issuer the dataset assigns it to, established by any record printing the ISIN. An issuer's `name`, `cin` and `lei` are established only by records that print them. Point-in-time views show an attribute only once one of its supports is public.
+One row per record that supports an attribute of an instrument or issuer, with the kind of evidence it is and when the record was public. An instrument's `identity` is its ISIN; its `issuer` is which issuer it belongs to, which a record printing the ISIN alone does not show. An issuer's `identity`, `name`, `cin` and `lei` need records that print them for it. Rows with `establishes = false` are kept so that users can see what the record holds, but point-in-time views do not rely on them.
 
 | column | kind | meaning | empty means | origin |
 |---|---|---|---|---|
 | `entity` | identifier | `instrument` or `issuer`. |  |  |
 | `key` | identifier | The ISIN or the issuer id. |  |  |
-| `attribute` | derived | `identity`, `name`, `cin` or `lei`. |  |  |
-| `record` | provenance | The record that prints the attribute. |  |  |
+| `attribute` | derived | `identity` or `issuer` for an instrument; `identity`, `name`, `cin` or `lei` for an issuer. |  |  |
+| `basis` | derived | The kind of evidence: `quoted` (an anchor's quotation prints the value), `recomputed` (recomputed from the hashed file), `observed` (seen on a link-only page), `flag_only` (a curated flag with no quotation), `printed_with_name` (one record prints the ISIN with the issuer's name), `issuer_publication` (the issuer's own website published it), `letter_to_holders` (a trustee's letter printing only the ISIN, attributed by the curator), `issuer_code` (inferred from an issuer code no other issuer uses), and for names `exact_name`, `name_with_addition` or `name_variant`. |  |  |
+| `establishes` | derived | Whether point-in-time views rely on the row. False for `flag_only` and `letter_to_holders`, which record a curator's reading that no quotation shows. |  |  |
+| `record` | provenance | The record that supports the attribute, or the ISIN an inference borrows. |  |  |
 | `document` | identifier | The document the record is in. | the support is an observation, not a document |  |
 | `observed_at_url` | provenance | The page of a source whose terms forbid storing it, where the value was seen. | the support is a document |  |
-| `available_from` | derived | Estimated day the supporting document was public, or the day the observation was made. |  |  |
+| `matched_as_reported` | source_text (not licensed) | The value as the source prints it: the ISIN, the name, the identifier or the issuer code. | nothing is printed: the row records a publication, a flag or a curator's attribution |  |
+| `explanation` | derived | Why the rule applies, in the project's words. |  |  |
+| `available_not_before` | derived | Earliest day the supporting record could have been public: its document's lower bound. | the support is an observation or its document has no lower bound, so no earlier day is ruled out |  |
+| `available_estimate` | derived | Estimated day the supporting document was public, or the day the observation was made. An estimate, not evidence. | the document has neither a publisher's nor a server's date |  |
 | `available_confirmed_by` | derived | Day the project retrieved the supporting document, or made the observation. |  |  |
 
 ## `instruments.csv`
@@ -122,8 +129,12 @@ One row per ISIN in the sample, summarising what the other tables hold about it.
 | `executed_deeds` | derived | Linked debenture trust deeds and supplemental deeds that have been retrieved. None in this release. | none retrieved; absence is a fact about the project's access, not about the instrument |  |
 | `provisions` | derived | Number of clause records attached to the ISIN. |  |  |
 | `trust_deed_dates` | derived | Every deed date that trustees' letters cite for the ISIN. |  | The executed deeds, as the trustee describes them. No deed has been retrieved. |
-| `established_from` | derived | Earliest estimated day on which a record printing the ISIN was public (`attribute_support.csv`). |  |  |
+| `established_not_before` | derived | Earliest day on which a record printing the ISIN could have been public (`attribute_support.csv`). | a support has no lower bound, so no earlier day is ruled out |  |
+| `established_estimate` | derived | Earliest estimated day on which a record printing the ISIN was public. An estimate, not evidence. | no support has an estimate |  |
 | `established_confirmed_by` | derived | Earliest day on which the project itself saw a record printing the ISIN. |  |  |
+| `issuer_link_basis` | derived | How the record establishes which issuer the ISIN belongs to: `printed_with_name`, `issuer_publication`, `observed` or `issuer_code` (see `attribute_support.csv`). The `issuer` column is the project's assignment; this says what evidence supports it. | no record establishes the link; the assignment rests on the curator's reading |  |
+| `issuer_link_estimate` | derived | Earliest estimated day on which the issuer link was established. An estimate, not evidence. |  |  |
+| `issuer_link_confirmed_by` | derived | Earliest day on which records the project had itself observed established the issuer link. | the link rests on files the project had not observed, or on none |  |
 | `notes` | annotation | The project's remark. |  |  |
 
 ## `claims.csv`

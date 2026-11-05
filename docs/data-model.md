@@ -90,23 +90,43 @@ When a file became public is never known exactly, so `pit.availability` keeps th
 
 | Column of `documents.csv` | Meaning | Proves |
 |---|---|---|
-| `available_not_before`, with `available_not_before_basis` | The latest date the file gives itself, gives as its "as on" date, prints for a letter transcribed from it, or prints for an event one of its rows reports, such as a detection or an intimation | A lower bound: the file cannot have been public earlier |
-| `available_from`, with `available_basis` | The estimate: the later of the publisher's own date (a listing page) and the server's Last-Modified header for the exact file held, never before the lower bound. Failing both, the lower bound itself; failing that, the observation | Nothing. Last-Modified dates the version on the server, and a copied file can carry a misleading date |
+| `available_not_before`, with `available_not_before_basis` | The latest date the file gives itself, gives as its "as on" date, the start of the period it reports on, a letter transcribed from it, or an event it records, such as a detection, an intimation or a receipt | A lower bound: the file cannot have been public earlier |
+| `available_estimate`, with `available_estimate_basis` | The later of the publisher's own date (a listing page) and the server's Last-Modified header for the exact file held, never before the lower bound. A file with neither has no estimate | Nothing. It is an assumption, and Last-Modified dates the version on the server |
 | `available_confirmed_by` | The day the project retrieved the file from its public address | That the file was public by then |
 | `available_window_days` | Days from the lower bound to that day | How wide the uncertainty is |
 
-An estimate is not a publication date, and none of these is the day a file first went public. Where evidence is missing, the column is empty rather than filled with a guess.
+On any day a file is in one of three states (`AvailabilityState`):
 
-`pit.as_of(dataset, day, mode)` builds the record as far as records shown public by `day` establish it. In mode `estimated`, the default, a file counts from its estimate. In mode `observed` it counts only from the day the project saw it, so nothing counts too early, though much counts too late. The two are separate views and are never mixed.
+- `not_yet_possible`, before its lower bound;
+- `uncertain`, from its lower bound, or always if it has none, until the project observed it;
+- `confirmed`, from the day the project observed it.
 
-- Every record whose document was not shown public by `day` is left out, and the evidence lists of those kept are cut to what was. Observations count from the day they were made.
-- An instrument appears only if a record then public prints its ISIN. An issuer appears only if such a record supports it. Its name is its base name only if a record then public prints it, and otherwise the earliest name a record then public prints. Its CIN and LEI appear only if a record then public prints them, and its sector never. `attribute_support.csv` lists each record that supports an entity or attribute, and when that record became public.
-- Free-text notes, written with later knowledge, are dropped. So are searches made after `day`, and reviews of annotations made after `day`.
-- Nothing in the view says what the full record holds beyond `day`.
+The publisher's and the server's dates do not change the state. They only give an estimate within the uncertain interval. Unknown stays unknown: no date is filled in from another kind of date.
 
-Statuses in a view keep not finding apart from not knowing. In an estimated view, a quarter for which no report of the trustee is estimated public by `day`, and which no search made by then settles, has basis `trustee_report_not_in_view`. That says only that the view holds no such report, not that none was public, because a later search cannot show what was public earlier. In an observed view, and in the full record, the same case is `trustee_report_not_searched`.
+`pit.as_of(dataset, day, mode)` builds the record as far as the files a mode admits establish it. The three modes nest:
 
-Tests rebuild the view at every date on which some document's availability changes, in both modes, and fail if anything later leaks in. They show that the views agree with the recorded dates. They cannot show that the dates are historically true.
+| Mode | Admits | Reads as |
+|---|---|---|
+| `observed` | Files the project had observed by the day | What BRDO itself had seen, not what the public could see |
+| `estimated` (default) | Those, and uncertain files whose estimate has passed | A reconstruction under a stated assumption |
+| `possible` | Every file that no lower bound rules out | An upper envelope: some files may not yet have been public |
+
+The view records each admitted file's state on the day (`availability_states`), so that what rests on evidence can be told from what rests on the estimate. `brdo show --as-of` tags every line with it. `brdo status --as-of` prints the status in all three views side by side, marks statuses that rest on uncertain files, and calls a status settled only where the observed and possible views agree. Before 3 November 2026 the observed view is empty, so nothing in the record is settled by the project's own evidence before then.
+
+What a view holds:
+
+- Records whose document the mode does not admit are left out, and evidence lists are cut to what was admitted. Observations count from the day they were made.
+- An instrument appears only if an admitted record prints its ISIN (`attribute_support.csv`, attribute `identity`).
+- Which issuer it belongs to needs its own support (attribute `issuer`): a record printing the issuer's name with the ISIN, the issuer's own publication of it, a depository page for it that shows the issuer, or an inference from an issuer code that no other issuer uses. A trustee's letter that prints only the ISIN is recorded as `letter_to_holders` but does not establish the link. Without a link, the view refers to the issuer by the ISIN's issuer code, as `issuer-code-xxxx` (`relationship_bases` says how each link is known).
+- An issuer appears only if an admitted record identifies it: by its name, a recorded variant, its CIN or LEI, or a publication on its own website (`Source.issuer`). It keeps the dataset's identifier only if it can be told apart from every other issuer, by a name no other issuer shares, an identifier or its own website. Otherwise it too appears under its ISINs' issuer code. This matters because identifiers encode names: the two Samunnati issuers are told apart only by CINs observed on 3 November 2026, so earlier views show one printed name under two issuer codes, without saying which legal entity is which.
+- Names match as whole names, exactly or with a parenthetical addition such as an abbreviation or a former name, never one name contained in another. CINs and LEIs count only from the issuer's own publication, a quotation that also names the issuer, or a depository page for one of its ISINs.
+- ISINs that a record lists but no admitted record prints are removed from it.
+- Free-text notes and discrepancy descriptions, written with later knowledge, are dropped. So are searches and reviews of annotations made after the day.
+- Nothing in the view says what the full record holds beyond the day.
+
+Statuses keep not finding apart from not knowing. In an estimated view, a quarter for which no report of the trustee is admitted, and which no search made by then settles, has basis `trustee_report_not_in_view`. That says only that the view holds no such report, not that none was public. In an observed view, and in the full record, the same case is `trustee_report_not_searched`.
+
+Tests rebuild the views at every date on which a file's lower bound, estimate or observation, a search or an observation changes them, in all three modes. They fail if a view holds a later file, an unsupported attribute, or an identifier of an issuer it does not identify. They show that the views agree with the recorded dates and supports. They cannot show that the dates are historically true.
 
 This is the record as it stood, not as the project knew it on that day. For what the dataset itself said at an earlier time, use the repository's history.
 
@@ -209,8 +229,12 @@ Every column is described in [data-dictionary.md](data-dictionary.md), generated
 
 Where a fact originates with a party other than its publisher, the dictionary says so. A test fails if any exported column is undocumented.
 
-`field_flows.csv` and `follow_up_states.csv` export the field-level comparison and the follow-up states, with the text, row or letter behind each decision. `attribute_support.csv` exports the support for each entity and attribute that point-in-time views rely on.
+`field_flows.csv` and `follow_up_states.csv` export the field-level comparison and the follow-up states, with the text, row or letter behind each decision. `attribute_support.csv` exports every support for each entity and attribute, with its `basis`, whether views rely on it (`establishes`), the value as printed (`matched_as_reported`), the project's `explanation`, and its lower bound, estimate and confirmation. `instruments.csv` says how each ISIN's issuer link is established (`issuer_link_basis`), and `documents.csv` records, where known, what the fetcher established about the host's robots policy at retrieval (`robots_at_retrieval`).
 
 ## Second annotation and review
 
-`brdo review packet` writes the project's 585 annotated decisions, or chosen fields of them, as a packet for a second annotator that never gives the current value, with a key kept apart. `brdo review score` reports agreement and Cohen's kappa field by field. A review is recorded as an `AnnotationReview` in `data/annotation-reviews.yaml`, keeping the original, second and adjudicated values with reasons. Only a person other than the original annotator can make one, and `Provision.annotation_reviewed` is an error unless such reviews settle every decision of the record. No review has been made, and the file does not exist yet. See [reliability.md](reliability.md#review-protocol).
+`brdo review packet` writes the project's 585 annotated decisions, or one round of them, as a packet for a second annotator. A packet never gives the current value. Each line names the file, its SHA-256, the page, a locator, the ISINs concerned and how the field is compared (`categorical`, `binary`, `multi_label` or `date`), and uses an id that is fresh for the round. The key, which holds the current values, is written to a separate folder readable by its owner only. The command refuses to write inside the repository or over an earlier round. Round 1 holds the 356 decisions behind the statement comparisons and the follow-up and cure findings; round 2 the other 229.
+
+`brdo review score` reports, for each field separately, counts, raw agreement, the label distributions of both annotators, and the statistic the field's kind allows: Cohen's kappa for categorical and binary fields, agreement on each value for binary fields, exact-set agreement, mean Jaccard and per-label agreement for multi-label fields, and whether a date is given for date fields. Hard cases and answers marked unsure are also scored apart.
+
+A review is recorded as an `AnnotationReview` in `data/annotation-reviews.yaml`, keeping the original, second and adjudicated values with reasons and the second annotator's unsure flag. Only a person other than the original annotator can make one, and `Provision.annotation_reviewed` is an error unless such reviews settle every decision of the record. No review has been made, and the file does not exist yet. See [reliability.md](reliability.md#review-protocol).

@@ -8,7 +8,7 @@ A decision marked as a hard case is one where a careful reader could reasonably 
 
 ## Covenant category
 
-Use the lists in SEBI's "Guidance note on list of Covenants", Annex-VIA of the master circular for debenture trustees of 28 September 2026 (page 71 of the copy the project hashed, regulatory reference `covenant-guidance-note`). Its six headings correspond to the categories as follows:
+Use the lists in SEBI's "Guidance note on list of Covenants", Annex-VIA of the master circular for debenture trustees (see [the reference](#the-reference-for-covenant-categories) below for the exact file). Its six headings correspond to the categories as follows:
 
 | Annex heading | Category |
 |---|---|
@@ -39,7 +39,7 @@ Judge the whole printed cell, not only the quoted part.
 
 ## Actions
 
-Choose every kind the row's action columns report, and only those. Most rows have one or two. The action columns are those reporting what the trustee did or proposes to do: security enforcement, further action, and any extra column that reports action taken or a status of the matter.
+Choose every kind the row's action columns report, and only those. Most rows have one or two. Write `none` if the action columns report no action at all. The action columns are those reporting what the trustee did or proposes to do: security enforcement, further action, and any extra column that reports action taken or a status of the matter.
 
 - `cure_reported`: the cell says the breach was cured or the missing item supplied.
 - `holders_meeting_held`: the cell reports a meeting of holders as held.
@@ -61,12 +61,12 @@ Record the values as a list separated by `|`, in any order. Agreement is scored 
 
 ## Carried-over breaches
 
-Give a quarter-end date (as YYYY-MM-DD) only when the row's own label assigns the breach to an earlier quarter, for example a heading or note saying that the row continues from it. Otherwise leave it blank. Do not infer it from dates of breach or detection.
+Give a quarter-end date (as YYYY-MM-DD) only when the row's own label assigns the breach to an earlier quarter, for example a heading or note saying that the row continues from it. Otherwise write `none`. Do not infer it from dates of breach or detection.
 
 ## Letters
 
 - **Kind.** `meeting_continuation` when the letter continues or reconvenes a meeting of holders called earlier. Otherwise `breach`.
-- **Quarter.** The quarter-end date the letter states for the breach or for the certificate it relies on, as YYYY-MM-DD. Leave it blank when the letter states none. Do not infer a quarter from the date of the letter.
+- **Quarter.** The quarter-end date the letter states for the breach or for the certificate it relies on, as YYYY-MM-DD. Write `none` when the letter states no quarter. Do not infer a quarter from the date of the letter.
 - **Adjourned for lack of quorum.** `true` when the letter says a meeting of holders was adjourned, or could not proceed, for want of quorum. Otherwise `false`.
 
 ## Compliance statements
@@ -98,4 +98,17 @@ Compare the trustee's cell with the clause record it is linked to.
 
 ## Handing in
 
-Return the answers file with every decision you made, a reason for each hard case and for each decision you marked unsure, and the commit of this codebook given in the packet's instructions. Do not change the passage, locator or allowed values. If a decision cannot be made from the source, leave the value blank and say why.
+Return the answers file with every decision you made, a reason for each hard case and for each decision you marked unsure, and the commit of this codebook given in the packet's instructions. Do not change the passage, locator or allowed values. A blank value means you could not decide, so give a reason; it is never a way of saying "none", which has its own value.
+
+## The reference for covenant categories
+
+The covenant categories come from one file. Use this file, not a later edition or a copy:
+
+| | |
+|---|---|
+| Document | SEBI, Master Circular for Debenture Trustees, HO/17/11/12(2)2026-DDHS-POD1/I/22420/2026, 28 September 2026 |
+| Official address | https://www.sebi.gov.in/sebi_data/attachdocs/sep-2026/1790593347737.pdf |
+| SHA-256 of the file the project used | `4a8ce13addf1c5f9fb4dba3c7ab3e3a3e82660f2ae2906477b121b60b7e308f9` |
+| Where | Annex-VIA, "Guidance note on list of Covenants", on page 71 of that file (the file's page, not the printed folio) |
+
+Before starting, check that the file at the official address has that SHA-256 (for example with `sha256sum`). If it does not, SEBI has replaced it: do not use another copy without telling the coordinator, and record in your answers which file you used.

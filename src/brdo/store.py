@@ -49,6 +49,7 @@ from brdo.vocab import (
     OFFER_DOCUMENT_TYPES,
     TERM_STATING_DOCUMENT_TYPES,
     AvailabilityMode,
+    AvailabilityState,
     DocumentType,
     ExcerptPolicy,
     InstrumentProperty,
@@ -56,6 +57,7 @@ from brdo.vocab import (
     RedistributionPolicy,
     RetrievalPolicy,
     SourceKind,
+    SupportBasis,
 )
 
 
@@ -102,7 +104,13 @@ class Dataset:
     cutoff: date | None = None
     """Set on a point-in-time view (see ``pit.as_of``): the day whose public record the view holds."""
     availability_mode: AvailabilityMode | None = None
-    """Which availability dates the point-in-time view trusted."""
+    """Which rule the point-in-time view used to admit files."""
+    availability_states: dict[str, AvailabilityState] = field(default_factory=dict)
+    """In a point-in-time view: for each admitted file, whether it was confirmed public on the view's day or only
+    uncertain, admitted under the view's rule."""
+    relationship_bases: dict[str, SupportBasis | None] = field(default_factory=dict)
+    """In a point-in-time view: for each instrument, how the record then establishes which issuer it belongs to, or
+    None if it does not."""
 
     def source_of(self, document_id: str) -> Source:
         return self.sources[self.documents[document_id].source]
@@ -272,6 +280,15 @@ def check_integrity(dataset: Dataset) -> list[Problem]:
         problems.append(Problem(Severity.WARNING, where, message))
 
     from brdo.pit import availability  # pit builds on this module, so it is imported here
+
+    for source in dataset.sources.values():
+        if source.issuer is None:
+            continue
+        where = f"source {source.id}"
+        if source.kind is not SourceKind.ISSUER:
+            error(where, f"names issuer {source.issuer}, but is a {source.kind} source, not an issuer's own website")
+        if source.issuer not in dataset.issuers:
+            error(where, f"names unknown issuer {source.issuer}")
 
     for document in dataset.documents.values():
         where = f"document {document.id}"

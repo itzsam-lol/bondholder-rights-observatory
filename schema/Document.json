@@ -84,6 +84,16 @@
       ],
       "title": "Period",
       "type": "object"
+    },
+    "RobotsAtRetrieval": {
+      "description": "What the fetcher could establish about a host's robots policy when it retrieved a file.",
+      "enum": [
+        "obeyed",
+        "absent",
+        "unread"
+      ],
+      "title": "RobotsAtRetrieval",
+      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -206,6 +216,18 @@
       "description": "Downloaded in a browser, outside the pipeline; see `brdo add-document --from-file`",
       "title": "Retrieved Manually",
       "type": "boolean"
+    },
+    "robots_at_retrieval": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RobotsAtRetrieval"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "What the fetcher established about the host's robots policy; None if not recorded"
     },
     "sha256": {
       "anyOf": [

@@ -102,6 +102,21 @@
       "title": "Id",
       "type": "string"
     },
+    "issuer": {
+      "anyOf": [
+        {
+          "maxLength": 120,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The issuer whose own website this is, for sources of kind issuer",
+      "title": "Issuer"
+    },
     "kind": {
       "$ref": "#/$defs/SourceKind"
     },
