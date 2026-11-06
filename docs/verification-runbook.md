@@ -1,6 +1,6 @@
 # Verification runbook
 
-How to re-check the dataset's evidence against its sources, from a machine whose network can reach them. Written on 5 November 2026. The cloud environment used to build the last three passes could not reach any source host, so this has not been done since 4 November 2026.
+How to re-check the dataset's evidence against its sources, from a machine whose network can reach them. Written on 5 November 2026. The cloud environment used to build the fifth to seventh passes could not reach any source host. On 6 November 2026 the offline steps were run again on a machine whose cache already held every file (see [CHANGELOG.md](../CHANGELOG.md)), and the hosts' robots files were read; no file has been retrieved again since 4 November 2026.
 
 ## What is carried forward, and what a run would replace
 
@@ -12,6 +12,19 @@ The last full run of `brdo verify`, on 4 November 2026, checked all 1,254 anchor
 Separately, 246 anchors are recorded as transcribed from the rendered page (`read_from_rendering` in `exports/evidence.csv`). That is a fact about how they were transcribed, not a verification result. `brdo verify` reports an anchor as `visual_only` only if it is one of those 246 and its words are not in the text layer, so the 107 are among the 246; at that run the other 139 were found in the text layer.
 
 Those figures stay as they are, dated 4 November 2026. A new run adds new, dated figures beside them and never overwrites them.
+
+## Robots files read on 6 November 2026
+
+At 08:44 UTC on 6 November 2026 the fetcher's own permission check (`Fetcher.check_allowed`, with the project's user agent) was run for the address of each of the 45 documents. It requests only each host's `/robots.txt`, once per host, and retrieves no document. This is what the fetcher would decide today. It is not a reading of the hosts' terms, which only a person can do.
+
+| Host | Robots file | What the fetcher would do |
+|---|---|---|
+| `www.dvarakgfs.com` | HTTP 403 | Fetch nothing: robots.txt unread |
+| `dlryl1dmmgapd.cloudfront.net` | HTTP 403 | Fetch nothing: robots.txt unread |
+| `www.vistraitcl.com` | Read; asks for a crawl delay of 10 seconds | Fetch, waiting 10 seconds between requests |
+| The other 10 hosts, including `www.icra.in`, `satyamicrocapital.com`, `www.infinityfincorp.com` and `www.mitconcredentia.in` | Read | Fetch: the recorded addresses are not disallowed |
+
+So a fresh `brdo fetch` or `pytest -m network` would leave Dvara's three files (155 anchors) and Aye Finance's outcome filing (5 anchors) unverified as access errors, and must not work around that. ICRA's robots file, unreadable on 4 November, could be read on 6 November; the record of the earlier retrieval (`robots_at_retrieval: unread`) stays as it was. The robots policies of the five hosts in step 3 below are still to be recorded in their source records, and the hosts' terms still to be re-read, by a person.
 
 ## Kinds of check
 

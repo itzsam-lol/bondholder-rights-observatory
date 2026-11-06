@@ -23,6 +23,7 @@ from brdo.consistency import (
     unattributed_follow_up,
 )
 from brdo.pit import availability
+from brdo.review import decisions, latest_reviews, round_fields
 from brdo.status import derive_all
 from brdo.store import Dataset
 from brdo.vocab import (
@@ -810,6 +811,21 @@ def _verification_section(dataset: Dataset) -> str:
             ]
         )
     manual = sum(1 for d in dataset.documents.values() if d.retrieved_manually)
+    judgements = decisions(dataset)
+    first = round_fields(dataset, "1")
+    current = {d.id for d in judgements}
+    settled = sum(1 for i, r in latest_reviews(dataset.reviews).items() if i in current and r.settled is not None)
+    in_first = sum(1 for d in judgements if first(d))
+    annotation = (
+        f"The records hold {len(judgements)} annotated decisions that a second annotator can make again: "
+        f"{in_first} in review round 1 and {len(judgements) - in_first} in round 2, "
+        f"{sum(1 for d in judgements if d.hard_case_note)} of them flagged as hard cases. "
+        f"{settled} have been settled by an independent person's review and "
+        f"{sum(1 for p in dataset.provisions.values() if p.annotation_reviewed)} clause records are marked as "
+        "reviewed; every other decision is the original annotator's single pass. "
+        f"Of {sum(anchors.values())} evidence anchors, {sum(reading.values())} are recorded as transcribed from the "
+        "rendered page.\n\n"
+    )
     return (
         "## What verification needs\n\n"
         "These are different checks, and none stands in for another:\n\n"
@@ -820,7 +836,8 @@ def _verification_section(dataset: Dataset) -> str:
         "5. re-reading each source's terms and robots policy, by a person;\n"
         "6. checking by eye the anchors read from rendered pages, by a person;\n"
         "7. an independent second annotation, by a person (see `docs/reliability.md`).\n\n"
-        "Anchors marked as read from the rendering were transcribed from the rendered page; whether their words are "
+        + annotation
+        + "Anchors marked as read from the rendering were transcribed from the rendered page; whether their words are "
         "also in the file's text layer is a separate result of `brdo verify`, which reports those it cannot find "
         "there as `visual_only`. The fetcher retrieves a file only when the host's robots policy is established: "
         "a robots file it can read, or HTTP 404 or 410. Any other answer stops it, and the failure is logged as an "

@@ -1,4 +1,4 @@
-"""Blind second-annotation materials, agreement scoring, and the rules that keep a review honest."""
+"""Label-blind second-annotation materials, agreement scoring, and the rules that keep a review honest."""
 
 import re
 from datetime import UTC, date, datetime
@@ -15,16 +15,20 @@ from brdo.review import (
     KEY_COLUMNS,
     PACKET_COLUMNS,
     PROBLEMS,
+    AnswersUnreadable,
     PacketRefused,
+    answer_error,
     canonical,
     cohen_kappa,
     decisions,
     normalise_answer,
+    read_answers,
     read_csv,
     render_scores,
     review_problems,
     round_fields,
     score,
+    submission_errors,
     write_packet,
 )
 from brdo.store import Severity, check_integrity
@@ -523,3 +527,465 @@ def test_reported_problems_are_counted_apart_and_a_blank_value_stays_unanswered(
     assert result.problems == {"source_unavailable": 1, "cannot_interpret": 1}
     rendered = render_scores([result])
     assert "| a:category | source_unavailable | the site refuses |" in rendered
+
+
+def _category_key(*values: str, hard: str = "false") -> list[dict[str, str]]:
+    return [
+        {
+            "decision": f"D{i}",
+            "decision_id": f"r{i}:category",
+            "field": "breach_item.category",
+            "value": value,
+            "hard_case": hard,
+        }
+        for i, value in enumerate(values, start=1)
+    ]
+
+
+_CATEGORY_LINE = {"kind": "categorical", "multiple": "false", "allowed": "financial|affirmative|negative|other"}
+DATE = "a date as YYYY-MM-DD, or none"
+
+
+def _packet_for(key: list[dict[str, str]], line: dict[str, str] | None = None) -> list[dict[str, str]]:
+    return [dict(line or _CATEGORY_LINE, decision=row["decision"], field=row["field"]) for row in key]
+
+
+def _one(
+    value: str, problem: str = "", unsure: str = "false", line: dict[str, str] | None = None, key_value="financial"
+):
+    key = _category_key(key_value)
+    answers = [
+        {
+            "decision": "D1",
+            "field": "breach_item.category",
+            "value": value,
+            "unsure": unsure,
+            "reason": "r",
+            "problem": problem,
+        }
+    ]
+    [result] = score(key, answers, _packet_for(key, line))
+    assert result.accounted
+    return result
+
+
+def _category(result) -> str:
+    if result.answered:
+        return "answered"
+    if result.blank:
+        return "blank"
+    if result.excluded:
+        return "excluded"
+    if result.invalid:
+        return "not scorable"
+    return "missing"
+
+
+@pytest.mark.parametrize(
+    ("value", "problem", "unsure", "expected", "warned"),
+    [
+        ("financial", "", "false", "answered", False),
+        ("Financial", "", "FALSE", "answered", False),
+        ("financial", "cannot_interpret", "true", "answered", False),
+        ("financial", "cannot_interpret", "false", "answered", True),
+        ("financial", "cannot_interpret", "", "answered", True),
+        ("financial", " Cannot_Interpret ", "true", "answered", False),
+        ("", "cannot_interpret", "", "excluded", False),
+        ("financial", "source_unavailable", "false", "excluded", False),
+        ("financial", "hash_mismatch", "false", "excluded", False),
+        ("financial", "page_not_found", "false", "excluded", False),
+        ("", "source_unavailable", "", "excluded", False),
+        ("financial", "illegible", "false", "not scorable", False),
+        ("financial", "source unavailable", "false", "not scorable", False),
+        ("financial", "hash-mismatch", "false", "not scorable", False),
+        ("financial", "source_unavailable|cannot_interpret", "false", "not scorable", False),
+        ("financial", "hash_mismatch, source_unavailable", "false", "not scorable", False),
+        ("", "illegible", "", "not scorable", False),
+        ("finance", "cannot_interpret", "true", "not scorable", False),
+        ("finance", "", "false", "not scorable", False),
+        ("financial|other", "", "false", "not scorable", False),
+        ("", "", "", "blank", False),
+        ("  ", "", "", "blank", False),
+        ("financial", "", "maybe", "answered", True),
+    ],
+)
+def test_each_response_falls_in_exactly_one_category(value, problem, unsure, expected, warned):
+    result = _one(value, problem, unsure)
+    assert _category(result) == expected
+    assert bool(result.warnings) is warned
+    assert bool(result.pairs) is (expected == "answered")
+
+
+def test_no_combined_misspelt_or_unknown_code_lets_a_value_into_agreement():
+    for code in (
+        "source_unavailable|cannot_interpret",
+        "cannot_interpret;source_unavailable",
+        "Source Unavailable",
+        "hash-mismatch",
+        "page not found",
+        "cannot interpret",
+        "none",
+        "n/a",
+    ):
+        result = _one("financial", code)
+        assert result.pairs == [] and result.unrecognised == {code.strip().lower(): 1}, code
+        assert "unrecognised problem code" in result.invalid[0]["why"]
+
+
+def test_cannot_interpret_with_a_value_not_marked_unsure_is_a_conspicuous_warning():
+    result = _one("other", "cannot_interpret", "false")
+    assert result.answered == 1 and result.disagreements
+    rendered = render_scores([result])
+    assert "**Warnings: 1 lines to raise with the reviewer" in rendered
+    assert rendered.index("**Warnings") < rendered.index("| field | kind |")
+    assert "cannot_interpret with a value, but unsure is not true" in rendered
+
+
+def test_none_is_a_value_alone_and_not_with_other_labels():
+    line = {"kind": "multi_label", "multiple": "true", "allowed": "awaiting_instructions|cure_reported|none"}
+    assert _category(_one("none", line=line, key_value="none")) == "answered"
+    assert _one("none", line=line, key_value="none").agreed == 1
+    assert _category(_one("none|cure_reported", line=line, key_value="none")) == "not scorable"
+    assert _category(_one("cure_reported||none", line=line, key_value="none")) == "not scorable"
+    assert answer_error("none", "multi_label", "cure_reported|none", True) is None
+
+
+def test_dates_must_be_real_and_written_as_iso_dates():
+    assert answer_error("2026-06-30", "date", DATE, False) is None
+    assert answer_error("None", "date", DATE, False) is None
+    assert answer_error("30/06/2026", "date", DATE, False)
+    assert answer_error("2026-02-30", "date", DATE, False)
+
+
+def test_blank_and_excluded_are_shown_apart_and_problem_codes_are_counted_by_field():
+    key = _category_key("financial", "other", "financial", "financial")
+    answers = [
+        {
+            "decision": "D1",
+            "field": "breach_item.category",
+            "value": "",
+            "problem": "source_unavailable",
+            "reason": "refused",
+        },
+        {
+            "decision": "D2",
+            "field": "breach_item.category",
+            "value": "",
+            "problem": "cannot_interpret",
+            "reason": "illegible",
+        },
+        {"decision": "D3", "field": "breach_item.category", "value": "", "problem": "", "reason": ""},
+        {
+            "decision": "D4",
+            "field": "breach_item.category",
+            "value": "financial",
+            "problem": "illegible",
+            "reason": "faint",
+        },
+    ]
+    [result] = score(key, answers, _packet_for(key))
+    assert (result.blank, len(result.excluded), len(result.invalid), result.answered) == (1, 2, 1, 0)
+    assert result.problems == {"source_unavailable": 1, "cannot_interpret": 1} and result.unrecognised == {
+        "illegible": 1
+    }
+    rendered = render_scores([result])
+    assert "| breach_item.category | categorical | 4 | 0 | 1 | 2 | 1 | 0 |" in rendered
+    assert "| field | source_unavailable | cannot_interpret | unrecognised |" in rendered
+    assert "| breach_item.category | 1 | 1 | 1 |" in rendered
+
+
+def test_a_duplicated_decision_is_never_resolved_by_choosing_a_line():
+    key = _category_key("financial", "other")
+    same = {"decision": "D1", "field": "breach_item.category", "value": "financial", "unsure": "false"}
+    for second in (same, dict(same, value="other")):
+        answers = [same, dict(second), {"decision": "D2", "field": "breach_item.category", "value": "other"}]
+        [result] = score(key, answers, _packet_for(key))
+        assert result.accounted and result.answered == 1 and "no line is chosen" in result.invalid[0]["why"]
+        assert any("appear on more than one line" in e for e in submission_errors(key, answers, _packet_for(key)))
+
+
+def test_an_unstated_unsure_is_neither_sure_nor_unsure_and_missing_reasons_are_counted():
+    key = _category_key("financial", "financial", hard="true")
+    answers = [
+        {"decision": "D1", "field": "breach_item.category", "value": "financial", "unsure": "", "reason": ""},
+        {"decision": "D2", "field": "breach_item.category", "value": "financial", "unsure": "false", "reason": "ok"},
+    ]
+    [result] = score(key, answers, [])
+    assert (result.unsure, result.unsure_unstated, len(result.sure), result.reasons_missing) == (0, 1, 1, 1)
+
+
+def test_kappa_is_withheld_not_annotated_when_pairs_are_few_or_one_value_dominates():
+    def answered(values, seconds):
+        key = _category_key(*values)
+        answers = [
+            {"decision": k["decision"], "value": v, "unsure": "false"} for k, v in zip(key, seconds, strict=False)
+        ]
+        [result] = score(key, answers, [])
+        return result
+
+    few = answered(["financial", "other"] * 3, ["financial", "other", "financial", "other", "other", "other"])
+    assert few.kappa is not None and few.reported_kappa is None
+    assert few.kappa_withheld() == "only 6 answered pairs, fewer than 20"
+    rendered = render_scores([few])
+    assert "| not reported: only 6 answered pairs, fewer than 20 |" in rendered
+    assert f"{few.kappa:.2f}" not in rendered.split("| field |")[1].split("Kappa is computed")[0]
+    assert "- original → second: financial → financial 2, financial → other 1, other → other 3" in rendered
+    assert "- answered pairs: 6; agreed: 5; raw agreement: 0.83" in rendered
+
+    skewed = answered(["financial"] * 19 + ["other"], ["financial"] * 20)
+    assert skewed.reported_kappa is None and "financial is 19 of 20 original values" in skewed.kappa_withheld()
+
+    stable = answered(["financial", "other"] * 10, ["financial", "other"] * 9 + ["other", "other"])
+    assert stable.reported_kappa == pytest.approx(stable.kappa) and stable.kappa_withheld() is None
+    assert f"| {stable.kappa:.2f} |" in render_scores([stable])
+
+
+def test_multi_label_scores_show_counts_for_each_label_and_say_what_exact_set_agreement_misses():
+    key = [
+        {"decision": "D1", "field": "breach_row.actions", "value": "awaiting_instructions|holders_meeting_held"},
+        {"decision": "D2", "field": "breach_row.actions", "value": "none"},
+    ]
+    packet = [
+        {
+            "decision": row["decision"],
+            "multiple": "true",
+            "kind": "multi_label",
+            "allowed": "awaiting_instructions|holders_meeting_held|cure_reported|none",
+        }
+        for row in key
+    ]
+    answers = [
+        {"decision": "D1", "value": "awaiting_instructions|cure_reported", "unsure": "false"},
+        {"decision": "D2", "value": "NONE", "unsure": "false"},
+    ]
+    [result] = score(key, answers, packet)
+    assert result.agreed == 1
+    assert result.label_counts() == {
+        "awaiting_instructions": (1, 0, 0),
+        "cure_reported": (0, 0, 1),
+        "holders_meeting_held": (0, 1, 0),
+    }
+    rendered = render_scores([result])
+    assert "exact agreement on the whole set" in rendered and "partial agreement" in rendered
+    assert "holders_meeting_held 0.00 (both 0, original only 1, second only 0)" in rendered
+    assert "not an estimate of reliability for annotations outside the packet" in rendered
+
+
+def _round_one(dataset):
+    chosen = [d for d in decisions(dataset) if round_fields(dataset, "1")(d)]
+    ids = [f"D{i:04d}" for i in range(1, len(chosen) + 1)]
+    packet = [{k: str(v) for k, v in d.packet_row(i).items()} for i, d in zip(ids, chosen, strict=True)]
+    key = [
+        {
+            "decision": i,
+            "decision_id": d.id,
+            "record": d.record,
+            "field": d.field,
+            "value": d.value,
+            "hard_case": "true" if d.hard_case_note else "false",
+        }
+        for i, d in zip(ids, chosen, strict=True)
+    ]
+    return key, packet
+
+
+@pytest.fixture(scope="module")
+def release():
+    from brdo.store import load_dataset
+
+    return load_dataset(REPOSITORY / "data")
+
+
+def test_a_wholly_blank_submission_is_valid_unanswered_and_reports_no_agreement(release):
+    key, packet = _round_one(release)
+    blank = [dict.fromkeys(ANSWER_COLUMNS, "") | {"decision": k["decision"], "field": k["field"]} for k in key]
+    assert submission_errors(key, blank, packet, ANSWER_COLUMNS) == []
+    results = score(key, blank, packet)
+    assert all(r.accounted and r.blank == r.decisions and not r.pairs for r in results)
+    rendered = render_scores(results)
+    assert rendered.startswith(f"**No answers were supplied.** Of {len(key)} decisions, {len(key)} are blank")
+    assert "**breach_item.category**" not in rendered
+
+
+def test_structural_faults_are_errors(release):
+    key, packet = _round_one(release)
+    good = [dict.fromkeys(ANSWER_COLUMNS, "") | {"decision": k["decision"], "field": k["field"]} for k in key]
+    assert submission_errors(key, good, packet, ANSWER_COLUMNS) == []
+    cases = {
+        "no header line": (key, [], packet, []),
+        "header but no lines": (key, [], packet, ANSWER_COLUMNS),
+        "no column value": (
+            key,
+            [{c: v for c, v in r.items() if c != "value"} for r in good],
+            packet,
+            [c for c in ANSWER_COLUMNS if c != "value"],
+        ),
+        "more than one line": (key, good + [good[0]], packet, ANSWER_COLUMNS),
+        "not in the key": (key, good + [dict(good[0], decision="D9999")], packet, ANSWER_COLUMNS),
+        "no decision id": (key, good + [dict(good[0], decision=" ")], packet, ANSWER_COLUMNS),
+        "a field other than the key's": (key, [dict(good[0], field="notice.kind"), *good[1:]], packet, ANSWER_COLUMNS),
+        "more cells than the header": (key, [{**good[0], None: ["x"]}, *good[1:]], packet, ANSWER_COLUMNS),
+        "packet does not match the key": (key, good, packet[:-1], ANSWER_COLUMNS),
+    }
+    for expected, arguments in cases.items():
+        errors = submission_errors(*arguments)
+        assert any(expected in e for e in errors), (expected, errors)
+
+
+def test_a_packet_from_another_round_is_detected(release):
+    key, _ = _round_one(release)
+    chosen = [d for d in decisions(release) if round_fields(release, "2")(d)]
+    other = [{k: str(v) for k, v in d.packet_row(f"D{i:04d}").items()} for i, d in enumerate(chosen, start=1)]
+    answers = [dict.fromkeys(ANSWER_COLUMNS, "") | {"decision": k["decision"], "field": k["field"]} for k in key]
+    assert any("packet does not match the key" in e for e in submission_errors(key, answers, other, ANSWER_COLUMNS))
+
+
+def test_answers_files_are_read_strictly_as_utf8_csv(tmp_path):
+    good = tmp_path / "good.csv"
+    good.write_text(
+        "\ufeffdecision,field,value,unsure,reason,problem\r\n D1 ,breach_item.category, Financial ,FALSE,,\r\n", "utf-8"
+    )
+    columns, rows = read_answers(good)
+    assert columns == ANSWER_COLUMNS and rows[0]["value"] == " Financial "
+    [result] = score(_category_key("financial"), rows, [])
+    assert (result.answered, result.agreed) == (1, 1)
+    latin = tmp_path / "latin.csv"
+    latin.write_bytes("decision,field,value,unsure,reason,problem\nD1,f,financial,false,déjà vu,\n".encode("cp1252"))
+    with pytest.raises(AnswersUnreadable, match="not UTF-8"):
+        read_answers(latin)
+    with pytest.raises(AnswersUnreadable, match="does not exist"):
+        read_answers(tmp_path / "absent.csv")
+    empty = tmp_path / "empty.csv"
+    empty.write_text("", "utf-8")
+    assert read_answers(empty) == ([], [])
+
+
+def test_the_score_command_fails_loudly_and_prints_no_table_for_a_faulty_file(dataset, tmp_path, capsys):
+    from brdo.cli import main
+
+    written = write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")
+    arguments = [
+        "review",
+        "score",
+        "--decisions",
+        str(written["packet"] / "decisions.csv"),
+        "--key",
+        str(written["key"] / "key.csv"),
+    ]
+    blank = written["packet"] / "answers.csv"
+    assert main([*arguments, "--answers", str(blank)]) == 0
+    assert "No answers were supplied" in capsys.readouterr().out
+    faulty = tmp_path / "faulty.csv"
+    faulty.write_text("decision;field;value;unsure;reason;problem\nD0001;x;;;;\n", "utf-8")
+    assert main([*arguments, "--answers", str(faulty)]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == "" and "no scores are reported" in captured.err
+    latin = tmp_path / "latin.csv"
+    latin.write_bytes(blank.read_bytes() + "D9,x,é,,,\n".encode("cp1252"))
+    assert main([*arguments, "--answers", str(latin)]) == 1
+    assert "not UTF-8" in capsys.readouterr().err
+
+
+def test_a_packet_round_trips_through_the_scorer_without_any_answer_counting_as_negative(dataset, tmp_path):
+    written = write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")
+    key = read_csv(written["key"] / "key.csv")
+    packet = read_csv(written["packet"] / "decisions.csv")
+    columns, blank = read_answers(written["packet"] / "answers.csv")
+    assert len(blank) == len(key) == len(packet)
+    assert all(not row["value"] and not row["unsure"] and not row["problem"] for row in blank)
+    assert submission_errors(key, blank, packet, columns) == []
+    results = score(key, blank, packet)
+    assert all(r.accounted and r.answered == 0 and r.blank == r.decisions for r in results)
+
+
+def test_no_letter_decision_carries_a_passage(release):
+    letters = [d for d in decisions(release) if d.field.startswith("notice.")]
+    assert len(letters) == 198 and {d.passage for d in letters} == {""}
+    assert all(d.page and d.locator.startswith("letter dated ") and d.isins for d in letters)
+
+
+def test_whether_a_line_has_a_passage_never_varies_within_a_field_except_with_the_source_cell(release):
+    """Passage presence must not be a signal of the value. Only fields whose passage is the transcription of the very
+    cell being judged may have a passage, and those always have one."""
+    by_field: dict[str, set[bool]] = {}
+    for decision in decisions(release):
+        by_field.setdefault(decision.field, set()).add(bool(decision.passage))
+    assert all(len(presence) == 1 for presence in by_field.values()), by_field
+    with_passage = {field for field, presence in by_field.items() if presence == {True}}
+    assert with_passage <= {
+        "breach_item.category",
+        "breach_item.specificity",
+        "breach_item.assignment_uncertain",
+        "breach_row.actions",
+        "provision.category",
+        "provision.stage",
+        "provision_link.agreement",
+    }
+
+
+def test_letter_lines_have_no_column_that_varies_with_curation(release):
+    """Every column of a letter line that the curator's work could shape is the same for all 66 letters of each field.
+
+    The page, the letter's date (in the locator), the document and the ISINs vary, because they locate the letter in
+    its source. They are kept, although the order they show is associated with the values (docs/reliability.md).
+    """
+    key, packet = _round_one(release)
+    rows = [(k, p) for k, p in zip(key, packet, strict=True) if k["field"].startswith("notice.")]
+    assert len(rows) == 198
+    for field in {k["field"] for k, _ in rows}:
+        lines = [p for k, p in rows if k["field"] == field]
+        for column in ("passage", "hard_case", "hard_case_note", "rule", "allowed", "kind", "multiple"):
+            assert len({p[column] for p in lines}) == 1, (field, column)
+        assert all(p["locator"].startswith("letter dated ") and p["page"] and p["isins"] for p in lines)
+
+
+def test_statement_lines_give_pages_and_isins_but_not_the_records_own_quotations(release):
+    lines = [d for d in decisions(release) if d.field.startswith("statement.")]
+    assert lines and all(d.passage == "" and d.page is not None and d.isins for d in lines)
+    quotes = {item.quote for statement in release.compliance_statements.values() for item in statement.evidence}
+    assert not [d for d in lines if any(q and q in d.locator for q in quotes)]
+    made_by = [d for d in lines if d.field == "statement.made_by"]
+    where = [(d.document, d.page, d.locator, d.isins) for d in made_by]
+    assert len(set(where)) == len(where)
+    assert "pages 4, 8" in next(d.locator for d in made_by if d.record == "dvara-2026-06-exceptions")
+
+
+def test_an_answer_line_without_its_field_is_a_structural_error(release):
+    key, packet = _round_one(release)
+    answers = [dict.fromkeys(ANSWER_COLUMNS, "") | {"decision": k["decision"], "field": k["field"]} for k in key]
+    answers[0]["field"] = " "
+    assert any("have no field" in e for e in submission_errors(key, answers, packet, ANSWER_COLUMNS))
+
+
+@pytest.mark.parametrize(
+    "content",
+    [
+        'decision,field,value,unsure,reason,problem\nD1,breach_item.category,"financial,false,,\n',
+        'decision,field,value,unsure,reason,problem\nD1,breach_item.category,"fin"ancial,false,,\n',
+    ],
+)
+def test_malformed_csv_is_a_controlled_error(tmp_path, content):
+    path = tmp_path / "answers.csv"
+    path.write_text(content, encoding="utf-8")
+    with pytest.raises(AnswersUnreadable, match="not readable as CSV"):
+        read_answers(path)
+
+
+def test_an_unreadable_key_or_packet_exits_2_without_a_traceback(dataset, tmp_path, capsys):
+    from brdo.cli import main
+
+    written = write_packet(dataset, tmp_path / "round", _codebook(tmp_path), "abcdef0")
+    decisions_csv, key_csv = written["packet"] / "decisions.csv", written["key"] / "key.csv"
+    answers = written["packet"] / "answers.csv"
+    broken = tmp_path / "broken.csv"
+    broken.write_text("decision,record\nD0001,x\n", encoding="utf-8")
+    quoted = tmp_path / "quoted.csv"
+    quoted.write_text('decision,field,kind,allowed,multiple\nD0001,"x,y,z,w\n', encoding="utf-8")
+    for key, packet, words in (
+        (broken, decisions_csv, "has no column"),
+        (key_csv, quoted, "cannot be read as UTF-8 CSV"),
+        (tmp_path / "absent.csv", decisions_csv, "does not exist"),
+    ):
+        status = main(["review", "score", "--decisions", str(packet), "--key", str(key), "--answers", str(answers)])
+        captured = capsys.readouterr()
+        assert status == 2 and captured.out == "" and words in captured.err

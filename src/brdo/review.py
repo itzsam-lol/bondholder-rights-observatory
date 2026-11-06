@@ -1,12 +1,16 @@
-"""Materials for a blind second annotation, and the rules that keep a review honest.
+"""Materials for a label-blind second annotation, and the rules that keep a review honest.
 
-A packet lists each judgement to be made again: the document and page it rests on, a locator, the passage the record
-quotes, the allowed values and the rule of ``docs/annotation-codebook.md`` that applies. It never gives the current
-value. Hard cases are flagged from the source text alone, with a note that says what makes them hard and not what to
-choose. The key, which holds the current values, is written to a separate directory.
+A packet lists each judgement to be made again: the document and page it rests on, a locator, a passage where the
+record transcribes the very cell being judged, the allowed values and the rule of ``docs/annotation-codebook.md`` that
+applies. It never gives the current value or the record's id. It is label-blind, not blind: the current values are in
+the project's public exports, and a reviewer who searched them by ISIN or document could find them, so the review also
+relies on the reviewer's undertaking not to look. Hard cases are flagged from the source text alone, with a note that
+says what makes them hard and not what to choose. The key, which holds the current values, is written to a separate
+directory.
 
 ``score`` compares a second annotator's answers with the key, field by field and never pooled, with raw agreement,
-Cohen's kappa and every disagreement.
+kappa where it is stable enough to report, the counts behind every statistic and every disagreement.
+``submission_errors`` lists the faults that stop an answers file being scored at all.
 
 Nothing here marks an annotation as reviewed. A review is an ``AnnotationReview`` in ``data/annotation-reviews.yaml``,
 made by a person other than the original annotator, keeping the original, second and adjudicated values and the
@@ -18,6 +22,7 @@ from __future__ import annotations
 
 import csv
 import dataclasses
+import io
 import re
 from collections import Counter, defaultdict
 from collections.abc import Callable, Iterable, Iterator
@@ -315,7 +320,8 @@ def decisions(dataset: Dataset) -> list[Decision]:
                     )
 
     for notice in sorted(dataset.breach_notices.values(), key=lambda n: n.id):
-        passage = notice.covenant_as_reported or notice.deed_as_reported or ""
+        # Only some letters have a transcribed covenant or deed, and which ones depends on the values under review,
+        # so no letter decision carries a passage: the page, the letter's date and its ISINs locate it.
         for name, allowed, value in (
             ("kind", _choices(NoticeKind), notice.kind),
             ("period_end", DATE_OR_NONE, notice.period_end),
@@ -333,15 +339,22 @@ def decisions(dataset: Dataset) -> list[Decision]:
                     url=url(notice.document),
                     page=notice.page,
                     locator=f"letter dated {notice.issued_on.isoformat()}",
-                    passage=passage,
+                    passage="",
                     rule="annotation-codebook.md#letters",
                     isins=tuple(notice.isins),
                 )
             )
 
     for statement in sorted(dataset.compliance_statements.values(), key=lambda s: s.id):
-        passage = " / ".join(item.quote for item in statement.evidence if item.quote)
-        page = next((item.page for item in statement.evidence if item.page is not None), None)
+        # The record's own quotations were chosen as evidence for its values, so they are not given: the reviewer
+        # gets the pages and the ISINs, and reads the statement and any annexure there.
+        pages = sorted({item.page for item in statement.evidence if item.page is not None})
+        page = pages[0] if pages else None
+        where = (
+            f"statement for {statement.period.start.isoformat()} to {statement.period.end.isoformat()}, "
+            f"as it applies to the ISINs in isins; the record cites page{'s' if len(pages) > 1 else ''} "
+            + ", ".join(str(number) for number in pages)
+        )
         for name, allowed, value in (
             ("made_by", _choices(StatementMaker), statement.made_by),
             ("scope", _choices(StatementScope), statement.scope),
@@ -359,8 +372,8 @@ def decisions(dataset: Dataset) -> list[Decision]:
                     document=statement.document,
                     url=url(statement.document),
                     page=page,
-                    locator=f"statement for {statement.period.start.isoformat()} to {statement.period.end.isoformat()}",
-                    passage=passage,
+                    locator=where,
+                    passage="",
                     rule="annotation-codebook.md#compliance-statements",
                     isins=tuple(statement.instruments),
                 )
@@ -423,21 +436,24 @@ def _write_csv(path: Path, columns: list[str], rows: Iterable[dict[str, object]]
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
-    with path.open(encoding="utf-8", newline="") as handle:
+    """Read a CSV file, ignoring a byte-order mark such as a spreadsheet may add when saving."""
+    with path.open(encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
 
 
 INSTRUCTIONS = """Second annotation packet
 
 Read guide.md first, then codebook.md and the SEBI annex it names. For each line of decisions.csv, download the
-document from its address, check that its SHA-256 matches, go to the page and the locator, and read the passage in its
-context. Then fill in the matching line of answers.csv:
+document from its address, check that its SHA-256 matches, go to the page and the locator, and read the source there,
+with the passage where there is one. Then fill in the matching line of answers.csv:
 
 - value: one of the allowed values (several separated by | where multiple is true). none is a value: write it where the
-  allowed values offer it and there is nothing to record. A blank value means you could not decide.
+  allowed values offer it and there is nothing to record. A blank value with no problem code means you could not
+  decide, and is counted as unanswered; a blank value with a problem code is recorded as excluded for that reason.
 - unsure: true or false.
 - reason: required for every hard case, every answer marked unsure, every blank value and every problem.
-- problem: empty, or one of {problems}.
+- problem: empty, or exactly one of {problems}. A value given with source_unavailable, hash_mismatch or
+  page_not_found is not scored; with cannot_interpret, set unsure to true.
 
 Do not look at the project's data, exports, reports or repository until you have returned your answers, and do not use
 an AI tool or other automated aid to decide. Return only answers.csv. The answer key is not in this folder.
@@ -590,9 +606,62 @@ def _jaccard(first: str, second: str) -> float:
     return 1.0 if not a and not b else len(a & b) / len(a | b)
 
 
+EXCLUDING = ("source_unavailable", "hash_mismatch", "page_not_found")
+"""Problem codes meaning the cited page of the recorded file was not read: the decision is excluded, value or not."""
+INTERPRET = "cannot_interpret"
+"""The one problem code that may come with a value: the reviewer's best reading, which the guide asks to mark unsure."""
+KAPPA_MIN_PAIRS = 20
+KAPPA_MAX_SHARE = 0.9
+_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def answer_error(raw: str, kind: str, allowed: str, multiple: bool) -> str | None:
+    """Why an answer's value cannot be scored, or None. A value is never guessed into an allowed one."""
+    text = raw.strip()
+    if kind == "date":
+        if text.lower() == NONE:
+            return None
+        if not _ISO_DATE.fullmatch(text):
+            return "not a date written as YYYY-MM-DD, or none"
+        try:
+            date.fromisoformat(text)
+        except ValueError:
+            return "not a real date"
+        return None
+    choices = {value.lower() for value in allowed.split("|") if value} if allowed else set()
+    if not choices and kind == "binary":
+        choices = set(BOOLEAN)
+    labels = [part.strip().lower() for part in text.split("|")] if multiple else [text.lower()]
+    if multiple and NONE in labels and len(set(labels)) > 1:
+        return "none together with other values"
+    if any(not label for label in labels):
+        return "an empty value between separators"
+    if choices:
+        unknown = sorted({label for label in labels if label not in choices})
+        if unknown:
+            return f"not among the allowed values: {', '.join(unknown)}"
+    if not multiple and "|" in text:
+        return "several values where one is allowed"
+    return None
+
+
 @dataclass
 class FieldScore:
-    """Agreement on one field. Fields are never pooled."""
+    """Agreement on one field. Fields are never pooled.
+
+    Every decision falls in exactly one of four categories:
+
+    - ``missing``: the answers have no line for it;
+    - ``blank``: a line with no value and no problem code, which is unfinished, not a negative answer;
+    - excluded, either by a recognised problem code (``excluded``: ``source_unavailable``, ``hash_mismatch`` or
+      ``page_not_found``, with or without a value, or ``cannot_interpret`` without a value), or because the response
+      cannot be read as an answer (``invalid``: a value that is not allowed, an unrecognised or combined problem
+      code, a line naming another field, or a decision answered more than once);
+    - ``answered``: a valid value, which alone enters agreement.
+
+    ``warnings`` lists answered or blank lines with a fault that does not change the category, such as a value given
+    with ``cannot_interpret`` but not marked unsure.
+    """
 
     field: str
     kind: str
@@ -600,12 +669,26 @@ class FieldScore:
     answered: int = 0
     agreed: int = 0
     unsure: int = 0
+    unsure_unstated: int = 0
+    missing: int = 0
+    blank: int = 0
+    reasons_missing: int = 0
     problems: Counter = dataclasses.field(default_factory=Counter)
+    unrecognised: Counter = dataclasses.field(default_factory=Counter)
     reported: list[dict[str, str]] = dataclasses.field(default_factory=list)
+    excluded: list[dict[str, str]] = dataclasses.field(default_factory=list)
+    invalid: list[dict[str, str]] = dataclasses.field(default_factory=list)
+    warnings: list[dict[str, str]] = dataclasses.field(default_factory=list)
     pairs: list[tuple[str, str]] = dataclasses.field(default_factory=list)
     hard: list[tuple[str, str]] = dataclasses.field(default_factory=list)
+    not_hard: list[tuple[str, str]] = dataclasses.field(default_factory=list)
     sure: list[tuple[str, str]] = dataclasses.field(default_factory=list)
     disagreements: list[dict[str, str]] = dataclasses.field(default_factory=list)
+
+    @property
+    def accounted(self) -> bool:
+        """Whether every decision is in exactly one category."""
+        return self.decisions == self.missing + self.blank + len(self.excluded) + len(self.invalid) + self.answered
 
     @property
     def agreement(self) -> float | None:
@@ -613,8 +696,57 @@ class FieldScore:
 
     @property
     def kappa(self) -> float | None:
-        """Only for categorical and binary fields. Exact-set and date agreement are not chance-corrected here."""
+        """Cohen's kappa as computed, whether or not it is fit to report; see ``kappa_withheld``."""
         return cohen_kappa(self.pairs) if self.kind in ("categorical", "binary") else None
+
+    def kappa_cautions(self) -> list[str]:
+        """Why kappa is unstable here: too few pairs, or one value dominating either annotator's values."""
+        if self.kind not in ("categorical", "binary") or not self.pairs:
+            return []
+        cautions = []
+        if len(self.pairs) < KAPPA_MIN_PAIRS:
+            cautions.append(f"only {len(self.pairs)} answered pairs, fewer than {KAPPA_MIN_PAIRS}")
+        for which, who in ((0, "original"), (1, "second")):
+            value, count = self.distribution(which).most_common(1)[0]
+            if count / len(self.pairs) >= KAPPA_MAX_SHARE:
+                cautions.append(f"{value} is {count} of {len(self.pairs)} {who} values")
+        return cautions
+
+    def kappa_withheld(self) -> str | None:
+        """Why kappa is not reported for this field, or None when it is reported."""
+        if self.kind not in ("categorical", "binary"):
+            return "not computed for this kind of field"
+        if not self.pairs:
+            return "no answered pairs"
+        cautions = self.kappa_cautions()
+        if cautions:
+            return "; ".join(cautions)
+        if self.kappa is None:
+            return "both annotators used a single value, so chance agreement is certain"
+        return None
+
+    @property
+    def reported_kappa(self) -> float | None:
+        """Kappa only where it is stable enough to report."""
+        return None if self.kappa_withheld() else self.kappa
+
+    def confusion(self) -> Counter:
+        """How often each original value met each second value."""
+        return Counter(self.pairs)
+
+    def label_counts(self) -> dict[str, tuple[int, int, int]]:
+        """For multi-label fields: per label, how often both, only the original or only the second annotator used it."""
+        if self.kind != "multi_label":
+            return {}
+        labels = sorted({label for pair in self.pairs for value in pair for label in _labels(value)})
+        return {
+            label: (
+                sum(1 for a, b in self.pairs if label in _labels(a) and label in _labels(b)),
+                sum(1 for a, b in self.pairs if label in _labels(a) and label not in _labels(b)),
+                sum(1 for a, b in self.pairs if label not in _labels(a) and label in _labels(b)),
+            )
+            for label in labels
+        }
 
     def distribution(self, which: int) -> Counter:
         return Counter(pair[which] for pair in self.pairs)
@@ -652,102 +784,355 @@ def _agreement(pairs: list[tuple[str, str]]) -> str:
     return f"{sum(1 for a, b in pairs if a == b) / len(pairs):.2f} ({len(pairs)})"
 
 
+def _decision(row: dict[str, str]) -> str:
+    return (row.get("decision") or "").strip()
+
+
+class AnswersUnreadable(Exception):
+    """An answers file that cannot be read as UTF-8 CSV."""
+
+
+class TableUnreadable(Exception):
+    """A key or a packet's decisions file that cannot be read, or lacks a column the scorer needs."""
+
+
+KEY_REQUIRED = ("decision", "decision_id", "field", "value", "hard_case")
+PACKET_REQUIRED = ("decision", "field", "kind", "allowed", "multiple")
+
+
+def read_table(path: Path, required: tuple[str, ...]) -> list[dict[str, str]]:
+    """A key or a packet's decisions, read strictly. Raises ``TableUnreadable`` rather than a traceback."""
+    try:
+        with path.open(encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle, strict=True)
+            rows = list(reader)
+    except FileNotFoundError as error:
+        raise TableUnreadable(f"{path} does not exist") from error
+    except (OSError, UnicodeDecodeError, csv.Error) as error:
+        raise TableUnreadable(f"{path} cannot be read as UTF-8 CSV: {error}") from error
+    absent = [column for column in required if column not in (reader.fieldnames or [])]
+    if absent:
+        raise TableUnreadable(f"{path} has no column {', '.join(absent)}")
+    if any(None in row for row in rows):
+        raise TableUnreadable(f"{path} has lines with more cells than its header")
+    return rows
+
+
+def read_answers(path: Path) -> tuple[list[str], list[dict[str, str]]]:
+    """An answers file's header and lines. Raises ``AnswersUnreadable`` rather than guess an encoding."""
+    try:
+        text = path.read_bytes().decode("utf-8-sig")
+    except FileNotFoundError as error:
+        raise AnswersUnreadable(f"{path} does not exist") from error
+    except UnicodeDecodeError as error:
+        raise AnswersUnreadable(
+            f"{path} is not UTF-8 text (byte {error.start}); ask for it to be saved as CSV in UTF-8"
+        ) from error
+    try:
+        reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
+        rows = list(reader)
+    except csv.Error as error:
+        raise AnswersUnreadable(f"{path} is not readable as CSV: {error}") from error
+    return list(reader.fieldnames or []), rows
+
+
+def submission_errors(
+    key: list[dict[str, str]],
+    answers: list[dict[str, str]],
+    packet: list[dict[str, str]],
+    columns: list[str] | None = None,
+) -> list[str]:
+    """Faults that stop a submission being scored reliably. Any one of them means no scores are reported.
+
+    A file with a line for every decision and every value blank is not faulty: it is scored as wholly unanswered.
+    """
+    if columns is None:
+        columns = list(answers[0]) if answers else []
+    errors = []
+    if not columns:
+        errors.append("the answers file is empty: it has no header line")
+    else:
+        absent = [column for column in ANSWER_COLUMNS if column not in columns]
+        if absent:
+            errors.append(f"the answers file has no column {', '.join(absent)}")
+        if not answers:
+            errors.append(f"the answers file has a header but no lines; it should have {len(key)}")
+    overlong = sum(1 for row in answers if None in row)
+    if overlong:
+        errors.append(f"{overlong} answer lines have more cells than the header")
+    counts = Counter(_decision(row) for row in answers)
+    repeated = sorted(decision for decision, count in counts.items() if count > 1 and decision)
+    if repeated:
+        errors.append(
+            f"{len(repeated)} decisions appear on more than one line, and none of their lines is chosen: "
+            + ", ".join(repeated[:10])
+        )
+    known = {row["decision"]: row["field"] for row in key}
+    if counts.get(""):
+        errors.append(f"{counts['']} answer lines have no decision id")
+    outside = sorted(decision for decision in counts if decision and decision not in known)
+    if outside:
+        errors.append(f"{len(outside)} answer lines name decisions not in the key: {', '.join(outside[:10])}")
+    unnamed = sorted(
+        _decision(row) for row in answers if _decision(row) in known and not (row.get("field") or "").strip()
+    )
+    if unnamed:
+        errors.append(
+            f"{len(unnamed)} answer lines have no field, so their alignment cannot be checked: "
+            + ", ".join(unnamed[:10])
+        )
+    moved = sorted(
+        _decision(row)
+        for row in answers
+        if _decision(row) in known and (row.get("field") or "").strip() not in ("", known[_decision(row)])
+    )
+    if moved:
+        errors.append(f"{len(moved)} answer lines name a field other than the key's: {', '.join(moved[:10])}")
+    fields = {row["decision"]: row.get("field") for row in packet}
+    absent_lines = [decision for decision in known if decision not in fields]
+    stray = [decision for decision, field in known.items() if decision in fields and fields[decision] != field]
+    if absent_lines or stray or len(fields) != len(known):
+        errors.append(
+            f"the packet does not match the key: {len(absent_lines)} key decisions are not in it, {len(stray)} name "
+            f"another field, and it has {len(fields)} decisions to the key's {len(known)}; check that both come from "
+            "the same round"
+        )
+    return errors
+
+
 def score(key: list[dict[str, str]], answers: list[dict[str, str]], packet: list[dict[str, str]]) -> list[FieldScore]:
     """Agreement between the key and a second annotator, for each field separately.
 
-    A blank answer is counted as unanswered, not as a disagreement. Answers to decisions not in the key are ignored.
-    Hard cases and decisions the annotator marked unsure are also scored apart, so that they can be read alone.
+    Each decision is put in one category (see ``FieldScore``), and only answered decisions enter agreement. A
+    decision answered more than once is never resolved by choosing a line. Check ``submission_errors`` first: when it
+    reports anything, these scores must not be read.
     """
     lines = {row["decision"]: row for row in packet}
-    given = {row["decision"]: row for row in answers}
+    counts = Counter(_decision(row) for row in answers)
+    given = {_decision(row): row for row in answers if counts[_decision(row)] == 1}
     scores: dict[str, FieldScore] = {}
     for row in key:
         line = lines.get(row["decision"], {})
         kind = line.get("kind") or FIELD_KINDS.get(row["field"], "categorical")
+        multiple = line.get("multiple") == "true" or kind == "multi_label"
         result = scores.setdefault(row["field"], FieldScore(row["field"], kind))
         result.decisions += 1
-        answer = given.get(row["decision"])
-        problem = (answer or {}).get("problem", "").strip()
-        if problem:
-            result.problems[problem] += 1
-            result.reported.append(
-                {
-                    "decision": row.get("decision_id") or row["decision"],
-                    "problem": problem,
-                    "reason": answer.get("reason", ""),
-                }
-            )
-        if answer is None or not answer.get("value", "").strip():
+        decision_id = row.get("decision_id") or row["decision"]
+        if counts[row["decision"]] > 1:
+            why = f"answered on {counts[row['decision']]} lines; no line is chosen"
+            result.invalid.append({"decision": decision_id, "value": "", "why": why})
             continue
-        second = normalise_answer(answer["value"], line.get("multiple") == "true")
+        answer = given.get(row["decision"])
+        if answer is None:
+            result.missing += 1
+            continue
+        named = (answer.get("field") or "").strip()
+        if named and named != row["field"]:
+            result.invalid.append(
+                {"decision": decision_id, "value": answer.get("value") or "", "why": f"line names {named}"}
+            )
+            continue
+        problem = (answer.get("problem") or "").strip().lower()
+        reason = (answer.get("reason") or "").strip()
+        value = (answer.get("value") or "").strip()
+        unsure_text = (answer.get("unsure") or "").strip().lower()
+        warnings = []
+        if unsure_text not in ("", *BOOLEAN):
+            warnings.append(f"unsure is {unsure_text!r}, read as not stated")
+        if (bool(problem) or not value or unsure_text == "true" or row.get("hard_case") == "true") and not reason:
+            result.reasons_missing += 1
+        if problem:
+            result.reported.append({"decision": decision_id, "problem": problem, "reason": reason})
+            if problem not in PROBLEMS:
+                result.unrecognised[problem] += 1
+                why = f"unrecognised problem code {problem!r}; exactly one of {', '.join(PROBLEMS)} is accepted"
+                result.invalid.append({"decision": decision_id, "value": value, "why": why})
+                continue
+            result.problems[problem] += 1
+            if problem in EXCLUDING or not value:
+                why = f"{problem} reported" + ("; the value given with it is not scored" if value else "")
+                result.excluded.append({"decision": decision_id, "value": value, "why": why})
+                continue
+            if unsure_text != "true":
+                warnings.append(f"{INTERPRET} with a value, but unsure is not true")
+        if not value:
+            result.blank += 1
+            if warnings:
+                result.warnings.append({"decision": decision_id, "value": "", "why": "; ".join(warnings)})
+            continue
+        error = answer_error(value, kind, line.get("allowed", ""), multiple)
+        if error:
+            result.invalid.append({"decision": decision_id, "value": value, "why": error})
+            continue
+        second = normalise_answer(value, multiple).lower() if kind != "date" else normalise_answer(value, False)
         pair = (row["value"], second)
         result.answered += 1
+        if warnings:
+            result.warnings.append({"decision": decision_id, "value": value, "why": "; ".join(warnings)})
         result.pairs.append(pair)
-        if row.get("hard_case") == "true":
-            result.hard.append(pair)
-        if answer.get("unsure", "").strip().lower() == "true":
+        (result.hard if row.get("hard_case") == "true" else result.not_hard).append(pair)
+        if unsure_text == "true":
             result.unsure += 1
-        else:
+        elif unsure_text == "false":
             result.sure.append(pair)
+        else:
+            result.unsure_unstated += 1
         if second == row["value"]:
             result.agreed += 1
         else:
             result.disagreements.append(
                 {
-                    "decision": row.get("decision_id") or row["decision"],
+                    "decision": decision_id,
                     "original": row["value"],
                     "second": second,
-                    "unsure": answer.get("unsure", ""),
-                    "reason": answer.get("reason", ""),
+                    "unsure": answer.get("unsure") or "",
+                    "reason": reason,
                 }
             )
     return [scores[name] for name in sorted(scores)]
 
 
 def render_scores(scores: list[FieldScore]) -> str:
-    """Counts first, then agreement, with the statistic each kind of field allows, and every disagreement."""
+    """Counts first, then agreement field by field, with the statistics each kind of field allows, and every
+    disagreement. Nothing is pooled across fields, and kappa is printed only where it is stable enough to read."""
 
     def number(value: float | None) -> str:
         return "n/a" if value is None else f"{value:.2f}"
 
-    def statistic(s: FieldScore) -> str:
-        if s.kind in ("categorical", "binary"):
-            return f"kappa {number(s.kappa)}"
+    def kappa(s: FieldScore) -> str:
+        withheld = s.kappa_withheld()
+        if s.kind not in ("categorical", "binary"):
+            return "n/a"
+        return f"not reported: {withheld}" if withheld else number(s.reported_kappa)
+
+    def other(s: FieldScore) -> str:
         if s.kind == "multi_label":
             return f"mean Jaccard {number(s.mean_jaccard)}"
-        return f"date given or none: {number(s.presence_agreement)}"
+        if s.kind == "date":
+            return f"date given or none: {number(s.presence_agreement)}"
+        return "-"
 
-    lines = [
-        "| field | kind | decisions | answered | unsure | problems | agreed | raw agreement | statistic | hard cases "
-        "| sure only |",
-        "|---|---|---|---|---|---|---|---|---|---|---|",
+    answered = sum(s.answered for s in scores)
+    lines = []
+    if not answered:
+        lines += [
+            f"**No answers were supplied.** Of {sum(s.decisions for s in scores)} decisions, "
+            f"{sum(s.blank for s in scores)} are blank, {sum(s.missing for s in scores)} missing, "
+            f"{sum(len(s.excluded) for s in scores)} excluded by a reported problem and "
+            f"{sum(len(s.invalid) for s in scores)} not scorable. No agreement statistic is reported.",
+            "",
+        ]
+    warnings = [entry for s in scores for entry in s.warnings]
+    if warnings:
+        lines += [
+            f"**Warnings: {len(warnings)} lines to raise with the reviewer before adjudication.** Their values, "
+            "if any, are scored, but the lines do not follow the guide.",
+            "",
+            "| decision | value | warning |",
+            "|---|---|---|",
+            *(f"| {e['decision']} | {e['value']} | {e['why']} |" for e in warnings),
+            "",
+        ]
+    lines += [
+        "| field | kind | decisions | missing | blank | excluded: problem reported | excluded: not scorable "
+        "| answered | unsure | unsure not stated | warnings | reason missing | agreed | raw agreement | kappa "
+        "| other statistic | hard cases | not hard | sure only |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|",
         *(
-            f"| {s.field} | {s.kind} | {s.decisions} | {s.answered} | {s.unsure} | {sum(s.problems.values())} | "
-            f"{s.agreed} | {number(s.agreement)} | {statistic(s)} | {_agreement(s.hard)} | {_agreement(s.sure)} |"
+            f"| {s.field} | {s.kind} | {s.decisions} | {s.missing} | {s.blank} | {len(s.excluded)} | "
+            f"{len(s.invalid)} | {s.answered} | {s.unsure} | {s.unsure_unstated} | {len(s.warnings)} | "
+            f"{s.reasons_missing} | {s.agreed} | {number(s.agreement)} | {kappa(s)} | {other(s)} | "
+            f"{_agreement(s.hard)} | {_agreement(s.not_hard)} | {_agreement(s.sure)} |"
             for s in scores
         ),
         "",
-        "Raw agreement for multi-label fields is exact agreement on the whole set. Kappa is shown only for "
-        "categorical and binary fields, and is unstable when a value is rare: read it with the distributions below.",
+        "Each decision is counted once: missing (no line), blank (a line with no value and no problem code), "
+        "excluded by a reported problem, excluded as not scorable, or answered. Only answered decisions enter "
+        "agreement; nothing else is a negative answer or a disagreement. Agreement is raw agreement over answered "
+        "pairs, with the number of pairs in brackets in the last three columns.",
+        "",
+        f"Kappa is computed only for categorical and binary fields, and is not reported when there are fewer than "
+        f"{KAPPA_MIN_PAIRS} answered pairs, when one value is at least {KAPPA_MAX_SHARE:.0%} of either annotator's "
+        "values, or when both used a single value. A field whose kappa is not reported is not thereby shown to "
+        "agree poorly: read its raw agreement, marginal counts and cross-tabulation below.",
+        "",
+        "For multi-label fields, raw agreement is exact agreement on the whole set of labels: a pair counts only if "
+        "both annotators chose the same labels, and none matches only none. It does not show partial agreement, "
+        "which the mean Jaccard index (shared labels over labels used by either) and the per-label counts do, and "
+        "neither is corrected for chance. Date fields are compared exactly, with agreement on whether a date is "
+        "given at all shown beside it.",
+        "",
+        "These are statistics for each field of the decisions in this packet only. They are not pooled, and they "
+        "are not an estimate of reliability for annotations outside the packet.",
     ]
     for s in scores:
         if not s.pairs:
             continue
-        original = ", ".join(f"{value or 'blank'} {count}" for value, count in sorted(s.distribution(0).items()))
-        second = ", ".join(f"{value or 'blank'} {count}" for value, count in sorted(s.distribution(1).items()))
-        lines += ["", f"**{s.field}**", "", f"- original values: {original}", f"- second values: {second}"]
+        original = ", ".join(f"{value} {count}" for value, count in sorted(s.distribution(0).items()))
+        second = ", ".join(f"{value} {count}" for value, count in sorted(s.distribution(1).items()))
+        lines += [
+            "",
+            f"**{s.field}**",
+            "",
+            f"- answered pairs: {len(s.pairs)}; agreed: {s.agreed}; raw agreement: {number(s.agreement)}",
+            f"- original values: {original}",
+            f"- second values: {second}",
+        ]
+        if s.kind in ("categorical", "binary"):
+            lines.append(
+                "- original → second: "
+                + ", ".join(f"{a} → {b} {count}" for (a, b), count in sorted(s.confusion().items()))
+            )
+            lines.append(f"- kappa: {kappa(s)}")
         specific = s.specific()
+        counts = s.label_counts()
         if specific:
             lines.append(
-                "- agreement on each value: " + ", ".join(f"{value} {number(rate)}" for value, rate in specific.items())
+                "- agreement on each value: "
+                + ", ".join(
+                    f"{value} {number(rate)}"
+                    + (
+                        f" (both {counts[value][0]}, original only {counts[value][1]}, second only {counts[value][2]})"
+                        if value in counts
+                        else ""
+                    )
+                    for value, rate in specific.items()
+                )
             )
+    by_code = [s for s in scores if s.problems or s.unrecognised]
+    if by_code:
+        codes = [code for code in PROBLEMS if any(s.problems.get(code) for s in by_code)]
+        lines += ["", "Problem codes reported, by field:", ""]
+        lines += [
+            "| field | " + " | ".join(codes + ["unrecognised"]) + " |",
+            "|---|" + "---|" * (len(codes) + 1),
+            *(
+                f"| {s.field} | "
+                + " | ".join([str(s.problems.get(code, 0)) for code in codes] + [str(sum(s.unrecognised.values()))])
+                + " |"
+                for s in by_code
+            ),
+        ]
+    for title, entries in (
+        ("Excluded by a reported problem", [e for s in scores for e in s.excluded]),
+        ("Excluded as not scorable", [e for s in scores for e in s.invalid]),
+    ):
+        if entries:
+            lines += ["", f"{title}:", "", "| decision | value | why |", "|---|---|---|"]
+            lines += [f"| {e['decision']} | {e['value']} | {e['why']} |" for e in entries]
     reported = [r for s in scores for r in s.reported]
     if reported:
         lines += ["", "Problems the annotator reported:", "", "| decision | problem | reason |", "|---|---|---|"]
         lines += [f"| {r['decision']} | {r['problem']} | {r['reason']} |" for r in reported]
     disagreements = [d for s in scores for d in s.disagreements]
     if disagreements:
-        lines += ["", "| decision | original | second | unsure | reason |", "|---|---|---|---|---|"]
+        lines += [
+            "",
+            "Disagreements:",
+            "",
+            "| decision | original | second | unsure | reason |",
+            "|---|---|---|---|---|",
+        ]
         lines += [
             f"| {d['decision']} | {d['original']} | {d['second']} | {d['unsure']} | {d['reason']} |"
             for d in disagreements

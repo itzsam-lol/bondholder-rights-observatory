@@ -6,7 +6,7 @@ Thank you for reviewing. This guide is all you need besides the packet's other f
 
 The Bondholder Rights & Disclosure Observatory records what public documents about Indian corporate bonds say: trustees' reports of covenant breaches, trustees' letters to bondholders, and issuers' statements of covenant compliance. Some of what it records is a judgement, such as which kind of covenant a report's cell describes, or whether a letter states a quarter. One person made all of those judgements. You are asked to make a set of them again, independently, from the documents themselves, so that the project can measure how often a second careful reader agrees.
 
-You will not see the original answers, and you must not look for them. Until you have returned your answers, please do not open the project's repository, data, exports, reports or website, and do not discuss the decisions with anyone who made the original annotations. Do not use an AI tool or any automated aid to make or check a decision: the point of this review is your own reading of the source.
+This review is label-blind. The packet does not contain the original answers or the project's identifiers for its records. The original answers are, however, in the project's public repository, and could be found by searching for a bond's ISIN or a document's address. Keeping them out of your view depends on you, not on the packet: please do not look for them. Until you have returned your answers, please do not open the project's repository, data, exports, reports or website, and do not discuss the decisions with anyone who made the original annotations. Do not use an AI tool or any automated aid to make or check a decision: the point of this review is your own reading of the source.
 
 There are no trick questions and no expected agreement rate. Where you disagree with what a rule seems to require, follow the rule and say so in your reason.
 
@@ -36,7 +36,7 @@ The answer key is not in the packet and is not sent to you.
 | `page` | The page of the file, counted from 1 as a PDF viewer counts them, not the number printed on the page |
 | `locator` | Where on the page: a row of a table, a covenant cell, the action columns, a letter's date, a statement's period, or a clause |
 | `isins` | The bonds the decision concerns. Where one printed row is split into parts, they tell you which part |
-| `passage` | The text the project quoted from that spot, to help you find it. Read the source around it: rules often depend on words outside the quotation |
+| `passage` | For a report's covenant or action cell, or a clause, the project's transcription of the cell or clause being judged, to help you find it. Read the source around it: rules often depend on words outside the quotation. It is empty for every letter and every statement; for those, the page, the locator and the ISINs say where to look |
 | `hard_case`, `hard_case_note` | Whether careful readers could reasonably differ here, and why. The note never says what to choose |
 | `rule` | The section of `codebook.md` that applies |
 
@@ -54,8 +54,8 @@ The answer key is not in the packet and is not sent to you.
 | `notice.adjourned_for_lack_of_quorum` | Whether the letter says a meeting was adjourned for want of quorum | The letter's text |
 | `statement.made_by` | Who signs the statement's conclusion: the issuer or its statutory auditor | The signature and the conclusion |
 | `statement.scope` | Whether the statement covers all covenants or financial covenants only | The statement's wording |
-| `statement.breach_stated` | Whether the statement lists exceptions or says a covenant was not met | The statement and any annexure of exceptions |
-| `statement.isins_printed` | Whether the statement prints the ISIN, rather than covering it only by a general sentence | The statement and its tables |
+| `statement.breach_stated` | Whether the statement lists these ISINs among its exceptions, or says a covenant applying to them was not met | The statement and any annexure of exceptions |
+| `statement.isins_printed` | Whether the statement prints these ISINs, rather than covering them only by a general sentence | The statement and its tables |
 | `provision.category`, `provision.stage` | The clause's covenant category, and what kind of document quotes it | The clause and the document |
 | `provision_link.agreement` | Whether the trustee's cell and the clause state the same term | Both passages |
 
@@ -63,16 +63,16 @@ Your packet's `README.txt` lists which of these fields it holds, with how many d
 
 ## Working through the packet
 
-1. **Get SEBI's annex.** The codebook names the file, its address, its SHA-256 and the page of the covenant categories. Download it and check its SHA-256, as below.
+1. **Get SEBI's annex.** The codebook names the file, its address, its SHA-256 and the page of the covenant categories. Download it and check its SHA-256, as below, before any covenant-category decision. If it cannot be had, or its SHA-256 differs, leave the category decisions for now, tell the coordinator, and do not use another edition or copy unless they say so. You may carry on with other fields meanwhile; nothing about the annex goes in `answers.csv`.
 2. **Take one document at a time.** Sort `decisions.csv` by `document` and work through each document's decisions together.
-3. **Download the document** from its `url` in an ordinary web browser, and save it. If a site refuses the download, try again later; do not use tools to get round a refusal.
+3. **Download the document** from its `url` in an ordinary web browser, and save it. If a site refuses the download, try again later; do not use tools to get round a refusal, and do not use a copy from anywhere else. The coordinator will not send you copies of the documents. If the file still cannot be had, mark that document's decisions `source_unavailable`, as below: that is a result, not a failure.
 4. **Check the file's SHA-256**, and compare it, ignoring case, with the `sha256` column:
    - macOS: `shasum -a 256 file.pdf`
    - Linux: `sha256sum file.pdf`
    - Windows PowerShell: `Get-FileHash file.pdf -Algorithm SHA256`
 
    If it differs, the publisher has changed the file. Do not answer that document's decisions; mark them `hash_mismatch` (below) and tell the coordinator.
-5. **Go to the page and the locator.** Use the PDF viewer's page number, which can differ from the printed page number. Search for a few words of the passage if that helps.
+5. **Go to the page and the locator.** Use the PDF viewer's page number, which can differ from the printed page number. For a letter, find the letter of that date that names the ISINs; for a statement, read the cited pages and any annexure. Where there is a passage, search for a few words of it if that helps.
 6. **Decide by the rule.** Open the codebook section named in `rule`. Hard cases need extra care, and always a reason.
 7. **Record your answer** on the matching line of `answers.csv`.
 
@@ -89,7 +89,7 @@ Your packet's `README.txt` lists which of these fields it holds, with how many d
 
 Some fields have `none` among their allowed values: a letter that states no quarter, a row with no carried-over label, a row whose action columns report no action. Writing `none` is a decision: you looked, and there is nothing to record.
 
-A blank value means you could not decide at all. Leave a value blank only with a reason, and usually with a problem code. A blank is counted as unanswered, never as `none` and never as a disagreement.
+A blank value means you could not decide at all. Leave a value blank only with a reason, and usually with a problem code. A blank with no problem code is counted as unanswered; a blank with a problem code is recorded as excluded for that reason. Neither is ever counted as `none` or as a disagreement.
 
 ### Reporting a source you cannot use
 
@@ -100,14 +100,18 @@ A blank value means you could not decide at all. Leave a value blank only with a
 | `page_not_found` | The file has no such page, or you cannot find the locator or passage on it |
 | `cannot_interpret` | The passage is there, but the document does not let you decide, for example because the text is illegible or contradicts itself |
 
-Leave the value blank when you give `source_unavailable`, `hash_mismatch` or `page_not_found`. With `cannot_interpret` you may still give your best value, marked unsure.
+Give at most one code, written exactly as above. Do not combine codes or use any other word: a line with an unrecognised or combined code is not scored.
+
+Leave the value blank when you give `source_unavailable`, `hash_mismatch` or `page_not_found`; a value given with one of them is not scored. With `cannot_interpret` you may give your best value, and must then write `true` in `unsure`; with no value, the decision is recorded as excluded, not as unanswered.
+
+`source_unavailable` means you could not get the file; `cannot_interpret` means you have the right file and page, but the document does not let you decide. Do not use one for the other.
 
 ## Returning your answers
 
 Send only `answers.csv` to the coordinator, in the way you agreed. Keep the packet until the coordinator confirms that the answers arrived and could be read. Please do not send the downloaded documents, and do not publish the packet or your answers.
 
-The coordinator will compare your answers with the original ones, field by field. Where they differ, a third person, or the coordinator, will decide, and record your value and reason beside the original and the decision. Your answers are never overwritten.
+The coordinator will keep your answers private, and use them only to compare with the original annotations, field by field, and to decide, with a reason, where the two differ. Your answers are never overwritten. Your answers, your reasons and your identity will not be put in the project's public data or published in any form unless terms for that have been agreed with you and the project has taken legal advice. Neither has happened yet.
 
 ## About you
 
-You are recorded only by the label the coordinator gives you, never by personal details. Please do not write personal information in `answers.csv`. Before you start, the coordinator will ask whether you agree that your answers may be released as part of the dataset under its licence, and how you would like to be credited, if at all.
+Your answers are kept under a label the coordinator gives you, never with personal details. Please do not write personal information in `answers.csv`. Whether your answers could ever be published, under what licence, how you would be credited, if at all, and how long they are kept are not yet settled; the coordinator will not ask you to agree to any of them until legal advice has been taken.

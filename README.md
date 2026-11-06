@@ -46,7 +46,9 @@ The sample starts from the quarterly covenant-breach reports that SEBI requires 
 | Contract clauses | 25, with parsed limits where the wording is unambiguous and plain-English notes |
 | Search log | 69 attempts, successful or not |
 | Open discrepancies | 18 |
-| Evidence anchors | 1,254, of which 246 are recorded as transcribed from the rendered page. At the last full run of `brdo verify` (4 November 2026), 1,147 were found by machine in the file's text layer and 107 were not (`visual_only`): all 107 are among the 246, and checking them means looking at the page. Not re-run since |
+| Evidence anchors | 1,254 in all. 246 are recorded as transcribed from the rendered page. At the last run of `brdo verify` (offline, 6 November 2026, against the files cached on 3 and 4 November, with the same result as on 4 November), 1,147 were found by machine in the file's text layer and 107 were not (`visual_only`). All 107 are among the 246, and the other 139 of the 246 were also found in the text layer. No person has yet checked the 107 against the rendered pages |
+| Attribute supports | 716 rows in `attribute_support.csv`: 637 establish a fact (86 of them by an ISIN's issuer code), and 79 are kept to show what a record holds that does not establish one |
+| Annotated decisions | 585 judgements, all made in a single pass by the original annotator. None has had an independent review. A label-blind second annotation is prepared in two rounds of 356 and 229 decisions: the packet omits the current values, which are still in the public exports, so the reviewer is asked not to look |
 
 The full, generated measurements are in the [observability report](docs/observability-report.md).
 
@@ -136,7 +138,7 @@ $ uvx --from 'frictionless==5.18.1' frictionless validate exports/datapackage.js
 $ uv run brdo show INE179P08082 --as-of 2026-08-15   # a view of a date; every line says whether its file was confirmed then
 $ uv run brdo status --as-of 2026-09-14   # the status in the observed, estimated and possible views side by side
 $ uv run brdo status --as-of 2026-11-03 --availability observed   # only what the project itself saw by then
-$ uv run brdo review packet --out ../review-round-1 --round 1   # a blind packet for a second annotator, its key apart
+$ uv run brdo review packet --out ../review-round-1 --round 1   # a label-blind packet for a second annotator, its key apart
 ```
 
 `brdo fetch`, `brdo verify` and `pytest -m network` need a network that reaches the sources; everything else runs offline. In a view of an earlier date an issuer's name may be blank, as Dvara's is on 15 August 2026, because a name counts only where a record then admitted is transcribed as printing it; and an issuer may appear only as an issuer code, as the two Samunnati issuers do before their CINs were observed.
@@ -163,7 +165,7 @@ docs/       Data model and dictionary, methods, reliability, coverage, source po
 - **The sample is selected on reported breaches.** It says nothing about how common breaches are.
 - **One quarter, six trustees, three issuers' own statements.** NSE-only material is excluded, two trustees' reports were not located, and Bond Central's per-ISIN pages and terms have not been read. Issuer statements were mostly sought through a search engine, which misses filings that are on issuers' sites.
 - **Issuers' statements are self-reports.** Auditors give them limited assurance, not an audit opinion, and a statement limited to financial covenants says nothing about other undertakings.
-- **Single-pass curation.** Transcriptions and annotations have not had an independent second review (`annotation_reviewed` is false throughout). The machine checks catch transcription errors in quotations. They cannot catch a wrong classification. [docs/reliability.md](docs/reliability.md) lists the judgements each finding rests on, the errors found in two audits of the mechanical rules and views, and the protocol for a blind second annotation, whose rules are in [docs/annotation-codebook.md](docs/annotation-codebook.md).
+- **Single-pass curation.** Transcriptions and annotations have not had an independent second review (`annotation_reviewed` is false throughout). The machine checks catch transcription errors in quotations. They cannot catch a wrong classification. [docs/reliability.md](docs/reliability.md) lists the judgements each finding rests on, the errors found in two audits of the mechanical rules and views, and the protocol for a label-blind second annotation, whose rules are in [docs/annotation-codebook.md](docs/annotation-codebook.md).
 - **Availability dates before November 2026 are estimates.** They rest on servers' Last-Modified headers, which date the file version held. The project observed every file on 3 or 4 November 2026.
 - **Quotations are deliberately short.** Text from sources with restrictive terms is capped at 160 characters, so the source page must be opened to read a long clause in full.
 

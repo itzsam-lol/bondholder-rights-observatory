@@ -1,8 +1,8 @@
 # Annotation codebook for a second annotator
 
-This is the codebook for a blind second annotation of the project's judgements. It states the rules only. It does not say how any record is currently labelled, and an annotator should not look at `data/`, `exports/` or the reports until their answers are handed in.
+This is the codebook for a label-blind second annotation of the project's judgements. It states the rules only. It does not say how any record is currently labelled, and an annotator should not look at `data/`, `exports/` or the reports until their answers are handed in.
 
-Each line of a packet made by `brdo review packet` is one decision. It gives the document and page, a locator, the passage the record quotes, the allowed values, and a link to the rule below. The passage is a convenience: read the source itself, because the rules often depend on words around the quoted part. Record one value per decision, a short reason, and whether you are unsure.
+Each line of a packet made by `brdo review packet` is one decision. It gives the document and page, a locator, the allowed values, a link to the rule below and, for a report's cell or a clause, the passage the record transcribes; letters and statements have no passage. The passage is a convenience: read the source itself, because the rules often depend on words around the quoted part. Record one value per decision, a short reason, and whether you are unsure.
 
 A decision marked as a hard case is one where a careful reader could reasonably choose otherwise. Its note says what makes it hard, not what to choose. Apply the general rules, and say why.
 
@@ -71,10 +71,12 @@ Give a quarter-end date (as YYYY-MM-DD) only when the row's own label assigns th
 
 ## Compliance statements
 
+Each statement decision concerns the ISINs in the decision's `isins` column. Where one filing's statement treats some ISINs as exceptions and others not, the project records them as separate statements, so two decisions can point to the same page with different ISINs. Answer each for its own ISINs.
+
 - **Made by.** Whoever signs the conclusion: `issuer` or `statutory_auditor`. The publisher may be someone else.
 - **Scope.** As printed: `all_covenants` or `financial_covenants`.
-- **Breach stated.** `true` when the statement lists exceptions or says that a covenant was not met.
-- **ISINs printed.** `false` when an ISIN is covered only by a general sentence, or only by not being listed among exceptions. `true` when the statement prints the ISIN.
+- **Breach stated.** `true` when the statement lists any of these ISINs among its exceptions, or says that a covenant applying to them was not met.
+- **ISINs printed.** `true` when the statement prints these ISINs. `false` when they are covered only by a general sentence, or only by not being listed among exceptions.
 
 ## Clause records
 
@@ -111,4 +113,4 @@ The covenant categories come from one file. Use this file, not a later edition o
 | SHA-256 of the file the project used | `4a8ce13addf1c5f9fb4dba3c7ab3e3a3e82660f2ae2906477b121b60b7e308f9` |
 | Where | Annex-VIA, "Guidance note on list of Covenants", on page 71 of that file (the file's page, not the printed folio) |
 
-Before starting, check that the file at the official address has that SHA-256 (for example with `sha256sum`). If it does not, SEBI has replaced it: do not use another copy without telling the coordinator, and record in your answers which file you used.
+Before any covenant-category decision, in either round (`breach_item.category` or `provision.category`), check that the file at the official address has that SHA-256 (for example with `sha256sum`). If the file cannot be downloaded, or its SHA-256 differs, make no category decision: tell the coordinator, and wait until they tell you how to go on. Do not use another edition, or a copy from anywhere else, unless the coordinator says so. You may carry on with other fields meanwhile. The coordinator records which file was eventually used, and its SHA-256, in the round's notes; nothing about it goes in `answers.csv`.

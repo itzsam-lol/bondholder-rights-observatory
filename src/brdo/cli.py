@@ -22,12 +22,18 @@ from brdo.report import render_report
 from brdo.review import (
     CODEBOOK,
     GUIDE,
+    KEY_REQUIRED,
+    PACKET_REQUIRED,
     ROUNDS,
+    AnswersUnreadable,
     PacketRefused,
+    TableUnreadable,
     decisions,
-    read_csv,
+    read_answers,
+    read_table,
     render_scores,
     score,
+    submission_errors,
     write_packet,
 )
 from brdo.status import derive_all
@@ -503,7 +509,7 @@ def _committed(path: Path) -> str | None:
 
 
 def cmd_review_packet(args: argparse.Namespace) -> int:
-    """Write a blind packet for a second annotator, and its key in a separate directory."""
+    """Write a label-blind packet for a second annotator, and its key in a separate directory."""
     dataset = _load(args)
     known = {decision.field for decision in decisions(dataset)}
     fields = set(args.field) if args.field else None
@@ -538,8 +544,25 @@ def cmd_review_packet(args: argparse.Namespace) -> int:
 
 
 def cmd_review_score(args: argparse.Namespace) -> int:
-    """Compare a second annotator's answers with the key, field by field."""
-    print(render_scores(score(read_csv(args.key), read_csv(args.answers), read_csv(args.decisions))), end="")
+    """Compare a second annotator's answers with the key, field by field, or refuse if they cannot be read reliably."""
+    try:
+        key, packet = read_table(args.key, KEY_REQUIRED), read_table(args.decisions, PACKET_REQUIRED)
+    except TableUnreadable as error:
+        print(f"error: cannot read the key or the packet: {error}", file=sys.stderr)
+        return 2
+    try:
+        columns, answers = read_answers(args.answers)
+    except AnswersUnreadable as error:
+        print(f"error: {error}. No scores are reported.", file=sys.stderr)
+        return 1
+    errors = submission_errors(key, answers, packet, columns)
+    if errors:
+        print("error: the answers cannot be scored reliably, so no scores are reported:", file=sys.stderr)
+        for problem in errors:
+            print(f"  - {problem}", file=sys.stderr)
+        print("Ask the reviewer for a corrected file; never edit theirs.", file=sys.stderr)
+        return 1
+    print(render_scores(score(key, answers, packet)), end="")
     return 0
 
 
@@ -628,7 +651,7 @@ def build_parser() -> argparse.ArgumentParser:
     schema.add_argument("--out", type=Path, default=Path("schema"))
     schema.set_defaults(func=cmd_schema)
 
-    review = commands.add_parser("review", help="materials for a blind second annotation, and its scoring")
+    review = commands.add_parser("review", help="materials for a label-blind second annotation, and its scoring")
     review_commands = review.add_subparsers(dest="review_command", required=True)
     packet = review_commands.add_parser("packet", help="write a packet without current values, and its key apart")
     packet.add_argument("--out", type=Path, required=True, help="directory for packet/ and key/; keep it out of git")

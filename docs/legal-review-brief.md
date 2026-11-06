@@ -1,6 +1,6 @@
 # Brief for legal review
 
-Prepared on 4 November 2026 for an Indian lawyer advising on copyright, database, contract and data protection questions. It sets out what the project does and asks questions. It draws no legal conclusions: none of the project's policies has yet been reviewed by a lawyer, and the project does not treat any of its own limits as a safe harbour.
+Prepared on 4 November 2026 for an Indian lawyer advising on copyright, database, contract and data protection questions, and revised on 6 November 2026 to add questions 15 and 16, on an independent review. It sets out what the project does and asks questions. It draws no legal conclusions: none of the project's policies has yet been reviewed by a lawyer, and the project does not treat any of its own limits as a safe harbour.
 
 ## What the project is
 
@@ -81,6 +81,11 @@ The project's summaries are in `data/sources.yaml`, with the date each was read.
 
 14. If an exchange's research NDA forbids publishing derived data, how should a restricted tier be kept separate from the public dataset? Could aggregate findings from it be published?
 
+**Independent review**
+
+15. The project will ask a person to repeat 356 of its annotations without seeing the current values (a label-blind review). They get a packet with each document's address and SHA-256, a page, a locator and, for report cells and clauses, a quotation of up to 160 characters, and they download each source themselves. Where a source refuses their browser, may the project give them its private copy of the file instead (see question 8)?
+16. The project has not decided to publish a reviewer's answers or reasons. Until advice is taken they are kept private and used only for comparison and adjudication. What must be agreed with the reviewer even for that private use: confidentiality, the project's right to use their answers and reasons to correct its own records, how long they are kept and when they are deleted, and how their personal data, at least their name and contact details, is handled? If the project later proposed to publish the answers and reasons beside the original annotations (the reasons may quote the sources), what more would it need: a licence of them, for example under CC BY 4.0, and how the reviewer is credited or kept anonymous? Does either answer change if the reviewer is paid?
+
 ## Where the project would act on advice
 
 - The 160-character cap and the 800-character clause limit.
@@ -88,3 +93,4 @@ The project's summaries are in `data/sources.yaml`, with the date each was read.
 - The manual-only treatment of BSE and platforms, and the exclusion of NSE.
 - Whether the census sample and its not-received list may be published.
 - The terms on which, if ever, exchange research data could be used.
+- Whether a reviewer may be given private copies of source files, and the terms on which a reviewer's answers and reasons are published.

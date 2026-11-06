@@ -436,6 +436,8 @@ These are different checks, and none stands in for another:
 6. checking by eye the anchors read from rendered pages, by a person;
 7. an independent second annotation, by a person (see `docs/reliability.md`).
 
+The records hold 585 annotated decisions that a second annotator can make again: 356 in review round 1 and 229 in round 2, 23 of them flagged as hard cases. 0 have been settled by an independent person's review and 0 clause records are marked as reviewed; every other decision is the original annotator's single pass. Of 1254 evidence anchors, 246 are recorded as transcribed from the rendered page.
+
 Anchors marked as read from the rendering were transcribed from the rendered page; whether their words are also in the file's text layer is a separate result of `brdo verify`, which reports those it cannot find there as `visual_only`. The fetcher retrieves a file only when the host's robots policy is established: a robots file it can read, or HTTP 404 or 410. Any other answer stops it, and the failure is logged as an access error. 0 of 45 documents were retrieved by hand.
 
 | host | source | retrieval policy | documents | anchors | anchors read from the rendering | robots policy at retrieval |

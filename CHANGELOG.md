@@ -2,6 +2,68 @@
 
 Changes to the records, the exports and the figures derived from them. Corrections to figures published earlier are listed first, with the old and new values, so that anyone who cited a figure can see what changed and why. The repository's history holds every earlier state.
 
+## Unreleased (eighth stage: readiness for a label-blind review, 6 November 2026)
+
+No record, export, status or published finding changed. The changes prepare a label-blind second annotation, correct the scorer, and make what is unchecked visible.
+
+### Corrected behaviour
+
+- **An indirect label leak in the packet.** Letter decisions carried a passage only where the curator had transcribed a covenant or deed from the letter. Of the 16 letters with no passage, 15 are those whose current values are `meeting_continuation`, adjourned for lack of quorum and no quarter, so the empty passage predicted each of those three fields for 92 to 98% of the 66 letters, against 71 to 77% by guessing the commonest value. The reviewer's guide also said that the passage was empty for "letters the project quoted nothing from". No letter decision now has a passage; the page, the letter's date and its ISINs locate it. A test checks that whether a line has a passage never varies within a field, and another that every column of a letter line that curation could shape is the same for all letters. The order of letters, which the date and page show, remains associated with the letter fields (14 of 15 continuation letters follow an earlier letter in the same file for the same ISINs), and `docs/reliability.md` records it with the other residual signals.
+- **Statement decisions.** Their passage held the record's quotations, which were chosen as evidence for the values under review. It is now empty; the locator names every page the record cites, and `page` gives the earliest.
+- **The codebook's rules for statements.** One filing's statement is recorded as two statements when it lists some ISINs as exceptions and not others, so two lines can point to one page. The rules for breach stated and ISINs printed asked about "the statement", so a reviewer following them would have answered both lines alike. They now ask about the ISINs of each decision. No current value changed.
+- **Categories of response.** `brdo review score` scored any non-blank value. Now every decision falls in exactly one category, and only answered decisions enter agreement:
+  - missing: no line;
+  - blank: no value and no problem code, which is unfinished;
+  - excluded by a reported problem: `source_unavailable`, `hash_mismatch` or `page_not_found`, with or without a value, or `cannot_interpret` with no value;
+  - excluded as not scorable: a value that is not allowed, `none` with other labels, a date not written as YYYY-MM-DD, an unrecognised, misspelt or combined problem code, a line naming another field, or a decision on more than one line, where no line is chosen;
+  - answered.
+
+  A value given with `cannot_interpret` but not marked unsure, and an `unsure` other than true or false, are scored and listed as warnings at the top of the scores. An answer that leaves `unsure` empty is counted as unstated, not as sure, and answers that need a reason and lack one are counted. Labels, problem codes and `unsure` are read without regard to case or surrounding spaces, but a code is never corrected into a valid one.
+- **Faulty files.** An answers file now makes `brdo review score` print the faults and no scores, and exit with status 1, if it:
+  - is missing, not UTF-8, or malformed as CSV, such as text after a closing quote;
+  - has no header or no lines, lacks a required column, or has lines longer than the header;
+  - has duplicate decisions, lines for decisions outside the key, or lines with no field or naming another field;
+  - is paired with a packet from another round.
+
+  A key or a packet that cannot be read, or lacks a column the scorer needs, makes it exit with status 2, without a traceback. A file whose values are all blank is reported as wholly unanswered, with no agreement statistic.
+- **Kappa.** It is withheld, with the reason, when there are fewer than 20 answered pairs, when one value is at least 90% of either annotator's values, or when both used a single value. Raw agreement, both annotators' value counts and the cross-tabulation are given for every categorical and binary field. Multi-label fields give each label's counts (both, original only, second only), and the scores say what exact-set agreement misses. Agreement on hard cases is shown beside agreement on the rest, and the scores say that they are not an estimate for annotations outside the packet.
+- **"Blind" was too strong.** The packet omits current values and record ids, but the values remain in the public exports, where the identifiers a reviewer needs to find each source would also find them. The review is now described as label-blind throughout, including in the entry below that first described the kit, and the reviewer's undertaking not to look is described as a procedural safeguard.
+- **The SEBI annex.** The codebook asked a reviewer whose copy of the annex had a different SHA-256 to "record in your answers which file you used", but `answers.csv` has no place for it. Now, in both rounds, a reviewer who cannot get the official file, or whose copy's SHA-256 differs, makes no category decision until the coordinator says how to go on. The coordinator records the file eventually used, and its SHA-256, in the round's notes.
+- **Blank and excluded.** The guide and the packet's README said that a blank value is counted as unanswered. A blank with a problem code is recorded as excluded for that reason; both now say so, and the README asks for exactly one problem code.
+- **Publication of a reviewer's answers.** The reviewer's guide said that a reviewer's value and reason would be recorded beside the original, and that they would be asked to agree to release. `data/annotation-reviews.yaml` is public. The guide and the review protocol now say that answers are handled privately, for comparison and adjudication, and that nothing about them is published, or recorded in the public data, unless terms are agreed and legal advice permits it.
+
+### Added
+
+- The report's section on what verification needs counts the annotated decisions (585: 356 in round 1, 229 in round 2, 23 hard cases), says that none has been settled by an independent review, and gives the 246 anchors transcribed from the rendered page.
+- The README's table separates the anchors found in the text layer, those transcribed from the rendering and those `visual_only`. It also separates attribute supports that establish a fact (637) from those that do not (79), and states that the 585 annotated decisions are single-pass.
+- `docs/reliability.md` describes Round 1 as a purposive selection, and says what its results can and cannot describe. It records the risk that inaccessible sources, Dvara's above all, bias what can be checked. It also explains the categories of response and when kappa is withheld.
+- `docs/verification-runbook.md` records what the hosts' robots files said on 6 November 2026.
+- `docs/legal-review-brief.md` asks two more questions: what a reviewer may be given, and what must be agreed for private use of their answers and for any possible future publication. It and `docs/reliability.md` keep their original preparation dates and record their revision on 6 November 2026.
+- The reviewer's guide says that the coordinator will not send copies of the documents, which is an open legal question. A file that cannot be had is marked `source_unavailable`, at most one problem code may be given, and `source_unavailable` and `cannot_interpret` are told apart.
+- Tests for the leak, for every response category and problem-code combination, for kappa withheld, for faulty and non-UTF-8 files, and for the score command's exit status.
+
+## Verification run, 6 November 2026 (commit verified: `97fe15a`)
+
+The offline steps of [the verification runbook](docs/verification-runbook.md) were run from 07:58 to 08:09 UTC on 6 November 2026, on a Linux machine with Python 3.12.14 and uv 0.13.6, against a local cache filled on 3 and 4 November 2026. The logs are kept outside the repository, at `~/brdo-verification/2026-11-06-97fe15a/` on that machine.
+
+| Check | Result |
+|---|---|
+| `brdo validate` | 0 errors, 0 warnings |
+| `brdo fetch` | Nothing retrieved: every one of the 45 documents was already in the cache under its recorded SHA-256, so no source host was contacted |
+| `brdo verify --offline` | 1,254 anchors: 1,112 `verified:normalized`, 33 `verified:spaceless`, 2 `verified:token_sequence`, 107 `visual_only`; no anchor failed, no printed ISIN was left untranscribed, and the census reproduced |
+| `brdo audit-text` | 41 pages flagged as scanned, OCR-derived or drawn as outlines, as before |
+| `pytest` | 388 passed, 1 deselected (the network test); the two tests that need the cache ran |
+
+These figures match those of 4 November 2026 exactly, and are added beside them, not in place of them.
+
+Later that day, each cached file was hashed again independently of the pipeline: all 45 match their recorded SHA-256. The 107 `visual_only` anchors lie on 14 pages of 9 documents. 23 of them record no page, all in files of one to three pages. At 08:44 UTC the fetcher's permission check read each host's robots file and retrieved no document. Two hosts, Dvara KGFS's site and Aye Finance's document host, answered HTTP 403, so a fresh retrieval would fetch nothing from them. See the runbook.
+
+What this run does not show:
+
+- **That the sources still serve these files.** `pytest -m network` was not run, and nothing was fetched. Before any retrieval the runbook requires a person to re-read each source's terms and the robots policies of five hosts, and that has not been done.
+- **That the 107 `visual_only` anchors are right.** They still need a person to compare them with the rendered pages.
+- **That the annotations are right.** No independent review has been made.
+
 ## Unreleased (sixth pass: historical truth and attribute support, 5 November 2026; commit `a8cd1e3`)
 
 The availability model, the 521 attribute-support rows and the review kit added by the previous audit were themselves audited before anything else was done. This entry first said that nothing was committed in the pass; the work was committed afterwards, unchanged, as `a8cd1e3`.
@@ -72,7 +134,7 @@ No other published figure changed. The field-level comparison, cure counts, esti
 - **`exports/attribute_support.csv`**: 521 rows, one for each record that supports an instrument, an issuer, a name, a CIN or an LEI, with when that record became public. `issuers.csv` and `instruments.csv` gain `established_from` and `established_confirmed_by`.
 - **New columns.** `documents.csv`: `available_not_before_basis`, `available_confirmed_by` (replacing `available_observed`) and `available_window_days`. `field_flows.csv`: `issuer_evidence`, `trustee_evidence`, `issuer_examined`, `trustee_examined` (replacing `issuer_basis` and `trustee_basis`). `follow_up_states.csv`: `attribution`.
 - **`exports/datapackage.json`** marks for each field whether the project's licence covers it, with rights notes, origin and what an empty cell means, and lists the cited sources. CI validates the package with an independent implementation, Frictionless 5.18.1. All 23 resources are valid.
-- **A blind second-annotation kit.** `brdo review packet` writes the 585 annotated decisions, or chosen fields, without their current values, under ids fresh for each round, with 23 hard cases flagged from the text alone, and the key in a separate directory. `brdo review score` reports agreement and Cohen's kappa per field and lists every disagreement. `docs/annotation-codebook.md` states the rules, without the current labels.
+- **A label-blind second-annotation kit** (first described as blind; renamed on 6 November 2026, because the current values remain in the public exports). `brdo review packet` writes the 585 annotated decisions, or chosen fields, without their current values, under ids fresh for each round, with 23 hard cases flagged from the text alone, and the key in a separate directory. `brdo review score` reports agreement and Cohen's kappa per field and lists every disagreement. `docs/annotation-codebook.md` states the rules, without the current labels.
 - **Review records.** `AnnotationReview` (and `schema/AnnotationReview.json`) keeps the original, second and adjudicated values with reasons. Only a person other than the original annotator can make one: `second_by` accepts only `person`. `Provision.annotation_reviewed` is an error unless such reviews settle every decision of the record. No review exists.
 - **Documentation.** `docs/exchange-access.md` separates six questions (access, retention, derived measurements, source-linked annotations, redistribution of documents, reuse under the project's licence), reads the 2 GB allowance as conditional, and records what Bond Central showed. `docs/coverage.md` sets out the legal stage of each candidate document and keeps the analyses' populations apart. `docs/reliability.md` gives the review protocol and the hard cases as currently annotated, including SEBI's annex listing security cover under "Affirmative".
 - **Tests** for each correction: views at every availability change in both modes; continuation links; cure typing; every supporting line kept; the clause-reference cases; stage against document type; robots answers; packets that never carry a current value; kappa; and the review rules.
